@@ -156,8 +156,7 @@
     <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true" >
 		<hbox>
 			<vbox>
-				<!-- <label id="realnameLabelId" value="" style="padding:10px 0px 0px 10px; margin:0px 0px 0px 0px; font-size:1.1em;" /> -->				
-                                <label id="realnameLabelId" value="" style="position:absolute; left:0; padding-top:5px; font-size:1.1em;" />
+				<label id="realnameLabelId" value="" style="padding:10px 0px 0px 9px; margin:0px 0px 0px 0px; font-size:1.1em;" />
 				<label id="usernameLabelId" value="" hidden="true" />
 				<label id="passwordLabelId" hidden="true" />
 				<label id="updateTimerId" hidden="true" />
@@ -165,11 +164,11 @@
 				<label id="showingAllTweetsId" hidden="true" value="&showingAllTweets.label;" />
 				<label id="showingRepliesId" hidden="true" value="&showingReplies.label;" />
 				<label id="showingDirectId" hidden="true" value="&showingDirect.label;" />
-				<hbox style="padding:0; margin:-5px 0px 3px 0px;">
+				<hbox style="padding:0; margin:-8px 0px 3px -5px;">
 					<toolbarbutton id="filterbuttonid" 
 						       type="menu-button" 
 						       label="&showingAllTweets.label;" 
-						       style="position:absolute; left:0; font-size:0.9em; margin-top:3px;">
+						       style="font-size:0.9em;">
 			    		<menupopup selectedIndex="0" style="padding:0px; margin:0px;">
 			        		<menuitem label="&showAllTweets.label;" value="1" oncommand="showAllTweets();"/>
 			        		<menuitem label="&showReplies.label;" value="2" oncommand="showResponses();"/>
@@ -203,10 +202,9 @@
 		</hbox>
     </vbox>
     <statusbar id="statusbarid">
-<!--		<statusbarpanel id="buttonbarPanelId" collapsed="true"> -->
 			<toolbarbutton id="refreshButtonId"
 				       collapsed="true"
-							style="padding:0; margin:0; width:22px"
+							style="padding:0px 0px 0px 5px; margin:0; width:22px"
 							image="chrome://buzzbird/content/images/reload-button-active-20x20.png" 
 							onmousedown="this.image='chrome://buzzbird/content/images/reload-button-pressed-20x20.png';"
 							onmouseup="this.image='chrome://buzzbird/content/images/reload-button-active-20x20.png';"
@@ -258,7 +256,6 @@
 						<menuitem label="&#x2603;" oncommand="appendText('&#x2603;');" /> <!-- Snowman -->
 					</menupopup>
 			</toolbarbutton>
-<!--		</statusbarpanel> -->
 		<spacer flex="1"/>
 		<label value="" id="statusid" />
 	</statusbar>
