@@ -12,4 +12,11 @@
 	  </menu>
 	</menubar>
 
+	<label id="realnameLabelId" value="Testy Tester" style="padding:10px 0px 0px 9px; margin:0px 0px 0px 0px; font-size:1.2em;" />
+
+	<toolbarbutton id="filterbuttonid" 
+		       type="menu-button" 
+		       label="&showingAllTweets.label;" 
+		       style="font-size:0.9em; margin-left:10px; margin-top:7px;"/>
+
 </overlay>

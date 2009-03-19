@@ -156,7 +156,7 @@
     <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true" >
 		<hbox>
 			<vbox>
-				<label id="realnameLabelId" value="" style="padding:10px 0px 0px 9px; margin:0px 0px 0px 0px; font-size:1.1em;" />
+				<label id="realnameLabelId" value="Testy Tester" style="padding:10px 0px 0px 9px; margin:0px 0px 0px 0px; font-size:1.1em;" />
 				<label id="usernameLabelId" value="" hidden="true" />
 				<label id="passwordLabelId" hidden="true" />
 				<label id="updateTimerId" hidden="true" />
@@ -164,7 +164,7 @@
 				<label id="showingAllTweetsId" hidden="true" value="&showingAllTweets.label;" />
 				<label id="showingRepliesId" hidden="true" value="&showingReplies.label;" />
 				<label id="showingDirectId" hidden="true" value="&showingDirect.label;" />
-				<hbox style="padding:0; margin:-8px 0px 3px -5px;">
+				<hbox id="filterbuttonwrapperid" style="padding:0; margin:-8px 0px 3px -5px;">
 					<toolbarbutton id="filterbuttonid" 
 						       type="menu-button" 
 						       label="&showingAllTweets.label;" 
