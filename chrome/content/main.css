@@ -1,0 +1,14 @@
+window {
+    -moz-binding: url(chrome://buzzbird/content/unified.xml#unified) !important
+}
+
+#main-window:not([active="true"]) > #toolbarid,#statusbarid {
+  background-image: url("chrome://buzzbird/content/images/toolbar-background-inactive.png");
+}
+
+#main-window > #toolbarid,#statusbarid {
+  background-image: url("chrome://buzzbird/content/images/toolbar-background.gif");
+}
+
+
+

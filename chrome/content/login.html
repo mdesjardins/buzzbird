@@ -1,0 +1,53 @@
+<html>
+<head>
+	<title>Please Login</title>
+	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/content/css/reset.css" />	
+	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/content/css/login.css" />
+	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>
+</head>
+<body>
+	<!--
+		This whole page needs to be stringified for i18n
+	-->
+	<div class="login">
+		<span class="apptitle">buzz<span class="title light-blue">bird</span></span>
+		<br/>
+		<span class="orange" id="badAuth" style="display:none;">Whoops, that didn't work!  Try again maybe?</span>
+		<form id="login_form" onsubmit="login();">
+			<table>
+				<tr>
+					<td class="smaller">username</td>
+					<td><input id="username" type="text" onkeypress="checkEnter(event);" /></td>
+				</tr>
+				<tr>
+					<td class="smaller">password</td>
+					<td><input id="password" type="password" onkeypress="checkEnter(event);" /></td>
+				</tr>
+			</table>
+			<input type="button" id="loginOkButton" name="ok" value="Start Tweeting" onclick="authenticate();" />
+		</form>
+		<p>
+			<img id="loginThrobber" 
+			     src="chrome://buzzbird/content/images/login-loader.gif" 
+			     class="loginThrobber"
+			 	 style="display:none;"/>
+		</p>
+		<p class="footer">
+			version <b>1alpha2</b>
+			<br>
+			&copy; 2009 <a href="#" onclick="linkTo('http://mikedesjardins.us');">Mike Desjardins</a>
+		</p>
+	</div>
+	<script type="text/javascript">
+		Components.classes["@mozilla.org/login-manager;1"].getService(Components.interfaces.nsILoginManager);
+	
+		function checkEnter(e) {
+			if (e.which == 13) {
+				authenticate();
+			}
+		}
+	</script>
+</body>
+</html>
+		

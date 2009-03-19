@@ -1,0 +1,5 @@
+content buzzbird file:content/ contentaccessible=yes
+locale buzzbird en-US locale/
+locale branding en-US chrome/locale/branding/
+content branding chrome/branding/
+overlay chrome://buzzbird/content/main.xul chrome://buzzbird/content/global/platformOverlay.xul

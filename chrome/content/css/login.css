@@ -1,0 +1,83 @@
+
+html, body{ 
+height: 100%; 
+min-height: 100%; 
+} 
+
+window {
+    -moz-binding: url("chrome://buzzbird/chrome/content/unified.xml#unified")
+}
+
+body {
+	font-family: Helvetica,"Franklin Gothic Medium","Helvetica Neue","MgOpen Moderna";
+	background: url("chrome://buzzbird/content/images/carbon-blue-fade-up-bg-8x150.png");
+	background-position: bottom left;
+	background-repeat: repeat-x;	
+}
+
+table {
+	margin: 20px auto 20px auto;
+}
+
+.apptitle {
+	font-size: 32px;
+	padding: 125px 0px 0px 10px;
+}
+
+.light-blue {
+	color: #CCF;
+}
+
+.biggest {
+	font-size: 32px;
+}
+
+.bigger {
+	font-size: 16px;
+}
+
+.smaller {
+	font-size: 12px;
+	padding: 4px;
+}
+
+.tagline {
+	font-size: 12px;
+}
+
+.blue01 {
+	color: #3b62e1;
+}
+
+.orange {
+	color: #ea6e09;
+}
+
+.login {
+	text-align: center;
+	vertical-align: middle;
+	font-size: 0.8em;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	background: url("chrome://buzzbird/content/images/carbon-blue-fade-down-bg-8x100.png");
+	background-position: top left;
+	background-repeat: repeat-x;	
+	padding-top: 125px;
+}
+
+.loginThrobber {
+	margin-top: 20px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.footer {
+	color: #777;
+	position: absolute;
+	bottom: 200px;
+	left: auto;
+	right: auto;
+	text-align: center;
+	width: 100%;
+}

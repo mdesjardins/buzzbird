@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT type="Advanced Installer" CreateVersion="6.8" version="6.8" modules="freeware" RootPath="." Language="en">
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
+    <ROW Property="ALLUSERS" Value="2"/>
+    <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
+    <ROW Property="ARPURLINFOABOUT" Value="http://bluebirdtwitterclient.com"/>
+    <ROW Property="BannerBitmap" MultiBuildValue="DefaultBuild:default_banner.bmp" Type="1"/>
+    <ROW Property="DialogBitmap" MultiBuildValue="DefaultBuild:default_dialog.bmp" Type="1"/>
+    <ROW Property="Manufacturer" Value="Bluebird" ValueLocId="*"/>
+    <ROW Property="ProductCode" Value="1033:{673AB3A1-219C-4C7B-A213-3548DF743A06} " Type="16"/>
+    <ROW Property="ProductLanguage" Value="1033"/>
+    <ROW Property="ProductName" Value="Bluebird Twitter Client" ValueLocId="*"/>
+    <ROW Property="ProductVersion" Value="1.0.1"/>
+    <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
+    <ROW Property="UpgradeCode" Value="{93D9857A-479C-4095-AAB5-2EFE2545C5AB}"/>
+    <ROW Property="WindowsFamily9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
+    <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
+    <ROW Directory="ProgramFilesFolder" Directory_Parent="TARGETDIR" DefaultDir="Progra~1|ProgramFilesFolder" IsPseudoRoot="1"/>
+    <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
+    <ROW Directory="US_DIR" Directory_Parent="profile_DIR" DefaultDir="US"/>
+    <ROW Directory="autoconfig_DIR" Directory_Parent="defaults_1_DIR" DefaultDir="autoco~1|autoconfig"/>
+    <ROW Directory="bluebird_DIR" Directory_Parent="ProgramFilesFolder" DefaultDir="bluebird"/>
+    <ROW Directory="branding_1_DIR" Directory_Parent="locale_DIR" DefaultDir="branding"/>
+    <ROW Directory="branding_DIR" Directory_Parent="content_DIR" DefaultDir="branding"/>
+    <ROW Directory="chrome_1_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="chrome"/>
+    <ROW Directory="chrome_2_DIR" Directory_Parent="profile_DIR" DefaultDir="chrome"/>
+    <ROW Directory="chrome_3_DIR" Directory_Parent="US_DIR" DefaultDir="chrome"/>
+    <ROW Directory="chrome_DIR" Directory_Parent="bluebird_DIR" DefaultDir="chrome"/>
+    <ROW Directory="components_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="compon~1|components"/>
+    <ROW Directory="content_DIR" Directory_Parent="chrome_DIR" DefaultDir="content"/>
+    <ROW Directory="css_DIR" Directory_Parent="content_DIR" DefaultDir="css"/>
+    <ROW Directory="defaults_1_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="defaults"/>
+    <ROW Directory="defaults_DIR" Directory_Parent="bluebird_DIR" DefaultDir="defaults"/>
+    <ROW Directory="dictionaries_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="dictio~1|dictionaries"/>
+    <ROW Directory="dtd_DIR" Directory_Parent="res_DIR" DefaultDir="dtd"/>
+    <ROW Directory="entityTables_DIR" Directory_Parent="res_DIR" DefaultDir="entity~1|entityTables"/>
+    <ROW Directory="fonts_DIR" Directory_Parent="res_DIR" DefaultDir="fonts"/>
+    <ROW Directory="global_DIR" Directory_Parent="content_DIR" DefaultDir="global"/>
+    <ROW Directory="gray_blue_DIR" Directory_Parent="speech_bubbles_DIR" DefaultDir="gray-b~1|gray-blue"/>
+    <ROW Directory="greprefs_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="greprefs"/>
+    <ROW Directory="html_DIR" Directory_Parent="res_DIR" DefaultDir="html"/>
+    <ROW Directory="images_DIR" Directory_Parent="content_DIR" DefaultDir="images"/>
+    <ROW Directory="js_DIR" Directory_Parent="content_DIR" DefaultDir="js"/>
+    <ROW Directory="locale_DIR" Directory_Parent="chrome_DIR" DefaultDir="locale"/>
+    <ROW Directory="modules_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="modules"/>
+    <ROW Directory="plugins_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="plugins"/>
+    <ROW Directory="pref_DIR" Directory_Parent="defaults_1_DIR" DefaultDir="pref"/>
+    <ROW Directory="preferences_DIR" Directory_Parent="defaults_DIR" DefaultDir="prefer~1|preferences"/>
+    <ROW Directory="profile_DIR" Directory_Parent="defaults_1_DIR" DefaultDir="profile"/>
+    <ROW Directory="res_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="res"/>
+    <ROW Directory="speech_bubbles_DIR" Directory_Parent="images_DIR" DefaultDir="speech~1|speech-bubbles"/>
+    <ROW Directory="xulrunner_DIR" Directory_Parent="bluebird_DIR" DefaultDir="xulrun~1|xulrunner"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
+    <ROW Component="AccessibleMarshal.dll" ComponentId="{7856AF41-661E-4AC5-AA7F-05924F0B626C}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="AccessibleMarshal.dll"/>
+    <ROW Component="DS_Store" ComponentId="{874A93FA-3309-4A2A-B2E4-65F8070D397B}" Directory_="chrome_DIR" Attributes="0" KeyPath="chrome.manifest" Type="0"/>
+    <ROW Component="DS_Store_1" ComponentId="{3C843C3B-CE31-416F-9372-01FF75E7D198}" Directory_="content_DIR" Attributes="0" KeyPath="login.html" Type="0"/>
+    <ROW Component="DS_Store_2" ComponentId="{C8129D78-9C2B-45AD-ABC7-B4423E166A08}" Directory_="images_DIR" Attributes="0" KeyPath="ajax_loader.gif" Type="0"/>
+    <ROW Component="DS_Store_3" ComponentId="{9922FBE2-A96D-4CC3-9850-4EA5E8F2DC95}" Directory_="speech_bubbles_DIR" Attributes="0" KeyPath="DS_Store_4" Type="0"/>
+    <ROW Component="DS_Store_4" ComponentId="{C805AC45-6AB2-4DFB-9276-9F7A309BCC64}" Directory_="locale_DIR" Attributes="0" KeyPath="main.dtd" Type="0"/>
+    <ROW Component="DS_Store_5" ComponentId="{756A4A38-A701-4DAC-AD75-462513F6366F}" Directory_="branding_1_DIR" Attributes="0" KeyPath="DS_Store_6" Type="0"/>
+    <ROW Component="IA2Marshal.dll" ComponentId="{DC8EF74C-5422-4560-8AE2-1966A5688711}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="IA2Marshal.dll"/>
+    <ROW Component="accessibility_msaa.xpt" ComponentId="{E38F4615-D3E9-4501-8F2E-DEEAEA2B8E78}" Directory_="components_DIR" Attributes="0" KeyPath="accessibility_msaa.xpt" Type="0"/>
+    <ROW Component="all.js" ComponentId="{0B0D7B12-58A1-4A59-80CC-0696AC372C5F}" Directory_="greprefs_DIR" Attributes="0" KeyPath="all.js" Type="0"/>
+    <ROW Component="application.ini" ComponentId="{7A65F60C-CBD3-4279-8F4D-A0F1875257C2}" Directory_="bluebird_DIR" Attributes="0" KeyPath="application.ini" Type="0"/>
+    <ROW Component="arrow.gif" ComponentId="{01023F47-43E0-4DFA-A408-EACED0B6D9A9}" Directory_="res_DIR" Attributes="0" KeyPath="arrow.gif" Type="0"/>
+    <ROW Component="b.gif" ComponentId="{B736A2EF-5218-4DB4-84B7-609CD2878283}" Directory_="gray_blue_DIR" Attributes="0" KeyPath="b.gif" Type="0"/>
+    <ROW Component="bluebird.exe" ComponentId="{DE92066F-1A4E-42C9-87EB-4BC5E3A8AE43}" Directory_="bluebird_DIR" Attributes="0" KeyPath="bluebird.exe"/>
+    <ROW Component="bluebird.exe_1" ComponentId="{DEC8C418-9785-40B0-A805-E44202D0F4F5}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="bluebird.exe_1"/>
+    <ROW Component="classic.jar" ComponentId="{47C9DE07-9B83-424A-970B-11FEC7634B00}" Directory_="chrome_1_DIR" Attributes="0" KeyPath="classic.jar" Type="0"/>
+    <ROW Component="crashreporter.exe" ComponentId="{CF35A788-79DC-4D3D-BAED-D163EA1B07C2}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="crashreporter.exe"/>
+    <ROW Component="crashreporter.ini" ComponentId="{C69D1942-54D1-474D-A169-6945B641BAEC}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="crashreporter.ini" Type="0"/>
+    <ROW Component="debug.js" ComponentId="{45570AC4-FEDA-4CAE-A0D9-479774E1CBFB}" Directory_="preferences_DIR" Attributes="0" KeyPath="debug.js" Type="0"/>
+    <ROW Component="debug.js_1" ComponentId="{E99EBAF0-28EA-4A60-B1A6-DA9E2AF212D8}" Directory_="modules_DIR" Attributes="0" KeyPath="debug.js_1" Type="0"/>
+    <ROW Component="editMenuOverlay.js" ComponentId="{4AD25ED5-64F9-45DD-BE94-E99DE2DA42D4}" Directory_="global_DIR" Attributes="0" KeyPath="editMenuOverlay.js" Type="0"/>
+    <ROW Component="en_US.aff" ComponentId="{B62FA4EE-DE60-403C-AAC1-76724ADAA2F3}" Directory_="dictionaries_DIR" Attributes="0" KeyPath="en_US.aff" Type="0"/>
+    <ROW Component="folder.png" ComponentId="{2A37B94F-AEE6-4BC1-BAD4-F976DD55C68A}" Directory_="html_DIR" Attributes="0" KeyPath="folder.png" Type="0"/>
+    <ROW Component="freebl3.dll" ComponentId="{A44C1D96-E008-47AF-AE80-CC3267240D3F}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="freebl3.dll"/>
+    <ROW Component="html40Latin1.properties" ComponentId="{99E82AAD-3ACD-42F8-A9AE-6D24BFF8903B}" Directory_="entityTables_DIR" Attributes="0" KeyPath="html40Latin1.properties" Type="0"/>
+    <ROW Component="icon48.png" ComponentId="{2C477B36-26C3-4C8B-A351-1205AD6D3083}" Directory_="branding_DIR" Attributes="0" KeyPath="icon48.png" Type="0"/>
+    <ROW Component="javaxpcomglue.dll" ComponentId="{D9B47B2D-A236-41D2-946D-DB59B8046894}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="javaxpcomglue.dll"/>
+    <ROW Component="js3250.dll" ComponentId="{646C0ED4-46F9-473A-941B-5B8F8D5D87C8}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="js3250.dll"/>
+    <ROW Component="localstore.rdf" ComponentId="{761A995E-47AE-4978-A7A7-5F9795AF4926}" Directory_="profile_DIR" Attributes="0" KeyPath="localstore.rdf" Type="0"/>
+    <ROW Component="localstore.rdf_1" ComponentId="{85AC96F5-B37A-44D2-8855-B9D2D4DBCCDB}" Directory_="US_DIR" Attributes="0" KeyPath="localstore.rdf_1" Type="0"/>
+    <ROW Component="login.css" ComponentId="{2CECE36C-7FD5-45EE-BB86-B81C999371C2}" Directory_="css_DIR" Attributes="0" KeyPath="login.css" Type="0"/>
+    <ROW Component="main.js" ComponentId="{4F06D1CC-D5EB-423B-876B-86512B60F604}" Directory_="js_DIR" Attributes="0" KeyPath="main.js" Type="0"/>
+    <ROW Component="mathfont.properties" ComponentId="{BB6F2F6D-C440-486A-8536-EDD5F89CF7FE}" Directory_="fonts_DIR" Attributes="0" KeyPath="mathfont.properties" Type="0"/>
+    <ROW Component="mathml.dtd" ComponentId="{1CF79A25-AC79-4E8A-AEA6-CBB88DEC67D9}" Directory_="dtd_DIR" Attributes="0" KeyPath="mathml.dtd" Type="0"/>
+    <ROW Component="mozcrt19.dll" ComponentId="{A6F639E1-8B9F-48A2-835E-CE135D0B92D4}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozcrt19.dll"/>
+    <ROW Component="mozctl.dll" ComponentId="{CA7CF1F2-D3B5-4F42-85CB-9659F4DAAFCC}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozctl.dll"/>
+    <ROW Component="mozctlx.dll" ComponentId="{C92AFB78-5B68-469C-9C33-367D8F9FDDEC}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozctlx.dll"/>
+    <ROW Component="npnul32.dll" ComponentId="{3AD47114-1FB6-4E10-B82C-C19350E6F2B4}" Directory_="plugins_DIR" Attributes="0" KeyPath="npnul32.dll"/>
+    <ROW Component="nspr4.dll" ComponentId="{C41839D3-4030-4245-9A28-5ADE6E73B4F1}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nspr4.dll"/>
+    <ROW Component="nss3.dll" ComponentId="{344D4B54-9174-49BC-ABD1-5ADA1C637A4A}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nss3.dll"/>
+    <ROW Component="nssckbi.dll" ComponentId="{32955A07-E39C-4CE3-91F6-FD93BE9930BF}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nssckbi.dll"/>
+    <ROW Component="nssdbm3.dll" ComponentId="{7A647098-8299-4A24-8A40-DC8DD8D21430}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nssdbm3.dll"/>
+    <ROW Component="nssutil3.dll" ComponentId="{A27CE520-705B-4633-A2EC-41C7FDFA6283}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nssutil3.dll"/>
+    <ROW Component="platform.js" ComponentId="{73760F61-0CFB-47C3-BE61-5790843EB31D}" Directory_="autoconfig_DIR" Attributes="0" KeyPath="platform.js" Type="0"/>
+    <ROW Component="plc4.dll" ComponentId="{E22BBDBC-AFCA-4250-93A9-A1531E116E03}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="plc4.dll"/>
+    <ROW Component="plds4.dll" ComponentId="{F9329F05-5BA2-4F39-8B7C-95B10A56757C}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="plds4.dll"/>
+    <ROW Component="smime3.dll" ComponentId="{CA15A6EA-2803-4E73-83E8-05ED70383E21}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="smime3.dll"/>
+    <ROW Component="softokn3.dll" ComponentId="{BE6A9869-CCAF-4EDB-9F47-7D86F39F5AAA}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="softokn3.dll"/>
+    <ROW Component="sqlite3.dll" ComponentId="{A6847259-FC2F-43A1-BE0E-8BD9377B63CC}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="sqlite3.dll"/>
+    <ROW Component="ssl3.dll" ComponentId="{12BEF21D-350F-4079-A785-AE90A012674D}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="ssl3.dll"/>
+    <ROW Component="updater.exe" ComponentId="{B8E7F4A5-69B4-4B9C-B759-FEB751299E7A}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="updater.exe"/>
+    <ROW Component="userChrome_example.css" ComponentId="{F24A84C4-94C3-4D13-B647-8B01FED8A8FF}" Directory_="chrome_2_DIR" Attributes="0" KeyPath="userChrome_example.css" Type="0"/>
+    <ROW Component="userChrome_example.css_1" ComponentId="{8E671A53-07E4-4127-81CF-11C2404D32E8}" Directory_="chrome_3_DIR" Attributes="0" KeyPath="userChrome_example.css_1" Type="0"/>
+    <ROW Component="xpcom.dll" ComponentId="{006D396F-5773-4735-9BA9-4570E521485E}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpcom.dll"/>
+    <ROW Component="xpcshell.exe" ComponentId="{71946195-1E12-4516-9600-A39EEAD674CA}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpcshell.exe"/>
+    <ROW Component="xpidl.exe" ComponentId="{AAFB3D4E-6A24-49F8-A5E5-ABA70E729217}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpidl.exe"/>
+    <ROW Component="xpt_dump.exe" ComponentId="{7936516A-2BA3-4CBE-B7FA-F9B88F67CF17}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpt_dump.exe"/>
+    <ROW Component="xpt_link.exe" ComponentId="{22BDE640-6176-4ECA-AA45-E6DA322E72B4}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpt_link.exe"/>
+    <ROW Component="xul.dll" ComponentId="{F374ED44-A499-4A70-8EDD-EFCF61237118}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xul.dll"/>
+    <ROW Component="xulrunner.exe" ComponentId="{25DE3A08-DC41-4822-A142-61E7E350896F}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xulrunner.exe"/>
+    <ROW Component="xulrunner.js" ComponentId="{3B1CA27D-A250-4707-83D1-DDAC4042EF17}" Directory_="pref_DIR" Attributes="0" KeyPath="xulrunner.js" Type="0"/>
+    <ROW Component="xulrunner_stub.exe" ComponentId="{BB380A32-4489-47B6-9273-D9F8E1ECF081}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xulrunner_stub.exe"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="DS_Store DS_Store_1 icon48.png login.css editMenuOverlay.js DS_Store_2 DS_Store_3 b.gif main.js DS_Store_4 DS_Store_5 debug.js application.ini bluebird.exe AccessibleMarshal.dll bluebird.exe_1 classic.jar accessibility_msaa.xpt crashreporter.exe crashreporter.ini platform.js xulrunner.js userChrome_example.css localstore.rdf userChrome_example.css_1 localstore.rdf_1 en_US.aff freebl3.dll all.js IA2Marshal.dll javaxpcomglue.dll js3250.dll debug.js_1 mozcrt19.dll mozctl.dll mozctlx.dll nspr4.dll nss3.dll nssckbi.dll nssdbm3.dll nssutil3.dll plc4.dll plds4.dll npnul32.dll arrow.gif mathml.dtd html40Latin1.properties mathfont.properties folder.png smime3.dll softokn3.dll sqlite3.dll ssl3.dll updater.exe xpcom.dll xpcshell.exe xpidl.exe xpt_dump.exe xpt_link.exe xul.dll xulrunner_stub.exe xulrunner.exe"/>
+    <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
+    <ROW File="AccessibleMarshal.dll" Component_="AccessibleMarshal.dll" FileName="Access~1.dll|AccessibleMarshal.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\AccessibleMarshal.dll" SelfReg="false" Sequence="63"/>
+    <ROW File="BubbleBlueL800x1600.png" Component_="DS_Store_3" FileName="Bubble~1.png|BubbleBlueL800x1600.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\BubbleBlueL800x1600.png" SelfReg="false" Sequence="28"/>
+    <ROW File="BubbleBlueR800x1600.png" Component_="DS_Store_3" FileName="Bubble~2.png|BubbleBlueR800x1600.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\BubbleBlueR800x1600.png" SelfReg="false" Sequence="29"/>
+    <ROW File="BubbleGrayL800x1600.png" Component_="DS_Store_3" FileName="Bubble~3.png|BubbleGrayL800x1600.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\BubbleGrayL800x1600.png" SelfReg="false" Sequence="30"/>
+    <ROW File="BubbleGreenL800x1600.png" Component_="DS_Store_3" FileName="Bubble~4.png|BubbleGreenL800x1600.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\BubbleGreenL800x1600.png" SelfReg="false" Sequence="31"/>
+    <ROW File="BubbleOrangeL800x1600.png" Component_="DS_Store_3" FileName="Bubble~5.png|BubbleOrangeL800x1600.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\BubbleOrangeL800x1600.png" SelfReg="false" Sequence="32"/>
+    <ROW File="BubblePurpleL800x1600.png" Component_="DS_Store_3" FileName="Bubble~6.png|BubblePurpleL800x1600.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\BubblePurpleL800x1600.png" SelfReg="false" Sequence="33"/>
+    <ROW File="DS_Store_4" Component_="DS_Store_3" FileName="DS_Sto~1|.DS_Store" Attributes="2" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\.DS_Store" SelfReg="false" Sequence="27"/>
+    <ROW File="DS_Store_6" Component_="DS_Store_5" FileName="DS_Sto~1|.DS_Store" Attributes="2" SourcePath="..\..\..\_play\bluebird\chrome\locale\branding\.DS_Store" SelfReg="false" Sequence="54"/>
+    <ROW File="DownloadUtils.jsm" Component_="debug.js_1" FileName="Downlo~1.jsm|DownloadUtils.jsm" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\modules\DownloadUtils.jsm" SelfReg="false" Sequence="259"/>
+    <ROW File="EditorOverride.css" Component_="arrow.gif" FileName="Editor~1.css|EditorOverride.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\EditorOverride.css" SelfReg="false" Sequence="288"/>
+    <ROW File="FeedProcessor.js" Component_="accessibility_msaa.xpt" FileName="FeedPr~1.js|FeedProcessor.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\FeedProcessor.js" SelfReg="false" Sequence="125"/>
+    <ROW File="IA2Marshal.dll" Component_="IA2Marshal.dll" FileName="IA2Mar~1.dll|IA2Marshal.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\IA2Marshal.dll" SelfReg="false" Sequence="253"/>
+    <ROW File="ISO8601DateUtils.jsm" Component_="debug.js_1" FileName="ISO860~1.jsm|ISO8601DateUtils.jsm" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\modules\ISO8601DateUtils.jsm" SelfReg="false" Sequence="260"/>
+    <ROW File="JSON.jsm" Component_="debug.js_1" FileName="JSON.jsm" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\modules\JSON.jsm" SelfReg="false" Sequence="261"/>
+    <ROW File="LICENSE" Component_="crashreporter.ini" FileName="LICENSE" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\LICENSE" SelfReg="false" Sequence="257"/>
+    <ROW File="Microformats.js" Component_="debug.js_1" FileName="Microf~1.js|Microformats.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\modules\Microformats.js" SelfReg="false" Sequence="262"/>
+    <ROW File="PluralForm.jsm" Component_="debug.js_1" FileName="Plural~1.jsm|PluralForm.jsm" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\modules\PluralForm.jsm" SelfReg="false" Sequence="263"/>
+    <ROW File="README.txt" Component_="crashreporter.ini" FileName="README.txt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\README.txt" SelfReg="false" Sequence="278"/>
+    <ROW File="XPCOMUtils.jsm" Component_="debug.js_1" FileName="XPCOMU~1.jsm|XPCOMUtils.jsm" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\modules\XPCOMUtils.jsm" SelfReg="false" Sequence="265"/>
+    <ROW File="accessibility.xpt" Component_="accessibility_msaa.xpt" FileName="access~2.xpt|accessibility.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\accessibility.xpt" SelfReg="false" Sequence="76"/>
+    <ROW File="accessibility_msaa.xpt" Component_="accessibility_msaa.xpt" FileName="access~1.xpt|accessibility-msaa.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\accessibility-msaa.xpt" SelfReg="false" Sequence="75"/>
+    <ROW File="ajax_loader.gif" Component_="DS_Store_2" FileName="ajax-l~1.gif|ajax-loader.gif" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\ajax-loader.gif" SelfReg="false" Sequence="13"/>
+    <ROW File="ajax_throbber_0.gif" Component_="DS_Store_2" FileName="ajax-t~1.gif|ajax-throbber-0.gif" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\ajax-throbber-0.gif" SelfReg="false" Sequence="14"/>
+    <ROW File="ajax_throbber_1.gif" Component_="DS_Store_2" FileName="ajax-t~2.gif|ajax-throbber-1.gif" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\ajax-throbber-1.gif" SelfReg="false" Sequence="15"/>
+    <ROW File="alerts.xpt" Component_="accessibility_msaa.xpt" FileName="alerts.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\alerts.xpt" SelfReg="false" Sequence="77"/>
+    <ROW File="all.js" Component_="all.js" FileName="all.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\greprefs\all.js" SelfReg="false" Sequence="250"/>
+    <ROW File="application.ini" Component_="application.ini" FileName="applic~1.ini|application.ini" Attributes="0" SourcePath="..\..\..\_play\bluebird\application.ini" SelfReg="false" Sequence="61"/>
+    <ROW File="appshell.xpt" Component_="accessibility_msaa.xpt" FileName="appshell.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\appshell.xpt" SelfReg="false" Sequence="78"/>
+    <ROW File="appstartup.xpt" Component_="accessibility_msaa.xpt" FileName="appsta~1.xpt|appstartup.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\appstartup.xpt" SelfReg="false" Sequence="79"/>
+    <ROW File="arrow.gif" Component_="arrow.gif" FileName="arrow.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\arrow.gif" SelfReg="false" Sequence="279"/>
+    <ROW File="arrowd.gif" Component_="arrow.gif" FileName="arrowd.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\arrowd.gif" SelfReg="false" Sequence="280"/>
+    <ROW File="autocomplete.xpt" Component_="accessibility_msaa.xpt" FileName="autoco~1.xpt|autocomplete.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\autocomplete.xpt" SelfReg="false" Sequence="80"/>
+    <ROW File="autoconfig.xpt" Component_="accessibility_msaa.xpt" FileName="autoco~2.xpt|autoconfig.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\autoconfig.xpt" SelfReg="false" Sequence="81"/>
+    <ROW File="b.gif" Component_="b.gif" FileName="b.gif" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\gray-blue\b.gif" SelfReg="false" Sequence="34"/>
+    <ROW File="bl.gif" Component_="b.gif" FileName="bl.gif" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\gray-blue\bl.gif" SelfReg="false" Sequence="35"/>
+    <ROW File="bluebird.exe" Component_="bluebird.exe" FileName="bluebird.exe" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\bluebird.exe" SelfReg="false" Sequence="62"/>
+    <ROW File="bluebird.exe_1" Component_="bluebird.exe_1" FileName="bluebird.exe" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\bluebird.exe" SelfReg="false" Sequence="64"/>
+    <ROW File="br.gif" Component_="b.gif" FileName="br.gif" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\gray-blue\br.gif" SelfReg="false" Sequence="36"/>
+    <ROW File="brand.dtd" Component_="DS_Store_5" FileName="brand.dtd" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\locale\branding\brand.dtd" SelfReg="false" Sequence="55"/>
+    <ROW File="brand.properties" Component_="DS_Store_5" FileName="brand~1.pro|brand.properties" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\locale\branding\brand.properties" SelfReg="false" Sequence="56"/>
+    <ROW File="broken_image.gif" Component_="arrow.gif" FileName="broken~1.gif|broken-image.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\broken-image.gif" SelfReg="false" Sequence="281"/>
+    <ROW File="caps.xpt" Component_="accessibility_msaa.xpt" FileName="caps.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\caps.xpt" SelfReg="false" Sequence="82"/>
+    <ROW File="carbon_blue_fade_down_bg_8x100.png" Component_="DS_Store_2" FileName="carbon~1.png|carbon-blue-fade-down-bg-8x100.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\carbon-blue-fade-down-bg-8x100.png" SelfReg="false" Sequence="16"/>
+    <ROW File="carbon_blue_fade_up_bg_8x150.png" Component_="DS_Store_2" FileName="carbon~2.png|carbon-blue-fade-up-bg-8x150.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\carbon-blue-fade-up-bg-8x150.png" SelfReg="false" Sequence="17"/>
+    <ROW File="chardet.xpt" Component_="accessibility_msaa.xpt" FileName="chardet.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\chardet.xpt" SelfReg="false" Sequence="83"/>
+    <ROW File="charsetData.properties" Component_="arrow.gif" FileName="charse~2.pro|charsetData.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\charsetData.properties" SelfReg="false" Sequence="283"/>
+    <ROW File="charsetalias.properties" Component_="arrow.gif" FileName="charse~1.pro|charsetalias.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\charsetalias.properties" SelfReg="false" Sequence="282"/>
+    <ROW File="checkmark_gray.png" Component_="DS_Store_2" FileName="checkm~1.png|checkmark-gray.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\checkmark-gray.png" SelfReg="false" Sequence="18"/>
+    <ROW File="chrome.manifest" Component_="DS_Store" FileName="chrome~1.man|chrome.manifest" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\chrome.manifest" SelfReg="false" Sequence="1"/>
+    <ROW File="chrome.xpt" Component_="accessibility_msaa.xpt" FileName="chrome.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\chrome.xpt" SelfReg="false" Sequence="84"/>
+    <ROW File="classic.jar" Component_="classic.jar" FileName="classic.jar" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\chrome\classic.jar" SelfReg="false" Sequence="65"/>
+    <ROW File="classic.manifest" Component_="classic.jar" FileName="classi~1.man|classic.manifest" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\chrome\classic.manifest" SelfReg="false" Sequence="66"/>
+    <ROW File="comm.jar" Component_="classic.jar" FileName="comm.jar" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\chrome\comm.jar" SelfReg="false" Sequence="67"/>
+    <ROW File="comm.manifest" Component_="classic.jar" FileName="comm~1.man|comm.manifest" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\chrome\comm.manifest" SelfReg="false" Sequence="68"/>
+    <ROW File="commandhandler.xpt" Component_="accessibility_msaa.xpt" FileName="comman~1.xpt|commandhandler.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\commandhandler.xpt" SelfReg="false" Sequence="85"/>
+    <ROW File="commandlines.xpt" Component_="accessibility_msaa.xpt" FileName="comman~2.xpt|commandlines.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\commandlines.xpt" SelfReg="false" Sequence="86"/>
+    <ROW File="composer.xpt" Component_="accessibility_msaa.xpt" FileName="composer.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\composer.xpt" SelfReg="false" Sequence="87"/>
+    <ROW File="content_base.xpt" Component_="accessibility_msaa.xpt" FileName="conten~2.xpt|content_base.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\content_base.xpt" SelfReg="false" Sequence="89"/>
+    <ROW File="content_html.xpt" Component_="accessibility_msaa.xpt" FileName="conten~3.xpt|content_html.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\content_html.xpt" SelfReg="false" Sequence="90"/>
+    <ROW File="content_htmldoc.xpt" Component_="accessibility_msaa.xpt" FileName="conten~4.xpt|content_htmldoc.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\content_htmldoc.xpt" SelfReg="false" Sequence="91"/>
+    <ROW File="content_xmldoc.xpt" Component_="accessibility_msaa.xpt" FileName="conten~5.xpt|content_xmldoc.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\content_xmldoc.xpt" SelfReg="false" Sequence="92"/>
+    <ROW File="content_xslt.xpt" Component_="accessibility_msaa.xpt" FileName="conten~6.xpt|content_xslt.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\content_xslt.xpt" SelfReg="false" Sequence="93"/>
+    <ROW File="content_xtf.xpt" Component_="accessibility_msaa.xpt" FileName="conten~7.xpt|content_xtf.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\content_xtf.xpt" SelfReg="false" Sequence="94"/>
+    <ROW File="contenteditable.css" Component_="arrow.gif" FileName="conten~1.css|contenteditable.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\contenteditable.css" SelfReg="false" Sequence="284"/>
+    <ROW File="contentprefs.xpt" Component_="accessibility_msaa.xpt" FileName="conten~1.xpt|contentprefs.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\contentprefs.xpt" SelfReg="false" Sequence="88"/>
+    <ROW File="cookie.xpt" Component_="accessibility_msaa.xpt" FileName="cookie.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\cookie.xpt" SelfReg="false" Sequence="95"/>
+    <ROW File="crashreporter.exe" Component_="crashreporter.exe" FileName="crashr~1.exe|crashreporter.exe" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\crashreporter.exe" SelfReg="false" Sequence="234"/>
+    <ROW File="crashreporter.ini" Component_="crashreporter.ini" FileName="crashr~1.ini|crashreporter.ini" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\crashreporter.ini" SelfReg="false" Sequence="235"/>
+    <ROW File="debug.js" Component_="debug.js" FileName="debug.js" Attributes="0" SourcePath="..\..\..\_play\bluebird\defaults\preferences\debug.js" SelfReg="false" Sequence="59"/>
+    <ROW File="debug.js_1" Component_="debug.js_1" FileName="debug.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\modules\debug.js" SelfReg="false" Sequence="258"/>
+    <ROW File="dependentlibs.list" Component_="crashreporter.ini" FileName="depend~1.lis|dependentlibs.list" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\dependentlibs.list" SelfReg="false" Sequence="245"/>
+    <ROW File="designmode.css" Component_="arrow.gif" FileName="design~1.css|designmode.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\designmode.css" SelfReg="false" Sequence="285"/>
+    <ROW File="directory.xpt" Component_="accessibility_msaa.xpt" FileName="direct~1.xpt|directory.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\directory.xpt" SelfReg="false" Sequence="96"/>
+    <ROW File="docshell_base.xpt" Component_="accessibility_msaa.xpt" FileName="docshe~1.xpt|docshell_base.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\docshell_base.xpt" SelfReg="false" Sequence="97"/>
+    <ROW File="dom.xpt" Component_="accessibility_msaa.xpt" FileName="dom.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom.xpt" SelfReg="false" Sequence="98"/>
+    <ROW File="dom_base.xpt" Component_="accessibility_msaa.xpt" FileName="dom_base.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_base.xpt" SelfReg="false" Sequence="99"/>
+    <ROW File="dom_canvas.xpt" Component_="accessibility_msaa.xpt" FileName="dom_ca~1.xpt|dom_canvas.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_canvas.xpt" SelfReg="false" Sequence="100"/>
+    <ROW File="dom_core.xpt" Component_="accessibility_msaa.xpt" FileName="dom_core.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_core.xpt" SelfReg="false" Sequence="101"/>
+    <ROW File="dom_css.xpt" Component_="accessibility_msaa.xpt" FileName="dom_css.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_css.xpt" SelfReg="false" Sequence="102"/>
+    <ROW File="dom_events.xpt" Component_="accessibility_msaa.xpt" FileName="dom_ev~1.xpt|dom_events.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_events.xpt" SelfReg="false" Sequence="103"/>
+    <ROW File="dom_html.xpt" Component_="accessibility_msaa.xpt" FileName="dom_html.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_html.xpt" SelfReg="false" Sequence="104"/>
+    <ROW File="dom_json.xpt" Component_="accessibility_msaa.xpt" FileName="dom_json.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_json.xpt" SelfReg="false" Sequence="105"/>
+    <ROW File="dom_loadsave.xpt" Component_="accessibility_msaa.xpt" FileName="dom_lo~1.xpt|dom_loadsave.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_loadsave.xpt" SelfReg="false" Sequence="106"/>
+    <ROW File="dom_offline.xpt" Component_="accessibility_msaa.xpt" FileName="dom_of~1.xpt|dom_offline.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_offline.xpt" SelfReg="false" Sequence="107"/>
+    <ROW File="dom_range.xpt" Component_="accessibility_msaa.xpt" FileName="dom_ra~1.xpt|dom_range.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_range.xpt" SelfReg="false" Sequence="108"/>
+    <ROW File="dom_sidebar.xpt" Component_="accessibility_msaa.xpt" FileName="dom_si~1.xpt|dom_sidebar.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_sidebar.xpt" SelfReg="false" Sequence="109"/>
+    <ROW File="dom_storage.xpt" Component_="accessibility_msaa.xpt" FileName="dom_st~1.xpt|dom_storage.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_storage.xpt" SelfReg="false" Sequence="110"/>
+    <ROW File="dom_stylesheets.xpt" Component_="accessibility_msaa.xpt" FileName="dom_st~2.xpt|dom_stylesheets.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_stylesheets.xpt" SelfReg="false" Sequence="111"/>
+    <ROW File="dom_svg.xpt" Component_="accessibility_msaa.xpt" FileName="dom_svg.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_svg.xpt" SelfReg="false" Sequence="112"/>
+    <ROW File="dom_traversal.xpt" Component_="accessibility_msaa.xpt" FileName="dom_tr~1.xpt|dom_traversal.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_traversal.xpt" SelfReg="false" Sequence="113"/>
+    <ROW File="dom_views.xpt" Component_="accessibility_msaa.xpt" FileName="dom_vi~1.xpt|dom_views.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_views.xpt" SelfReg="false" Sequence="114"/>
+    <ROW File="dom_xbl.xpt" Component_="accessibility_msaa.xpt" FileName="dom_xbl.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_xbl.xpt" SelfReg="false" Sequence="115"/>
+    <ROW File="dom_xpath.xpt" Component_="accessibility_msaa.xpt" FileName="dom_xp~1.xpt|dom_xpath.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_xpath.xpt" SelfReg="false" Sequence="116"/>
+    <ROW File="dom_xul.xpt" Component_="accessibility_msaa.xpt" FileName="dom_xul.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\dom_xul.xpt" SelfReg="false" Sequence="117"/>
+    <ROW File="downloads.xpt" Component_="accessibility_msaa.xpt" FileName="downlo~1.xpt|downloads.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\downloads.xpt" SelfReg="false" Sequence="118"/>
+    <ROW File="editMenuOverlay.js" Component_="editMenuOverlay.js" FileName="editMe~1.js|editMenuOverlay.js" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\global\editMenuOverlay.js" SelfReg="false" Sequence="8"/>
+    <ROW File="editMenuOverlay.xul" Component_="editMenuOverlay.js" FileName="editMe~1.xul|editMenuOverlay.xul" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\global\editMenuOverlay.xul" SelfReg="false" Sequence="9"/>
+    <ROW File="editor.xpt" Component_="accessibility_msaa.xpt" FileName="editor.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\editor.xpt" SelfReg="false" Sequence="119"/>
+    <ROW File="embed_base.xpt" Component_="accessibility_msaa.xpt" FileName="embed_~1.xpt|embed_base.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\embed_base.xpt" SelfReg="false" Sequence="120"/>
+    <ROW File="en_US.aff" Component_="en_US.aff" FileName="en-US.aff" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\dictionaries\en-US.aff" SelfReg="false" Sequence="246"/>
+    <ROW File="en_US.dic" Component_="en_US.aff" FileName="en-US.dic" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\dictionaries\en-US.dic" SelfReg="false" Sequence="247"/>
+    <ROW File="en_US.jar" Component_="classic.jar" FileName="en-US.jar" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\chrome\en-US.jar" SelfReg="false" Sequence="69"/>
+    <ROW File="en_US.manifest" Component_="classic.jar" FileName="en-US~1.man|en-US.manifest" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\chrome\en-US.manifest" SelfReg="false" Sequence="70"/>
+    <ROW File="extensions.xpt" Component_="accessibility_msaa.xpt" FileName="extens~1.xpt|extensions.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\extensions.xpt" SelfReg="false" Sequence="121"/>
+    <ROW File="exthandler.xpt" Component_="accessibility_msaa.xpt" FileName="exthan~1.xpt|exthandler.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\exthandler.xpt" SelfReg="false" Sequence="122"/>
+    <ROW File="exthelper.xpt" Component_="accessibility_msaa.xpt" FileName="exthel~1.xpt|exthelper.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\exthelper.xpt" SelfReg="false" Sequence="123"/>
+    <ROW File="fastfind.xpt" Component_="accessibility_msaa.xpt" FileName="fastfind.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\fastfind.xpt" SelfReg="false" Sequence="124"/>
+    <ROW File="feeds.xpt" Component_="accessibility_msaa.xpt" FileName="feeds.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\feeds.xpt" SelfReg="false" Sequence="126"/>
+    <ROW File="find.xpt" Component_="accessibility_msaa.xpt" FileName="find.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\find.xpt" SelfReg="false" Sequence="127"/>
+    <ROW File="folder.png" Component_="folder.png" FileName="folder.png" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\html\folder.png" SelfReg="false" Sequence="304"/>
+    <ROW File="forms.css" Component_="arrow.gif" FileName="forms.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\forms.css" SelfReg="false" Sequence="301"/>
+    <ROW File="freebl3.chk" Component_="crashreporter.ini" FileName="freebl3.chk" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\freebl3.chk" SelfReg="false" Sequence="248"/>
+    <ROW File="freebl3.dll" Component_="freebl3.dll" FileName="freebl3.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\freebl3.dll" SelfReg="false" Sequence="249"/>
+    <ROW File="gear.png" Component_="DS_Store_2" FileName="gear.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\gear.png" SelfReg="false" Sequence="21"/>
+    <ROW File="gear_disabled.png" Component_="DS_Store_2" FileName="gear-d~1.png|gear-disabled.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\gear-disabled.png" SelfReg="false" Sequence="19"/>
+    <ROW File="gear_pressed2.png" Component_="DS_Store_2" FileName="gear-p~1.png|gear-pressed2.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\gear-pressed2.png" SelfReg="false" Sequence="20"/>
+    <ROW File="gfx.xpt" Component_="accessibility_msaa.xpt" FileName="gfx.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\gfx.xpt" SelfReg="false" Sequence="128"/>
+    <ROW File="globalOverlay.js" Component_="editMenuOverlay.js" FileName="global~1.js|globalOverlay.js" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\global\globalOverlay.js" SelfReg="false" Sequence="10"/>
+    <ROW File="globalOverlay.xul" Component_="editMenuOverlay.js" FileName="global~1.xul|globalOverlay.xul" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\global\globalOverlay.xul" SelfReg="false" Sequence="11"/>
+    <ROW File="grabber.gif" Component_="arrow.gif" FileName="grabber.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\grabber.gif" SelfReg="false" Sequence="302"/>
+    <ROW File="hiddenWindow.html" Component_="arrow.gif" FileName="hidden~1.htm|hiddenWindow.html" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\hiddenWindow.html" SelfReg="false" Sequence="303"/>
+    <ROW File="html.css" Component_="arrow.gif" FileName="html.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\html.css" SelfReg="false" Sequence="305"/>
+    <ROW File="html40Latin1.properties" Component_="html40Latin1.properties" FileName="html40~1.pro|html40Latin1.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\entityTables\html40Latin1.properties" SelfReg="false" Sequence="289"/>
+    <ROW File="html40Special.properties" Component_="html40Latin1.properties" FileName="html40~2.pro|html40Special.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\entityTables\html40Special.properties" SelfReg="false" Sequence="290"/>
+    <ROW File="html40Symbols.properties" Component_="html40Latin1.properties" FileName="html40~3.pro|html40Symbols.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\entityTables\html40Symbols.properties" SelfReg="false" Sequence="291"/>
+    <ROW File="htmlEntityVersions.properties" Component_="html40Latin1.properties" FileName="htmlEn~1.pro|htmlEntityVersions.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\entityTables\htmlEntityVersions.properties" SelfReg="false" Sequence="292"/>
+    <ROW File="htmlparser.xpt" Component_="accessibility_msaa.xpt" FileName="htmlpa~1.xpt|htmlparser.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\htmlparser.xpt" SelfReg="false" Sequence="129"/>
+    <ROW File="icon48.png" Component_="icon48.png" FileName="icon48.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\branding\icon48.png" SelfReg="false" Sequence="2"/>
+    <ROW File="icon64.png" Component_="icon48.png" FileName="icon64.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\branding\icon64.png" SelfReg="false" Sequence="3"/>
+    <ROW File="imgicon.xpt" Component_="accessibility_msaa.xpt" FileName="imgicon.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\imgicon.xpt" SelfReg="false" Sequence="130"/>
+    <ROW File="imglib2.xpt" Component_="accessibility_msaa.xpt" FileName="imglib2.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\imglib2.xpt" SelfReg="false" Sequence="131"/>
+    <ROW File="inspector.xpt" Component_="accessibility_msaa.xpt" FileName="inspec~1.xpt|inspector.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\inspector.xpt" SelfReg="false" Sequence="132"/>
+    <ROW File="intl.xpt" Component_="accessibility_msaa.xpt" FileName="intl.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\intl.xpt" SelfReg="false" Sequence="133"/>
+    <ROW File="jar.xpt" Component_="accessibility_msaa.xpt" FileName="jar.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\jar.xpt" SelfReg="false" Sequence="134"/>
+    <ROW File="javaxpcom.jar" Component_="crashreporter.ini" FileName="javaxp~1.jar|javaxpcom.jar" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\javaxpcom.jar" SelfReg="false" Sequence="254"/>
+    <ROW File="javaxpcomglue.dll" Component_="javaxpcomglue.dll" FileName="javaxp~1.dll|javaxpcomglue.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\javaxpcomglue.dll" SelfReg="false" Sequence="255"/>
+    <ROW File="js3250.dll" Component_="js3250.dll" FileName="js3250.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\js3250.dll" SelfReg="false" Sequence="256"/>
+    <ROW File="jsconsole_clhandler.js" Component_="accessibility_msaa.xpt" FileName="jscons~1.js|jsconsole-clhandler.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\jsconsole-clhandler.js" SelfReg="false" Sequence="135"/>
+    <ROW File="jsdservice.xpt" Component_="accessibility_msaa.xpt" FileName="jsdser~1.xpt|jsdservice.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\jsdservice.xpt" SelfReg="false" Sequence="136"/>
+    <ROW File="langGroups.properties" Component_="arrow.gif" FileName="langGr~1.pro|langGroups.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\langGroups.properties" SelfReg="false" Sequence="306"/>
+    <ROW File="language.properties" Component_="arrow.gif" FileName="langua~1.pro|language.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\language.properties" SelfReg="false" Sequence="307"/>
+    <ROW File="layout_base.xpt" Component_="accessibility_msaa.xpt" FileName="layout~1.xpt|layout_base.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\layout_base.xpt" SelfReg="false" Sequence="137"/>
+    <ROW File="layout_printing.xpt" Component_="accessibility_msaa.xpt" FileName="layout~2.xpt|layout_printing.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\layout_printing.xpt" SelfReg="false" Sequence="138"/>
+    <ROW File="layout_xul.xpt" Component_="accessibility_msaa.xpt" FileName="layout~3.xpt|layout_xul.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\layout_xul.xpt" SelfReg="false" Sequence="139"/>
+    <ROW File="layout_xul_tree.xpt" Component_="accessibility_msaa.xpt" FileName="layout~4.xpt|layout_xul_tree.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\layout_xul_tree.xpt" SelfReg="false" Sequence="140"/>
+    <ROW File="loading_image.gif" Component_="arrow.gif" FileName="loadin~1.gif|loading-image.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\loading-image.gif" SelfReg="false" Sequence="308"/>
+    <ROW File="locale.xpt" Component_="accessibility_msaa.xpt" FileName="locale.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\locale.xpt" SelfReg="false" Sequence="141"/>
+    <ROW File="localstore.rdf" Component_="localstore.rdf" FileName="locals~1.rdf|localstore.rdf" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\defaults\profile\localstore.rdf" SelfReg="false" Sequence="241"/>
+    <ROW File="localstore.rdf_1" Component_="localstore.rdf_1" FileName="locals~1.rdf|localstore.rdf" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\defaults\profile\US\localstore.rdf" SelfReg="false" Sequence="244"/>
+    <ROW File="login.css" Component_="login.css" FileName="login.css" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\css\login.css" SelfReg="false" Sequence="4"/>
+    <ROW File="login.html" Component_="DS_Store_1" FileName="login~1.htm|login.html" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\login.html" SelfReg="false" Sequence="48"/>
+    <ROW File="login_loader.gif" Component_="DS_Store_2" FileName="login-~1.gif|login-loader.gif" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\login-loader.gif" SelfReg="false" Sequence="22"/>
+    <ROW File="loginmgr.xpt" Component_="accessibility_msaa.xpt" FileName="loginmgr.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\loginmgr.xpt" SelfReg="false" Sequence="142"/>
+    <ROW File="lwbrk.xpt" Component_="accessibility_msaa.xpt" FileName="lwbrk.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\lwbrk.xpt" SelfReg="false" Sequence="143"/>
+    <ROW File="macWindowMenu.js" Component_="editMenuOverlay.js" FileName="macWin~1.js|macWindowMenu.js" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\global\macWindowMenu.js" SelfReg="false" Sequence="12"/>
+    <ROW File="main.dtd" Component_="DS_Store_4" FileName="main.dtd" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\locale\main.dtd" SelfReg="false" Sequence="57"/>
+    <ROW File="main.html" Component_="DS_Store_1" FileName="main~1.htm|main.html" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\main.html" SelfReg="false" Sequence="49"/>
+    <ROW File="main.js" Component_="main.js" FileName="main.js" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\js\main.js" SelfReg="false" Sequence="44"/>
+    <ROW File="main.xul" Component_="DS_Store_1" FileName="main.xul" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\main.xul" SelfReg="false" Sequence="50"/>
+    <ROW File="mathfont.properties" Component_="mathfont.properties" FileName="mathfo~1.pro|mathfont.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\fonts\mathfont.properties" SelfReg="false" Sequence="295"/>
+    <ROW File="mathfontSTIXNonUnicode.properties" Component_="mathfont.properties" FileName="mathfo~3.pro|mathfontSTIXNonUnicode.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\fonts\mathfontSTIXNonUnicode.properties" SelfReg="false" Sequence="297"/>
+    <ROW File="mathfontSTIXSize1.properties" Component_="mathfont.properties" FileName="mathfo~4.pro|mathfontSTIXSize1.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\fonts\mathfontSTIXSize1.properties" SelfReg="false" Sequence="298"/>
+    <ROW File="mathfontStandardSymbolsL.properties" Component_="mathfont.properties" FileName="mathfo~2.pro|mathfontStandardSymbolsL.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\fonts\mathfontStandardSymbolsL.properties" SelfReg="false" Sequence="296"/>
+    <ROW File="mathfontSymbol.properties" Component_="mathfont.properties" FileName="mathfo~5.pro|mathfontSymbol.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\fonts\mathfontSymbol.properties" SelfReg="false" Sequence="299"/>
+    <ROW File="mathfontUnicode.properties" Component_="mathfont.properties" FileName="mathfo~6.pro|mathfontUnicode.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\fonts\mathfontUnicode.properties" SelfReg="false" Sequence="300"/>
+    <ROW File="mathml.css" Component_="arrow.gif" FileName="mathml.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\mathml.css" SelfReg="false" Sequence="309"/>
+    <ROW File="mathml.dtd" Component_="mathml.dtd" FileName="mathml.dtd" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\dtd\mathml.dtd" SelfReg="false" Sequence="286"/>
+    <ROW File="mathml20.properties" Component_="html40Latin1.properties" FileName="mathml~1.pro|mathml20.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\entityTables\mathml20.properties" SelfReg="false" Sequence="293"/>
+    <ROW File="mimetype.xpt" Component_="accessibility_msaa.xpt" FileName="mimetype.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\mimetype.xpt" SelfReg="false" Sequence="144"/>
+    <ROW File="mozbrwsr.xpt" Component_="accessibility_msaa.xpt" FileName="mozbrwsr.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\mozbrwsr.xpt" SelfReg="false" Sequence="145"/>
+    <ROW File="mozcrt19.dll" Component_="mozcrt19.dll" FileName="mozcrt19.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\mozcrt19.dll" SelfReg="false" Sequence="266"/>
+    <ROW File="mozctl.dll" Component_="mozctl.dll" FileName="mozctl.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\mozctl.dll" SelfReg="false" Sequence="267"/>
+    <ROW File="mozctlx.dll" Component_="mozctlx.dll" FileName="mozctlx.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\mozctlx.dll" SelfReg="false" Sequence="268"/>
+    <ROW File="mozfind.xpt" Component_="accessibility_msaa.xpt" FileName="mozfind.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\mozfind.xpt" SelfReg="false" Sequence="146"/>
+    <ROW File="necko.xpt" Component_="accessibility_msaa.xpt" FileName="necko.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko.xpt" SelfReg="false" Sequence="147"/>
+    <ROW File="necko_about.xpt" Component_="accessibility_msaa.xpt" FileName="necko_~1.xpt|necko_about.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_about.xpt" SelfReg="false" Sequence="148"/>
+    <ROW File="necko_cache.xpt" Component_="accessibility_msaa.xpt" FileName="necko_~2.xpt|necko_cache.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_cache.xpt" SelfReg="false" Sequence="149"/>
+    <ROW File="necko_cookie.xpt" Component_="accessibility_msaa.xpt" FileName="necko_~3.xpt|necko_cookie.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_cookie.xpt" SelfReg="false" Sequence="150"/>
+    <ROW File="necko_dns.xpt" Component_="accessibility_msaa.xpt" FileName="necko_~4.xpt|necko_dns.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_dns.xpt" SelfReg="false" Sequence="151"/>
+    <ROW File="necko_file.xpt" Component_="accessibility_msaa.xpt" FileName="necko_~5.xpt|necko_file.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_file.xpt" SelfReg="false" Sequence="152"/>
+    <ROW File="necko_ftp.xpt" Component_="accessibility_msaa.xpt" FileName="necko_~6.xpt|necko_ftp.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_ftp.xpt" SelfReg="false" Sequence="153"/>
+    <ROW File="necko_http.xpt" Component_="accessibility_msaa.xpt" FileName="necko_~7.xpt|necko_http.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_http.xpt" SelfReg="false" Sequence="154"/>
+    <ROW File="necko_res.xpt" Component_="accessibility_msaa.xpt" FileName="necko_~8.xpt|necko_res.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_res.xpt" SelfReg="false" Sequence="155"/>
+    <ROW File="necko_socket.xpt" Component_="accessibility_msaa.xpt" FileName="necko_~9.xpt|necko_socket.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_socket.xpt" SelfReg="false" Sequence="156"/>
+    <ROW File="necko_strconv.xpt" Component_="accessibility_msaa.xpt" FileName="necko~10.xpt|necko_strconv.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_strconv.xpt" SelfReg="false" Sequence="157"/>
+    <ROW File="necko_viewsource.xpt" Component_="accessibility_msaa.xpt" FileName="necko~11.xpt|necko_viewsource.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\necko_viewsource.xpt" SelfReg="false" Sequence="158"/>
+    <ROW File="npnul32.dll" Component_="npnul32.dll" FileName="npnul32.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\plugins\npnul32.dll" SelfReg="false" Sequence="277"/>
+    <ROW File="nsAddonRepository.js" Component_="accessibility_msaa.xpt" FileName="nsAddo~1.js|nsAddonRepository.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsAddonRepository.js" SelfReg="false" Sequence="159"/>
+    <ROW File="nsBadCertHandler.js" Component_="accessibility_msaa.xpt" FileName="nsBadC~1.js|nsBadCertHandler.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsBadCertHandler.js" SelfReg="false" Sequence="160"/>
+    <ROW File="nsBlocklistService.js" Component_="accessibility_msaa.xpt" FileName="nsBloc~1.js|nsBlocklistService.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsBlocklistService.js" SelfReg="false" Sequence="161"/>
+    <ROW File="nsContentDispatchChooser.js" Component_="accessibility_msaa.xpt" FileName="nsCont~1.js|nsContentDispatchChooser.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsContentDispatchChooser.js" SelfReg="false" Sequence="162"/>
+    <ROW File="nsContentPrefService.js" Component_="accessibility_msaa.xpt" FileName="nsCont~2.js|nsContentPrefService.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsContentPrefService.js" SelfReg="false" Sequence="163"/>
+    <ROW File="nsDefaultCLH.js" Component_="accessibility_msaa.xpt" FileName="nsDefa~1.js|nsDefaultCLH.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsDefaultCLH.js" SelfReg="false" Sequence="164"/>
+    <ROW File="nsDictionary.js" Component_="accessibility_msaa.xpt" FileName="nsDict~1.js|nsDictionary.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsDictionary.js" SelfReg="false" Sequence="165"/>
+    <ROW File="nsDownloadManagerUI.js" Component_="accessibility_msaa.xpt" FileName="nsDown~1.js|nsDownloadManagerUI.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsDownloadManagerUI.js" SelfReg="false" Sequence="166"/>
+    <ROW File="nsExtensionManager.js" Component_="accessibility_msaa.xpt" FileName="nsExte~1.js|nsExtensionManager.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsExtensionManager.js" SelfReg="false" Sequence="167"/>
+    <ROW File="nsHandlerService.js" Component_="accessibility_msaa.xpt" FileName="nsHand~1.js|nsHandlerService.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsHandlerService.js" SelfReg="false" Sequence="168"/>
+    <ROW File="nsHelperAppDlg.js" Component_="accessibility_msaa.xpt" FileName="nsHelp~1.js|nsHelperAppDlg.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsHelperAppDlg.js" SelfReg="false" Sequence="169"/>
+    <ROW File="nsLivemarkService.js" Component_="accessibility_msaa.xpt" FileName="nsLive~1.js|nsLivemarkService.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsLivemarkService.js" SelfReg="false" Sequence="170"/>
+    <ROW File="nsLoginInfo.js" Component_="accessibility_msaa.xpt" FileName="nsLogi~1.js|nsLoginInfo.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsLoginInfo.js" SelfReg="false" Sequence="171"/>
+    <ROW File="nsLoginManager.js" Component_="accessibility_msaa.xpt" FileName="nsLogi~2.js|nsLoginManager.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsLoginManager.js" SelfReg="false" Sequence="172"/>
+    <ROW File="nsLoginManagerPrompter.js" Component_="accessibility_msaa.xpt" FileName="nsLogi~3.js|nsLoginManagerPrompter.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsLoginManagerPrompter.js" SelfReg="false" Sequence="173"/>
+    <ROW File="nsPostUpdateWin.js" Component_="accessibility_msaa.xpt" FileName="nsPost~1.js|nsPostUpdateWin.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsPostUpdateWin.js" SelfReg="false" Sequence="174"/>
+    <ROW File="nsProgressDialog.js" Component_="accessibility_msaa.xpt" FileName="nsProg~1.js|nsProgressDialog.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsProgressDialog.js" SelfReg="false" Sequence="175"/>
+    <ROW File="nsProxyAutoConfig.js" Component_="accessibility_msaa.xpt" FileName="nsProx~1.js|nsProxyAutoConfig.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsProxyAutoConfig.js" SelfReg="false" Sequence="176"/>
+    <ROW File="nsResetPref.js" Component_="accessibility_msaa.xpt" FileName="nsRese~1.js|nsResetPref.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsResetPref.js" SelfReg="false" Sequence="177"/>
+    <ROW File="nsTaggingService.js" Component_="accessibility_msaa.xpt" FileName="nsTagg~1.js|nsTaggingService.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsTaggingService.js" SelfReg="false" Sequence="178"/>
+    <ROW File="nsTryToClose.js" Component_="accessibility_msaa.xpt" FileName="nsTryT~1.js|nsTryToClose.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsTryToClose.js" SelfReg="false" Sequence="179"/>
+    <ROW File="nsURLFormatter.js" Component_="accessibility_msaa.xpt" FileName="nsURLF~1.js|nsURLFormatter.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsURLFormatter.js" SelfReg="false" Sequence="181"/>
+    <ROW File="nsUpdateService.js" Component_="accessibility_msaa.xpt" FileName="nsUpda~1.js|nsUpdateService.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsUpdateService.js" SelfReg="false" Sequence="180"/>
+    <ROW File="nsWebHandlerApp.js" Component_="accessibility_msaa.xpt" FileName="nsWebH~1.js|nsWebHandlerApp.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsWebHandlerApp.js" SelfReg="false" Sequence="182"/>
+    <ROW File="nsXULAppInstall.js" Component_="accessibility_msaa.xpt" FileName="nsXULA~1.js|nsXULAppInstall.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsXULAppInstall.js" SelfReg="false" Sequence="184"/>
+    <ROW File="nsXmlRpcClient.js" Component_="accessibility_msaa.xpt" FileName="nsXmlR~1.js|nsXmlRpcClient.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\nsXmlRpcClient.js" SelfReg="false" Sequence="183"/>
+    <ROW File="nspr4.dll" Component_="nspr4.dll" FileName="nspr4.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\nspr4.dll" SelfReg="false" Sequence="269"/>
+    <ROW File="nss3.dll" Component_="nss3.dll" FileName="nss3.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\nss3.dll" SelfReg="false" Sequence="270"/>
+    <ROW File="nssckbi.dll" Component_="nssckbi.dll" FileName="nssckbi.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\nssckbi.dll" SelfReg="false" Sequence="271"/>
+    <ROW File="nssdbm3.dll" Component_="nssdbm3.dll" FileName="nssdbm3.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\nssdbm3.dll" SelfReg="false" Sequence="272"/>
+    <ROW File="nssutil3.dll" Component_="nssutil3.dll" FileName="nssutil3.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\nssutil3.dll" SelfReg="false" Sequence="273"/>
+    <ROW File="oji.xpt" Component_="accessibility_msaa.xpt" FileName="oji.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\oji.xpt" SelfReg="false" Sequence="185"/>
+    <ROW File="parentalcontrols.xpt" Component_="accessibility_msaa.xpt" FileName="parent~1.xpt|parentalcontrols.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\parentalcontrols.xpt" SelfReg="false" Sequence="186"/>
+    <ROW File="pipboot.xpt" Component_="accessibility_msaa.xpt" FileName="pipboot.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\pipboot.xpt" SelfReg="false" Sequence="187"/>
+    <ROW File="pipnss.xpt" Component_="accessibility_msaa.xpt" FileName="pipnss.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\pipnss.xpt" SelfReg="false" Sequence="188"/>
+    <ROW File="pippki.jar" Component_="classic.jar" FileName="pippki.jar" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\chrome\pippki.jar" SelfReg="false" Sequence="71"/>
+    <ROW File="pippki.manifest" Component_="classic.jar" FileName="pippki~1.man|pippki.manifest" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\chrome\pippki.manifest" SelfReg="false" Sequence="72"/>
+    <ROW File="pippki.xpt" Component_="accessibility_msaa.xpt" FileName="pippki.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\pippki.xpt" SelfReg="false" Sequence="189"/>
+    <ROW File="places.xpt" Component_="accessibility_msaa.xpt" FileName="places.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\places.xpt" SelfReg="false" Sequence="190"/>
+    <ROW File="platform.ini" Component_="crashreporter.ini" FileName="platform.ini" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\platform.ini" SelfReg="false" Sequence="274"/>
+    <ROW File="platform.js" Component_="platform.js" FileName="platform.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\defaults\autoconfig\platform.js" SelfReg="false" Sequence="236"/>
+    <ROW File="plc4.dll" Component_="plc4.dll" FileName="plc4.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\plc4.dll" SelfReg="false" Sequence="275"/>
+    <ROW File="plds4.dll" Component_="plds4.dll" FileName="plds4.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\plds4.dll" SelfReg="false" Sequence="276"/>
+    <ROW File="plugin.xpt" Component_="accessibility_msaa.xpt" FileName="plugin.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\plugin.xpt" SelfReg="false" Sequence="191"/>
+    <ROW File="pluginGlue.js" Component_="accessibility_msaa.xpt" FileName="plugin~1.js|pluginGlue.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\pluginGlue.js" SelfReg="false" Sequence="192"/>
+    <ROW File="pref.xpt" Component_="accessibility_msaa.xpt" FileName="pref.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\pref.xpt" SelfReg="false" Sequence="193"/>
+    <ROW File="prefcalls.js" Component_="platform.js" FileName="prefca~1.js|prefcalls.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\defaults\autoconfig\prefcalls.js" SelfReg="false" Sequence="237"/>
+    <ROW File="prefetch.xpt" Component_="accessibility_msaa.xpt" FileName="prefetch.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\prefetch.xpt" SelfReg="false" Sequence="194"/>
+    <ROW File="prefs.dtd" Component_="DS_Store_4" FileName="prefs.dtd" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\locale\prefs.dtd" SelfReg="false" Sequence="58"/>
+    <ROW File="prefs.js" Component_="debug.js" FileName="prefs.js" Attributes="0" SourcePath="..\..\..\_play\bluebird\defaults\preferences\prefs.js" SelfReg="false" Sequence="60"/>
+    <ROW File="prefs.xul" Component_="DS_Store_1" FileName="prefs.xul" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\prefs.xul" SelfReg="false" Sequence="51"/>
+    <ROW File="profile.xpt" Component_="accessibility_msaa.xpt" FileName="profile.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\profile.xpt" SelfReg="false" Sequence="195"/>
+    <ROW File="prototype_1.6.0.3_patched.js" Component_="main.js" FileName="protot~1.js|prototype-1.6.0.3-patched.js" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\js\prototype-1.6.0.3-patched.js" SelfReg="false" Sequence="45"/>
+    <ROW File="proxyObject.xpt" Component_="accessibility_msaa.xpt" FileName="proxyO~1.xpt|proxyObject.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\proxyObject.xpt" SelfReg="false" Sequence="196"/>
+    <ROW File="quirk.css" Component_="arrow.gif" FileName="quirk.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\quirk.css" SelfReg="false" Sequence="310"/>
+    <ROW File="rdf.xpt" Component_="accessibility_msaa.xpt" FileName="rdf.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\rdf.xpt" SelfReg="false" Sequence="197"/>
+    <ROW File="refresh.png" Component_="DS_Store_2" FileName="refresh.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\refresh.png" SelfReg="false" Sequence="26"/>
+    <ROW File="refresh_disabled.png" Component_="DS_Store_2" FileName="refres~1.png|refresh-disabled.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\refresh-disabled.png" SelfReg="false" Sequence="23"/>
+    <ROW File="refresh_pressed.png" Component_="DS_Store_2" FileName="refres~2.png|refresh-pressed.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\refresh-pressed.png" SelfReg="false" Sequence="24"/>
+    <ROW File="refresh_pressed2.png" Component_="DS_Store_2" FileName="refres~3.png|refresh-pressed2.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\refresh-pressed2.png" SelfReg="false" Sequence="25"/>
+    <ROW File="reset.css" Component_="login.css" FileName="reset.css" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\css\reset.css" SelfReg="false" Sequence="5"/>
+    <ROW File="satchel.xpt" Component_="accessibility_msaa.xpt" FileName="satchel.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\satchel.xpt" SelfReg="false" Sequence="198"/>
+    <ROW File="saxparser.xpt" Component_="accessibility_msaa.xpt" FileName="saxpar~1.xpt|saxparser.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\saxparser.xpt" SelfReg="false" Sequence="199"/>
+    <ROW File="security_prefs.js" Component_="all.js" FileName="securi~1.js|security-prefs.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\greprefs\security-prefs.js" SelfReg="false" Sequence="251"/>
+    <ROW File="shistory.xpt" Component_="accessibility_msaa.xpt" FileName="shistory.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\shistory.xpt" SelfReg="false" Sequence="200"/>
+    <ROW File="shorten.xul" Component_="DS_Store_1" FileName="shorten.xul" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\shorten.xul" SelfReg="false" Sequence="52"/>
+    <ROW File="smime3.dll" Component_="smime3.dll" FileName="smime3.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\smime3.dll" SelfReg="false" Sequence="333"/>
+    <ROW File="softokn3.chk" Component_="crashreporter.ini" FileName="softokn3.chk" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\softokn3.chk" SelfReg="false" Sequence="334"/>
+    <ROW File="softokn3.dll" Component_="softokn3.dll" FileName="softokn3.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\softokn3.dll" SelfReg="false" Sequence="335"/>
+    <ROW File="speech_style.css" Component_="login.css" FileName="speech~1.css|speech-style.css" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\css\speech-style.css" SelfReg="false" Sequence="6"/>
+    <ROW File="spellchecker.xpt" Component_="accessibility_msaa.xpt" FileName="spellc~1.xpt|spellchecker.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\spellchecker.xpt" SelfReg="false" Sequence="201"/>
+    <ROW File="sqlite3.dll" Component_="sqlite3.dll" FileName="sqlite3.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\sqlite3.dll" SelfReg="false" Sequence="336"/>
+    <ROW File="ssl3.dll" Component_="ssl3.dll" FileName="ssl3.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\ssl3.dll" SelfReg="false" Sequence="337"/>
+    <ROW File="star.png" Component_="DS_Store_2" FileName="star.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\star.png" SelfReg="false" Sequence="40"/>
+    <ROW File="star_yellow.png" Component_="DS_Store_2" FileName="star-y~1.png|star-yellow.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\star-yellow.png" SelfReg="false" Sequence="39"/>
+    <ROW File="storage.xpt" Component_="accessibility_msaa.xpt" FileName="storage.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\storage.xpt" SelfReg="false" Sequence="203"/>
+    <ROW File="storage_Legacy.js" Component_="accessibility_msaa.xpt" FileName="storag~1.js|storage-Legacy.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\storage-Legacy.js" SelfReg="false" Sequence="202"/>
+    <ROW File="style.css" Component_="login.css" FileName="style.css" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\css\style.css" SelfReg="false" Sequence="7"/>
+    <ROW File="svg.css" Component_="arrow.gif" FileName="svg.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\svg.css" SelfReg="false" Sequence="311"/>
+    <ROW File="table_add_column_after.gif" Component_="arrow.gif" FileName="table-~3.gif|table-add-column-after.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-column-after.gif" SelfReg="false" Sequence="314"/>
+    <ROW File="table_add_column_after_active.gif" Component_="arrow.gif" FileName="table-~1.gif|table-add-column-after-active.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-column-after-active.gif" SelfReg="false" Sequence="312"/>
+    <ROW File="table_add_column_after_hover.gif" Component_="arrow.gif" FileName="table-~2.gif|table-add-column-after-hover.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-column-after-hover.gif" SelfReg="false" Sequence="313"/>
+    <ROW File="table_add_column_before.gif" Component_="arrow.gif" FileName="table-~6.gif|table-add-column-before.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-column-before.gif" SelfReg="false" Sequence="317"/>
+    <ROW File="table_add_column_before_active.gif" Component_="arrow.gif" FileName="table-~4.gif|table-add-column-before-active.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-column-before-active.gif" SelfReg="false" Sequence="315"/>
+    <ROW File="table_add_column_before_hover.gif" Component_="arrow.gif" FileName="table-~5.gif|table-add-column-before-hover.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-column-before-hover.gif" SelfReg="false" Sequence="316"/>
+    <ROW File="table_add_row_after.gif" Component_="arrow.gif" FileName="table-~9.gif|table-add-row-after.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-row-after.gif" SelfReg="false" Sequence="320"/>
+    <ROW File="table_add_row_after_active.gif" Component_="arrow.gif" FileName="table-~7.gif|table-add-row-after-active.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-row-after-active.gif" SelfReg="false" Sequence="318"/>
+    <ROW File="table_add_row_after_hover.gif" Component_="arrow.gif" FileName="table-~8.gif|table-add-row-after-hover.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-row-after-hover.gif" SelfReg="false" Sequence="319"/>
+    <ROW File="table_add_row_before.gif" Component_="arrow.gif" FileName="table~12.gif|table-add-row-before.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-row-before.gif" SelfReg="false" Sequence="323"/>
+    <ROW File="table_add_row_before_active.gif" Component_="arrow.gif" FileName="table~10.gif|table-add-row-before-active.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-row-before-active.gif" SelfReg="false" Sequence="321"/>
+    <ROW File="table_add_row_before_hover.gif" Component_="arrow.gif" FileName="table~11.gif|table-add-row-before-hover.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-add-row-before-hover.gif" SelfReg="false" Sequence="322"/>
+    <ROW File="table_remove_column.gif" Component_="arrow.gif" FileName="table~15.gif|table-remove-column.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-remove-column.gif" SelfReg="false" Sequence="326"/>
+    <ROW File="table_remove_column_active.gif" Component_="arrow.gif" FileName="table~13.gif|table-remove-column-active.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-remove-column-active.gif" SelfReg="false" Sequence="324"/>
+    <ROW File="table_remove_column_hover.gif" Component_="arrow.gif" FileName="table~14.gif|table-remove-column-hover.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-remove-column-hover.gif" SelfReg="false" Sequence="325"/>
+    <ROW File="table_remove_row.gif" Component_="arrow.gif" FileName="table~18.gif|table-remove-row.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-remove-row.gif" SelfReg="false" Sequence="329"/>
+    <ROW File="table_remove_row_active.gif" Component_="arrow.gif" FileName="table~16.gif|table-remove-row-active.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-remove-row-active.gif" SelfReg="false" Sequence="327"/>
+    <ROW File="table_remove_row_hover.gif" Component_="arrow.gif" FileName="table~17.gif|table-remove-row-hover.gif" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\table-remove-row-hover.gif" SelfReg="false" Sequence="328"/>
+    <ROW File="timeout.js" Component_="main.js" FileName="timeout.js" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\js\timeout.js" SelfReg="false" Sequence="46"/>
+    <ROW File="tl.gif" Component_="b.gif" FileName="tl.gif" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\gray-blue\tl.gif" SelfReg="false" Sequence="37"/>
+    <ROW File="toolkit.jar" Component_="classic.jar" FileName="toolkit.jar" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\chrome\toolkit.jar" SelfReg="false" Sequence="73"/>
+    <ROW File="toolkit.manifest" Component_="classic.jar" FileName="toolki~1.man|toolkit.manifest" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\chrome\toolkit.manifest" SelfReg="false" Sequence="74"/>
+    <ROW File="toolkitprofile.xpt" Component_="accessibility_msaa.xpt" FileName="toolki~1.xpt|toolkitprofile.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\toolkitprofile.xpt" SelfReg="false" Sequence="204"/>
+    <ROW File="tooltip.js" Component_="main.js" FileName="tooltip.js" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\js\tooltip.js" SelfReg="false" Sequence="47"/>
+    <ROW File="tr.gif" Component_="b.gif" FileName="tr.gif" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\speech-bubbles\gray-blue\tr.gif" SelfReg="false" Sequence="38"/>
+    <ROW File="transliterate.properties" Component_="html40Latin1.properties" FileName="transl~1.pro|transliterate.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\entityTables\transliterate.properties" SelfReg="false" Sequence="294"/>
+    <ROW File="txEXSLTRegExFunctions.js" Component_="accessibility_msaa.xpt" FileName="txEXSL~1.js|txEXSLTRegExFunctions.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\txEXSLTRegExFunctions.js" SelfReg="false" Sequence="205"/>
+    <ROW File="txmgr.xpt" Component_="accessibility_msaa.xpt" FileName="txmgr.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\txmgr.xpt" SelfReg="false" Sequence="206"/>
+    <ROW File="txtsvc.xpt" Component_="accessibility_msaa.xpt" FileName="txtsvc.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\txtsvc.xpt" SelfReg="false" Sequence="207"/>
+    <ROW File="ua.css" Component_="arrow.gif" FileName="ua.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\ua.css" SelfReg="false" Sequence="330"/>
+    <ROW File="uconv.xpt" Component_="accessibility_msaa.xpt" FileName="uconv.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\uconv.xpt" SelfReg="false" Sequence="208"/>
+    <ROW File="unicharutil.xpt" Component_="accessibility_msaa.xpt" FileName="unicha~1.xpt|unicharutil.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\unicharutil.xpt" SelfReg="false" Sequence="209"/>
+    <ROW File="unified.xml" Component_="DS_Store_1" FileName="unified.xml" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\unified.xml" SelfReg="false" Sequence="53"/>
+    <ROW File="update.xpt" Component_="accessibility_msaa.xpt" FileName="update.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\update.xpt" SelfReg="false" Sequence="210"/>
+    <ROW File="updater.exe" Component_="updater.exe" FileName="updater.exe" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\updater.exe" SelfReg="false" Sequence="338"/>
+    <ROW File="uriloader.xpt" Component_="accessibility_msaa.xpt" FileName="uriloa~1.xpt|uriloader.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\uriloader.xpt" SelfReg="false" Sequence="211"/>
+    <ROW File="urlformatter.xpt" Component_="accessibility_msaa.xpt" FileName="urlfor~1.xpt|urlformatter.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\urlformatter.xpt" SelfReg="false" Sequence="212"/>
+    <ROW File="userChrome_example.css" Component_="userChrome_example.css" FileName="userCh~1.css|userChrome-example.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\defaults\profile\chrome\userChrome-example.css" SelfReg="false" Sequence="239"/>
+    <ROW File="userChrome_example.css_1" Component_="userChrome_example.css_1" FileName="userCh~1.css|userChrome-example.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\defaults\profile\US\chrome\userChrome-example.css" SelfReg="false" Sequence="242"/>
+    <ROW File="userContent_example.css" Component_="userChrome_example.css" FileName="userCo~1.css|userContent-example.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\defaults\profile\chrome\userContent-example.css" SelfReg="false" Sequence="240"/>
+    <ROW File="userContent_example.css_1" Component_="userChrome_example.css_1" FileName="userCo~1.css|userContent-example.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\defaults\profile\US\chrome\userContent-example.css" SelfReg="false" Sequence="243"/>
+    <ROW File="utils.js" Component_="debug.js_1" FileName="utils.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\modules\utils.js" SelfReg="false" Sequence="264"/>
+    <ROW File="viewsource.css" Component_="arrow.gif" FileName="viewso~1.css|viewsource.css" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\viewsource.css" SelfReg="false" Sequence="331"/>
+    <ROW File="wave_left.png" Component_="DS_Store_2" FileName="wave-l~1.png|wave-left.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\wave-left.png" SelfReg="false" Sequence="41"/>
+    <ROW File="wave_right.png" Component_="DS_Store_2" FileName="wave-r~1.png|wave-right.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\wave-right.png" SelfReg="false" Sequence="42"/>
+    <ROW File="waves.png" Component_="DS_Store_2" FileName="waves.png" Attributes="0" SourcePath="..\..\..\_play\bluebird\chrome\content\images\waves.png" SelfReg="false" Sequence="43"/>
+    <ROW File="webBrowser_core.xpt" Component_="accessibility_msaa.xpt" FileName="webBro~2.xpt|webBrowser_core.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\webBrowser_core.xpt" SelfReg="false" Sequence="214"/>
+    <ROW File="webbrowserpersist.xpt" Component_="accessibility_msaa.xpt" FileName="webbro~1.xpt|webbrowserpersist.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\webbrowserpersist.xpt" SelfReg="false" Sequence="213"/>
+    <ROW File="webshell_idls.xpt" Component_="accessibility_msaa.xpt" FileName="webshe~1.xpt|webshell_idls.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\webshell_idls.xpt" SelfReg="false" Sequence="215"/>
+    <ROW File="widget.xpt" Component_="accessibility_msaa.xpt" FileName="widget.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\widget.xpt" SelfReg="false" Sequence="216"/>
+    <ROW File="wincharset.properties" Component_="arrow.gif" FileName="wincha~1.pro|wincharset.properties" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\wincharset.properties" SelfReg="false" Sequence="332"/>
+    <ROW File="windowds.xpt" Component_="accessibility_msaa.xpt" FileName="windowds.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\windowds.xpt" SelfReg="false" Sequence="217"/>
+    <ROW File="windowwatcher.xpt" Component_="accessibility_msaa.xpt" FileName="window~1.xpt|windowwatcher.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\windowwatcher.xpt" SelfReg="false" Sequence="218"/>
+    <ROW File="xhtml11.dtd" Component_="mathml.dtd" FileName="xhtml11.dtd" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\res\dtd\xhtml11.dtd" SelfReg="false" Sequence="287"/>
+    <ROW File="xml_rpc.xpt" Component_="accessibility_msaa.xpt" FileName="xml-rpc.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xml-rpc.xpt" SelfReg="false" Sequence="219"/>
+    <ROW File="xpcom.dll" Component_="xpcom.dll" FileName="xpcom.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\xpcom.dll" SelfReg="false" Sequence="339"/>
+    <ROW File="xpcom_base.xpt" Component_="accessibility_msaa.xpt" FileName="xpcom_~1.xpt|xpcom_base.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xpcom_base.xpt" SelfReg="false" Sequence="220"/>
+    <ROW File="xpcom_components.xpt" Component_="accessibility_msaa.xpt" FileName="xpcom_~2.xpt|xpcom_components.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xpcom_components.xpt" SelfReg="false" Sequence="221"/>
+    <ROW File="xpcom_ds.xpt" Component_="accessibility_msaa.xpt" FileName="xpcom_ds.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xpcom_ds.xpt" SelfReg="false" Sequence="222"/>
+    <ROW File="xpcom_io.xpt" Component_="accessibility_msaa.xpt" FileName="xpcom_io.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xpcom_io.xpt" SelfReg="false" Sequence="223"/>
+    <ROW File="xpcom_system.xpt" Component_="accessibility_msaa.xpt" FileName="xpcom_~3.xpt|xpcom_system.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xpcom_system.xpt" SelfReg="false" Sequence="224"/>
+    <ROW File="xpcom_thread.xpt" Component_="accessibility_msaa.xpt" FileName="xpcom_~4.xpt|xpcom_thread.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xpcom_thread.xpt" SelfReg="false" Sequence="225"/>
+    <ROW File="xpcom_xpti.xpt" Component_="accessibility_msaa.xpt" FileName="xpcom_~5.xpt|xpcom_xpti.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xpcom_xpti.xpt" SelfReg="false" Sequence="226"/>
+    <ROW File="xpconnect.xpt" Component_="accessibility_msaa.xpt" FileName="xpconn~1.xpt|xpconnect.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xpconnect.xpt" SelfReg="false" Sequence="227"/>
+    <ROW File="xpcshell.exe" Component_="xpcshell.exe" FileName="xpcshell.exe" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\xpcshell.exe" SelfReg="false" Sequence="340"/>
+    <ROW File="xpidl.exe" Component_="xpidl.exe" FileName="xpidl.exe" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\xpidl.exe" SelfReg="false" Sequence="341"/>
+    <ROW File="xpinstall.js" Component_="all.js" FileName="xpinst~1.js|xpinstall.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\greprefs\xpinstall.js" SelfReg="false" Sequence="252"/>
+    <ROW File="xpinstall.xpt" Component_="accessibility_msaa.xpt" FileName="xpinst~1.xpt|xpinstall.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xpinstall.xpt" SelfReg="false" Sequence="228"/>
+    <ROW File="xpt_dump.exe" Component_="xpt_dump.exe" FileName="xpt_dump.exe" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\xpt_dump.exe" SelfReg="false" Sequence="342"/>
+    <ROW File="xpt_link.exe" Component_="xpt_link.exe" FileName="xpt_link.exe" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\xpt_link.exe" SelfReg="false" Sequence="343"/>
+    <ROW File="xul.dll" Component_="xul.dll" FileName="xul.dll" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\xul.dll" SelfReg="false" Sequence="344"/>
+    <ROW File="xulapp.xpt" Component_="accessibility_msaa.xpt" FileName="xulapp.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xulapp.xpt" SelfReg="false" Sequence="229"/>
+    <ROW File="xulapp_setup.xpt" Component_="accessibility_msaa.xpt" FileName="xulapp~1.xpt|xulapp_setup.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xulapp_setup.xpt" SelfReg="false" Sequence="230"/>
+    <ROW File="xuldoc.xpt" Component_="accessibility_msaa.xpt" FileName="xuldoc.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xuldoc.xpt" SelfReg="false" Sequence="231"/>
+    <ROW File="xulrunner.exe" Component_="xulrunner.exe" FileName="xulrun~2.exe|xulrunner.exe" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\xulrunner.exe" SelfReg="false" Sequence="346"/>
+    <ROW File="xulrunner.js" Component_="xulrunner.js" FileName="xulrun~1.js|xulrunner.js" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\defaults\pref\xulrunner.js" SelfReg="false" Sequence="238"/>
+    <ROW File="xulrunner_stub.exe" Component_="xulrunner_stub.exe" FileName="xulrun~1.exe|xulrunner-stub.exe" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\xulrunner-stub.exe" SelfReg="false" Sequence="345"/>
+    <ROW File="xultmpl.xpt" Component_="accessibility_msaa.xpt" FileName="xultmpl.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\xultmpl.xpt" SelfReg="false" Sequence="232"/>
+    <ROW File="zipwriter.xpt" Component_="accessibility_msaa.xpt" FileName="zipwri~1.xpt|zipwriter.xpt" Attributes="0" SourcePath="..\..\..\Program Files\xulrunner\components\zipwriter.xpt" SelfReg="false" Sequence="233"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" Languages="en" InstallationType="4"/>
+    <ATTRIBUTE name="CurrentBuild" value="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;ui_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
+    <ROW Fragment="FolderDlg.aip" Path="&lt;AI_FRAGS&gt;FolderDlg.aip"/>
+    <ROW Fragment="Sequences.aip" Path="&lt;AI_FRAGS&gt;Sequences.aip"/>
+    <ROW Fragment="StaticUIStrings.aip" Path="&lt;AI_FRAGS&gt;StaticUIStrings.aip"/>
+    <ROW Fragment="UI.aip" Path="&lt;AI_FRAGS&gt;UI.aip"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
+    <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
+    <ROW Name="default_banner.bmp" SourcePath="&lt;AI_RES&gt;default-banner.bmp"/>
+    <ROW Name="default_dialog.bmp" SourcePath="&lt;AI_RES&gt;default-dialog.bmp"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
+    <ATTRIBUTE name="FixedSizeBitmaps" value="0"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
+    <ROW Dialog_="FolderDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="FolderDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="3"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceWelcomeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="MaintenanceWelcomeDlg" Control_="Next" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="2"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="PatchWelcomeDlg" Condition="AI_PATCH" Ordering="1"/>
+    <ROW Dialog_="PatchWelcomeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_PATCH" Ordering="3"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
+    <ROW Action="AI_DOWNGRADE" Type="19" Target="4010"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
+    <ROW Action="AI_RESTORE_LOCATION" Type="65" Source="aicustact.dll" Target="RestoreLocation"/>
+    <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[ProgramFilesFolder][ProductName]"/>
+    <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
+    <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
+    <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_STORE_LOCATION" Condition="Not Installed" Sequence="1501"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
+    <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsFamily9X]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMax="[|ProductVersion]" Attributes="1025" ActionProperty="OLDPRODUCTS"/>
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
+  </COMPONENT>
+</DOCUMENT>

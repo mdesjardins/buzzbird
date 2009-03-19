@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://buzzbird/locale/prefs.dtd">
+
+<prefwindow id="appPreferences"
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+			type="prefwindow"
+			windowtype="Browser:Preferences"
+			style="padding:15px;" >
+    <prefpane id="pane1" label="&prefPane.label;">
+    	<preferences>
+      		<preference id="updateInterval" name="buzzbird.update.interval" type="int"/>
+			<preference id="animatedAvatars" name="image.animation_mode" type="string"/>
+    	</preferences>
+		<vbox>
+			<hbox>
+				<label control="menulist_updateInterval" value="&updateIntervalPref.label;" />
+			    <menulist id="menulist_updateInterval" preference="updateInterval"
+			              accesskey="&updateIntervalPref.accesskey;">
+					<menupopup>
+						<menuitem label="&twoMinutesPref.label;" value="120000"/>
+						<menuitem label="&threeMinutesPref.label;" value="180000"/>
+						<menuitem label="&fiveMinutesPref.label;" value="300000"/>
+						<menuitem label="&tenMinutesPref.label;" value="600000"/>
+					</menupopup>
+				</menulist>
+			</hbox>
+			<hbox>
+				<label control="menulist_animatedAvatars" value="&animatedAvatarPref.label;" /> 
+				<menulist id="menulist_animatedAvatars" preference="animatedAvatars"
+			              accesskey="&animatedAvatarPref.accesskey;">
+					<menupopup>
+						<menuitem label="&animateOncePref.label;" value="once"/>
+						<menuitem label="&animateNeverPref.label;" value="none"/>
+						<menuitem label="&animateAlwaysPref.label;" value="normal"/>
+					</menupopup>
+				</menulist>
+		    </hbox>
+		</vbox>
+	</prefpane>
+</prefwindow>

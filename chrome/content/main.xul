@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="main.css" type="text/css"?>
+<?xul-overlay href="chrome://buzzbird/content/global/globalOverlay.xul"?>
+<?xul-overlay href="chrome://buzzbird/content/global/editMenuOverlay.xul"?>
+
+<!DOCTYPE window SYSTEM "chrome://buzzbird/locale/main.dtd">
+
+<window id="main-window" 
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
+        width="300" 
+        height="625" 
+        title="Buzzbird">
+	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
+
+	<commandset id="baseMenuCommandSet">
+        <command id="minimizeWindow"
+                 label="&minimizeWindow.label;"
+                 oncommand="window.minimize();" />
+        <command id="zoomWindow"
+                 label="&zoomWindow.label;"
+                 oncommand="zoomWindow();" />
+    </commandset>
+
+
+    <!-- ======== -->
+	<!-- Commands -->
+    <!-- ======== -->
+
+	<commandset id="mainCommandSet">
+		<command id="cmd_quitApplication" oncommand="quitApplication();"/>
+		<command id="cmd_markAllAsRead" oncommand="markAllAsRead();" />
+		<command id="cmd_refreshNow" oncommand="forceUpdate();" />
+		<command id="cmd_shortenUrl" oncommand="shortenUrl();" />
+	</commandset>
+	
+	<commandset id="editMenuCommands"/>
+
+    <!-- ======== -->
+	<!-- Key Sets -->
+    <!-- ======== -->
+
+ 	<keyset id="editMenuKeys" />
+
+
+	<keyset id="baseMenuKeyset">
+		<key id="key_markAllAsRead" 
+		 	 key="&markAllAsReadCmd.key;" 
+		 	 command="cmd_markAllAsRead" 
+		 	 modifiers="accel"/>
+		<key id="key_refreshNow" 
+		 	 key="&refreshNowCmd.key;" 
+		 	 command="cmd_forceUpdate" 
+		 	 modifiers="accel"/>
+		<key id="key_shortenUrl" 
+		 	 key="&shortenUrlCmd.key;" 
+		 	 command="cmd_shortenUrl" 
+		 	 modifiers="accel"/>
+	</keyset>
+
+
+    <!-- ======== -->
+	<!-- Menu Bar -->
+    <!-- ======== -->
+
+	<menubar id="menubarid">
+		<!-- Menu item IDs were chosen quite intentionally... see https://developer.mozilla.org/en/XULRunner/MacFAQ -->
+		<menu id="filemenuid" label="File">
+        	<menuitem id="menu_FileQuitItem" 
+        			  label="&quitApplicationCmdMac.label;"
+        			  key="key_quitApplication"
+        			  command="cmd_quitApplication"/>
+		</menu>
+		
+		<menu id="edit-menu" label="&editMenu.label;" accesskey="&editMenu.accesskey;">
+			<menupopup id="menu_EditPopup">
+				<menuitem label="&undoCmd.label;"
+		                  key="key_undo"
+		                  accesskey="&undoCmd.accesskey;"
+		                  command="cmd_undo"/>
+				<menuitem label="&redoCmd.label;"
+		                  key="key_redo"
+		                  accesskey="&redoCmd.accesskey;"
+		                  command="cmd_redo"/>
+				<menuseparator/>
+		        <menuitem label="&cutCmd.label;"
+		                  key="key_cut"
+		                  accesskey="&cutCmd.accesskey;"
+		                  command="cmd_cut"/>
+		        <menuitem label="&copyCmd.label;"
+		                  key="key_copy"
+                          accesskey="&copyCmd.accesskey;"
+                          command="cmd_copy" />
+		        <menuitem label="&pasteCmd.label;"
+		                  key="key_paste"
+		                  accesskey="&pasteCmd.accesskey;"
+		                  command="cmd_paste"/>
+		        <menuitem label="&deleteCmd.label;"
+		                  key="key_delete"
+		                  accesskey="&deleteCmd.accesskey;"
+		                  command="cmd_delete"/>
+		        <menuseparator/>
+		        <menuitem id="menu_selectAll"
+		                  label="&selectAllCmd.label;"
+		                  key="key_selectAll"
+		                  accesskey="&selectAllCmd.accesskey;"
+		                  command="cmd_selectAll"/>
+			</menupopup>
+		</menu>
+
+		<menu id="tools-menu" label="&toolsMenu.label;" accesskey="&toolsMenu.accesskey;">
+			<menupopup id="menu_toolsPopup">
+	        	<menuitem label="&markAllAsReadCmd.label;"
+	                  	  key="key_markAllAsRead"
+	                  	  accesskey="&markAllAsReadCmd.accesskey;"
+	                  	  command="cmd_markAllAsRead"/>
+			    <menuitem label="&refreshNowCmd.label;"
+	              	  	  key="key_refreshNow"
+	                  	  accesskey="&refreshNowCmd.accesskey;"
+	                  	  command="cmd_refreshNow"/>
+			    <menuitem label="&shortenUrlCmd.label;"
+	              	  	  key="key_shortenUrl"
+	                  	  accesskey="&shortenUrlCmd.accesskey;"
+	                  	  command="cmd_shortenUrl"/>
+	<!-- not for mac
+				<menuseparator />
+				<menuitem id="menu_preferences" label="&preferencesCmd.label;" />
+	-->
+			</menupopup>
+		</menu>
+
+		<menu id="helpmenuid" label="Help">
+			<menuitem id="aboutName"
+	                  accesskey="&aboutCmd.accesskey;"
+	                  label="&aboutCmd.label;"
+	                  oncommand="openAboutDialog();"/>
+			<menuitem id="visitSite"
+					  label="&visitSiteCmd.label;"
+					  oncommand="linkTo('http://getbuzzbird.com');"/>
+		</menu>
+	</menubar>
+	
+	
+    <!-- =================== -->
+	<!-- Actual Window Stuff -->
+    <!-- =================== -->
+
+    <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true">
+		<hbox>
+			<vbox>
+				<label id="realnameLabelId" value="" style="padding:10px 0px 0px 10px; margin:0px 0px 0px 0px; font-size:1.1em;" />
+				<label id="usernameLabelId" value="" hidden="true" />
+				<label id="passwordLabelId" hidden="true" />
+				<label id="updateTimerId" hidden="true" />
+				<label id="avatarLabelId" hidden="true" />
+				<label id="showingAllTweetsId" hidden="true" value="&showingAllTweets.label;" />
+				<label id="showingRepliesId" hidden="true" value="&showingReplies.label;" />
+				<label id="showingDirectId" hidden="true" value="&showingDirect.label;" />
+				<hbox style="padding:0; margin:-5px 0px 3px 0px;">
+					<toolbarbutton id="filterbuttonid" 
+								   type="menu-button" 
+								   label="&showingAllTweets.label;" 
+								   style="padding:0; margin:0; font-size:0.9em;">
+			    		<menupopup selectedIndex="0" style="padding:0px; margin:0px;">
+			        		<menuitem label="&showAllTweets.label;" value="1" oncommand="showAllTweets();"/>
+			        		<menuitem label="&showReplies.label;" value="2" oncommand="showResponses();"/>
+			        		<menuitem label="&showDirect.label;" value="3" oncommand="showDirect();"/>
+			    		</menupopup>
+					</toolbarbutton>
+				</hbox>
+			</vbox>
+		</hbox>
+		<toolbarspring />
+		<image id="avatarId"
+		       src="chrome://buzzbird/content/images/ajax-loader.gif" 
+		       width="40" 
+		       height="32" 
+		       style="margin:4px 4px 4px 4px;"/>
+    </toolbar>
+
+	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
+
+    <vbox flex="1">
+        <!-- switch to tabs eventually -->
+        <!--<tabbrowser id="tabbrowserid" flex="1">-->
+            <browser height="450" type="content-primary" src="chrome://buzzbird/content/login.html" id="browserid" flex="3" tooltip="aHTMLTooltip" />
+        <!--</tabbrowser>-->
+		<hbox>
+			<textbox id="textboxid" multiline="true" flex="1" 
+	                  onkeypress="keyPressed(event);" 
+	                  onkeyup="keyUp(event);" 
+	                  spellcheck="true"
+	                  collapsed="true" />
+		</hbox>
+    </vbox>
+    <statusbar id="statusbarid">
+		<statusbarpanel id="buttonbarPanelId" collapsed="true">
+			<toolbarbutton id="refreshButtonId"
+							style="padding:0; margin:0; width:22px"
+							image="chrome://buzzbird/content/images/reload-button-active-20x20.png" 
+							onmousedown="this.image='chrome://buzzbird/content/images/reload-button-pressed-20x20.png';"
+							onmouseup="this.image='chrome://buzzbird/content/images/reload-button-active-20x20.png';"
+							tooltiptext="&refreshNowCmd.label;"
+							command="cmd_refreshNow" />
+			<toolbarbutton id="shortenUrlId"
+							style="padding:0; margin:0; width:22px"
+							image="chrome://buzzbird/content/images/link-button-active-20x20.png" 
+							onmousedown="this.image='chrome://buzzbird/content/images/link-button-pressed-20x20.png';"
+							onmouseup="this.image='chrome://buzzbird/content/images/link-button-active-20x20.png';"
+							tooltiptext="&shortenUrlCmd.label;"
+							command="cmd_shortenUrl"/>
+			<toolbarbutton id="markAllAsReadId"
+						style="padding:0; margin:0; width:22px"
+						image="chrome://buzzbird/content/images/check-button-active-20x20.png" 
+						onmousedown="this.image='chrome://buzzbird/content/images/check-button-pressed-20x20.png';"
+						onmouseup="this.image='chrome://buzzbird/content/images/check-button-active-20x20.png';"
+						tooltiptext="&markAllAsReadCmd.label;"
+						command="cmd_markAllAsRead" />
+			<toolbarbutton id="symbolButtonId" 
+							style="padding:0; margin:0; width:22px"
+							image="chrome://buzzbird/content/images/smiley-button-active-20x20.png" 
+							onmousedown="this.image='chrome://buzzbird/content/images/smiley-button-pressed-20x20.png';"
+							onmouseup="this.image='chrome://buzzbird/content/images/smiley-button-active-20x20.png';"
+							type="menu"
+							tooltiptext="&insertSymbolCmd.label;">
+					<menupopup>
+						<menuitem label="&#x2764;" oncommand="appendText('&#x2764;');" /> <!-- Heart -->
+						<menuitem label="&#x266C;" oncommand="appendText('&#x266C;');" /> <!-- Beamed Sixteenth Notes -->
+						<menuitem label="&#x263A;" oncommand="appendText('&#x263A;');" /> <!-- Smiley -->
+						<menuitem label="&#x2639;" oncommand="appendText('&#x2639;');" /> <!-- Sad -->
+						<menuitem label="&#x2708;" oncommand="appendText('&#x2708;');" /> <!-- Airplane -->
+						<menuitem label="&#x2709;" oncommand="appendText('&#x2709;');" /> <!-- Envelope -->
+						<menuitem label="&#x270E;" oncommand="appendText('&#x270E;');" /> <!-- Pencil -->
+						<menuitem label="&#x271D;" oncommand="appendText('&#x271D;');" /> <!-- Cross -->
+						<menuitem label="&#x273F;" oncommand="appendText('&#x273F;');" /> <!-- Flower -->
+						<menuitem label="&#x2704;" oncommand="appendText('&#x2704;');" /> <!-- Scissors -->
+						<menuitem label="&#x261E;" oncommand="appendText('&#x261E;');" /> <!-- Pointing Finger -->
+						<menuitem label="&#x2620;" oncommand="appendText('&#x2620;');" /> <!-- Skull and Crossbones -->
+						<menuitem label="&#x262E;" oncommand="appendText('&#x262E;');" /> <!-- Peace -->
+						<menuitem label="&#x262F;" oncommand="appendText('&#x262F;');" /> <!-- Yin Yang -->
+						<menuitem label="&#x2600;" oncommand="appendText('&#x2600;');" /> <!-- Sun -->
+						<menuitem label="&#x2601;" oncommand="appendText('&#x2601;');" /> <!-- Cloud -->
+						<menuitem label="&#x2602;" oncommand="appendText('&#x2602;');" /> <!-- Umbrella -->
+						<menuitem label="&#x2744;" oncommand="appendText('&#x2744;');" /> <!-- Snowflake -->
+						<menuitem label="&#x2603;" oncommand="appendText('&#x2603;');" /> <!-- Snowman -->
+					</menupopup>
+			</toolbarbutton>
+		</statusbarpanel>
+		<spacer flex="1"/>
+		<statusbarpanel label="" id="statusid" />
+	</statusbar>
+</window>

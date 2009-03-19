@@ -1,0 +1,331 @@
+/* Speech Bubbles */
+/* Inspired by/Stolen from http://www.tikirobot.net/wp/tag/ichat/ */
+
+/*  --------- PLAIN TWEETS ---------  */
+
+div.CBmsg {
+	display: table; 
+	/*margin-bottom: 0.25em;*/
+	margin-bottom: 0.05em;
+	float: left; 
+	text-align: left; 
+	padding-right: 10px;
+}
+ 
+div.CBtxt {
+	display: table-cell;  
+	position: relative;
+	margin: auto auto 0px auto;
+	min-width: 8em;
+	max-width: 760px;
+	z-index: 1;
+	margin-right: 12px;
+}
+ 
+div.CBicon {
+	display: table-cell; 
+	vertical-align: bottom;
+	padding-right: 10px;
+}
+
+div.CBicon > img {
+	padding: 0px;
+	width: 48px;
+	height: 48px;
+}
+
+.CBtxt .CBcontent,
+.CBtxt .CBt,
+.CBtxt .CBb,
+.CBtxt .CBb div {
+	background:transparent url('chrome://buzzbird/content/images/speech-bubbles/BubbleBlueL800x1600.png') no-repeat top left; 
+}
+ 
+.CBtxt .CBcontent {
+	position:relative;
+	_overflow-y:hidden;
+	padding:0px 0px 0px 12px;
+}
+ 
+.CBtxt .CBt {
+	/* top+left vertical slice */
+	position:absolute;
+ 	right:0px;
+ 	top:0px;
+ 	width:12px; /* top slice width */
+	margin-right:-12px;
+	height:100%;
+	_height:1600px; /* arbitrary long height, IE 6 */
+	background-position:top right;
+}
+ 
+.CBtxt .CBb {
+	/* bottom */
+	position:relative;
+	width:100%;
+}
+ 
+.CBtxt .CBb,
+.CBtxt .CBb div {
+	height:10px; /* height of bottom cap/shade */
+	font-size:1px;
+}
+ 
+.CBtxt .CBb {
+ 	background-position:bottom left;
+}
+ 
+.CBtxt .CBb div {
+	/*position:relative;*/
+	position:absolute;
+	right:0;
+ 	width:12px; /* bottom corner width */
+	margin-right:-12px;
+	background-position:bottom right;
+}
+
+
+/*  --------- DIRECT TWEETS ---------  */
+
+div.DBmsg {
+	display: table; 
+	margin-bottom: 0.25em;
+	float: left; 
+	text-align: left; 
+	padding-right: 10px;
+}
+ 
+div.DBtxt {
+	display: table-cell;  
+	position: relative;
+	margin: auto auto 0px auto;
+	min-width: 8em;
+	max-width: 760px;
+	z-index: 1;
+	margin-right: 12px;
+}
+ 
+div.DBicon {
+	display: table-cell; 
+	vertical-align: bottom;
+	padding-right: 10px;
+}
+
+div.DBicon > img {
+	padding: 0px;
+	width: 48px;
+	height: 48px;
+}
+
+.DBtxt .DBcontent,
+.DBtxt .DBt,
+.DBtxt .DBb,
+.DBtxt .DBb div {
+	background:transparent url('chrome://buzzbird/content/images/speech-bubbles/BubbleOrangeL800x1600.png') no-repeat top left; 
+}
+ 
+.DBtxt .DBcontent {
+	position:relative;
+	_overflow-y:hidden;
+	padding:0px 0px 0px 12px;
+}
+ 
+.DBtxt .DBt {
+	/* top+left vertical slice */
+	position:absolute;
+ 	right:0px;
+ 	top:0px;
+ 	width:12px; /* top slice width */
+	margin-right:-12px;
+	height:100%;
+	_height:1600px; /* arbitrary long height, IE 6 */
+	background-position:top right;
+}
+ 
+.DBtxt .DBb {
+	/* bottom */
+	position:relative;
+	width:100%;
+}
+ 
+.DBtxt .DBb,
+.DBtxt .DBb div {
+	height:10px; /* height of bottom cap/shade */
+	font-size:1px;
+}
+ 
+.DBtxt .DBb {
+ 	background-position:bottom left;
+}
+ 
+.DBtxt .DBb div {
+	position:absolute;
+	right:0;
+ 	width:12px; /* bottom corner width */
+	margin-right:-12px;
+	background-position:bottom right;
+}
+
+
+/*  --------- MY TWEETS ---------  */
+
+div.IBmsg {
+	display: table; 
+	margin-bottom: 0.25em;
+	float: left; 
+	text-align: left; 
+	padding-right: 10px;
+}
+ 
+div.IBtxt {
+	display: table-cell;  
+	position: relative;
+	margin: auto auto 0px auto;
+	min-width: 8em;
+	max-width: 760px;
+	z-index: 1;
+	margin-right: 12px;
+}
+ 
+div.IBicon {
+	display: table-cell; 
+	vertical-align: bottom;
+	padding-right: 10px;
+}
+
+div.IBicon > img {
+	padding: 0px;
+	width: 48px;
+	height: 48px;
+}
+
+.IBtxt .IBcontent,
+.IBtxt .IBt,
+.IBtxt .IBb,
+.IBtxt .IBb div {
+	background:transparent url('chrome://buzzbird/content/images/speech-bubbles/BubbleGrayL800x1600.png') no-repeat top left; 
+}
+ 
+.IBtxt .IBcontent {
+	position:relative;
+	_overflow-y:hidden;
+	padding:0px 0px 0px 12px;
+}
+ 
+.IBtxt .IBt {
+	/* top+left vertical slice */
+	position:absolute;
+ 	right:0px;
+ 	top:0px;
+ 	width:12px; /* top slice width */
+	margin-right:-12px;
+	height:100%;
+	_height:1600px; /* arbitrary long height, IE 6 */
+	background-position:top right;
+}
+ 
+.IBtxt .IBb {
+	/* bottom */
+	position:relative;
+	width:100%;
+}
+ 
+.IBtxt .IBb,
+.IBtxt .IBb div {
+	height:10px; /* height of bottom cap/shade */
+	font-size:1px;
+}
+ 
+.IBtxt .IBb {
+ 	background-position:bottom left;
+}
+ 
+.IBtxt .IBb div {
+	position:absolute;
+	right:0;
+ 	width:12px; /* bottom corner width */
+	margin-right:-12px;
+	background-position:bottom right;
+}
+
+/*  --------- REPLIES ---------  */
+
+div.RBmsg {
+	display: table; 
+	margin-bottom: 0.25em;
+	float: left; 
+	text-align: left; 
+	padding-right: 10px;
+}
+ 
+div.RBtxt {
+	display: table-cell;  
+	position: relative;
+	margin: auto auto 0px auto;
+	min-width: 8em;
+	max-width: 760px;
+	z-index: 1;
+	margin-right: 12px;
+}
+ 
+div.RBicon {
+	display: table-cell; 
+	vertical-align: bottom;
+	padding-right: 10px;
+}
+
+div.RBicon > img {
+	padding: 0px;
+	width: 48px;
+	height: 48px;
+}
+
+.RBtxt .RBcontent,
+.RBtxt .RBt,
+.RBtxt .RBb,
+.RBtxt .RBb div {
+	background:transparent url('chrome://buzzbird/content/images/speech-bubbles/BubblePurpleL800x1600.png') no-repeat top left; 
+}
+ 
+.RBtxt .RBcontent {
+	position:relative;
+	_overflow-y:hidden;
+	padding:0px 0px 0px 12px;
+}
+ 
+.RBtxt .RBt {
+	/* top+left vertical slice */
+	position:absolute;
+ 	right:0px;
+ 	top:0px;
+ 	width:12px; /* top slice width */
+	margin-right:-12px;
+	height:100%;
+	_height:1600px; /* arbitrary long height, IE 6 */
+	background-position:top right;
+}
+ 
+.RBtxt .RBb {
+	/* bottom */
+	position:relative;
+	width:100%;
+}
+ 
+.RBtxt .RBb,
+.RBtxt .RBb div {
+	height:10px; /* height of bottom cap/shade */
+	font-size:1px;
+}
+ 
+.RBtxt .RBb {
+ 	background-position:bottom left;
+}
+ 
+.RBtxt .RBb div {
+	position:absolute;
+	right:0;
+ 	width:12px; /* bottom corner width */
+	margin-right:-12px;
+	background-position:bottom right;
+}
+

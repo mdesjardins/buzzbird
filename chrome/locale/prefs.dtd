@@ -1,0 +1,22 @@
+<!ENTITY prefPane.label         "Preferences">
+
+<!ENTITY updateIntervalPref.label         "Update Interval"> 
+<!ENTITY updateIntervalPref.accesskey       "U"> 
+
+<!ENTITY twoMinutesPref.label         "Every 2 minutes">
+<!ENTITY threeMinutesPref.label         "Every 3 minutes">
+<!ENTITY fiveMinutesPref.label         "Every 5 minutes">
+<!ENTITY tenMinutesPref.label         "Every 10 minutes">
+
+<!ENTITY animatedAvatarPref.label         "Allow Animated Avatars"> 
+<!ENTITY animatedAvatarPref.accesskey       "A"> 
+
+<!ENTITY animateOncePref.label         "Once">
+<!ENTITY animateNeverPref.label         "Never">
+<!ENTITY animateAlwaysPref.label         "Always">
+
+
+
+
+
+ 

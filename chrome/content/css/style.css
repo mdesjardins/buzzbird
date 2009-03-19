@@ -1,0 +1,143 @@
+
+window {
+    -moz-binding: url("chrome://buzzbird/chrome/content/unified.xml#unified")
+}
+
+body {
+	font-family: "Franklin Gothic Medium","Helvetica Neue","MgOpen Moderna";
+}
+
+.bigger {
+	font-size: 1.2em;
+}
+
+.smaller {
+	font-size: 0.8em;
+}
+
+.blue01 {
+	color: #3b62e1;
+}
+
+.login {
+	text-align: center;
+	vertical-align: middle;
+	font-size: 0.8em;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20%;
+}
+
+.loginThrobber {
+	position: absolute;
+	left: 112px;
+	top: 250px;
+}
+
+.avatar {
+	height: 48px;
+	width: 48px;
+}
+
+.screenname {
+	color: #222;	
+	font-size: 0.6em;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.tweetIcon  {
+	border: 1px solid #fff;
+	background-color: #fff;
+	vertical-align:middle;
+}
+
+.tweetIcon:hover  {
+	border: 1px solid #22a;
+	background-color: #c4ebf6;
+	vertical-align:middle;
+}
+
+a:hover.tweetInfo {
+	color: #22A;	
+	cursor: pointer;
+	font-size: 1.0em;
+	padding: 0px 0px 10px 0px;
+	border-width: 2px;
+	min-height: 22px;
+	height: 22px;
+}
+
+a.tweetInfo {
+	color: #666;	
+	font-size: 1.0em;
+	padding: 0px 0px 10px 0px;
+	min-height: 22px;
+	height: 22px;
+}
+
+.tweetInfo {
+	color: #666;
+	font-size: 0.6em;
+	font-family: Helvetica, Arial, sans-serif;	
+	padding: 0px 0px 20px 0px;
+	min-height: 22px;
+	height: 22px;
+}
+
+.via a {
+	color: #666;
+	font-size: 1.0em;
+	font-family: Helvetica, Arial, sans-serif;	
+	padding: 0px 0px 20px 0px;
+	min-height: 22px;
+	height: 22px;
+	text-decoration:none;
+}
+
+.tweetOptions {
+	color: #666;	
+	font-size: 1.4em;
+	padding: 0px 0px 10px 0px;
+}
+
+.tweetbox {
+	margin: 0px 0px 0px 0px;
+	width: 100%;
+}
+
+.tweet {
+	color: #111;
+	font-size: 0.7em;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+.tweet a {
+	color: #22A;
+	text-decoration: underline;
+}
+
+.spacer {
+	margin: 5px 0px 5px 0px;
+	border-top: solid 1px #CCC;
+	width: 100%;
+}
+
+hr {
+	color: #888;
+	background-color: #888;
+	width: 100%;
+	height: 1px;
+	margin: 2px;
+	padding: 0px;
+	border: 2px;
+	clear: both;
+}
+
+.toolbar-button {
+	margin:0;
+	padding:0;
+	width:18;
+	height:18;
+}

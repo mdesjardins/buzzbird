@@ -1,0 +1,10 @@
+<bindings id="unified"
+          xmlns="http://www.mozilla.org/xbl"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          xmlns:xbl="http://www.mozilla.org/xbl">
+	<binding id="unified">
+		<content activetitlebarcolor="#CACACA" inactivetitlebarcolor="#E4E4E4">
+			<children/>
+		</content>
+	</binding>
+</bindings>
