@@ -10,5 +10,8 @@ window {
   background-image: url("chrome://buzzbird/content/images/toolbar-background.gif");
 }
 
-
+statusbarpanel {
+    border-style: none;
+    border: 0px;
+}
 

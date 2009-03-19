@@ -28,7 +28,7 @@
 
 
     <!-- ======== -->
-	<!-- Commands -->
+    <!-- Commands -->
     <!-- ======== -->
 
 	<commandset id="mainCommandSet">
@@ -41,7 +41,7 @@
 	<commandset id="editMenuCommands"/>
 
     <!-- ======== -->
-	<!-- Key Sets -->
+    <!-- Key Sets -->
     <!-- ======== -->
 
  	<keyset id="editMenuKeys" />
@@ -64,16 +64,18 @@
 
 
     <!-- ======== -->
-	<!-- Menu Bar -->
+    <!-- Menu Bar -->
     <!-- ======== -->
 
 	<menubar id="menubarid">
 		<!-- Menu item IDs were chosen quite intentionally... see https://developer.mozilla.org/en/XULRunner/MacFAQ -->
 		<menu id="filemenuid" label="File">
-        	<menuitem id="menu_FileQuitItem" 
+		  <menupopup id="menu_FilePopup">
+        	    <menuitem id="menu_FileQuitItem" 
         			  label="&quitApplicationCmdMac.label;"
         			  key="key_quitApplication"
         			  command="cmd_quitApplication"/>
+		   </menupopup>
 		</menu>
 		
 		<menu id="edit-menu" label="&editMenu.label;" accesskey="&editMenu.accesskey;">
@@ -134,6 +136,7 @@
 		</menu>
 
 		<menu id="helpmenuid" label="Help">
+		  <menupopup id="menu_HelpPopup">
 			<menuitem id="aboutName"
 	                  accesskey="&aboutCmd.accesskey;"
 	                  label="&aboutCmd.label;"
@@ -141,6 +144,7 @@
 			<menuitem id="visitSite"
 					  label="&visitSiteCmd.label;"
 					  oncommand="linkTo('http://getbuzzbird.com');"/>
+		  </menupopup>
 		</menu>
 	</menubar>
 	
@@ -149,10 +153,11 @@
 	<!-- Actual Window Stuff -->
     <!-- =================== -->
 
-    <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true">
+    <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true" >
 		<hbox>
 			<vbox>
-				<label id="realnameLabelId" value="" style="padding:10px 0px 0px 10px; margin:0px 0px 0px 0px; font-size:1.1em;" />
+				<!-- <label id="realnameLabelId" value="" style="padding:10px 0px 0px 10px; margin:0px 0px 0px 0px; font-size:1.1em;" /> -->				
+                                <label id="realnameLabelId" value="" style="position:absolute; left:0; padding-top:5px; font-size:1.1em;" />
 				<label id="usernameLabelId" value="" hidden="true" />
 				<label id="passwordLabelId" hidden="true" />
 				<label id="updateTimerId" hidden="true" />
@@ -162,9 +167,9 @@
 				<label id="showingDirectId" hidden="true" value="&showingDirect.label;" />
 				<hbox style="padding:0; margin:-5px 0px 3px 0px;">
 					<toolbarbutton id="filterbuttonid" 
-								   type="menu-button" 
-								   label="&showingAllTweets.label;" 
-								   style="padding:0; margin:0; font-size:0.9em;">
+						       type="menu-button" 
+						       label="&showingAllTweets.label;" 
+						       style="position:absolute; left:0; font-size:0.9em; margin-top:3px;">
 			    		<menupopup selectedIndex="0" style="padding:0px; margin:0px;">
 			        		<menuitem label="&showAllTweets.label;" value="1" oncommand="showAllTweets();"/>
 			        		<menuitem label="&showReplies.label;" value="2" oncommand="showResponses();"/>
@@ -198,8 +203,9 @@
 		</hbox>
     </vbox>
     <statusbar id="statusbarid">
-		<statusbarpanel id="buttonbarPanelId" collapsed="true">
+<!--		<statusbarpanel id="buttonbarPanelId" collapsed="true"> -->
 			<toolbarbutton id="refreshButtonId"
+				       collapsed="true"
 							style="padding:0; margin:0; width:22px"
 							image="chrome://buzzbird/content/images/reload-button-active-20x20.png" 
 							onmousedown="this.image='chrome://buzzbird/content/images/reload-button-pressed-20x20.png';"
@@ -207,6 +213,7 @@
 							tooltiptext="&refreshNowCmd.label;"
 							command="cmd_refreshNow" />
 			<toolbarbutton id="shortenUrlId"
+				       collapsed="true"
 							style="padding:0; margin:0; width:22px"
 							image="chrome://buzzbird/content/images/link-button-active-20x20.png" 
 							onmousedown="this.image='chrome://buzzbird/content/images/link-button-pressed-20x20.png';"
@@ -214,6 +221,7 @@
 							tooltiptext="&shortenUrlCmd.label;"
 							command="cmd_shortenUrl"/>
 			<toolbarbutton id="markAllAsReadId"
+				       collapsed="true"
 						style="padding:0; margin:0; width:22px"
 						image="chrome://buzzbird/content/images/check-button-active-20x20.png" 
 						onmousedown="this.image='chrome://buzzbird/content/images/check-button-pressed-20x20.png';"
@@ -221,6 +229,7 @@
 						tooltiptext="&markAllAsReadCmd.label;"
 						command="cmd_markAllAsRead" />
 			<toolbarbutton id="symbolButtonId" 
+				       collapsed="true"
 							style="padding:0; margin:0; width:22px"
 							image="chrome://buzzbird/content/images/smiley-button-active-20x20.png" 
 							onmousedown="this.image='chrome://buzzbird/content/images/smiley-button-pressed-20x20.png';"
@@ -249,8 +258,8 @@
 						<menuitem label="&#x2603;" oncommand="appendText('&#x2603;');" /> <!-- Snowman -->
 					</menupopup>
 			</toolbarbutton>
-		</statusbarpanel>
+<!--		</statusbarpanel> -->
 		<spacer flex="1"/>
-		<statusbarpanel label="" id="statusid" />
+		<label value="" id="statusid" />
 	</statusbar>
 </window>

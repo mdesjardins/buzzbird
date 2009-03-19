@@ -156,7 +156,7 @@ function refreshAllowed(allowed) {
 // Writes a message to the statusbar.
 //
 function message(text) {
-	getChromeElement('statusid').label = text;	
+	getChromeElement('statusid').value = text;	
 }
 
 // Toggles the progress meter.
@@ -362,7 +362,11 @@ function start() {
 	getChromeElement('updateTimerId').value = updateTimer;
 	getChromeElement('toolbarid').collapsed=false;
 	getChromeElement('textboxid').collapsed=false;
-	getChromeElement('buttonbarPanelId').collapsed=false;
+	//getChromeElement('buttonbarPanelId').collapsed=false;
+        getChromeElement('refreshButtonId').collapsed=false;
+        getChromeElement('shortenUrlId').collapsed=false;
+        getChromeElement('markAllAsReadId').collapsed=false;
+        getChromeElement('symbolButtonId').collapsed=false;
 	fetchAll();
 }
 
