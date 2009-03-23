@@ -1,4 +1,24 @@
+/*
+Copyright (c) 2009 Mike Desjardins
 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
 var username = "";
 var password = "";
 var mostRecentTweet = null;
@@ -159,6 +179,18 @@ function message(text) {
 	getChromeElement('statusid').value = text;	
 }
 
+// Writes the length of the tweet entry field to the statusbar.
+//
+function updateLengthDisplay() {
+	var textbox = getChromeElement('textboxid');
+	var length = textbox.value.length;
+	if (length != 0) {
+		getChromeElement('statusid').value = length + '/140';
+	} else {
+		getChromeElement('statusid').value = '';
+	}
+}
+
 // Toggles the progress meter.
 //
 function progress(throbbing) {
@@ -223,7 +255,6 @@ function updateTimestamps() {
 // Formats a tweet for display.
 //
 function formatTweet(tweet) {
-	jsdump('formatTweet ' + tweet.id)
 	
 	// Clean any junk out of the text.
 	text = sanitize(tweet.text);
@@ -268,7 +299,6 @@ function formatTweet(tweet) {
 	if (tweet.source != undefined && tweet.source != null && tweet.source != "") {
 		via = " via " + tweet.source;
 	} 
-	jsdump("via:" + via);
 	
 	var result = "<div id=\"tweet-" + tweet.id + "\" class=\"tweetbox\" name=\"" + tweetType(tweet) + "\" style=\"display:" + display + "\" onmouseover=\"showIcons("+ tweet.id + ")\" onmouseout=\"showInfo(" + tweet.id + ")\">"
 	           + " <div class=\"" + sb.msg + "\">"
@@ -362,14 +392,26 @@ function start() {
 	getChromeElement('updateTimerId').value = updateTimer;
 	getChromeElement('toolbarid').collapsed=false;
 	getChromeElement('textboxid').collapsed=false;
-	//getChromeElement('buttonbarPanelId').collapsed=false;
-        getChromeElement('refreshButtonId').collapsed=false;
-        getChromeElement('shortenUrlId').collapsed=false;
-        getChromeElement('markAllAsReadId').collapsed=false;
-        getChromeElement('symbolButtonId').collapsed=false;
+	getChromeElement('refreshButtonId').collapsed=false;
+	getChromeElement('shortenUrlId').collapsed=false;
+	getChromeElement('markAllAsReadId').collapsed=false;
+	getChromeElement('symbolButtonId').collapsed=false;
 	fetchAll();
 }
 
+// Writes to the top of the page.
+//
+function insertAtTop(newText) {
+	var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml">' + newText + '</div>', 'application/xhtml+xml');
+	if (doc.documentElement.nodeName != "parsererror" ) {
+		var root = doc.documentElement;
+		for (var j=0; j<root.childNodes.length; ++j) {
+			window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.firstChild);
+		}
+	} else {
+		alert('An error was encountered while parsing tweets.');
+	}	
+}
 
 // Iterates over newly fetched tweets to add them to the browser window.
 //
@@ -392,30 +434,11 @@ function renderNewTweets(url,newTweets) {
 				newText = formatTweet(newTweets[i]) + newText;
 			}
 		}
-
-		var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml">' + newText + '</div>', 'application/xhtml+xml');
-		if (doc.documentElement.nodeName != "parsererror" ) {
-			var root = doc.documentElement;
-			for (var j=0; j<root.childNodes.length; ++j) {
-				window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.firstChild);
-			}
-		} else {
-			alert('An error was encountered while parsing tweets.');
-		}	
+		insertAtTop(newText);
 	}
 }
 
-// UPDATE THIS COMMENT IT'S WRONG
-//
-// This function makes the API call to request an update from
-// twitter.  It sets the BB.fetchCallback function as the callback to
-// receive the tweet response.  This is called by the main page's
-// onload() method, by the forceUpdate() method (which is called 
-// when the user clicks the update button), and it's also called
-// by the update timer.
-//
-// Note that this starts a chain where we make three Ajax calls in 
-// a row.
+// THE BIG CHEESE.
 //
 function fetchUrlCallback(transport,url,destinations) {
 	jsdump('fetched ===> ' + url);
@@ -445,10 +468,7 @@ function fetchUrl(destinations) {
 		if (mins < 10) {
 			mins = '0' + mins;
 		}
-		//var msg = 'Updated at ' + d.getHours() + ':' + mins;
-		//message(msg);
-		message('');
-		
+		updateLengthDisplay();		
 		refreshAllowed(true);
 		progress(false);
 		setTimeout(updateTimestamps(),1000);
@@ -505,11 +525,34 @@ function forceUpdate() {
 //
 // Called on succesful tweet postation
 //
-function postTweetCallback() {
+function postTweetCallback(tweetText) {
 	var textbox = getChromeElement('textboxid');
 	textbox.reset();
 	textbox.disabled = false;
-	getChromeElement('statusid').label = '0/140';
+	getChromeElement('statusid').label = updateLengthDisplay();
+	if (tweetText.match(/^d(\s){1}(\w+?)(\s+)(\w+)/)) {
+		// It was a DM, need to display it manually.
+		var tweet = {
+			id : 0,
+			text : "",
+			created_at : new Date(),
+			sender : "",
+			user : {
+			   	screen_name : "",
+				profile_image_url : "",
+				name : ""
+			},
+			source : ""
+		};
+		tweet.text = "Directly to " + tweetText.substring(2);
+		tweet.sender = getUsername();
+		tweet.user.screen_name = getUsername();
+		tweet.user.profile_image_url = getChromeElement("avatarLabelId").value;
+		tweet.user.name = getChromeElement("realnameLabelId").value;
+		tweet.in_reply_to_screen_name = "";
+		tweet.sender = undefined;
+		insertAtTop(formatTweet(tweet));
+	}
 	forceUpdate();
 }
 function postTweet() {
@@ -522,7 +565,7 @@ function postTweet() {
 			parameters:'source=buzzbird',
 			httpUserName: getUsername(),
 			httpPassword: getPassword(),
-		    onSuccess: postTweetCallback,
+		    onSuccess: function() { postTweetCallback(tweet); },
 		    onFailure: function() { alert('Error posting status update.'); postTweetCallback(); }
 		});
 }
@@ -556,7 +599,7 @@ function retweet(id) {
 	var text = 'RT @' + desanitize(user) + ': ' + desanitize(raw);
 	text = text.substring(0,140);
 	getChromeElement('textboxid').value = text;
-	getChromeElement('statusid').label = text.length + "/140";
+	updateTweetLength();
 	getChromeElement('textboxid').focus();		
 }
 
@@ -570,7 +613,7 @@ function favorite(id) {
 			httpUserName: getUsername(),
 			httpPassword: getPassword(),
 		    onSuccess: function() { favoriteCallback; },
-		    onFailure: function() { alert('Something went wrong...'); }
+		    onFailure: function() { alert('Failed to favorite that tweet.  Sorry!'); }
 		});	
 }
 
@@ -593,13 +636,7 @@ function keyPressed(e) {
 // Runs on each key up in the tweet-authoring text ara.
 //
 function keyUp(e) {
-	var textbox = getChromeElement('textboxid');
-	var length = textbox.value.length;
-	if (length != 0) {
-		getChromeElement('statusid').label = length + '/140';
-	} else {
-		getChromeElement('statusid').label = '';
-	}
+	updateLengthDisplay();
 }
 
 // Filter tweet types.
@@ -627,7 +664,7 @@ function showDirect() {
 }
 function showOrHide(tweetType,display) {
 	var elements = getBrowser().contentDocument.getElementsByName(tweetType);
-	for (i=0; i<elements.length; ++i) {
+	for (i=0, l=elements.length; i<l; ++i) {
 		element = elements[i];
 		element.style.display = display;
 	}
