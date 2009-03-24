@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<dialog id="shortenurl-dialog" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" width="350" height="150"
+<dialog id="shortenurl-dialog" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" width="450" height="150"
 		title="Shorten URL"
 		buttons="accept,cancel"
 	  	ondialogaccept="onShortenOk();"
