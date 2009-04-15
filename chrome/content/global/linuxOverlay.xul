@@ -1,0 +1,22 @@
+<!DOCTYPE window SYSTEM "chrome://buzzbird/locale/main.dtd">
+
+<overlay id="platform-overlay" xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<menubar id="menubarid">
+	  <menu id="tools-menu">
+	    <menupopup id="menu_toolsPopup">
+	      <menuitem id="menu_preferences" label="&preferencesCmd.label;" key="key_preferencesCmd" oncommand="openPreferences();"/>
+	    </menupopup>
+	  </menu>
+	</menubar>
+
+	<label id="realnameLabelId" value="Testy Tester" style="padding:10px 0px 0px 9px; margin:0px 0px 0px 0px; font-size:1.2em;" />
+
+	<toolbarbutton id="filterbuttonid" 
+		       type="menu-button" 
+		       label="&showingAllTweets.label;" 
+		       style="font-size:0.9em; margin-left:10px; margin-top:7px;"/>
+
+</overlay>
