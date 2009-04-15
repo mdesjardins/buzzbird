@@ -25,40 +25,73 @@ var mostRecentTweet = null;
 var mostRecentDirect = null;
 var parser = new DOMParser();
 
-var bubbles = {
+var classes = {
 	"tweet" : {
-		msg: "CBmsg",
-		icon: "CBicon",
-		txt: "CBtxt",
-		content: "CBcontent",
-		t: "CBt",
-		b: "CBb"
+		message: "tweetMessage",
+		bottomRow: "tweetBottomRow",
+		box: "tweetBox",
+		text: "tweetText",
+		table: "tweetTable",
+		avatar: "tweetAvatar",
+		avatarColumn: "tweetAvatarColumn",
+		textColumn: "tweetTextColumn",
+		screenName: "tweetScreenName",
+		content: "tweetContent",
+		info: "tweetInfo"
 	},
 	"mine" : {
-		msg: "IBmsg",
-		icon: "IBicon",
-		txt: "IBtxt",
-		content: "IBcontent",
-		t: "IBt",
-		b: "IBb"
+		message: "tweetMessage",
+		bottomRow: "tweetBottomRow",
+		box: "tweetBox",
+		text: "tweetText",
+		table: "tweetTable",
+		avatar: "tweetAvatar",
+		avatarColumn: "tweetAvatarColumn",
+		textColumn: "tweetTextColumn",
+		screenName: "tweetScreenName",
+		content: "tweetContent",
+		info: "tweetInfo"
 	},
 	"reply" : {
-		msg: "RBmsg",
-		icon: "RBicon",
-		txt: "RBtxt",
-		content: "RBcontent",
-		t: "RBt",
-		b: "RBb"
+		message: "replyMessage",
+		bottomRow: "replyBottomRow",
+		box: "replyBox",
+		text: "replyText",
+		table: "replyTable",
+		avatar: "replyAvatar",
+		avatarColumn: "replyAvatarColumn",
+		textColumn: "replyTextColumn",
+		screenName: "replyScreenName",
+		content: "replyContent",
+		info: "replyInfo"
 	},
-	"direct" : {
-		msg: "DBmsg",
-		icon: "DBicon",
-		txt: "DBtxt",
-		content: "DBcontent",
-		t: "DBt",
-		b: "DBb"
+	"direct-to" : {
+		message: "tweetMessage",
+		bottomRow: "tweetBottomRow",
+		box: "tweetBox",
+		text: "tweetText",
+		table: "tweetTable",
+		avatar: "tweetAvatar",
+		avatarColumn: "tweetAvatarColumn",
+		textColumn: "tweetTextColumn",
+		screenName: "tweetScreenName",
+		content: "tweetContent",
+		info: "tweetInfo"
+	},
+	"direct-from" : {
+		message: "directFromMessage",
+		bottomRow: "directFromBottomRow",
+		box: "directFromBox",
+		text: "directFromText",
+		table: "directFromTable",
+		avatar: "directFromAvatar",
+		avatarColumn: "directFromAvatarColumn",
+		textColumn: "directFromTextColumn",
+		screenName: "directFromScreenName",
+		content: "directFromContent",
+		info: "directFromInfo"
 	}
-};
+}
 
 // Gets the login params and calls login to attempt authenticating
 // with the twitter API.  Calls start() if successful.
@@ -207,8 +240,10 @@ function progress(throbbing) {
 //
 function tweetType(tweet) {
 	var result = 'tweet'
-	if (tweet.sender != undefined) {
-		result = 'direct';
+	if (tweet.text.substring(0,11) == "Directly to") {
+		result = 'direct-to';
+	} else if (tweet.sender != undefined) {
+		result = 'direct-from';
 	} else if (tweet.in_reply_to_screen_name == getUsername()) {
 		result = 'reply';
 	} else if (tweet.user.screen_name == getUsername()) {
@@ -255,7 +290,6 @@ function updateTimestamps() {
 // Formats a tweet for display.
 //
 function formatTweet(tweet) {
-	
 	// Clean any junk out of the text.
 	text = sanitize(tweet.text);
 	
@@ -274,13 +308,13 @@ function formatTweet(tweet) {
 	var when = new Date(tweet.created_at);
 	var prettyWhen = when.toLocaleTimeString() + ' on ' + when.toLocaleDateString().substring(0,5);
 	var user;
-	if (tweetType(tweet) == 'direct') {
+	if (tweetType(tweet) == 'direct-from') {
 		user = tweet.sender;
 	} else {
 		user = tweet.user;
 	}
 	
-	sb = bubbles[tweetType(tweet)];
+	c = classes[tweetType(tweet)];
 
 	// Figure out if we're displaying this flavor of tweet
 	var currentFilter = getChromeElement('filterbuttonid').label;
@@ -299,89 +333,47 @@ function formatTweet(tweet) {
 	if (tweet.source != undefined && tweet.source != null && tweet.source != "") {
 		via = " via " + tweet.source;
 	} 
-	
-// 	var result = "<div id=\"tweet-" + tweet.id + "\" class=\"tweetbox\" name=\"" + tweetType(tweet) + "\" style=\"display:" + display + "\" onmouseover=\"showIcons("+ tweet.id + ")\" onmouseout=\"showInfo(" + tweet.id + ")\">"
-// 	           + " <div class=\"" + sb.msg + "\">"
-//                + "  <div class=\"" + sb.icon + "\">"
-//                + "   <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" style=\"margin:0px;padding:0px\" title=\"View " + sanitize(user.screen_name) + "'s profile\">"
-//                + "    <img src=\"" + user.profile_image_url + "\" class=\"avatar\" />"
-//                + "   </a>"
-//                + "  </div>"
-// 	           + "  <div class=\"" + sb.txt + "\">"
-// 	           + "   <div class=\"" + sb.content + "\">"
-// 	           + "    <div class=\"" + sb.t + "\"></div>"
-// 	           + "    <span class=\"screenname\">" + sanitize(user.screen_name) + "</span> <span class=\"tweet\">" + text + "</span>"
-// 	           + "   </div>"
-// 	           + "   <div class=\"" + sb.b + "\"><div></div></div>"
-// 	           + "  </div>"
-// 	           + " </div>"
-// 	           + " <div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
-// 			   + " <div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
-// 			   + " <div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
-// 			   + " <br clear=\"all\" />"
-// 	           + " <div style=\"width:100%;height:20px;\">"
-// 	           + "  <img name=\"mark\""
-// 	           + "       id=\"mark-" + tweet.id + "\""
-// 	           + "       src=\"chrome://buzzbird/content/images/star-yellow.png\" "
-// 	           + "       style=\"width:16px; height:16px; vertical-align:middle;\""
-// 	           + "       onclick=\"toggleMarkAsRead(" + tweet.id + ");\""
-// 	           + "       onmouseover=\"this.style.cursor='pointer';\" />"
-// 	           + "  <span id=\"tweetInfo-" + tweet.id + "\">"
-// 	           + "   <span class=\"tweetInfo\">" 
-// 	           +      sanitize(user.name) + " <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span>"
-// //	           + "    <span class=\"via\">" + via + "</span>"
-// 			   + "   </span>"
-// 			   + "  </span>"
-// 	           + "  <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none\">"	        
-// 			   + "   <a class=\"tweetInfo\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"tweetIcon\" /></a>"
-// 	           + "   <a class=\"tweetInfo\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"tweetIcon\" /></a>"
-// 	           + "   <a class=\"tweetInfo\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"tweetIcon\" /></a>"
-// 	           + "   <a class=\"tweetInfo\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"tweetIcon\" /></a>"
-// 	           + "  </span>"
-// 	           + " </div>"
-// 	           + " <div class=\"spacer\"></div>"
-// 	           + "</div>"
-// 			   + "\n";
 
 	var result = 
 	   "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
      + "<div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
 	 + "<div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
      + "<div id=\"tweet-" + tweet.id + "\" class=\"tweetBox\" name=\"" + tweetType(tweet) + "\" style=\"display:" + display + "\" onmouseover=\"showIcons("+ tweet.id + ")\" onmouseout=\"showInfo(" + tweet.id + ")\">"
-	 + " <div class=\"tweetMessage\">"
-	 + "  <table class=\"tweetTable\">"
+	 + " <div class=\"" + c.message + "\">"
+	 + "  <table class=\"" + c.table + "\">"
 	 + "   <tr>"
-	 + "    <td valign=\"top\">"
+	 + "    <td valign=\"top\" class=\"" + c.avatarColumn + "\">"
 	 + "     <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" style=\"margin:0px;padding:0px\" title=\"View " + sanitize(user.screen_name) + "'s profile\">"
-	 + "      <img src=\"" + user.profile_image_url + "\" class=\"tweetAvatar\" />"
+	 + "      <img src=\"" + user.profile_image_url + "\" class=\"" + c.avatar +"\" />"
      + "     </a>"
      + "    </td>"
      + "    <td>"
-	 + "     <div class=\"tweetText\">"
-	 + "      <p><span class=\"tweetScreenname\">" + sanitize(user.screen_name) + "</span> <span class=\"tweetContent\">" + text + "</span></p>"
+	 + "     <div class=\"" + c.text + "\">"
+	 + "      <p><span class=\"" + c.screenName + "\">" + sanitize(user.screen_name) + "</span> <span class=\"" + c.content + "\">" + text + "</span></p>"
      + "     </div>"
      + "    </td>"
      + "   </tr>"
      + "  </table>"
-     + "  <div class=\"tweetBottomRow\">"
+     + "  <div class=\"" + c.bottomRow + "\">"
      + "   <img name=\"mark\" id=\"mark-" + tweet.id + "\" src=\"chrome://buzzbird/content/images/star-yellow.png\" style=\"width:16px; height:16px; vertical-align:middle;\""
      + "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" onmouseover=\"this.style.cursor='pointer';\" />"
      + "   <span id=\"tweetInfo-" + tweet.id + "\">"
-     + "    <span class=\"tweetInfo\">" 
+     + "    <span class=\"" + c.info + "\">" 
      +       sanitize(user.name) + " <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span>"
      + "    </span>"
      + "   </span>"
      + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">"	        
-     + "    <a class=\"tweetInfo\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"tweetIcon\" /></a>"
-     + "    <a class=\"tweetInfo\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"tweetIcon\" /></a>"
-     + "    <a class=\"tweetInfo\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"tweetIcon\" /></a>"
-     + "    <a class=\"tweetInfo\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+     + "    <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+     + "    <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+     + "    <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+     + "    <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"tweetIcon\" /></a>"
      + "   </span>"
      + "  </div>"
      + " </div>"
      + "</div>"
      + "\n";
-//	jsdump('tweet(' + tweet.id +'): ' + result);
+
+	//jsdump('tweet(' + tweet.id +'): ' + result);
 	return result;
 }
 

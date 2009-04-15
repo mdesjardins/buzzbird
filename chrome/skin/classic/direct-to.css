@@ -4,7 +4,7 @@ body {
 }
 
 .tweetBottomRow {
-	background: url('chrome://buzzbird/content/images/rc-bl.png') no-repeat bottom left;
+	background: url('chrome://buzzbird/skin/images/direct-to/rc-bl.png') no-repeat bottom left;
 	padding: 0px 0px 10px 10px;
 	width:99%;
 	height:20px;
@@ -17,7 +17,7 @@ body {
 }
 
 .tweetText {
-	background:url('chrome://buzzbird/content/images/rc-tr.png') no-repeat top right;
+	background:url('chrome://buzzbird/skin/images/direct-to/rc-tr.png') no-repeat top right;
 	padding:0;
 	margin:-1;
 	min-height:50px;
@@ -25,7 +25,7 @@ body {
 }
 
 .tweetTable {
-	background: url('chrome://buzzbird/content/images/rc-tl.png') no-repeat top left;	
+	background: url('chrome://buzzbird/skin/images/direct-to/rc-tl.png') no-repeat top left;	
 	border-spacing:0px;
 	margin:0;
 	padding:0;
@@ -41,7 +41,7 @@ body {
 }
 
 .tweetMessage {
-	background: url('chrome://buzzbird/content/images/rc-br.png') no-repeat bottom right;
+	background: url('chrome://buzzbird/skin/images/direct-to/rc-br.png') no-repeat bottom right;
 	margin:0;
 	padding:0;
 }
