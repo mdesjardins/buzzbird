@@ -106,3 +106,8 @@ a.tweetInfo {
 	padding: 0px 0px 20px 0px;
 	height: 22px;
 }
+
+.tweetIcon {
+	background-color: #fff;	
+	border-color: #fff;
+}

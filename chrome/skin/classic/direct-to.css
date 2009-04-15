@@ -107,7 +107,10 @@ a.tweetInfo {
 	height: 22px;
 }
 
-
+.tweetIcon {
+	background-color: #fff;	
+	border-color: #fff;
+}
 
 
 

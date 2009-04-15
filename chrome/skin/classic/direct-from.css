@@ -107,7 +107,10 @@ a.directFromInfo {
 	height: 22px;
 }
 
-
+.directFromIcon {
+	background-color: #ffd6ae;	
+	border-color: #ffd6ae;
+}
 
 
 

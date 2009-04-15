@@ -69,7 +69,6 @@ body {
 }
 
 .replyContent {
-	color:#222;	
 	font-size:12px;
 	font-family:Helvetica, Arial, sans-serif;
 	font-weight:normal;	
@@ -107,7 +106,9 @@ a.replyInfo {
 	height: 22px;
 }
 
-
-
+.replyIcon {
+	background-color: #ffd7fb;	
+	border-color: #ffd7fb;
+}
 
 
