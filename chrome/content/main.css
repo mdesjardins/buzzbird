@@ -15,3 +15,18 @@ statusbarpanel {
     border: 0px;
 }
 
+/* why doesn't this work?  :( */
+	
+tab {
+	font-size:5px;
+}
+
+tabbox { 
+	height: 12px;
+	padding: 3px;
+	background-image: url("chrome://buzzbird/content/images/toolbar-background.gif");
+}
+
+.tab-text {
+	font-size:10px;
+}

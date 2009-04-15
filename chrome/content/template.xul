@@ -212,12 +212,12 @@ THE SOFTWARE.
 
     <vbox flex="1">
 		<tabbox flex="3">
-			<tabs align="start" closebutton="true" collapsed="true">
+			<tabs align="start" closebutton="true" >
 				<tab label="Main"/>
 				<tab label="Secondary" />
 			</tabs>
 			<tabpanel flex="3">
-            	<browser height="450" type="content-primary" src="chrome://buzzbird/content/login.html" id="browserid" flex="3" tooltip="aHTMLTooltip" />
+            	<browser height="450" type="content-primary" src="chrome://buzzbird/content/template.html" id="browserid" flex="3" tooltip="aHTMLTooltip" />
 			</tabpanel>
 		</tabbox>
 		<hbox>

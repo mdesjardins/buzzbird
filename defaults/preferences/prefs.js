@@ -1,5 +1,6 @@
 // start window
 pref("toolkit.defaultChromeURI", "chrome://buzzbird/content/main.xul");
+//pref("toolkit.defaultChromeURI", "chrome://buzzbird/content/template.xul");
 
 // suppress external-load warning for standard browser schemes
 pref("network.protocol-handler.warn-external.http", false);

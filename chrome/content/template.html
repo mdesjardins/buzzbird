@@ -1,0 +1,211 @@
+
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="file:///Users/mdesjardins/_play/buzzbird/chrome/content/css/new-theme.css" />
+	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/timeout.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>
+</head>
+<body>
+	<div id="TEST"></div>
+
+	<script type="text/javascript">
+
+		function sanitize(text) {
+			// I'm sure there are far better ways to do this, but I suck at regular expressions...
+			var clean = text.replace(/&/g, '&amp;');
+			clean = clean.replace(/&amp;lt;/g, '&lt;');
+			clean = clean.replace(/&amp;gt;/g, '&gt;');
+			clean = clean.replace(/&amp;quot;/g, '&quot;');
+			clean = clean.replace(/&amp;apos;/g, '&apos;');
+			clean = clean.replace(/</g, '&lt;');
+			clean = clean.replace(/>/g, '&gt;');
+			clean = clean.replace(/"(?![^<>]*>)/g, '&quot;');
+			clean = clean.replace(/'(?![^<>]*>)/g, '&apos;');
+			return clean;
+		}
+
+		function desanitize(text) {
+			var filthy = text.replace(/&amp;/g, '&');
+			filthy = text.replace(/&lt;/g, '<');
+			filthy = text.replace(/&rt;/g, '>');
+			filthy = text.replace(/&quot;/g, '"');
+			filthy = text.replace(/&apos;/g, "'");
+			return filthy;
+		}
+
+		function tweetType(tweet) {
+			return 'tweet'
+			// var result = 'tweet'
+			// if (tweet.sender != undefined) {
+			// 	result = 'direct';
+			// } else if (tweet.in_reply_to_screen_name == getUsername()) {
+			// 	result = 'reply';
+			// } else if (tweet.user.screen_name == getUsername()) {
+			// 	result = 'mine';
+			// }
+			// return result;
+		}
+
+		var bubbles = {
+			"tweet" : {
+				msg: "CBmsg",
+				icon: "CBicon",
+				txt: "CBtxt",
+				content: "CBcontent",
+				t: "CBt",
+				b: "CBb"
+			},
+			"mine" : {
+				msg: "IBmsg",
+				icon: "IBicon",
+				txt: "IBtxt",
+				content: "IBcontent",
+				t: "IBt",
+				b: "IBb"
+			},
+			"reply" : {
+				msg: "RBmsg",
+				icon: "RBicon",
+				txt: "RBtxt",
+				content: "RBcontent",
+				t: "RBt",
+				b: "RBb"
+			},
+			"direct" : {
+				msg: "DBmsg",
+				icon: "DBicon",
+				txt: "DBtxt",
+				content: "DBcontent",
+				t: "DBt",
+				b: "DBb"
+			}
+		};
+
+		tweet = {"favorited":false,"in_reply_to_screen_name":null,"created_at":"Mon Apr 13 20:41:27 +0000 2009","truncated":false,"user":{"statuses_count":633,"utc_offset":-18000,"favourites_count":29,"profile_background_color":"FFFFFF","profile_image_url":"http:\/\/s3.amazonaws.com\/twitter_production\/profile_images\/58602675\/VIA-logo_normal.jpg","time_zone":"Eastern Time (US & Canada)","profile_background_image_url":"http:\/\/s3.amazonaws.com\/twitter_production\/profile_background_images\/2909133\/VIA-logo.jpg","created_at":"Mon Sep 24 14:48:19 +0000 2007","profile_text_color":"000000","protected":false,"location":"portland, me &amp;","screen_name":"vianow","name":"The VIA Group","profile_link_color":"0000ff","description":"Marketing hot shots from Maine, yes Maine. Digital\/new media renegades without fear. Simply stated, a full service advertising\/marketing communications agency.","profile_sidebar_fill_color":"E1E1E1","followers_count":868,"profile_sidebar_border_color":"000000","url":"http:\/\/www.vianow.com","id":9071092,"following":true,"notifications":false,"profile_background_tile":true,"friends_count":650},"in_reply_to_status_id":null,"text":"Study: ROI may be measureable in Facebook, MySpace after all, AdAge http:\/\/bit.ly\/3rV48J","id":1511634723,"in_reply_to_user_id":null,"source":"web"}
+
+
+			// Clean any junk out of the text.
+			text = sanitize(tweet.text);
+
+			// First, go through and replace links with real links.
+			var re = new RegExp("http://(\\S*)", "g");
+			var text = text.replace(re, "<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://$1');\">http://$1</a>");
+
+			// Next, replace the twitter handles
+			re = new RegExp("@(\\w*)", "g");
+			text = text.replace(re, "@<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/$1');\">$1</a>");
+
+			// Finally, replace the hashtags
+			re = new RegExp("#(\\w*)", "g");
+			text = text.replace(re, "#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://hashtags.org/tag/$1');\">$1</a>");
+
+			var when = new Date(tweet.created_at);
+			var prettyWhen = when.toLocaleTimeString() + ' on ' + when.toLocaleDateString().substring(0,5);
+			var user;
+
+			if (tweetType(tweet) == 'direct') {
+				user = tweet.sender;
+			} else {
+				user = tweet.user;
+			}
+			sb = bubbles[tweetType(tweet)];
+			display = 'inline';
+
+			var result = 
+		//   "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
+		// + "<div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
+		// + "<div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
+		// + "<div id=\"tweet-" + tweet.id + "\" class=\"tweetBox\" name=\"" + tweetType(tweet) + "\" style=\"display:" + display + "\" onmouseover=\"showIcons("+ tweet.id + ")\" onmouseout=\"showInfo(" + tweet.id + ")\">"
+		// + " <table class=\"tweetMessage\">"
+		// + "  <tr class=\"tweetTopRow\">"
+		// + "   <td>"
+		// + "    <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" style=\"margin:0px;padding:0px\" title=\"View " + sanitize(user.screen_name) + "'s profile\">"
+		// + "     <img src=\"" + user.profile_image_url + "\" class=\"tweetAvatar\" />"
+		// 	    + "    </a>"
+		// + "   </td>"
+		// 	    + "   <td>"
+		//       //+ "    <span class=\"tweetScreenname\">" + sanitize(user.screen_name) + "</span> <span class=\"tweetContent\">" + text + "</span>"
+		//         + "      <span class=\"tweetContent\"><span class=\"tweetScreenname\">" + sanitize(user.screen_name) + "</span> " + text + "</span>"
+		//         + "   </td>"
+		//         + "  </tr>"
+		//         + "  <tr>"       
+		//         + "   <td colspan=\"2\" class=\"tweetBottomRight\">"     
+		// + "    <div class=\"tweetBottomRow\">"
+		// + "      <img name=\"mark\""
+		// + "           id=\"mark-" + tweet.id + "\""
+		// + "           src=\"chrome://buzzbird/content/images/star-yellow.png\" "
+		// + "           style=\"width:16px; height:16px; vertical-align:middle;\""
+		// + "           onclick=\"toggleMarkAsRead(" + tweet.id + ");\""
+		// + "           onmouseover=\"this.style.cursor='pointer';\" />"
+		// + "      <span id=\"tweetInfo-" + tweet.id + "\">"
+		// + "       <span class=\"tweetInfo\">" 
+		// +          sanitize(user.name) + " <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span>"
+		// + "       </span>"
+		// + "      </span>"
+		// + "      <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">"	        
+		// + "       <a class=\"tweetInfo\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+		// + "       <a class=\"tweetInfo\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+		// + "       <a class=\"tweetInfo\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+		// + "       <a class=\"tweetInfo\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+		// + "      </span>"
+		// + "    </div>"
+		// + "   </td>"
+		// + "  </tr>"
+		// + " </table>"
+		// + "</div>"
+		// + "\n";
+
+
+
+
+    "  <div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
+	           + "  <div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
+		       + "  <div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
+
+	           + "<div id=\"tweet-" + tweet.id + "\" class=\"tweetBox\" name=\"" + tweetType(tweet) + "\" style=\"display:" + display + "\" onmouseover=\"showIcons("+ tweet.id + ")\" onmouseout=\"showInfo(" + tweet.id + ")\">"
+			   + " <div class=\"tweetMessage\">"
+			   + " <table class=\"tweetTable\">"
+			   + "  <tr>"
+			   + "   <td valign=\"top\">"
+			   + "  <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" style=\"margin:0px;padding:0px\" title=\"View " + sanitize(user.screen_name) + "'s profile\">"
+			   + "   <img src=\"" + user.profile_image_url + "\" class=\"tweetAvatar\" />"
+	           + "  </a>"
+	           + "   </td>"
+	           + "   <td>"
+			   + "  <div class=\"tweetText\">"
+			   + "   <p><span class=\"tweetScreenname\">" + sanitize(user.screen_name) + "</span> <span class=\"tweetContent\">" + text + "</span></p>"
+               + "  </div>"
+               + "   </td>"
+               + "  </tr>"
+               + " </table>"
+	           + "  <div class=\"tweetBottomRow\">"
+	           + "   <img name=\"mark\""
+	           + "        id=\"mark-" + tweet.id + "\""
+	           + "        src=\"chrome://buzzbird/content/images/star-yellow.png\" "
+	           + "        style=\"width:16px; height:16px; vertical-align:middle;\""
+	           + "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\""
+	           + "        onmouseover=\"this.style.cursor='pointer';\" />"
+	           + "   <span id=\"tweetInfo-" + tweet.id + "\">"
+	           + "    <span class=\"tweetInfo\">" 
+	           +       sanitize(user.name) + " <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span>"
+			   + "    </span>"
+			   + "   </span>"
+	           + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">"	        
+			   + "    <a class=\"tweetInfo\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+	           + "    <a class=\"tweetInfo\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+	           + "    <a class=\"tweetInfo\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+	           + "    <a class=\"tweetInfo\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"tweetIcon\" /></a>"
+	           + "   </span>"
+	           + "  </div>"
+	           + " </div>"
+	           + "</div>"
+			   + "\n";
+
+			var g = document.getElementById('TEST');
+			g.innerHTML = result;
+	</script>
+
+</body>
+</html>
+
