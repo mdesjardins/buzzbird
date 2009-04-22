@@ -3,7 +3,7 @@ body {
 	background-color: #DDD;
 }
 
-.tweetBottomRow {
+.directToBottomRow {
 	background: url('chrome://buzzbird/skin/images/direct-to/rc-bl.png') no-repeat bottom left;
 	padding: 0px 0px 10px 10px;
 	width:99%;
@@ -12,11 +12,11 @@ body {
 	overflow: hidden;
 }
 
-.tweetBox {
+.directToBox {
 	width:100%;
 }
 
-.tweetText {
+.directToText {
 	background:url('chrome://buzzbird/skin/images/direct-to/rc-tr.png') no-repeat top right;
 	padding:0;
 	margin:-1;
@@ -24,7 +24,7 @@ body {
 	color: #666;
 }
 
-.tweetTable {
+.directToTable {
 	background: url('chrome://buzzbird/skin/images/direct-to/rc-tl.png') no-repeat top left;	
 	border-spacing:0px;
 	margin:0;
@@ -33,42 +33,42 @@ body {
 	width:100%;
 }
 
-.tweetText p {
+.directToText p {
 	padding:0;
 	margin:0;
 	min-height:50px;
 	color: #666;
 }
 
-.tweetMessage {
+.directToMessage {
 	background: url('chrome://buzzbird/skin/images/direct-to/rc-br.png') no-repeat bottom right;
 	margin:0;
 	padding:0;
 }
 
-.tweetAvatar {
+.directToAvatar {
 	float:left;
 	margin:5px 5px 5px 10px;
 	height:32px;
 	width:32px;
 }
 
-.tweetAvatarColumn {
+.directToAvatarColumn {
 	width:32;
 }
 
-.tweetTextColumn {
+.directToTextColumn {
 	
 }
 
-.tweetScreenName {
+.directToScreenName {
 	color:#222;	
 	font-size:12px;
 	font-family:Helvetica, Arial, sans-serif;
 	font-weight:bold;
 }
 
-.tweetContent {
+.directToContent {
 	color:#222;	
 	font-size:12px;
 	font-family:Helvetica, Arial, sans-serif;
@@ -77,12 +77,12 @@ body {
 	color:#666;
 }
 
-.tweetContent a {
+.directToContent a {
 	color:#22A;
 	text-decoration: underline;
 }
 
-a:hover.tweetInfo {
+a:hover.directToInfo {
 	color: #22A;	
 	cursor: pointer;
 	font-size: 1.0em;
@@ -92,14 +92,14 @@ a:hover.tweetInfo {
 	height: 22px;
 }
 
-a.tweetInfo {
+a.directToInfo {
 	color: #666;	
 	font-size: 1.0em;
 	padding: 0px 0px 10px 0px;
 	height: 22px;
 }
 
-.tweetInfo {
+.directToInfo {
 	color: #666;
 	font-size: 0.6em;
 	font-family: Helvetica, Arial, sans-serif;	
@@ -107,9 +107,9 @@ a.tweetInfo {
 	height: 22px;
 }
 
-.tweetIcon {
-	background-color: #fff;	
-	border-color: #fff;
+.directToIcon {
+	background-color: #ffd6ae;	
+	border-color: #ffd6ae;
 }
 
 
