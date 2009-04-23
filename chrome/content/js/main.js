@@ -353,7 +353,8 @@ function formatTweet(tweet) {
      + "    <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
      + "    <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
      + "    <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-     + "   </span>"
+     + "    <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 + "   </span>"
      + "  </div>"
      + " </div>"
      + "</div>"
@@ -463,9 +464,8 @@ function fetch() {
 		fetchUrl(['http://twitter.com/statuses/friends_timeline.json','http://twitter.com/direct_messages.json']);
 	} else {
 		//jsdump('Hmph.  fetchUrl is not defined?  Trying again in 5 seconds.');
-		//message('Error - retrying.');
-		//getMainWindow().setTimeout(forceUpdate, 5000);
-		window.setTimeout(forceUpdate, 5000);
+		//jsdump('Error - retrying.');
+		getMainWindow().setTimeout(forceUpdate, 5000);
 	}
 }
 

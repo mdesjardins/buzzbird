@@ -14,7 +14,7 @@ all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHERWISE
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
@@ -122,6 +122,35 @@ function favorite(id) {
 function favoriteCallback(transport) {
 	getChromeElement('statusid').label = 'Tweet Favorited';
 }
+
+// Stop Following
+//
+function stopFollowingTweeter(id) {
+	var user = getBrowser().contentDocument.getElementById('screenname-' + id).innerHTML;
+	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+	                        .getService(Components.interfaces.nsIPromptService);
+	var result = prompts.confirm(window, "Title", 'Do you want to stop following ' + user + '?');
+	if (result) {
+		jsdump('Unfollowing ' + user);
+		url = 'http://twitter.com/friendships/destroy/' + user + '.json';
+		new Ajax.Request(url,
+			{
+				method:'post',
+				httpUserName: getUsername(),
+				httpPassword: getPassword(),
+			    onSuccess: function() { stopFollowingTweeterCallback; },
+			    onFailure: function() { alert('Failed to unfollow.  Sorry!'); }
+			});	
+	}
+}
+
+// Favorite callback
+//
+function stopFollowingTweeterCallback(transport) {
+	getChromeElement('statusid').label = 'Unfollowed';
+}
+
+
 
 // Adds stuff to the end of the textbox.
 //
