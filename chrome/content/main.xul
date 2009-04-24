@@ -33,10 +33,11 @@ THE SOFTWARE.
         width="300" 
         height="625" 
         title="Buzzbird">
+	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>
+	
 	<script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
 

@@ -22,18 +22,17 @@
 <html>
 <head>
 	<title>Buzzbird</title>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/timeout.js"></script>
-	<!--<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>-->
-	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/browser.js"></script>
 	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/skin/tweet.css" />
 	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/skin/reply.css" />
 	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/skin/mine.css" />
 	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/skin/direct-to.css" />
 	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/skin/direct-from.css" />
 </head>
-<body onload="start();">
+<body onload="function proxy(that) { that.start(); }; proxy(getMainWindow());">
 	<span id="top"/>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/timeout.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/browser.js"></script>
 </body>
 </html>

@@ -141,6 +141,8 @@ function stopFollowingTweeter(id) {
 			    onSuccess: function() { stopFollowingTweeterCallback; },
 			    onFailure: function() { alert('Failed to unfollow.  Sorry!'); }
 			});	
+	} else {
+		jsdump('Aborted unfollow');
 	}
 }
 
