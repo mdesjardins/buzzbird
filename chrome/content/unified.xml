@@ -28,4 +28,47 @@ THE SOFTWARE.
 			<children/>
 		</content>
 	</binding>
+	<binding id="unifiedPrefwindow">
+		<!--
+		<content activetitlebarcolor="#CACACA" inactivetitlebarcolor="#E4E4E4">
+			<children/>
+		</content>
+	-->
+<!--
+	  <content dlgbuttons="accept,cancel"
+	           persist="lastSelected screenX screenY"
+	           closebuttonlabel="&preferencesCloseButton.label;"
+	           closebuttonaccesskey="&preferencesCloseButton.accesskey;"
+	           role="dialog"
+	           title="&preferencesDefaultTitle.label;"
+	           activetitlebarcolor="#BBBBBB"
+	           inactivetitlebarcolor="#E4E4E4">
+-->
+	  <content dlgbuttons="accept,cancel"
+         persist="lastSelected screenX screenY"
+         role="dialog"
+         activetitlebarcolor="#BBBBBB"
+         inactivetitlebarcolor="#E4E4E4">
+	    <xul:radiogroup anonid="selector" orient="horizontal" class="paneSelector chromeclass-toolbar"
+	                    role="listbox"/> 
+	    <xul:hbox flex="1" class="paneDeckContainer">
+	      <xul:deck anonid="paneDeck" flex="1">
+	        <children includes="prefpane"/>
+	      </xul:deck>
+	    </xul:hbox>
+	    <xul:hbox anonid="dlg-buttons" class="prefWindow-dlgbuttons">
+	      <xul:button dlgtype="disclosure" class="dialog-button" hidden="true"/>
+	      <xul:button dlgtype="help" class="dialog-button" hidden="true" icon="help"/>
+	      <xul:button dlgtype="extra2" class="dialog-button" hidden="true"/>
+	      <xul:button dlgtype="extra1" class="dialog-button" hidden="true"/>
+	      <xul:spacer anonid="spacer" flex="1"/>
+	      <xul:button dlgtype="cancel" class="dialog-button" icon="cancel"/>
+	      <xul:button dlgtype="accept" class="dialog-button" icon="accept"/>
+	    </xul:hbox>
+	    <xul:hbox>
+	      <children/>
+	    </xul:hbox>
+	  </content>
+
+	</binding>
 </bindings>

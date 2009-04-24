@@ -30,8 +30,8 @@ THE SOFTWARE.
 
 <window id="main-window" 
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
-        width="300" 
-        height="625" 
+        width="500" 
+        height="600" 
         title="Buzzbird">
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>

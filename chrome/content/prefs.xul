@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="prefs.css" type="text/css"?>
+<?xul-overlay href="chrome://buzzbird/content/global/globalOverlay.xul"?>
+<?xul-overlay href="chrome://buzzbird/content/global/editMenuOverlay.xul"?>
 
 <!DOCTYPE window SYSTEM "chrome://buzzbird/locale/prefs.dtd">
 
@@ -29,8 +32,13 @@ THE SOFTWARE.
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 			type="prefwindow"
 			windowtype="Browser:Preferences"
-			style="padding:15px;" >
-    <prefpane id="pane1" label="&prefPane.label;">
+			width="400" 
+	        height="300">
+   
+ <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
+ <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
+
+ <prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/content/images/prefs-general.png">
     	<preferences>
       		<preference id="updateInterval" name="buzzbird.update.interval" type="int"/>
 			<preference id="animatedAvatars" name="image.animation_mode" type="string"/>
@@ -60,5 +68,7 @@ THE SOFTWARE.
 				</menulist>
 		    </hbox>
 		</vbox>
+	</prefpane>
+	<prefpane id="paneAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/content/images/prefs-accounts.png">
 	</prefpane>
 </prefwindow>

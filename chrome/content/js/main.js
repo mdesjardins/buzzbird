@@ -656,9 +656,10 @@ function quitApplication(aForceQuit) {
 
 function openPreferences() {
   var instantApply = getBoolPref("browser.preferences.instantApply", false);
+  jsdump("instantApply is " + instantApply);
   var features = "chrome,titlebar,toolbar,centerscreen" + (instantApply ? ",dialog=no" : ",modal");
 
-//	var features = "chrome,titlebar,toolbar,centerscreen,modal";
+	//var features = "chrome,titlebar,toolbar,centerscreen,modal";
 	window.openDialog("chrome://buzzbird/content/prefs.xul", "", features);
 }
 
