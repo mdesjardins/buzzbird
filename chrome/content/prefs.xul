@@ -4,7 +4,9 @@
 <?xul-overlay href="chrome://buzzbird/content/global/globalOverlay.xul"?>
 <?xul-overlay href="chrome://buzzbird/content/global/editMenuOverlay.xul"?>
 
-<!DOCTYPE window SYSTEM "chrome://buzzbird/locale/prefs.dtd">
+<!DOCTYPE prefwindow SYSTEM "chrome://buzzbird/locale/prefs.dtd">
+
+<?xul-overlay href="chrome://buzzbird/content/global/platformOverlay.xul"?>
 
 <!--
 Copyright (c) 2009 Mike Desjardins
@@ -28,7 +30,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<prefwindow id="appPreferences"
+<prefwindow id="BrowserPreferences"
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 			type="prefwindow"
 			windowtype="Browser:Preferences"
