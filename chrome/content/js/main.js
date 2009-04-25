@@ -249,7 +249,7 @@ function updateTimestamps() {
 	var now = new Date();
 	for (var i=0; i<timestamps.length; i++) {
 		tweetid = timestamps[i].id;
-		when = $(tweetid).innerHTML;
+		when = getBrowser().contentDocument.getElementById(tweetid).innerHTML;
 		var then = new Date(parseFloat(when));
 		var delta = now - then;
 		var prettyWhen = "less than 1m ago";
@@ -263,7 +263,7 @@ function updateTimestamps() {
 			var prettyWhen = "more than " + parseInt(delta/(ONE_DAY)) + "d ago";
 		}
 		var elid = 'prettytime-' + tweetid.substring(tweetid.indexOf('-')+1);
-		$(elid).innerHTML = prettyWhen;
+		getBrowser().contentDocument.getElementById(elid).innerHTML = prettyWhen;
 	}
 	jsdump('finished updating timestamps.');
 
@@ -435,7 +435,7 @@ function fetchUrl(destinations) {
 		updateLengthDisplay();		
 		refreshAllowed(true);
 		progress(false);
-		setTimeout(updateTimestamps(),1000);
+		setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
 	} else {
 		var since = url.match('friends_timeline') ? mostRecentTweet : mostRecentDirect;
 		if ((url.match('friends_timeline') || url.match('direct_messages')) && since != null) {
