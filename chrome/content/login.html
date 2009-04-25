@@ -38,15 +38,19 @@
 		<form id="login_form" onsubmit="login();">
 			<table>
 				<tr>
-					<td class="smaller">username</td>
+					<td class="smaller">screen name</td>
 					<td><input id="username" type="text" onkeypress="checkEnter(event);" /></td>
 				</tr>
 				<tr>
 					<td class="smaller">password</td>
 					<td><input id="password" type="password" onkeypress="checkEnter(event);" /></td>
 				</tr>
+				<tr>
+					<td class="smaller" align="right"><input id="saveCredentials" type="checkbox" value="saveCredentials" /></td>
+					<td class="smaller">remember my account login</td>
+				</tr>
 			</table>
-			<input type="button" id="loginOkButton" name="ok" value="Start Tweeting" onclick="authenticate();" />
+			<input type="button" id="loginOkButton" name="ok" value="Start Tweeting" onclick="doAuthenticate();" />
 		</form>
 		<p>
 			<img id="loginThrobber" 

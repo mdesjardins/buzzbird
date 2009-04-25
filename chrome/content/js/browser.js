@@ -65,6 +65,19 @@ function fetchAll() {
         jsdump("Exception sending fetchAll event: "+ e);
     }
 }
+
+// General Event Dispatcher
+//
+function dispatch(eventName) {
+	try {
+        var ev = document.createEvent("Events");
+        ev.initEvent(eventName, true, false);
+        getMainWindow().document.dispatchEvent(ev);
+    } catch (e) {
+        jsdump("Exception sending '" + eventName + "' event: " + e);
+    }		
+}
+
 // Reply
 //
 function replyTo(id) {
@@ -99,8 +112,8 @@ function retweet(id) {
 	var text = 'RT @' + desanitize(user) + ': ' + desanitize(raw);
 	text = text.substring(0,140);
 	getChromeElement('textboxid').value = text;
-	updateTweetLength();
 	getChromeElement('textboxid').focus();		
+	dispatch('updateTweetLength');
 }
  
 // Favorite

@@ -226,6 +226,7 @@ THE SOFTWARE.
 			<textbox id="textboxid" multiline="true" flex="1" 
 	                  onkeypress="keyPressed(event);" 
 	                  onkeyup="keyUp(event);" 
+	                  onblur="updateLengthDisplay();"
 	                  spellcheck="true"
 	                  collapsed="true" />
 		</hbox>

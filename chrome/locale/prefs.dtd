@@ -20,6 +20,7 @@
 <!ENTITY animateNeverPref.label         "Never">
 <!ENTITY animateAlwaysPref.label         "Always">
 
+<!ENTITY prefForgetAccount.label         "Forget Saved Account Data">
 
 
 

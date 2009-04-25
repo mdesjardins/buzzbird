@@ -39,6 +39,7 @@ THE SOFTWARE.
    
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
+ <script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
 
  <prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/content/images/prefs-general.png">
     	<preferences>
@@ -72,5 +73,9 @@ THE SOFTWARE.
 		</vbox>
 	</prefpane>
 	<prefpane id="paneAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/content/images/prefs-accounts.png">
+		<preferences></preferences>
+		<label value="Yeah, this is pretty lame right now."/>
+		<label value="It'll get better in the next release!"/>
+		<button label="&prefForgetAccount.label;" oncommand="forgetCredentials();" />
 	</prefpane>
 </prefwindow>

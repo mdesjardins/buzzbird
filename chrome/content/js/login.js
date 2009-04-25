@@ -2,7 +2,7 @@ var passwordManager = Components.classes["@mozilla.org/login-manager;1"]
                                 .getService(Components.interfaces.nsILoginManager);
 
 var hostname = 'localhost';
-var formSubmitURL = 'localhost';  // not http://www.example.com/foo/auth.cgi
+var formSubmitURL = 'localhost';  
 var httprealm = null;
 var user = '';
 var password = '';
@@ -21,8 +21,7 @@ try {
    if (logins != null && logins.length > 0) {
    	 user = logins[0].username;
    	 password = logins[0].password;
-	 jsdump("user:" + user + " password:" + password);
-     authenticate(user,password,true);
+     authenticate(user,password,false);
    } else {
      jsdump('No saved logins found.');	
    }
@@ -36,8 +35,13 @@ try {
 
 function checkEnter(e) {
 	if (e.which == 13) {
-		username = $('username').value;
-		password = $('password').value;
-		authenticate(username,password,false);
+		doAuthenticate();
 	}
+}
+
+function doAuthenticate() {
+	username = $('username').value;
+	password = $('password').value;
+	saveCreds = $('saveCredentials').checked;
+	authenticate(username,password,saveCreds);	
 }

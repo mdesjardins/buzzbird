@@ -101,7 +101,7 @@ var classes = {
 // Gets the login params and calls login to attempt authenticating
 // with the twitter API.  Calls start() if successful.
 //
-function authenticate(u, p, auto) {
+function authenticate(u, p, save) {
 	message("Authenticating");
 	$('loginThrobber').style.display = 'inline';
 	$('username').disabled = true;
@@ -115,7 +115,7 @@ function authenticate(u, p, auto) {
 		getChromeElement('usernameLabelId').value = username;
 		getChromeElement('passwordLabelId').value = password;
 		registerEvents();
-		if (!auto) {
+		if (save) {
 			saveCredentials(username,password);
 		}
 		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
@@ -172,6 +172,7 @@ function registerEvents() {
 		getMainWindow().document.addEventListener("fetchAll", fetchAll, false); 
 		getMainWindow().document.addEventListener("fetch", fetch, false); 
 		getMainWindow().document.addEventListener("start", start, false); 
+		getMainWindow().document.addEventListener("updateTweetLength", "function proxy(that) { that.updateLengthDisplay() };  proxy(getMainWindow())", false); 
 	} catch(e) {
 		jsdump('Problem initializing events: ' + e);
 	}
