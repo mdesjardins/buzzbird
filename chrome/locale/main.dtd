@@ -4,6 +4,11 @@
 <!ENTITY markAllAsReadCmd.label           "Mark all as read">  
 <!ENTITY markAllAsReadCmd.key           "M">  
 <!ENTITY markAllAsReadCmd.accesskey         "M">
+<!ENTITY deleteAllReadCmd.label           "Delete all read">  
+<!ENTITY deleteAllReadCmd.key           "D">  
+<!ENTITY deleteAllReadCmd.accesskey         "D">
+<!ENTITY deleteAllReadCmd.modifiers  "accel,alt">
+
 <!ENTITY refreshNowCmd.label           "Refresh now">  
 <!ENTITY refreshNowCmd.key           "R">  
 <!ENTITY refreshNowCmd.accesskey         "R">

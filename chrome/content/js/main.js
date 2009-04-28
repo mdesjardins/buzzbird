@@ -172,7 +172,7 @@ function registerEvents() {
 		getMainWindow().document.addEventListener("fetchAll", fetchAll, false); 
 		getMainWindow().document.addEventListener("fetch", fetch, false); 
 		getMainWindow().document.addEventListener("start", start, false); 
-		getMainWindow().document.addEventListener("updateTweetLength", "function proxy(that) { that.updateLengthDisplay() };  proxy(getMainWindow())", false); 
+		getMainWindow().document.addEventListener("updateTweetLength", "function proxy(that) { that.updateLengthDisplay(); };  proxy(getMainWindow());", false); 
 	} catch(e) {
 		jsdump('Problem initializing events: ' + e);
 	}
@@ -339,7 +339,7 @@ function formatTweet(tweet) {
      + "   </tr>"
      + "  </table>"
      + "  <div class=\"" + c.bottomRow + "\">"
-     + "   <img name=\"mark\" id=\"mark-" + tweet.id + "\" src=\"chrome://buzzbird/content/images/star-yellow.png\" style=\"width:16px; height:16px; vertical-align:middle;\""
+     + "   <img name=\"mark\" id=\"mark-" + tweet.id + "\" src=\"chrome://buzzbird/content/images/star-yellow.png\" style=\"width:16px; height:16px;\""
      + "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" onmouseover=\"this.style.cursor='pointer';\" />"
      + "   <span id=\"tweetInfo-" + tweet.id + "\">"
      + "    <span class=\"" + c.info + "\">" 
@@ -524,7 +524,7 @@ function postTweetCallback(tweetText) {
 function postTweet() {
 	var tweet = getChromeElement('textboxid').value;
 	url = 'http://twitter.com/statuses/update.json';
-	url = url + '?status=' + escape(tweet);
+	url = url + '?status=' + encodeURI(tweet);
 	new Ajax.Request(url,
 		{
 			method:'post',
@@ -583,15 +583,43 @@ function showOrHide(tweetType,display) {
 	}
 }
 
+function removeTweetFromDom(id) {
+	jsdump('delete ' + id);
+	el = getBrowser().contentDocument.getElementById('tweet-' + id);
+	if (el) {
+		el.parentNode.removeChild(el); 
+	} else {
+		jsdump('Could not find element with id tweet-' + id);
+	}
+}
+
 // Marks all as read.
 //
 function markAllAsRead() {
 	var xx = getBrowser().contentDocument.getElementsByName('mark');
-	for (var i=0; i<xx.length; i++) {
+	var len = xx.length;
+	for (var i=0; i<len; i++) {
 		x = xx[i];
 		x.src='chrome://buzzbird/content/images/checkmark-gray.png'; 
-/*		x.name='marked';  */
 	}	
+}
+
+// Deletes all the previously marked-as-read tweets.  This is astoundingly inefficient.
+//
+function deleteAllRead() {
+	var xx = getBrowser().contentDocument.getElementsByName('mark');
+	var x = xx[0]
+	while (x) {
+		// Yes, this is a hack, too.
+		if (x.src == 'chrome://buzzbird/content/images/checkmark-gray.png') {
+			id = x.id.substring(x.id.indexOf('-')+1);
+			jsdump( 'x.id ' + x.id + ' became ' + id);
+			removeTweetFromDom(id);
+		}
+		
+		var xx = getBrowser().contentDocument.getElementsByName('mark');
+		var x = xx[0]		
+	}
 }
 
 function shortenUrl() {
@@ -680,6 +708,7 @@ function start() {
 	getChromeElement('refreshButtonId').collapsed=false;
 	getChromeElement('shortenUrlId').collapsed=false;
 	getChromeElement('markAllAsReadId').collapsed=false;
+	getChromeElement('deleteAllReadId').collapsed=false;
 	getChromeElement('symbolButtonId').collapsed=false;
 	fetchAll();
 }

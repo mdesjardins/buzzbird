@@ -7,7 +7,7 @@ body {
 	background: url('chrome://buzzbird/skin/images/tweet/rc-bl.png') no-repeat bottom left;
 	padding: 0px 0px 10px 10px;
 	width:99%;
-	height:20px;
+	height:22px;
 	clear: both;
 	overflow: hidden;
 }
@@ -103,7 +103,8 @@ a.tweetInfo {
 	color: #666;
 	font-size: 0.6em;
 	font-family: Helvetica, Arial, sans-serif;	
-	padding: 0px 0px 20px 0px;
+	/*padding: 0px 0px 20px 0px;*/
+	margin-bottom:10px;
 	height: 22px;
 }
 
