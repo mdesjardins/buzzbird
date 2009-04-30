@@ -38,5 +38,10 @@ pref("extensions.update.url", "chrome://mozapps/locale/extensions/extensions.pro
 pref("extensions.getMoreExtensionsURL", "chrome://mozapps/locale/extensions/extensions.properties");
 pref("extensions.getMoreThemesURL", "chrome://mozapps/locale/extensions/extensions.properties");
 
+// enable tracemonkey
+pref("javascript.options.jit.content",true);
+pref("javascript.options.jit.chrome",true);
+
 // defaults
 pref("buzzbird.update.interval", 180000);
+pref("buzzbird.auto.markread", false);

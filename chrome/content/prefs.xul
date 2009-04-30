@@ -45,6 +45,7 @@ THE SOFTWARE.
     	<preferences>
       		<preference id="updateInterval" name="buzzbird.update.interval" type="int"/>
 			<preference id="animatedAvatars" name="image.animation_mode" type="string"/>
+			<preference id="autoMarkOldTweetsAsRead" name="buzzbird.auto.markread" type="bool"/>
     	</preferences>
 		<vbox>
 			<hbox>
@@ -70,6 +71,10 @@ THE SOFTWARE.
 					</menupopup>
 				</menulist>
 		    </hbox>
+			<hbox>
+				<label control="checkbox_autoMarkOldTweetsAsRead" value="&autoMarkOldTweetsAsRead.label;" /> 
+				<checkbox id="checkbox_autoMarkOldTweetsAsRead" preference="autoMarkOldTweetsAsRead" />
+			</hbox>
 		</vbox>
 	</prefpane>
 	<prefpane id="paneAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/content/images/prefs-accounts.png">

@@ -20,6 +20,8 @@
 <!ENTITY animateNeverPref.label         "Never">
 <!ENTITY animateAlwaysPref.label         "Always">
 
+<!ENTITY autoMarkOldTweetsAsRead.label         "Automatically mark old tweets as read after update">
+
 <!ENTITY prefForgetAccount.label         "Forget Saved Account Data">
 
 

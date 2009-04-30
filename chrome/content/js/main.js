@@ -263,7 +263,10 @@ function updateTimestamps() {
 			var prettyWhen = "more than " + parseInt(delta/(ONE_DAY)) + "d ago";
 		}
 		var elid = 'prettytime-' + tweetid.substring(tweetid.indexOf('-')+1);
-		getBrowser().contentDocument.getElementById(elid).innerHTML = prettyWhen;
+		el = getBrowser().contentDocument.getElementById(elid)
+		if (el) {
+		  el.innerHTML = prettyWhen;
+		}
 	}
 	jsdump('finished updating timestamps.');
 
@@ -458,13 +461,15 @@ function fetchAll() {
 	fetchUrl(['http://twitter.com/direct_messages.json','http://twitter.com/statuses/replies.json','http://twitter.com/statuses/friends_timeline.json']);
 }
 function fetch() {
+	var markAsReadNow = getBoolPref("buzzbird.auto.markread",false);
+	if (markAsReadNow) {
+		markAllAsRead();
+	}
+	
+	// Don't think we need this check anymore, but I'm superstitious...
 	if(typeof fetchUrl === 'function') {
 		fetchUrl(['http://twitter.com/statuses/friends_timeline.json','http://twitter.com/direct_messages.json']);
-	} //else {
-		//jsdump('Hmph.  fetchUrl is not defined?  Trying again in 5 seconds.');
-		//jsdump('Error - retrying.');
-		//window.setTimeout(forceUpdate, 5000);
-	//}
+	}
 }
 
 // This function is called from the UI to request a tweet fetch.
@@ -524,7 +529,7 @@ function postTweetCallback(tweetText) {
 function postTweet() {
 	var tweet = getChromeElement('textboxid').value;
 	url = 'http://twitter.com/statuses/update.json';
-	url = url + '?status=' + encodeURI(tweet);
+	url = url + '?status=' + encodeURIComponent(tweet);
 	new Ajax.Request(url,
 		{
 			method:'post',
@@ -584,7 +589,7 @@ function showOrHide(tweetType,display) {
 }
 
 function removeTweetFromDom(id) {
-	jsdump('delete ' + id);
+	//jsdump('delete ' + id);
 	el = getBrowser().contentDocument.getElementById('tweet-' + id);
 	if (el) {
 		el.parentNode.removeChild(el); 
@@ -608,17 +613,15 @@ function markAllAsRead() {
 //
 function deleteAllRead() {
 	var xx = getBrowser().contentDocument.getElementsByName('mark');
-	var x = xx[0]
-	while (x) {
+	var len = xx.length
+	while (len--) {
+		x = xx[len];
 		// Yes, this is a hack, too.
 		if (x.src == 'chrome://buzzbird/content/images/checkmark-gray.png') {
 			id = x.id.substring(x.id.indexOf('-')+1);
-			jsdump( 'x.id ' + x.id + ' became ' + id);
+			//jsdump( 'x.id ' + x.id + ' became ' + id);
 			removeTweetFromDom(id);
 		}
-		
-		var xx = getBrowser().contentDocument.getElementsByName('mark');
-		var x = xx[0]		
 	}
 }
 
