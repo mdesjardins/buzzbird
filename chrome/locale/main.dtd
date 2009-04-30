@@ -83,8 +83,8 @@
 
 <!ENTITY showAllTweets.label           "Show all tweets">
 <!ENTITY showingAllTweets.label           "Showing all tweets">
-<!ENTITY showReplies.label           "Show replies">
-<!ENTITY showingReplies.label           "Showing replies">
+<!ENTITY showReplies.label           "Show mentions">
+<!ENTITY showingReplies.label           "Showing mentions">
 <!ENTITY showDirect.label           "Show direct messages">
 <!ENTITY showingDirect.label           "Showing direct messages">
 

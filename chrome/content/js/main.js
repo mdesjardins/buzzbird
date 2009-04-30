@@ -223,12 +223,13 @@ function progress(throbbing) {
 // Returns 'tweet','reply','direct', or 'mine'
 //
 function tweetType(tweet) {
+	var re = new RegExp(".*?@" + getUsername() + ".*?");
 	var result = 'tweet'
 	if (tweet.text.substring(0,11) == "Directly to") {
 		result = 'direct-to';
 	} else if (tweet.sender != undefined) {
 		result = 'direct-from';
-	} else if (tweet.in_reply_to_screen_name == getUsername()) {
+	} else if (tweet.in_reply_to_screen_name == getUsername() || re.test(tweet.text)) {
 		result = 'reply';
 	} else if (tweet.user.screen_name == getUsername()) {
 		result = 'mine';
@@ -458,7 +459,7 @@ function fetchUrl(destinations) {
 
 function fetchAll() {
 	jsdump('in fetchAll');
-	fetchUrl(['http://twitter.com/direct_messages.json','http://twitter.com/statuses/replies.json','http://twitter.com/statuses/friends_timeline.json']);
+	fetchUrl(['http://twitter.com/direct_messages.json','http://twitter.com/statuses/mentions.json','http://twitter.com/statuses/friends_timeline.json']);
 }
 function fetch() {
 	var markAsReadNow = getBoolPref("buzzbird.auto.markread",false);
@@ -564,21 +565,21 @@ function showAllTweets() {
 	showOrHide('mine','inline');
 	showOrHide('direct','inline');
 	showOrHide('reply','inline');	
-	getChromeElement('filterbuttonid').label="Showing all tweets";
+	getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;;
 }
 function showResponses() {
 	showOrHide('tweet','none');
 	showOrHide('mine','none');
 	showOrHide('direct','none');
 	showOrHide('reply','inline');	
-	getChromeElement('filterbuttonid').label="Showing replies";
+	getChromeElement('filterbuttonid').label=getChromeElement('showingRepliesId').value;
 }
 function showDirect() {
 	showOrHide('tweet','none');
 	showOrHide('mine','none');
 	showOrHide('direct','inline');
 	showOrHide('reply','none');	
-	getChromeElement('filterbuttonid').label="Showing direct messages";
+	getChromeElement('filterbuttonid').label=getChromeElement('showingDirectId').value;;
 }
 function showOrHide(tweetType,display) {
 	var elements = getBrowser().contentDocument.getElementsByName(tweetType);
