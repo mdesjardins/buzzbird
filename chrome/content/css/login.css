@@ -10,9 +10,11 @@ window {
 
 body {
 	font-family: Helvetica,"Franklin Gothic Medium","Helvetica Neue","MgOpen Moderna";
+	/*
 	background: url("chrome://buzzbird/content/images/carbon-blue-fade-up-bg-8x150.png");
 	background-position: bottom left;
 	background-repeat: repeat-x;	
+	*/
 }
 
 table {
@@ -22,10 +24,16 @@ table {
 .apptitle {
 	font-size: 32px;
 	padding: 125px 0px 0px 10px;
+	color: #222;
+}
+
+.versiontext {
+	font-size:14px;
+	color: #222;
 }
 
 .light-blue {
-	color: #CCF;
+	color: #dbdbff;
 }
 
 .biggest {
@@ -49,8 +57,10 @@ table {
 	color: #3b62e1;
 }
 
-.orange {
+.login-error {
 	color: #ea6e09;
+	margin-top:10px;
+	padding-top:10px;
 }
 
 .login {
@@ -60,10 +70,17 @@ table {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	background: url("chrome://buzzbird/content/images/carbon-blue-fade-down-bg-8x100.png");
-	background-position: top left;
-	background-repeat: repeat-x;	
-	padding-top: 125px;
+	padding-top: 80px;
+}
+
+.logo {
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:10px;
+	background-color:#afb7ce;
+	padding:20px;
+	border-top:medium solid #dbdbff;
+	border-bottom:medium solid #dbdbff;
 }
 
 .loginThrobber {
@@ -72,12 +89,28 @@ table {
 	margin-right:auto;
 }
 
+.login-input {
+	height:20px;
+}
+
 .footer {
-	color: #777;
+	color: #888;
 	position: absolute;
-	bottom: 200px;
+	bottom: 20px;
 	left: auto;
 	right: auto;
 	text-align: center;
 	width: 100%;
+	font-size:12px;
+}
+
+a {
+	color: #777;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration:underline;
+	cursor:pointer;
 }

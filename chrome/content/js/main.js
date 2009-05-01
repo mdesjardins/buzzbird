@@ -126,7 +126,7 @@ function authenticate(u, p, save) {
 		$('username').disabled = false;
 		$('password').disabled = false;
 		$('loginOkButton').disabled = false;
-		$('password').select(); // this not working as well as I had hoped.  :(
+		//$('password').select(); // this not working as well as I had hoped.  :(
 		$('password').focus(); 
 	}
 }
@@ -561,41 +561,39 @@ function keyUp(e) {
 // Filter tweet types.
 //
 function showAllTweets() {
-	showOrHide('tweet','inline');
-	showOrHide('mine','inline');
-	showOrHide('direct','inline');
-	showOrHide('reply','inline');	
+	// showOrHide('tweet','inline');
+	// showOrHide('mine','inline');
+	// showOrHide('direct-to','inline');
+	// showOrHide('direct-from','inline');
+	// showOrHide('reply','inline');	
+	var elements = getBrowser().contentDocument.getElementsByClassName('tweetBox');
+	for (i=elements.length-1; i>=0; i--) {
+		element = elements[i];
+		element.style.display = 'inline';
+	}
 	getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;;
 }
 function showResponses() {
 	showOrHide('tweet','none');
 	showOrHide('mine','none');
-	showOrHide('direct','none');
+	showOrHide('direct-to','none');
+	showOrHide('direct-from','none');
 	showOrHide('reply','inline');	
 	getChromeElement('filterbuttonid').label=getChromeElement('showingRepliesId').value;
 }
 function showDirect() {
 	showOrHide('tweet','none');
 	showOrHide('mine','none');
-	showOrHide('direct','inline');
+	showOrHide('direct-to','inline');
+	showOrHide('direct-from','inline');
 	showOrHide('reply','none');	
 	getChromeElement('filterbuttonid').label=getChromeElement('showingDirectId').value;;
 }
 function showOrHide(tweetType,display) {
 	var elements = getBrowser().contentDocument.getElementsByName(tweetType);
-	for (i=0, l=elements.length; i<l; ++i) {
+	for (i=elements.length-1; i>=0; i--) {
 		element = elements[i];
 		element.style.display = display;
-	}
-}
-
-function removeTweetFromDom(id) {
-	//jsdump('delete ' + id);
-	el = getBrowser().contentDocument.getElementById('tweet-' + id);
-	if (el) {
-		el.parentNode.removeChild(el); 
-	} else {
-		jsdump('Could not find element with id tweet-' + id);
 	}
 }
 
@@ -625,6 +623,17 @@ function deleteAllRead() {
 		}
 	}
 }
+
+function removeTweetFromDom(id) {
+	//jsdump('delete ' + id);
+	el = getBrowser().contentDocument.getElementById('tweet-' + id);
+	if (el) {
+		el.parentNode.removeChild(el); 
+	} else {
+		jsdump('Could not find element with id tweet-' + id);
+	}
+}
+
 
 function shortenUrl() {
 	var params = {};
@@ -712,7 +721,7 @@ function start() {
 	getChromeElement('refreshButtonId').collapsed=false;
 	getChromeElement('shortenUrlId').collapsed=false;
 	getChromeElement('markAllAsReadId').collapsed=false;
-	getChromeElement('deleteAllReadId').collapsed=false;
+	//getChromeElement('deleteAllReadId').collapsed=false;  This feature is painfully slow, need to figure out how to optimize it before re-enabling it.
 	getChromeElement('symbolButtonId').collapsed=false;
 	fetchAll();
 }

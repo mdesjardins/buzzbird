@@ -244,7 +244,7 @@ THE SOFTWARE.
 	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
 
     <vbox flex="1">
-		<tabbox flex="3">
+		<tabbox flex="3" style="padding:0px; margin:0px;">
 			<tabs align="start" closebutton="true" collapsed="true">
 				<tab label="Main"/>
 				<tab label="Secondary" />
@@ -256,6 +256,7 @@ THE SOFTWARE.
                          id="browserid" 
                          flex="3" 
                          contextmenu="contentAreaContextMenu"
+						 style="padding:0px; margin:0px;"
                          tooltip="aHTMLTooltip" />
 			</tabpanel>
 		</tabbox>

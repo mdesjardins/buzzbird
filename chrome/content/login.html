@@ -32,18 +32,23 @@
 		This whole page needs to be stringified for i18n
 	-->
 	<div class="login">
-		<span class="apptitle">buzz<span class="title light-blue">bird</span></span>
-		<br/>
-		<span class="orange" id="badAuth" style="display:none;">Whoops, that didn't work!  Try again maybe?</span>
+		<div class="logo">
+			<span class="apptitle">buzz<span class="title light-blue">bird</span></span>
+			<br/>
+			<span class="versiontext">version <span class="light-blue">0.3</span></span>
+			<br/>
+			<img src="chrome://buzzbird/content/images/main-logo.png" />
+		</div>
+		<div class="login-error" id="badAuth" style="display:none;">Whoops, that didn't work!  Want to try again?</div>
 		<form id="login_form" onsubmit="login();">
 			<table>
 				<tr>
 					<td class="smaller">screen name</td>
-					<td><input id="username" type="text" onkeypress="checkEnter(event);" /></td>
+					<td><input class="login-input" id="username" type="text" onkeypress="checkEnter(event);" /></td>
 				</tr>
-				<tr>
+				<tr class="login-input">
 					<td class="smaller">password</td>
-					<td><input id="password" type="password" onkeypress="checkEnter(event);" /></td>
+					<td><input class="login-input" id="password" type="password" onkeypress="checkEnter(event);" /></td>
 				</tr>
 				<tr>
 					<td class="smaller" align="right"><input id="saveCredentials" type="checkbox" value="saveCredentials" /></td>
@@ -59,13 +64,16 @@
 			 	 style="display:none;"/>
 		</p>
 		<p class="footer">
-			version <b>1alpha2</b>
-			<br>
-			&copy; 2009 <a href="#" onclick="linkTo('http://mikedesjardins.us');">Mike Desjardins</a>
+			&copy; 2009 <a href="#" onclick="linkTo('http://mikedesjardins.us');">Mike Desjardins</a>.
+			<br/>
+			Logo created by <a href="#" onclick="linkTo('http://lbaumann.com');">Laurent Baumann</a>.
 		</p>
 	</div>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/login.js"></script>
+	<script type="text/javascript">
+		document.getElementById('username').focus();
+	</script>
 </body>
 </html>
 		
