@@ -634,6 +634,20 @@ function removeTweetFromDom(id) {
 	}
 }
 
+function speech() {
+	var collapsed = getChromeElement('textboxid').collapsed;
+	if (collapsed) {
+		getChromeElement('textboxid').collapsed=false;		
+		getChromeElement('shortenUrlId').collapsed=false;		
+		getChromeElement('symbolButtonId').collapsed=false;		
+		getChromeElement('openSpeechId').image = 'chrome://buzzbird/content/images/speech-button-pressed-20x20.png';	
+	} else {
+		getChromeElement('textboxid').collapsed=true;		
+		getChromeElement('shortenUrlId').collapsed=true;		
+		getChromeElement('symbolButtonId').collapsed=true;		
+		getChromeElement('openSpeechId').image = 'chrome://buzzbird/content/images/speech-button-active-20x20.png';	
+	}
+}
 
 function shortenUrl() {
 	var params = {};
@@ -717,11 +731,12 @@ function start() {
 	var updateTimer = getMainWindow().setInterval( function(that) { that.fetch(); }, interval, getMainWindow());
 	getChromeElement('updateTimerId').value = updateTimer;
 	getChromeElement('toolbarid').collapsed=false;
-	getChromeElement('textboxid').collapsed=false;
+	//getChromeElement('textboxid').collapsed=false;
 	getChromeElement('refreshButtonId').collapsed=false;
-	getChromeElement('shortenUrlId').collapsed=false;
+	//getChromeElement('shortenUrlId').collapsed=false;
 	getChromeElement('markAllAsReadId').collapsed=false;
+	getChromeElement('openSpeechId').collapsed=false;
 	//getChromeElement('deleteAllReadId').collapsed=false;  This feature is painfully slow, need to figure out how to optimize it before re-enabling it.
-	getChromeElement('symbolButtonId').collapsed=false;
+	//getChromeElement('symbolButtonId').collapsed=false;
 	fetchAll();
 }

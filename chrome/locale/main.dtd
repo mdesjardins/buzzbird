@@ -1,6 +1,6 @@
 <!-- Tools -->
 <!ENTITY toolsMenu.label         "Tools"> 
-<!ENTITY toolsMenu.accesskey       "T"> 
+<!ENTITY toolsMenu.accesskey       "O"> 
 <!ENTITY markAllAsReadCmd.label           "Mark all as read">  
 <!ENTITY markAllAsReadCmd.key           "M">  
 <!ENTITY markAllAsReadCmd.accesskey         "M">
@@ -8,6 +8,10 @@
 <!ENTITY deleteAllReadCmd.key           "D">  
 <!ENTITY deleteAllReadCmd.accesskey         "D">
 <!ENTITY deleteAllReadCmd.modifiers  "accel,alt">
+
+<!ENTITY speechCmd.label           "Toggle tweet field">  
+<!ENTITY speechCmd.key           "T">  
+<!ENTITY speechCmd.accesskey         "T">
 
 <!ENTITY refreshNowCmd.label           "Refresh now">  
 <!ENTITY refreshNowCmd.key           "R">  

@@ -61,6 +61,7 @@ THE SOFTWARE.
 		<command id="cmd_deleteAllRead" oncommand="deleteAllRead();" />
 		<command id="cmd_refreshNow" oncommand="forceUpdate();" />
 		<command id="cmd_shortenUrl" oncommand="shortenUrl();" />
+		<command id="cmd_speech" oncommand="speech();" />
 	</commandset>
 	
 	<commandset id="editMenuCommands"/>
@@ -208,10 +209,10 @@ THE SOFTWARE.
 	<!-- Actual Window Stuff -->
     <!-- =================== -->
 
-    <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true" >
-		<hbox>
-			<vbox>
-				<label id="realnameLabelId" value="Testy Tester" style="padding:10px 0px 0px 9px; margin:0px 0px 0px 0px; font-size:1.1em;" />
+    <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true">
+		<vbox flex="5">
+			<hbox pack="5">
+				<label id="realnameLabelId" value="Testy Tester" style="padding:10px 0px 0px 9px; margin:0px 0px 0px 0px; font-size:1.1em;" hidden="true"/>
 				<label id="usernameLabelId" value="" hidden="true" />
 				<label id="passwordLabelId" hidden="true" />
 				<label id="updateTimerId" hidden="true" />
@@ -219,26 +220,104 @@ THE SOFTWARE.
 				<label id="showingAllTweetsId" hidden="true" value="&showingAllTweets.label;" />
 				<label id="showingRepliesId" hidden="true" value="&showingReplies.label;" />
 				<label id="showingDirectId" hidden="true" value="&showingDirect.label;" />
-				<hbox id="filterbuttonwrapperid" style="padding:0; margin:-8px 0px 3px -5px;">
-					<toolbarbutton id="filterbuttonid" 
-						       type="menu-button" 
-						       label="&showingAllTweets.label;" 
-						       style="font-size:0.9em;">
-			    		<menupopup selectedIndex="0" style="padding:0px; margin:0px;">
-			        		<menuitem label="&showAllTweets.label;" value="1" oncommand="showAllTweets();"/>
-			        		<menuitem label="&showReplies.label;" value="2" oncommand="showResponses();"/>
-			        		<menuitem label="&showDirect.label;" value="3" oncommand="showDirect();"/>
-			    		</menupopup>
-					</toolbarbutton>
-				</hbox>
-			</vbox>
-		</hbox>
-		<toolbarspring />
-		<image id="avatarId"
-		       src="chrome://buzzbird/content/images/ajax-loader.gif" 
-		       width="40" 
-		       height="32" 
-		       style="margin:4px 4px 4px 4px;"/>
+				<toolbarbutton id="refreshButtonId"
+					       collapsed="true"
+								style="padding:0px 0px 0px 5px; margin:0; width:22px"
+								image="chrome://buzzbird/content/images/reload-button-active-20x20.png" 
+								onmousedown="this.image='chrome://buzzbird/content/images/reload-button-pressed-20x20.png';"
+								onmouseup="this.image='chrome://buzzbird/content/images/reload-button-active-20x20.png';"
+								tooltiptext="&refreshNowCmd.label;"
+								command="cmd_refreshNow" />
+				<toolbarbutton id="markAllAsReadId"
+					       collapsed="true"
+							style="padding:0; margin:0; width:22px"
+							image="chrome://buzzbird/content/images/check-button-active-20x20.png" 
+							onmousedown="this.image='chrome://buzzbird/content/images/check-button-pressed-20x20.png';"
+							onmouseup="this.image='chrome://buzzbird/content/images/check-button-active-20x20.png';"
+							tooltiptext="&markAllAsReadCmd.label;"
+							command="cmd_markAllAsRead" />
+				<toolbarbutton id="deleteAllReadId"
+					       collapsed="true"
+							style="padding:0; margin:0; width:22px"
+							image="chrome://buzzbird/content/images/delete-button-active-20x20.png" 
+							onmousedown="this.image='chrome://buzzbird/content/images/delete-button-pressed-20x20.png';"
+							onmouseup="this.image='chrome://buzzbird/content/images/delete-button-active-20x20.png';"
+							tooltiptext="&deleteAllReadCmd.label;"
+							command="cmd_deleteAllRead" />
+				<toolbarbutton id="openSpeechId"
+					       collapsed="true"
+							style="padding:0; margin:0; width:22px"
+							image="chrome://buzzbird/content/images/speech-button-active-20x20.png" 
+							onmousedown="this.image='chrome://buzzbird/content/images/speech-button-pressed-20x20.png';"
+							onmouseup="this.image='chrome://buzzbird/content/images/speech-button-active-20x20.png';"
+							tooltiptext="&speechCmd.label;"
+							command="cmd_speech" />
+				<toolbarbutton id="shortenUrlId"
+					       collapsed="true"
+								style="padding:0; margin:0; width:22px"
+								image="chrome://buzzbird/content/images/link-button-active-20x20.png" 
+								onmousedown="this.image='chrome://buzzbird/content/images/link-button-pressed-20x20.png';"
+								onmouseup="this.image='chrome://buzzbird/content/images/link-button-active-20x20.png';"
+								tooltiptext="&shortenUrlCmd.label;"
+								command="cmd_shortenUrl"/>
+				<toolbarbutton id="symbolButtonId" 
+					       collapsed="true"
+								style="padding:0; margin:0; width:22px"
+								image="chrome://buzzbird/content/images/smiley-button-active-20x20.png" 
+								onmousedown="this.image='chrome://buzzbird/content/images/smiley-button-pressed-20x20.png';"
+								onmouseup="this.image='chrome://buzzbird/content/images/smiley-button-active-20x20.png';"
+								type="menu"
+								tooltiptext="&insertSymbolCmd.label;">
+						<menupopup>
+							<menuitem label="&#x2764;" oncommand="appendText('&#x2764;');" /> <!-- Heart -->
+							<menuitem label="&#x266C;" oncommand="appendText('&#x266C;');" /> <!-- Beamed Sixteenth Notes -->
+							<menuitem label="&#x263A;" oncommand="appendText('&#x263A;');" /> <!-- Smiley -->
+							<menuitem label="&#x2639;" oncommand="appendText('&#x2639;');" /> <!-- Sad -->
+							<menuitem label="&#x2708;" oncommand="appendText('&#x2708;');" /> <!-- Airplane -->
+							<menuitem label="&#x2709;" oncommand="appendText('&#x2709;');" /> <!-- Envelope -->
+							<menuitem label="&#x270E;" oncommand="appendText('&#x270E;');" /> <!-- Pencil -->
+							<menuitem label="&#x271D;" oncommand="appendText('&#x271D;');" /> <!-- Cross -->
+							<menuitem label="&#x273F;" oncommand="appendText('&#x273F;');" /> <!-- Flower -->
+							<menuitem label="&#x2704;" oncommand="appendText('&#x2704;');" /> <!-- Scissors -->
+							<menuitem label="&#x261E;" oncommand="appendText('&#x261E;');" /> <!-- Pointing Finger -->
+							<menuitem label="&#x2620;" oncommand="appendText('&#x2620;');" /> <!-- Skull and Crossbones -->
+							<menuitem label="&#x262E;" oncommand="appendText('&#x262E;');" /> <!-- Peace -->
+							<menuitem label="&#x262F;" oncommand="appendText('&#x262F;');" /> <!-- Yin Yang -->
+							<menuitem label="&#x2600;" oncommand="appendText('&#x2600;');" /> <!-- Sun -->
+							<menuitem label="&#x2601;" oncommand="appendText('&#x2601;');" /> <!-- Cloud -->
+							<menuitem label="&#x2602;" oncommand="appendText('&#x2602;');" /> <!-- Umbrella -->
+							<menuitem label="&#x2744;" oncommand="appendText('&#x2744;');" /> <!-- Snowflake -->
+							<menuitem label="&#x2603;" oncommand="appendText('&#x2603;');" /> <!-- Snowman -->
+						</menupopup>
+				</toolbarbutton>
+				<spacer flex="10" />
+				<toolbarbutton id="filterbuttonid" 
+					       type="menu-button" 
+					       label="&showingAllTweets.label;" 
+					       style="font-size:0.9em;">
+		    		<menupopup selectedIndex="0" style="padding:0px; margin:0px;">
+		        		<menuitem label="&showAllTweets.label;" value="1" oncommand="showAllTweets();"/>
+		        		<menuitem label="&showReplies.label;" value="2" oncommand="showResponses();"/>
+		        		<menuitem label="&showDirect.label;" value="3" oncommand="showDirect();"/>
+		    		</menupopup>
+				</toolbarbutton>
+			</hbox>
+			<hbox flex="5">
+				<textbox id="textboxid" multiline="true" flex="1" 
+		                  onkeypress="keyPressed(event);" 
+		                  onkeyup="keyUp(event);" 
+		                  onblur="updateLengthDisplay();"
+		                  spellcheck="true"
+		                  collapsed="true"
+		 				  width="100%" />
+				<image id="avatarId"
+				       src="chrome://buzzbird/content/images/ajax-loader.gif" 
+				       width="40" 
+				       height="32" 
+				       style="margin:4px 4px 4px 4px;"
+					   hidden="true"/>
+			</hbox>
+		</vbox>
     </toolbar>
 
 	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
@@ -260,78 +339,9 @@ THE SOFTWARE.
                          tooltip="aHTMLTooltip" />
 			</tabpanel>
 		</tabbox>
-		<hbox>
-			<textbox id="textboxid" multiline="true" flex="1" 
-	                  onkeypress="keyPressed(event);" 
-	                  onkeyup="keyUp(event);" 
-	                  onblur="updateLengthDisplay();"
-	                  spellcheck="true"
-	                  collapsed="true" />
-		</hbox>
     </vbox>
     <statusbar id="statusbarid">
-			<toolbarbutton id="refreshButtonId"
-				       collapsed="true"
-							style="padding:0px 0px 0px 5px; margin:0; width:22px"
-							image="chrome://buzzbird/content/images/reload-button-active-20x20.png" 
-							onmousedown="this.image='chrome://buzzbird/content/images/reload-button-pressed-20x20.png';"
-							onmouseup="this.image='chrome://buzzbird/content/images/reload-button-active-20x20.png';"
-							tooltiptext="&refreshNowCmd.label;"
-							command="cmd_refreshNow" />
-			<toolbarbutton id="shortenUrlId"
-				       collapsed="true"
-							style="padding:0; margin:0; width:22px"
-							image="chrome://buzzbird/content/images/link-button-active-20x20.png" 
-							onmousedown="this.image='chrome://buzzbird/content/images/link-button-pressed-20x20.png';"
-							onmouseup="this.image='chrome://buzzbird/content/images/link-button-active-20x20.png';"
-							tooltiptext="&shortenUrlCmd.label;"
-							command="cmd_shortenUrl"/>
-			<toolbarbutton id="markAllAsReadId"
-				       collapsed="true"
-						style="padding:0; margin:0; width:22px"
-						image="chrome://buzzbird/content/images/check-button-active-20x20.png" 
-						onmousedown="this.image='chrome://buzzbird/content/images/check-button-pressed-20x20.png';"
-						onmouseup="this.image='chrome://buzzbird/content/images/check-button-active-20x20.png';"
-						tooltiptext="&markAllAsReadCmd.label;"
-						command="cmd_markAllAsRead" />
-			<toolbarbutton id="deleteAllReadId"
-				       collapsed="true"
-						style="padding:0; margin:0; width:22px"
-						image="chrome://buzzbird/content/images/delete-button-active-20x20.png" 
-						onmousedown="this.image='chrome://buzzbird/content/images/delete-button-pressed-20x20.png';"
-						onmouseup="this.image='chrome://buzzbird/content/images/delete-button-active-20x20.png';"
-						tooltiptext="&deleteAllReadCmd.label;"
-						command="cmd_deleteAllRead" />
-			<toolbarbutton id="symbolButtonId" 
-				       collapsed="true"
-							style="padding:0; margin:0; width:22px"
-							image="chrome://buzzbird/content/images/smiley-button-active-20x20.png" 
-							onmousedown="this.image='chrome://buzzbird/content/images/smiley-button-pressed-20x20.png';"
-							onmouseup="this.image='chrome://buzzbird/content/images/smiley-button-active-20x20.png';"
-							type="menu"
-							tooltiptext="&insertSymbolCmd.label;">
-					<menupopup>
-						<menuitem label="&#x2764;" oncommand="appendText('&#x2764;');" /> <!-- Heart -->
-						<menuitem label="&#x266C;" oncommand="appendText('&#x266C;');" /> <!-- Beamed Sixteenth Notes -->
-						<menuitem label="&#x263A;" oncommand="appendText('&#x263A;');" /> <!-- Smiley -->
-						<menuitem label="&#x2639;" oncommand="appendText('&#x2639;');" /> <!-- Sad -->
-						<menuitem label="&#x2708;" oncommand="appendText('&#x2708;');" /> <!-- Airplane -->
-						<menuitem label="&#x2709;" oncommand="appendText('&#x2709;');" /> <!-- Envelope -->
-						<menuitem label="&#x270E;" oncommand="appendText('&#x270E;');" /> <!-- Pencil -->
-						<menuitem label="&#x271D;" oncommand="appendText('&#x271D;');" /> <!-- Cross -->
-						<menuitem label="&#x273F;" oncommand="appendText('&#x273F;');" /> <!-- Flower -->
-						<menuitem label="&#x2704;" oncommand="appendText('&#x2704;');" /> <!-- Scissors -->
-						<menuitem label="&#x261E;" oncommand="appendText('&#x261E;');" /> <!-- Pointing Finger -->
-						<menuitem label="&#x2620;" oncommand="appendText('&#x2620;');" /> <!-- Skull and Crossbones -->
-						<menuitem label="&#x262E;" oncommand="appendText('&#x262E;');" /> <!-- Peace -->
-						<menuitem label="&#x262F;" oncommand="appendText('&#x262F;');" /> <!-- Yin Yang -->
-						<menuitem label="&#x2600;" oncommand="appendText('&#x2600;');" /> <!-- Sun -->
-						<menuitem label="&#x2601;" oncommand="appendText('&#x2601;');" /> <!-- Cloud -->
-						<menuitem label="&#x2602;" oncommand="appendText('&#x2602;');" /> <!-- Umbrella -->
-						<menuitem label="&#x2744;" oncommand="appendText('&#x2744;');" /> <!-- Snowflake -->
-						<menuitem label="&#x2603;" oncommand="appendText('&#x2603;');" /> <!-- Snowman -->
-					</menupopup>
-			</toolbarbutton>
+<!-- toolbarbuttons used to be here -->
 		<spacer flex="1"/>
 		<label value="" id="statusid" />
 	</statusbar>
