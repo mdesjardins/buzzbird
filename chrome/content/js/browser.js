@@ -91,6 +91,7 @@ function replyTo(id) {
 	getChromeElement('statusid').label = text.length + "/140";
 	jsdump('4');
 	getChromeElement('textboxid').focus();
+	dispatch('openSpeech');
 }
 
 // Send DM
@@ -102,6 +103,7 @@ function sendDirect(id) {
 	getChromeElement('textboxid').value = text;
 	getChromeElement('statusid').label = text.length + "/140";
 	getChromeElement('textboxid').focus();	
+	dispatch('openSpeech');
 }
 
 // Re-tweet
@@ -113,6 +115,7 @@ function retweet(id) {
 	text = text.substring(0,140);
 	getChromeElement('textboxid').value = text;
 	getChromeElement('textboxid').focus();		
+	dispatch('openSpeech');
 	dispatch('updateTweetLength');
 }
  

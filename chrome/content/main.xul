@@ -61,7 +61,7 @@ THE SOFTWARE.
 		<command id="cmd_deleteAllRead" oncommand="deleteAllRead();" />
 		<command id="cmd_refreshNow" oncommand="forceUpdate();" />
 		<command id="cmd_shortenUrl" oncommand="shortenUrl();" />
-		<command id="cmd_speech" oncommand="speech();" />
+		<command id="cmd_speech" oncommand="toggleSpeech();" />
 	</commandset>
 	
 	<commandset id="editMenuCommands"/>
@@ -303,19 +303,24 @@ THE SOFTWARE.
 				</toolbarbutton>
 			</hbox>
 			<hbox flex="5">
-				<textbox id="textboxid" multiline="true" flex="1" 
+				<textbox id="textboxid" 
+				          multiline="true" 
+				          rows="2"
+				          flex="1" 
 		                  onkeypress="keyPressed(event);" 
 		                  onkeyup="keyUp(event);" 
 		                  onblur="updateLengthDisplay();"
 		                  spellcheck="true"
 		                  collapsed="true"
 		 				  width="100%" />
+		<!--
 				<image id="avatarId"
 				       src="chrome://buzzbird/content/images/ajax-loader.gif" 
 				       width="40" 
 				       height="32" 
 				       style="margin:4px 4px 4px 4px;"
 					   hidden="true"/>
+		-->
 			</hbox>
 		</vbox>
     </toolbar>
@@ -340,7 +345,7 @@ THE SOFTWARE.
 			</tabpanel>
 		</tabbox>
     </vbox>
-    <statusbar id="statusbarid">
+    <statusbar id="statusbarid" height="5">
 <!-- toolbarbuttons used to be here -->
 		<spacer flex="1"/>
 		<label value="" id="statusid" />

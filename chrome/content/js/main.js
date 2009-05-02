@@ -157,7 +157,6 @@ function login() {
 		var img = user.profile_image_url;
 		getChromeElement('avatarLabelId').value = img;
 		getChromeElement('realnameLabelId').value = user.name;
-		getChromeElement('avatarId').src = img;
 		return true;
 	} else {
 		return false;
@@ -172,7 +171,9 @@ function registerEvents() {
 		getMainWindow().document.addEventListener("fetchAll", fetchAll, false); 
 		getMainWindow().document.addEventListener("fetch", fetch, false); 
 		getMainWindow().document.addEventListener("start", start, false); 
-		getMainWindow().document.addEventListener("updateTweetLength", "function proxy(that) { that.updateLengthDisplay(); };  proxy(getMainWindow());", false); 
+		getMainWindow().document.addEventListener("openSpeech", getMainWindow().openSpeech, false); 
+		getMainWindow().document.addEventListener("closeSpeech", getMainWindow().closeSpeech, false); 
+		getMainWindow().document.addEventListener("updateTweetLength", getMaineWindow().updateLengthDisplay, false); 
 	} catch(e) {
 		jsdump('Problem initializing events: ' + e);
 	}
@@ -201,10 +202,19 @@ function message(text) {
 function updateLengthDisplay() {
 	var textbox = getChromeElement('textboxid');
 	var length = textbox.value.length;
+	var status = getChromeElement('statusid');
 	if (length != 0) {
-		getChromeElement('statusid').value = length + '/140';
+		status.value = length + '/140';
 	} else {
-		getChromeElement('statusid').value = '';
+		status.value = '';
+	}
+	
+	if (length>140) {
+		textbox.style.color = '#D00';
+		status.style.color = '#F00'
+	} else {
+		textbox.style.color = '#000';
+		status.style.color = '#000'
 	}
 }
 
@@ -212,12 +222,11 @@ function updateLengthDisplay() {
 //
 function progress(throbbing) {
 	var mainWindow = getMainWindow();
-	if (throbbing) {
-		getChromeElement('avatarId').src = 'chrome://buzzbird/content/images/ajax-loader.gif';
-	} else {
-		getChromeElement('avatarId').src = getChromeElement('avatarLabelId').value;
-	}
-
+//	if (throbbing) {
+//		getChromeElement('avatarId').src = 'chrome://buzzbird/content/images/ajax-loader.gif';
+//	} else {
+//		getChromeElement('avatarId').src = getChromeElement('avatarLabelId').value;
+//	}
 }
 
 // Returns 'tweet','reply','direct', or 'mine'
@@ -634,21 +643,35 @@ function removeTweetFromDom(id) {
 	}
 }
 
-function speech() {
-	var collapsed = getChromeElement('textboxid').collapsed;
-	if (collapsed) {
-		getChromeElement('textboxid').collapsed=false;		
-		getChromeElement('shortenUrlId').collapsed=false;		
-		getChromeElement('symbolButtonId').collapsed=false;		
-		getChromeElement('openSpeechId').image = 'chrome://buzzbird/content/images/speech-button-pressed-20x20.png';	
-	} else {
-		getChromeElement('textboxid').collapsed=true;		
-		getChromeElement('shortenUrlId').collapsed=true;		
-		getChromeElement('symbolButtonId').collapsed=true;		
+function speech(val) {
+	getChromeElement('textboxid').collapsed=val;		
+	getChromeElement('shortenUrlId').collapsed=val;		
+	getChromeElement('symbolButtonId').collapsed=val;		
+	if (val) {
 		getChromeElement('openSpeechId').image = 'chrome://buzzbird/content/images/speech-button-active-20x20.png';	
+	} else {
+		getChromeElement('openSpeechId').image = 'chrome://buzzbird/content/images/speech-button-pressed-20x20.png';	
+
 	}
 }
 
+function toggleSpeech() {
+	var collapsed = getChromeElement('textboxid').collapsed;
+	if (collapsed) {
+		speech(false);
+	} else {
+		speech(true);
+	}
+}
+
+function openSpeech() {
+	jsdump('openSpeech called');
+	speech(false);
+}
+
+function closeSpeech() {
+	speech(true);
+}
 function shortenUrl() {
 	var params = {};
 	window.openDialog("chrome://buzzbird/content/shorten.xul", "",
