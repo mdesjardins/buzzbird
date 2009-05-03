@@ -173,7 +173,7 @@ function registerEvents() {
 		getMainWindow().document.addEventListener("start", start, false); 
 		getMainWindow().document.addEventListener("openSpeech", getMainWindow().openSpeech, false); 
 		getMainWindow().document.addEventListener("closeSpeech", getMainWindow().closeSpeech, false); 
-		getMainWindow().document.addEventListener("updateTweetLength", getMaineWindow().updateLengthDisplay, false); 
+		getMainWindow().document.addEventListener("updateTweetLength", getMainWindow().updateLengthDisplay, false); 
 	} catch(e) {
 		jsdump('Problem initializing events: ' + e);
 	}
