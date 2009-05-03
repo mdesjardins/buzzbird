@@ -54,7 +54,6 @@ THE SOFTWARE.
     <!-- ======== -->
     <!-- Commands -->
     <!-- ======== -->
-
 	<commandset id="mainCommandSet">
 		<command id="cmd_quitApplication" oncommand="quitApplication();"/>
 		<command id="cmd_markAllAsRead" oncommand="markAllAsRead();" />
@@ -62,16 +61,18 @@ THE SOFTWARE.
 		<command id="cmd_refreshNow" oncommand="forceUpdate();" />
 		<command id="cmd_shortenUrl" oncommand="shortenUrl();" />
 		<command id="cmd_speech" oncommand="toggleSpeech();" />
+		<command id="cmd_zoomBigger" oncommand="zoomBigger();" />
+		<command id="cmd_zoomSmaller" oncommand="zoomSmaller();" />
+		<command id="cmd_zoomReset" oncommand="zoomReset();" />
 	</commandset>
-	
+
 	<commandset id="editMenuCommands"/>
+
 
     <!-- ======== -->
     <!-- Key Sets -->
     <!-- ======== -->
-
- 	<keyset id="editMenuKeys" />
-
+	<keyset id="editMenuKeys" />
 
 	<keyset id="baseMenuKeyset">
 		<key id="key_markAllAsRead" 
@@ -92,18 +93,17 @@ THE SOFTWARE.
     <!-- ======== -->
     <!-- Menu Bar -->
     <!-- ======== -->
-
 	<menubar id="menubarid">
 		<!-- Menu item IDs were chosen quite intentionally... see https://developer.mozilla.org/en/XULRunner/MacFAQ -->
 		<menu id="filemenuid" label="File">
 		  <menupopup id="menu_FilePopup">
-        	    <menuitem id="menu_FileQuitItem" 
-        			  label="&quitApplicationCmdMac.label;"
-        			  key="key_quitApplication"
-        			  command="cmd_quitApplication"/>
+	    	    <menuitem id="menu_FileQuitItem" 
+	    			  label="&quitApplicationCmdMac.label;"
+	    			  key="key_quitApplication"
+	    			  command="cmd_quitApplication"/>
 		   </menupopup>
 		</menu>
-		
+	
 		<menu id="edit-menu" label="&editMenu.label;" accesskey="&editMenu.accesskey;">
 			<menupopup id="menu_EditPopup">
 				<menuitem label="&undoCmd.label;"
@@ -121,8 +121,8 @@ THE SOFTWARE.
 		                  command="cmd_cut"/>
 		        <menuitem label="&copyCmd.label;"
 		                  key="key_copy"
-                          accesskey="&copyCmd.accesskey;"
-                          command="cmd_copy" />
+	                      accesskey="&copyCmd.accesskey;"
+	                      command="cmd_copy" />
 		        <menuitem label="&pasteCmd.label;"
 		                  key="key_paste"
 		                  accesskey="&pasteCmd.accesskey;"
@@ -140,6 +140,7 @@ THE SOFTWARE.
 			</menupopup>
 		</menu>
 
+
 		<menu id="tools-menu" label="&toolsMenu.label;" accesskey="&toolsMenu.accesskey;">
 			<menupopup id="menu_toolsPopup">
 	        	<menuitem label="&markAllAsReadCmd.label;"
@@ -154,10 +155,15 @@ THE SOFTWARE.
 	              	  	  key="key_shortenUrl"
 	                  	  accesskey="&shortenUrlCmd.accesskey;"
 	                  	  command="cmd_shortenUrl"/>
-	<!-- not for mac
 				<menuseparator />
-				<menuitem id="menu_preferences" label="&preferencesCmd.label;" />
-	-->
+				<menuitem label="&zoomBiggerCmd.label;"
+				          accesskey="&zoomBiggerCmd.accesskey;"
+				          command="cmd_zoomBigger" />
+				<menuitem label="&zoomSmallerCmd.label;"
+		                  accesskey="&zoomSmallerCmd.accesskey;"
+		                  command="cmd_zoomSmaller" />
+				<menuitem label="&zoomResetCmd.label;"
+                          command="cmd_zoomReset" />
 			</menupopup>
 		</menu>
 
@@ -173,8 +179,6 @@ THE SOFTWARE.
 		  </menupopup>
 		</menu>
 	</menubar>
-	
-	
 	
 	<popup id="contentAreaContextMenu"
            onpopupshowing="if (event.target != this) return true; updateEditUIVisibility(); gContextMenu = new nsContextMenu(this, window.getBrowser()); return gContextMenu.shouldDisplay;"
@@ -203,8 +207,6 @@ THE SOFTWARE.
                 command="cmd_selectAll"/>      
     </popup>
     
-	
-	
     <!-- =================== -->
 	<!-- Actual Window Stuff -->
     <!-- =================== -->

@@ -701,6 +701,23 @@ function onShortenCancel() {
 	return true;
 }
 
+function zoomBigger() {
+	var docViewer = getBrowser().markupDocumentViewer;
+	docViewer.fullZoom = docViewer.fullZoom * 1.25;
+	setIntPref("buzzbird.zoom", docViewer.fullZoom * 100);
+}
+
+function zoomSmaller() {
+	var docViewer = getBrowser().markupDocumentViewer;
+	docViewer.fullZoom = docViewer.fullZoom * 0.8;	
+	setIntPref("buzzbird.zoom", docViewer.fullZoom * 100);
+}
+
+function zoomReset() {
+	var docViewer = getBrowser().markupDocumentViewer;
+	docViewer.fullZoom = 1.0;
+	setIntPref("buzzbird.zoom", 100);
+}
 
 function appendText(symbol) {
 	var t = getChromeElement('textboxid').value;
@@ -742,12 +759,11 @@ function start() {
 	var updateTimer = getMainWindow().setInterval( function(that) { that.fetch(); }, interval, getMainWindow());
 	getChromeElement('updateTimerId').value = updateTimer;
 	getChromeElement('toolbarid').collapsed=false;
-	//getChromeElement('textboxid').collapsed=false;
 	getChromeElement('refreshButtonId').collapsed=false;
-	//getChromeElement('shortenUrlId').collapsed=false;
 	getChromeElement('markAllAsReadId').collapsed=false;
 	getChromeElement('openSpeechId').collapsed=false;
-	//getChromeElement('deleteAllReadId').collapsed=false;  This feature is painfully slow, need to figure out how to optimize it before re-enabling it.
-	//getChromeElement('symbolButtonId').collapsed=false;
+	var zoom = getIntPref("buzzbird.zoom",100);
+	var docViewer = getBrowser().markupDocumentViewer;
+	docViewer.fullZoom = zoom/100.0;
 	fetchAll();
 }
