@@ -168,7 +168,17 @@ function stopFollowingTweeterCallback(transport) {
 	getChromeElement('statusid').label = 'Unfollowed';
 }
 
-
+// Marks/Unmarks one tweet.
+//
+function toggleMarkAsRead(id) {
+	var mark = 'mark-' + id;
+	var f = $(mark);
+	if (f.src=='chrome://buzzbird/content/images/star-yellow.png') {
+		f.src='chrome://buzzbird/content/images/checkmark-gray.png'; 
+	} else {
+		f.src='chrome://buzzbird/content/images/star-yellow.png'; 
+	}
+}
 
 // Adds stuff to the end of the textbox.
 //

@@ -702,18 +702,6 @@ function onShortenCancel() {
 }
 
 
-// Marks/Unmarks one tweet.
-//
-function toggleMarkAsRead(id) {
-	var mark = 'mark-' + id;
-	var f = $(mark);
-	if (f.src=='chrome://buzzbird/content/images/star-yellow.png') {
-		f.src='chrome://buzzbird/content/images/checkmark-gray.png'; 
-	} else {
-		f.src='chrome://buzzbird/content/images/star-yellow.png'; 
-	}
-}
-
 function appendText(symbol) {
 	var t = getChromeElement('textboxid').value;
 	t = t + symbol;
