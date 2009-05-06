@@ -61,30 +61,38 @@ function getUpdateTimer() {
 	return getChromeElement('updateTimerId').value;
 }
 
-// Wrapper for fetching a boolean preference.
+// Wrappers for fetching/setting a boolean preference.
 //
 function getBoolPref(prefname,def) {
   try { 
     var pref = Components.classes["@mozilla.org/preferences-service;1"]
                        .getService(Components.interfaces.nsIPrefBranch);
     return pref.getBoolPref(prefname);
-  }
-  catch(er) {
+  } catch(er) {
     return def;
   }
 }
+function setBoolPref(prefname,value) {
+   var pref = Components.classes["@mozilla.org/preferences-service;1"]
+                      .getService(Components.interfaces.nsIPrefBranch);
+   return pref.setBoolPref(prefname,value);
+}
 
-// Wrapper for fetching a integer preference.
+// Wrappers for fetching/setting a integer preference.
 //
 function getIntPref(prefname,def) {
   try { 
     var pref = Components.classes["@mozilla.org/preferences-service;1"]
                        .getService(Components.interfaces.nsIPrefBranch);
     return pref.getIntPref(prefname);
-  }
-  catch(er) {
+  } catch(er) {
     return def;
   }
+}
+function setIntPref(prefname,value) {
+   var pref = Components.classes["@mozilla.org/preferences-service;1"]
+                      .getService(Components.interfaces.nsIPrefBranch);
+   return pref.setIntPref(prefname,value);
 }
 
 // Make stuff "HTML Safe"

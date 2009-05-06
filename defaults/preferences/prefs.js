@@ -45,3 +45,4 @@ pref("javascript.options.jit.chrome",true);
 // defaults
 pref("buzzbird.update.interval", 180000);
 pref("buzzbird.auto.markread", false);
+pref("buzzbird.zoom", 100);

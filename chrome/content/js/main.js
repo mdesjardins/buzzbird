@@ -173,7 +173,7 @@ function registerEvents() {
 		getMainWindow().document.addEventListener("start", start, false); 
 		getMainWindow().document.addEventListener("openSpeech", getMainWindow().openSpeech, false); 
 		getMainWindow().document.addEventListener("closeSpeech", getMainWindow().closeSpeech, false); 
-		getMainWindow().document.addEventListener("updateTweetLength", getMaineWindow().updateLengthDisplay, false); 
+		getMainWindow().document.addEventListener("updateTweetLength", getMainWindow().updateLengthDisplay, false); 
 	} catch(e) {
 		jsdump('Problem initializing events: ' + e);
 	}
@@ -701,17 +701,22 @@ function onShortenCancel() {
 	return true;
 }
 
+function zoomBigger() {
+	var docViewer = getBrowser().markupDocumentViewer;
+	docViewer.fullZoom = docViewer.fullZoom * 1.25;
+	setIntPref("buzzbird.zoom", docViewer.fullZoom * 100);
+}
 
-// Marks/Unmarks one tweet.
-//
-function toggleMarkAsRead(id) {
-	var mark = 'mark-' + id;
-	var f = $(mark);
-	if (f.src=='chrome://buzzbird/content/images/star-yellow.png') {
-		f.src='chrome://buzzbird/content/images/checkmark-gray.png'; 
-	} else {
-		f.src='chrome://buzzbird/content/images/star-yellow.png'; 
-	}
+function zoomSmaller() {
+	var docViewer = getBrowser().markupDocumentViewer;
+	docViewer.fullZoom = docViewer.fullZoom * 0.8;	
+	setIntPref("buzzbird.zoom", docViewer.fullZoom * 100);
+}
+
+function zoomReset() {
+	var docViewer = getBrowser().markupDocumentViewer;
+	docViewer.fullZoom = 1.0;
+	setIntPref("buzzbird.zoom", 100);
 }
 
 function appendText(symbol) {
@@ -754,12 +759,11 @@ function start() {
 	var updateTimer = getMainWindow().setInterval( function(that) { that.fetch(); }, interval, getMainWindow());
 	getChromeElement('updateTimerId').value = updateTimer;
 	getChromeElement('toolbarid').collapsed=false;
-	//getChromeElement('textboxid').collapsed=false;
 	getChromeElement('refreshButtonId').collapsed=false;
-	//getChromeElement('shortenUrlId').collapsed=false;
 	getChromeElement('markAllAsReadId').collapsed=false;
 	getChromeElement('openSpeechId').collapsed=false;
-	//getChromeElement('deleteAllReadId').collapsed=false;  This feature is painfully slow, need to figure out how to optimize it before re-enabling it.
-	//getChromeElement('symbolButtonId').collapsed=false;
+	var zoom = getIntPref("buzzbird.zoom",100);
+	var docViewer = getBrowser().markupDocumentViewer;
+	docViewer.fullZoom = zoom/100.0;
 	fetchAll();
 }

@@ -50,6 +50,13 @@
 <!ENTITY selectAllCmd.label         "Select All">  
 <!ENTITY selectAllCmd.key         "A">  
 <!ENTITY selectAllCmd.accesskey       "A"> 
+<!ENTITY zoomBiggerCmd.label         "Increase Zoom">  
+<!ENTITY zoomBiggerCmd.key         "+">  
+<!ENTITY zoomBiggerCmd.accesskey         "+">  
+<!ENTITY zoomSmallerCmd.label         "Decrease Zoom">  
+<!ENTITY zoomSmallerCmd.key         "-">  
+<!ENTITY zoomSmallerCmd.accesskey         "-">  
+<!ENTITY zoomResetCmd.label         "Reset Zoom">  
 
 <!-- Prefs -->
 <!ENTITY preferencesCmd.label       "Options…">
