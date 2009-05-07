@@ -701,6 +701,12 @@ function onShortenCancel() {
 	return true;
 }
 
+function openAboutDialog() {
+	var params = {};
+	window.openDialog("chrome://buzzbird/content/about.xul", "",
+	    "chrome, dialog, resizable=no",params).focus();
+}
+
 function zoomBigger() {
 	var docViewer = getBrowser().markupDocumentViewer;
 	docViewer.fullZoom = docViewer.fullZoom * 1.25;
