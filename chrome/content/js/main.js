@@ -152,8 +152,26 @@ function login() {
 	req.mozBackgroundRequest = true;
 	req.open('GET','http://twitter.com/account/verify_credentials.json',false,username,password);
 	req.send(null);
-	if (req.status == 200) {
-		var user = eval('(' + req.responseText + ')');
+	
+	var re = /\{"request":NULL.*?/
+	if (re.match(req.responseText)) {
+		jsdump ("Badness in twitter response.  Perhaps down for maintenance?");
+		jsdump(req.responseText);
+		return false;
+	}
+	
+	if (req.status == 200 && req.responseText != NULL) {
+		var user = '';
+		try {
+			user = eval('(' + req.responseText + ')');
+		} catch(e) {
+			jsdump('Caught an exception trying to login.');
+			return false;
+		}
+		if (user == '') {
+			jsdump('JSON parse must have borked?');
+			return false;
+		}
 		var img = user.profile_image_url;
 		getChromeElement('avatarLabelId').value = img;
 		getChromeElement('realnameLabelId').value = user.name;
