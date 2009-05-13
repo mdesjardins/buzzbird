@@ -160,7 +160,7 @@ function login() {
 		return false;
 	}
 	
-	if (req.status == 200 && req.responseText != NULL) {
+	if (req.status == 200 && req.responseText != 'NULL') {
 		var user = '';
 		try {
 			user = eval('(' + req.responseText + ')');
