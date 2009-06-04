@@ -35,7 +35,7 @@ THE SOFTWARE.
 			type="prefwindow"
 			windowtype="Browser:Preferences"
 			width="400" 
-	        height="300">
+	        height="350">
    
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
@@ -86,8 +86,12 @@ THE SOFTWARE.
 	</prefpane>
 	<prefpane id="paneMultiAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/content/images/prefs-accounts.png">
 		<preferences></preferences>
-		<listbox id="richlistbox_accounts">
+		<listbox id="richlistbox_accounts" onclick="loginListClicked();">
 		</listbox>
+		<hbox>
+			<button id="addAccount" label="Add" oncommand="addAccount();" />
+			<button id="deleteAccount" label="Delete" oncommand="deleteAccount();" disabled="true" />
+		</hbox>
 	</prefpane>
 	
 </prefwindow>
