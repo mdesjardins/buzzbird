@@ -30,6 +30,7 @@ THE SOFTWARE.
 		ondialogcancel="onAddAccountCancel();">
 	<vbox align="center">
 		<dialogheader title="Enter Account Credentials" description="Enter the new account credentials below"/>
+		<script src="chrome://buzzbird/content/js/utils.js"></script>
 		<script src="chrome://buzzbird/content/js/prefs.js"></script>
 		<hbox align="center">
 			<label>Login</label>

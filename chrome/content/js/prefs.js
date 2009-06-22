@@ -18,6 +18,42 @@ function loginListClicked() {
 	}
 }
 
+function checkCredentials(aUsername,aPassword) {
+	var req = new XMLHttpRequest();
+	req.mozBackgroundRequest = true;
+	req.open('GET','http://twitter.com/account/verify_credentials.json',false,aUsername,aPassword);
+	req.send(null);
+	
+	// This crap should totally work.  Why is it bitching that match isn't a valid method?
+	//
+	//var re = /\{"request":NULL.*?/;
+	// var re = new RegExp('\{"request":NULL.*?/');
+	// jsdump("RE:" + re);
+	// jsdump("RE.match" + re.match(req.responseText))
+	// if (re.match(req.responseText)) {
+	// 	jsdump("Badness in twitter response.  Perhaps down for maintenance?");
+	// 	jsdump(req.responseText);
+	// 	return false;
+	// }
+	
+	if (req.status == 200 && req.responseText != 'NULL') {
+		var user = '';
+		try {
+			user = eval('(' + req.responseText + ')');
+		} catch(e) {
+			jsdump('Caught an exception trying to login.');
+			return false;
+		}
+		if (user == '') {
+			jsdump('JSON parse must have borked?');
+			return false;
+		}
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function addAccount() {
 	var params = {};
 	window.openDialog("chrome://buzzbird/content/add-account.xul", "",
@@ -25,7 +61,35 @@ function addAccount() {
 	if (params.out) {
 		var login = params.out.login;
 		var password = params.out.password;
-		alert(login + ", " + password);
+		//alert(login + ", " + password);
+
+		// Get Login Manager 
+		var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+			                         .getService(Components.interfaces.nsILoginManager);
+
+		// Make sure the login doesn't already exist.
+		var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
+		for (i=0; i<logins.length; i++) {
+			if (logins[i].username == login) {
+				alert("That login has already been configured.");
+				return;
+			} 
+		}		
+		
+		// We ran the gauntlet, let's try to authenticate it and add it if we're successful.
+		if (checkCredentials(login,password)) {
+			var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
+			                                             Components.interfaces.nsILoginInfo,
+			                                             "init");
+		   var loginInfo = new nsLoginInfo('localhost', 'localhost', null, login, password,
+			                                'username', 'password');
+		   myLoginManager.addLogin(loginInfo);
+		   var newItem = login + '|' + password + '|' + 'localhost' + 'localhost';
+		   document.getElementById('richlistbox_accounts').appendItem(login,newItem);
+		
+		} else {
+			alert("That username/password combination didn't match.");
+		}
 	}
 }
 
@@ -57,11 +121,11 @@ function initLogins() {
 			var len = logins.length;
 		   	if (logins != null && len > 0) {
 				for (i=0; i<len; i++) {
-					var value = logins[i].username + "||" + logins[i].password + "||" + logins[i].hostname + "||" + logins[i].formSubmitURL;
+					var value = logins[i].username + "|" + logins[i].password + "|" + logins[i].hostname + "|" + logins[i].formSubmitURL;
 			 		listbox.appendItem(logins[i].username,value);
 				}
 			} else {
-		     jsdump('No saved logins found.');	
+		     	jsdump('No saved logins found.');	
 			}
 		}
 	} catch (e) {
@@ -87,6 +151,23 @@ function forgetCredentials() {
      jsdump('No saved logins found.');	
    }
 	alert('Your screen name and password information was discarded.');
+}
+
+function deleteAccount() {
+	var selection = document.getElementById('richlistbox_accounts').getSelectedItem(0).value;
+	var selindex = document.getElementById('richlistbox_accounts').selectedIndex;
+	var xx = selection.split('|')
+	alert("U:" + xx[0] + ' ' + xx[1] + ' ' + xx[2] + ' ' + xx[3]);
+	var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
+		                                          Components.interfaces.nsILoginInfo,
+		                                          "init");
+	var loginInfo = new nsLoginInfo(xx[3], xx[2], null, xx[0], xx[1],
+		                            'username', 'password');
+	
+	var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+                                   .getService(Components.interfaces.nsILoginManager);
+    myLoginManager.removeLogin(loginInfo);
+	document.getElementById('richlistbox_accounts').removeItemAt(selIndex);
 }
 
 window.addEventListener("load", initLogins, false);

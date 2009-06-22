@@ -39,7 +39,7 @@ THE SOFTWARE.
    
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
- <script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
+ <script type="application/x-javascript" src="chrome://buzzbird/content/js/utils.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
 
  <prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/content/images/prefs-general.png">
