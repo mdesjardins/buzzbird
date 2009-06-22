@@ -12,7 +12,7 @@ function dispatch(eventName) {
 	try {
         var ev = document.createEvent("Events");
         ev.initEvent(eventName, true, false);
-        getMainWindow().document.dispatchEvent(ev);
+        getMainWindow().opener.document.dispatchEvent(ev);
     } catch (e) {
         jsdump("Exception sending '" + eventName + "' event: " + e);
     }		
@@ -182,7 +182,6 @@ function deleteAccount() {
 	var selection = document.getElementById('richlistbox_accounts').getSelectedItem(0).value;
 	var selIndex = document.getElementById('richlistbox_accounts').selectedIndex;
 	var xx = selection.split('|')
-	alert("U:" + xx[0] + ' ' + xx[1] + ' ' + xx[2] + ' ' + xx[3]);
 	var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
 		                                          Components.interfaces.nsILoginInfo,
 		                                          "init");

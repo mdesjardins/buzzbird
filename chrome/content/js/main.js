@@ -114,7 +114,7 @@ function authenticate(u, p, save) {
 	if (login()) {
 		getChromeElement('usernameLabelId').value = username;
 		getChromeElement('passwordLabelId').value = password;
-		registerEvents();
+//		registerEvents();
 		if (save) {
 			saveCredentials(username,password);
 		}
@@ -769,9 +769,12 @@ function updateLoginList() {
 	var loginButton = getChromeElement('accountbuttonid');
 	loginButton.label = logins[0].username;
 	var loginMenu = getChromeElement('accountbuttonmenuid'); 
-	for (var i=0; i<loginMenu.childNodes.length; i++) {
-		loginMenu.removeChild(loginMenu.childNodes[i]);
+	while (loginMenu.hasChildNodes()) {
+		loginMenu.removeChild(loginMenu.lastChild);
 	}
+	//for (var i=0; i<loginMenu.childNodes.length; i++) {
+	//	loginMenu.removeChild(loginMenu.childNodes[i]);
+	//}
 	
 	const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 	for (var i=0; i<logins.length; i++) {
@@ -805,6 +808,8 @@ function openPreferences() {
 // Called to initialize the main window from the browser's onload method.
 //
 function start() {
+	registerEvents();
+
 	// Update Frequency, need to make this configurable.
 	var interval = getIntPref('buzzbird.update.interval',180000);
 	jsdump('interval=' + interval);
