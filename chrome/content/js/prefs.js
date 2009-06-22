@@ -7,6 +7,17 @@ var httprealm = null;
 var user = '';
 var password = '';
 
+function dispatch(eventName) {
+	jsdump('prefs is dispatching ' + eventName);
+	try {
+        var ev = document.createEvent("Events");
+        ev.initEvent(eventName, true, false);
+        getMainWindow().document.dispatchEvent(ev);
+    } catch (e) {
+        jsdump("Exception sending '" + eventName + "' event: " + e);
+    }		
+}
+
 function loginListClicked() {
 	var deleteButton = document.getElementById('deleteAccount');
 	var listbox = document.getElementById('richlistbox_accounts');
@@ -59,42 +70,56 @@ function addAccount() {
 	window.openDialog("chrome://buzzbird/content/add-account.xul", "",
 	    "chrome, dialog, modal, resizable=no",params).focus();
 	if (params.out) {
-		var login = params.out.login;
-		var password = params.out.password;
-		//alert(login + ", " + password);
+		var success = params.out.success;
+		if (success) {
+			var login = params.out.login;
+			var password = params.out.password;
 
-		// Get Login Manager 
-		var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-			                         .getService(Components.interfaces.nsILoginManager);
-
-		// Make sure the login doesn't already exist.
-		var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
-		for (i=0; i<logins.length; i++) {
-			if (logins[i].username == login) {
-				alert("That login has already been configured.");
-				return;
-			} 
-		}		
-		
-		// We ran the gauntlet, let's try to authenticate it and add it if we're successful.
-		if (checkCredentials(login,password)) {
 			var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
 			                                             Components.interfaces.nsILoginInfo,
 			                                             "init");
-		   var loginInfo = new nsLoginInfo('localhost', 'localhost', null, login, password,
+		   	var loginInfo = new nsLoginInfo('localhost', 'localhost', null, login, password,
 			                                'username', 'password');
-		   myLoginManager.addLogin(loginInfo);
-		   var newItem = login + '|' + password + '|' + 'localhost' + 'localhost';
-		   document.getElementById('richlistbox_accounts').appendItem(login,newItem);
-		
-		} else {
-			alert("That username/password combination didn't match.");
+
+			var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+				                         .getService(Components.interfaces.nsILoginManager);
+
+		    myLoginManager.addLogin(loginInfo);
+			var newItem = login + '|' + password + '|' + 'localhost' + '|' + 'localhost';
+			document.getElementById('richlistbox_accounts').appendItem(login,newItem);
+			dispatch('updateLoginList');
 		}
 	}
 }
 
 function onAddAccountOk() {
-	window.arguments[0].out = {login:document.getElementById("login").value, password:document.getElementById("password").value};
+	var success = true;
+
+	//var login = params.out.login;
+	//var password = params.out.password;
+	//alert(login + ", " + password);
+	var login = document.getElementById("login").value;
+	var password = document.getElementById("password").value;
+
+	// Get Login Manager 
+	var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+		                         .getService(Components.interfaces.nsILoginManager);
+
+	// Make sure the login doesn't already exist.
+	var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
+	for (i=0; i<logins.length; i++) {
+		if (logins[i].username == login) {
+			alert("That login has already been configured.");
+			success = false;
+		} 
+	}		
+	
+	// We ran the gauntlet, let's try to authenticate it and add it if we're successful.
+	if (!checkCredentials(login,password)) {
+		alert("That username/password combination didn't match.");
+		success = false;
+	}
+	window.arguments[0].out = {'login':document.getElementById("login").value, 'password':document.getElementById("password").value, 'success':success};
 	return true;
 }
 
@@ -155,7 +180,7 @@ function forgetCredentials() {
 
 function deleteAccount() {
 	var selection = document.getElementById('richlistbox_accounts').getSelectedItem(0).value;
-	var selindex = document.getElementById('richlistbox_accounts').selectedIndex;
+	var selIndex = document.getElementById('richlistbox_accounts').selectedIndex;
 	var xx = selection.split('|')
 	alert("U:" + xx[0] + ' ' + xx[1] + ' ' + xx[2] + ' ' + xx[3]);
 	var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
@@ -168,6 +193,7 @@ function deleteAccount() {
                                    .getService(Components.interfaces.nsILoginManager);
     myLoginManager.removeLogin(loginInfo);
 	document.getElementById('richlistbox_accounts').removeItemAt(selIndex);
+	dispatch('updateLoginList');
 }
 
 window.addEventListener("load", initLogins, false);

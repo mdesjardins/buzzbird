@@ -192,6 +192,7 @@ function registerEvents() {
 		getMainWindow().document.addEventListener("openSpeech", getMainWindow().openSpeech, false); 
 		getMainWindow().document.addEventListener("closeSpeech", getMainWindow().closeSpeech, false); 
 		getMainWindow().document.addEventListener("updateTweetLength", getMainWindow().updateLengthDisplay, false); 
+		getMainWindow().document.addEventListener("updateLoginList", getMainWindow().updateLoginList, false);
 	} catch(e) {
 		jsdump('Problem initializing events: ' + e);
 	}
@@ -751,6 +752,36 @@ function appendText(symbol) {
 	getChromeElement('statusid').label = len + '/140';
 }
 
+function updateLoginList() {
+	jsdump('updating the login list!');
+	
+	// Get Login Manager 
+   var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+		                         .getService(Components.interfaces.nsILoginManager);
+
+   var hostname = 'localhost';
+   var formSubmitURL = 'localhost';  
+   var httprealm = null;
+
+   // Find users for the given parameters
+   var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
+   
+	var loginButton = getChromeElement('accountbuttonid');
+	loginButton.label = logins[0].username;
+	var loginMenu = getChromeElement('accountbuttonmenuid'); 
+	for (var i=0; i<loginMenu.childNodes.length; i++) {
+		loginMenu.removeChild(loginMenu.childNodes[i]);
+	}
+	
+	const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+	for (var i=0; i<logins.length; i++) {
+		var item = logins[i].username + '|' + logins[i].password + '|' + 'localhost' + '|' + 'localhost';
+		var menuitem = document.createElementNS(XUL_NS, "menuitem");
+		menuitem.setAttribute("label", logins[i].username);
+		menuitem.setAttribute("value", item);
+		getChromeElement('accountbuttonmenuid').appendChild(menuitem);
+   }
+}
 
 function quitApplication(aForceQuit) {
   var appStartup = Components.classes['@mozilla.org/toolkit/app-startup;1'].getService(Components.interfaces.nsIAppStartup);
@@ -767,8 +798,8 @@ function openPreferences() {
   jsdump("instantApply is " + instantApply);
   var features = "chrome,titlebar,toolbar,centerscreen" + (instantApply ? ",dialog=no" : ",modal");
 
-	//var features = "chrome,titlebar,toolbar,centerscreen,modal";
-	window.openDialog("chrome://buzzbird/content/prefs.xul", "", features);
+  //var features = "chrome,titlebar,toolbar,centerscreen,modal";
+  window.openDialog("chrome://buzzbird/content/prefs.xul", "", features);
 }
 
 // Called to initialize the main window from the browser's onload method.
