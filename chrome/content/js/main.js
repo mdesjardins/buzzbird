@@ -772,9 +772,6 @@ function updateLoginList() {
 	while (loginMenu.hasChildNodes()) {
 		loginMenu.removeChild(loginMenu.lastChild);
 	}
-	//for (var i=0; i<loginMenu.childNodes.length; i++) {
-	//	loginMenu.removeChild(loginMenu.childNodes[i]);
-	//}
 	
 	const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 	for (var i=0; i<logins.length; i++) {
@@ -782,8 +779,29 @@ function updateLoginList() {
 		var menuitem = document.createElementNS(XUL_NS, "menuitem");
 		menuitem.setAttribute("label", logins[i].username);
 		menuitem.setAttribute("value", item);
+		var f = "switchUser('" + logins[i].username + "','" + logins[i].password + "');";
+		menuitem.setAttribute("oncommand", f);
 		getChromeElement('accountbuttonmenuid').appendChild(menuitem);
    }
+}
+
+function switchUser(u,p) {	
+	username = u;
+	password = p;
+	if (login()) {	
+		var loginButton = getChromeElement('accountbuttonid');
+		loginButton.label = username;
+		setUsername(u);
+		setPassword(p);
+
+		mostRecentTweet = null;
+		mostRecentDirect = null;
+
+		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
+	} else {
+		username = getUsername();
+		password = getPassword();
+	}
 }
 
 function quitApplication(aForceQuit) {

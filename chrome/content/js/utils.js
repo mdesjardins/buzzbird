@@ -48,11 +48,17 @@ function getChromeElement(id) {
 function getUsername() {
 	return getChromeElement('usernameLabelId').value;
 }
+function setUsername(username) {
+	getChromeElement('usernameLabelId').value=username;
+}
 
 // Returns the password from the UI.
 //
 function getPassword() {
 	return getChromeElement('passwordLabelId').value;
+}
+function setPassword(password) {
+	getChromeElement('passwordLabelId').value=password;
 }
 
 // Returns the update timer ID from the UI.
