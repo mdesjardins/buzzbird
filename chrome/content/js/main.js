@@ -823,6 +823,24 @@ function openPreferences() {
   window.openDialog("chrome://buzzbird/content/prefs.xul", "", features);
 }
 
+function browserScrolled(e) {	
+	jsdump('scroll! ' + e);
+	jsdump('e.clientX ' + e.clientX);
+	jsdump('e.clientY ' + e.clientY);
+	jsdump('e.currentTarget ' + e.currentTarget);
+	jsdump('e.currentTarget.id ' + e.currentTarget.id);
+	jsdump('e.detail ' + e.detail);
+	jsdump('e.eventPhase ' + e.eventType);
+	jsdump('e.originalTarget ' + e.originalTarget);
+	jsdump('e.pageX ' + e.pageX);
+	jsdump('e.pageY ' + e.pageY);
+	jsdump('e.screenX ' + e.screenX);
+	jsdump('e.screenY ' + e.screenY);
+	jsdump('e.target ' + e.target);
+	jsdump('e.view ' + e.view);
+	jsdump('e.srcElement ' + e.srcElement);
+}
+
 // Called to initialize the main window from the browser's onload method.
 //
 function start() {
@@ -834,6 +852,7 @@ function start() {
 	showingAllTweets = getChromeElement('showingAllTweetsId').value;
 	showingReplies = getChromeElement('showingRepliesId').value;
 	showingDirect = getChromeElement('showingDirectId').value;
+	// TODO - Need to make sure we only have one going after switching accounts!
 	var updateTimer = getMainWindow().setInterval( function(that) { that.fetch(); }, interval, getMainWindow());
 	getChromeElement('updateTimerId').value = updateTimer;
 	getChromeElement('toolbarid').collapsed=false;

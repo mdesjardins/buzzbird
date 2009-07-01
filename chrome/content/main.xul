@@ -348,7 +348,8 @@ THE SOFTWARE.
                          type="content-primary" 
                          src="chrome://buzzbird/content/login.html" 
                          id="browserid" 
-                         flex="3" 
+                         flex="3"
+onscroll="browserScrolled(event);" 
                          contextmenu="contentAreaContextMenu"
 						 style="padding:0px; margin:0px;"
                          tooltip="aHTMLTooltip" />
