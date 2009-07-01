@@ -118,6 +118,11 @@ function authenticate(u, p, save) {
 		if (save) {
 			saveCredentials(username,password);
 		}
+		
+		var interval = getIntPref('buzzbird.update.interval',180000);
+		jsdump('interval=' + interval);
+		var updateTimer = getMainWindow().setInterval( function(that) { that.fetch(); }, interval, getMainWindow());
+		getChromeElement('updateTimerId').value = updateTimer;
 		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 	} else {
 		message("");
@@ -846,15 +851,10 @@ function browserScrolled(e) {
 function start() {
 	registerEvents();
 
-	// Update Frequency, need to make this configurable.
-	var interval = getIntPref('buzzbird.update.interval',180000);
-	jsdump('interval=' + interval);
 	showingAllTweets = getChromeElement('showingAllTweetsId').value;
 	showingReplies = getChromeElement('showingRepliesId').value;
 	showingDirect = getChromeElement('showingDirectId').value;
 	// TODO - Need to make sure we only have one going after switching accounts!
-	var updateTimer = getMainWindow().setInterval( function(that) { that.fetch(); }, interval, getMainWindow());
-	getChromeElement('updateTimerId').value = updateTimer;
 	getChromeElement('toolbarid').collapsed=false;
 	getChromeElement('refreshButtonId').collapsed=false;
 	getChromeElement('markAllAsReadId').collapsed=false;
