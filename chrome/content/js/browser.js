@@ -129,7 +129,11 @@ function favorite(id) {
 			httpUserName: getUsername(),
 			httpPassword: getPassword(),
 		    onSuccess: function() { favoriteCallback; },
-		    onFailure: function() { alert('Failed to favorite that tweet.  Sorry!'); }
+		    onFailure: function() { 
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Sorry.", "There was an error favoriting that tweet.");
+			}
 		});	
 }
 
@@ -155,7 +159,11 @@ function stopFollowingTweeter(id) {
 				httpUserName: getUsername(),
 				httpPassword: getPassword(),
 			    onSuccess: function() { stopFollowingTweeterCallback; },
-			    onFailure: function() { alert('Failed to unfollow.  Sorry!'); }
+			    onFailure: function() { 
+					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+					                        .getService(Components.interfaces.nsIPromptService);
+					prompts.alert(window, "Sorry.", "There was an error processing your unfollow request.");
+				}
 			});	
 	} else {
 		jsdump('Aborted unfollow');

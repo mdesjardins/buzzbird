@@ -95,11 +95,12 @@ function addAccount() {
 function onAddAccountOk() {
 	var success = true;
 
-	//var login = params.out.login;
-	//var password = params.out.password;
-	//alert(login + ", " + password);
 	var login = document.getElementById("login").value;
 	var password = document.getElementById("password").value;
+
+	document.documentElement.getButton('accept').disabled=true;
+	document.documentElement.getButton('cancel').disabled=true;
+	document.getElementById("authenticating").collapsed=false;
 
 	// Get Login Manager 
 	var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
@@ -109,14 +110,18 @@ function onAddAccountOk() {
 	var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
 	for (i=0; i<logins.length; i++) {
 		if (logins[i].username == login) {
-			alert("That login has already been configured.");
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			                        .getService(Components.interfaces.nsIPromptService);
+			prompts.alert(window, "Oops!", "That login has already been configured.");
 			success = false;
 		} 
 	}		
 	
 	// We ran the gauntlet, let's try to authenticate it and add it if we're successful.
 	if (!checkCredentials(login,password)) {
-		alert("That username/password combination didn't match.");
+		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+		                        .getService(Components.interfaces.nsIPromptService);
+		prompts.alert(window, "Oops!", "That username/password combination didn't match.");
 		success = false;
 	}
 	window.arguments[0].out = {'login':document.getElementById("login").value, 'password':document.getElementById("password").value, 'success':success};
@@ -159,24 +164,26 @@ function initLogins() {
 	}
 }
 
-function forgetCredentials() {
-	// Get Login Manager 
-   var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-		                         .getService(Components.interfaces.nsILoginManager);
-
-   // Find users for the given parameters
-   var logins = myLoginManager.findLogins({}, 'localhost', 'localhost', null);
-
-   // Find user from returned array of nsILoginInfo objects
-   // Will be modified when support for multiple accounts is added.  For now,
-   // just use the first one we find.
-   if (logins != null && logins.length > 0) {
-	 myLoginManager.removeLogin(logins[0]);
-   } else {
-     jsdump('No saved logins found.');	
-   }
-	alert('Your screen name and password information was discarded.');
-}
+// not needed anymore w/ multi-acct support.
+//
+// function forgetCredentials() {
+// 	// Get Login Manager 
+//    var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+// 		                         .getService(Components.interfaces.nsILoginManager);
+// 
+//    // Find users for the given parameters
+//    var logins = myLoginManager.findLogins({}, 'localhost', 'localhost', null);
+// 
+//    // Find user from returned array of nsILoginInfo objects
+//    // Will be modified when support for multiple accounts is added.  For now,
+//    // just use the first one we find.
+//    if (logins != null && logins.length > 0) {
+// 	 myLoginManager.removeLogin(logins[0]);
+//    } else {
+//      jsdump('No saved logins found.');	
+//    }
+// 	alert('Your screen name and password information was discarded.');
+// }
 
 function deleteAccount() {
 	var selection = document.getElementById('richlistbox_accounts').getSelectedItem(0).value;

@@ -32,13 +32,22 @@ THE SOFTWARE.
 		<dialogheader title="Enter Account Credentials" description="Enter the new account credentials below"/>
 		<script src="chrome://buzzbird/content/js/utils.js"></script>
 		<script src="chrome://buzzbird/content/js/prefs.js"></script>
-		<hbox align="center">
-			<label>Login</label>
-			<textbox id="login" size="20" />
-		</hbox>
-		<hbox>
-			<label>Password</label>
-			<textbox id="password" type="password" size="20" />
-		</hbox>
+		<grid flex="1">
+			<columns>
+				<column flex="2"/>
+				<column flex="1"/>
+			</columns>
+			<rows>
+				<row>
+					<label style="vertical-align:bottom;" control="login" value="Login"/>
+					<textbox id="login" size="20" />
+				</row>
+				<row>
+					<label style="vertical-align:bottom;" control="password" value="Password"/>
+					<textbox id="password" type="password" size="20" />
+				</row>
+			</rows>
+		</grid>
+		<label id="authenticating" collapsed="true">Authenticating...</label>
 	</vbox>
 </dialog>

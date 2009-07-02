@@ -26,20 +26,8 @@ try {
      jsdump('No saved logins found.');	
    }
 
-	updateLoginList();
+   updateLoginList();
 
-	 //    var loginButton = getChromeElement('accountbuttonid');
-	 //    loginButton.label = logins[0].username;
-	 //    var loginMenu = getChromeElement('accountbuttonmenuid'); 
-	 //    const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-	 //    for (var i=0; i<logins.length; i++) {
-	 // var item = logins[i].username + '|' + logins[i].password + '|' + 'localhost' + '|' + 'localhost';
-	 //      var menuitem = document.createElementNS(XUL_NS, "menuitem");
-	 // menuitem.setAttribute("label", logins[i].username);
-	 //      menuitem.setAttribute("value", item);
-	 // getChromeElement('accountbuttonmenuid').appendChild(menuitem);
-     //loginMenu.menu.appendItem(logins[i].user, item); this method doesn't exist on menupopup.  :(
-   //}
 } catch (e) {
   // This will only happen if there is no nsILoginManager component class
   jsdump('Oops - failed at autologin: ' + e);
