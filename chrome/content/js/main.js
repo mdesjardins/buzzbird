@@ -421,6 +421,12 @@ function renderNewTweets(url,newTweets) {
 	if (newTweets.length == 0) {
 		jsdump('renderNewTweets: Nothing to do, skipping.');
 	} else {
+		// Save the scrollbar position so we can set it back when we're done.  This reduces the "jumpiness"
+		// that happens if you're scrolling through old tweets when an update takes place.
+		var x = getBrowser().contentWindow.scrollX;
+		var y = getBrowser().contentWindow.scrollY;
+		var max_y = getBrowser().contentWindow.scrollMaxY;
+
 		var newText = '';
 		for (var i=0; i<newTweets.length; i++) {
 			if (url.match('friends_timeline') && (mostRecentTweet == null || mostRecentTweet < newTweets[i].id)) {
@@ -436,6 +442,19 @@ function renderNewTweets(url,newTweets) {
 			}
 		}
 		insertAtTop(newText);
+		
+		// Restore the scrollbar position.
+		if (y!=0) {
+			var new_max_y = getBrowser().contentWindow.scrollMaxY;
+			var difference = new_max_y - max_y;
+			// jsdump('new_max_y=' + new_max_y);
+			// jsdump('max_y=' + max_y);
+			// jsdump('difference=' + difference);
+			// jsdump('y=' + y);
+			// jsdump('scrollY=' + getBrowser().contentWindow.scrollY);
+			getBrowser().contentWindow.scrollTo(x,y + difference);
+			// jsdump('updated scrollY=' + getBrowser().contentWindow.scrollY);
+		}
 	}
 }
 
@@ -828,22 +847,27 @@ function openPreferences() {
   window.openDialog("chrome://buzzbird/content/prefs.xul", "", features);
 }
 
+// Called when the user scrolls the main browser window - we enable/disable autoscroll
+// in here to prevent 'jumping' in a user is scrolling through old tweets when an 
+// update occurs.
+//
 function browserScrolled(e) {	
-	jsdump('scroll! ' + e);
-	jsdump('e.clientX ' + e.clientX);
-	jsdump('e.clientY ' + e.clientY);
-	jsdump('e.currentTarget ' + e.currentTarget);
-	jsdump('e.currentTarget.id ' + e.currentTarget.id);
-	jsdump('e.detail ' + e.detail);
-	jsdump('e.eventPhase ' + e.eventType);
-	jsdump('e.originalTarget ' + e.originalTarget);
-	jsdump('e.pageX ' + e.pageX);
-	jsdump('e.pageY ' + e.pageY);
-	jsdump('e.screenX ' + e.screenX);
-	jsdump('e.screenY ' + e.screenY);
-	jsdump('e.target ' + e.target);
-	jsdump('e.view ' + e.view);
-	jsdump('e.srcElement ' + e.srcElement);
+	var y = getBrowser().contentWindow.scrollY;
+	var max_y = getBrowser().contentWindow.scrollMaxY;
+	var ratio = y / max_y;
+	var a = getBrowser().getAttribute('autoscroll');
+	
+	jsdump('scrollY=' + y);
+	jsdump('scrollMaxY=' + max_y);
+	jsdump('raio=' + ratio);
+
+	if (y==0 && a!='true') {
+		getBrowser().setAttribute('autoscroll',true);
+		jsdump('autoscroll activated.');		
+	} else if (y!=0 && a=='true'){
+		getBrowser().setAttribute('autoscroll',false);
+		jsdump('autoscroll deactivated.');
+	}
 }
 
 // Called to initialize the main window from the browser's onload method.
