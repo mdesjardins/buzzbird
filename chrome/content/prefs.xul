@@ -78,12 +78,15 @@ THE SOFTWARE.
 			</hbox>
 		</vbox>
 	</prefpane>
+	<!--
+	 superceded by the multi-account pane.
 	<prefpane id="paneAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/content/images/prefs-accounts.png">
 		<preferences></preferences>
 		<label value="Yeah, this is pretty lame right now."/>
 		<label value="It'll get better in the next release!"/>
 		<button label="&prefForgetAccount.label;" oncommand="forgetCredentials();" />
 	</prefpane>
+	-->
 	<prefpane id="paneMultiAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/content/images/prefs-accounts.png">
 		<preferences></preferences>
 		<listbox id="richlistbox_accounts" onclick="loginListClicked();">

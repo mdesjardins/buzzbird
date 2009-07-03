@@ -609,7 +609,12 @@ function postTweet() {
 			httpUserName: getUsername(),
 			httpPassword: getPassword(),
 		    onSuccess: function() { postTweetCallback(tweet); },
-		    onFailure: function() { alert('Error posting status update.'); postTweetCallback(); }
+		    onFailure: function() { 
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Sorry.", "There was an error posting that status update.");
+				postTweetCallback(); 
+			}
 		});
 }
 
@@ -745,7 +750,11 @@ function shortenUrl() {
 			{
 				method:'post',
 			    onSuccess: shortenCallback,
-			    onFailure: function() { alert('Error shortening the URL.'); }
+			    onFailure: function() { 
+					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+					                        .getService(Components.interfaces.nsIPromptService);
+					prompts.alert(window, "Sorry.", "There was an error shortning your URL.");
+				}
 			});
 	}
 }
@@ -826,6 +835,14 @@ function updateLoginList() {
 		menuitem.setAttribute("oncommand", f);
 		getChromeElement('accountbuttonmenuid').appendChild(menuitem);
    }
+
+	var separator = document.createElementNS(XUL_NS, "menuseparator")
+	getChromeElement('accountbuttonmenuid').appendChild(separator);
+	var menuitem = document.createElementNS(XUL_NS, "menuitem");
+	menuitem.setAttribute("label", "Configure Accounts...");
+	menuitem.setAttribute("value", "");
+	menuitem.setAttribute("oncommand", "openAccountPreferences();");
+	getChromeElement('accountbuttonmenuid').appendChild(menuitem);
 }
 
 function switchUser(u,p) {	
@@ -866,20 +883,23 @@ function openPreferences() {
   window.openDialog("chrome://buzzbird/content/prefs.xul", "", features);
 }
 
+function openAccountPreferences() {
+  var instantApply = getBoolPref("browser.preferences.instantApply", false);
+  jsdump("instantApply is " + instantApply);
+  var features = "chrome,titlebar,toolbar,centerscreen" + (instantApply ? ",dialog=no" : ",modal");
+
+  //var features = "chrome,titlebar,toolbar,centerscreen,modal";
+  window.openDialog("chrome://buzzbird/content/prefs.xul", "", features, "paneMultiAccounts");
+}
+
+
 // Called when the user scrolls the main browser window - we enable/disable autoscroll
 // in here to prevent 'jumping' in a user is scrolling through old tweets when an 
 // update occurs.
 //
 function browserScrolled(e) {	
 	var y = getBrowser().contentWindow.scrollY;
-	var max_y = getBrowser().contentWindow.scrollMaxY;
-	var ratio = y / max_y;
 	var a = getBrowser().getAttribute('autoscroll');
-	
-	jsdump('scrollY=' + y);
-	jsdump('scrollMaxY=' + max_y);
-	jsdump('raio=' + ratio);
-
 	if (y==0 && a!='true') {
 		getBrowser().setAttribute('autoscroll',true);
 		jsdump('autoscroll activated.');		
@@ -893,11 +913,9 @@ function browserScrolled(e) {
 //
 function start() {
 	registerEvents();
-
 	showingAllTweets = getChromeElement('showingAllTweetsId').value;
 	showingReplies = getChromeElement('showingRepliesId').value;
 	showingDirect = getChromeElement('showingDirectId').value;
-	// TODO - Need to make sure we only have one going after switching accounts!
 	getChromeElement('toolbarid').collapsed=false;
 	getChromeElement('refreshButtonId').collapsed=false;
 	getChromeElement('markAllAsReadId').collapsed=false;
