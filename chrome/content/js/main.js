@@ -405,6 +405,9 @@ function formatTweet(tweet) {
      if (t != 'mine') {
         result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 }
+	 if (t == 'mine') {
+   		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
+	 }
      result = result 
      + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 + via
@@ -797,10 +800,18 @@ function zoomReset() {
 }
 
 function appendText(symbol) {
+	var caret = getChromeElement('textboxid').selectionStart;
 	var t = getChromeElement('textboxid').value;
-	t = t + symbol;
-	var len = t.length;
-	getChromeElement('textboxid').value = t;
+	jsdump('caret=' + caret);
+	if (caret == null || caret == undefined) {
+		getChromeElement('textboxid').value = t + symbol;
+	} else {
+		var pre = t.substring(0,caret);
+		var post = t.substring(caret);
+		var t = pre + symbol + post;
+		getChromeElement('textboxid').value = t;
+	}
+	var len = getChromeElement('textboxid').value.length;
 	getChromeElement('statusid').label = len + '/140';
 }
 

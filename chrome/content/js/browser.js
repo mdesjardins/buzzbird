@@ -149,7 +149,7 @@ function stopFollowingTweeter(id) {
 	var user = getBrowser().contentDocument.getElementById('screenname-' + id).innerHTML;
 	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 	                        .getService(Components.interfaces.nsIPromptService);
-	var result = prompts.confirm(window, "Title", 'Do you want to stop following ' + user + '?');
+	var result = prompts.confirm(window, "Confirm", 'Do you want to stop following ' + user + '?');
 	if (result) {
 		jsdump('Unfollowing ' + user);
 		url = 'http://twitter.com/friendships/destroy/' + user + '.json';
@@ -196,4 +196,46 @@ function appendText(symbol) {
 	var len = t.length;
 	getChromeElement('textboxid').value = t;
 	getChromeElement('statusid').label = len + '/140';
+}
+
+// As the name implies... deletes a tweet.
+//
+function deleteTweetCallback(id) {
+	jsdump('id='+id);
+	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+	                        .getService(Components.interfaces.nsIPromptService);
+	prompts.alert(window, "Presto!", "Your tweet has been deleted.");
+	var x = $('tweet-'+id);
+	if (id != undefined && x != null) {
+		jsdump('x='+x);
+		x.style.display = 'none';
+
+		// Why does this give me weird FF security exceptions?
+		while (x.hasChildNodes()) {
+			x.removeChild(x.lastChild);
+		}
+	}
+}
+function deleteTweet(id) {	
+	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+	                        .getService(Components.interfaces.nsIPromptService);
+	var result = prompts.confirm(window, "Confirm", 'Do you want to delete this tweet?  There is no Undo!');
+	if (result) {
+		url = 'http://twitter.com/statuses/destroy/';
+		url = url + id + '.json';
+		new Ajax.Request(url,
+			{
+				method:'post',
+				parameters:'source=buzzbird',
+				httpUserName: getUsername(),
+				httpPassword: getPassword(),
+			    onSuccess: function() { deleteTweetCallback(id); },
+			    onFailure: function() { 
+					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+					                        .getService(Components.interfaces.nsIPromptService);
+					prompts.alert(window, "Sorry.", "There was an error deleting that status update.");
+					deleteTweetCallback(); 
+				}
+			});
+	}
 }
