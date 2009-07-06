@@ -311,6 +311,7 @@ function updateTimestamps() {
 // Formats a tweet for display.
 //
 function formatTweet(tweet) {
+	//jsdump('formatting tweet ' + tweet.id);
 	// Clean any junk out of the text.
 	text = sanitize(tweet.text);
 	
@@ -361,6 +362,11 @@ function formatTweet(tweet) {
 		}
 	} 
 
+	var altText = "Click to see " + sanitize(user.screen_name) + "'s profile";
+	if (user.location != undefined && user.location != null && user.description != undefined && user.location != null) {
+		var altText = sanitize(user.name) + ", '" + sanitize(user.description) + "' (" + sanitize(user.location) + "). " + altText;
+	}
+
 	var result = 
 	   "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
      + "<div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
@@ -371,7 +377,7 @@ function formatTweet(tweet) {
 	 + "   <tr>"
 	 + "    <td valign=\"top\" class=\"" + c.avatarColumn + "\">"
 	 + "     <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" style=\"margin:0px;padding:0px\" "
-	 + "        title=\"" +  sanitize(user.name) + ", '" + sanitize(user.description) + "' (" + sanitize(user.location) + "). Click to view " + sanitize(user.screen_name) + "'s profile\">"
+	 + "        title=\"" + altText + "\">"
 	 + "      <img src=\"" + user.profile_image_url + "\" class=\"" + c.avatar +"\" />"
      + "     </a>"
      + "    </td>"
@@ -393,20 +399,20 @@ function formatTweet(tweet) {
      + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">";	        
 
 	 var t = tweetType(tweet);
-     if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-     	result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
+	      	result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 }
 	 if (t == 'tweet' || t == 'reply') {
-        result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-     }
-     if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-     	result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	         result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 }
-     if (t != 'mine') {
-        result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
+	      	result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 }
+	 if (t != 'mine') {
+	         result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 }
 	 if (t == 'mine') {
-   		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
+	    		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
 	 }
      result = result 
      + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
@@ -637,8 +643,6 @@ function keyUp(e) {
 	updateLengthDisplay();
 }
 
-// Filter tweet types.
-//
 function showAllTweets() {
 	// showOrHide('tweet','inline');
 	// showOrHide('mine','inline');
@@ -646,12 +650,34 @@ function showAllTweets() {
 	// showOrHide('direct-from','inline');
 	// showOrHide('reply','inline');	
 	var elements = getBrowser().contentDocument.getElementsByClassName('tweetBox');
-	for (i=elements.length-1; i>=0; i--) {
-		element = elements[i];
-		element.style.display = 'inline';
-	}
-	getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;;
+	
+	showAllTweetsRecursive(elements,0);
+	
+	// for (i=elements.length-1; i>=0; i--) {
+	// 	element = elements[i];
+	// 	if (element.style.display != 'inline') {
+	// 		element.style.display = 'inline';
+	// 	}
+	// }
+	// getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;;
 }
+
+function showAllTweetsRecursive(elements,i) {
+	var x = 50;
+	var len = elements.length;
+	while (x--) {
+		element = elements[i];
+		if (element.style.display != 'inline') {
+			element.style.display = 'inline';
+		}
+		i++;
+	}
+	
+	if (i > len) {
+		setTimeout(showAllTweetsRecursive(elements,i),10);
+	}
+}
+
 function showResponses() {
 	showOrHide('tweet','none');
 	showOrHide('mine','none');

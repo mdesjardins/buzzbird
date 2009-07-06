@@ -101,6 +101,24 @@ function setIntPref(prefname,value) {
    return pref.setIntPref(prefname,value);
 }
 
+// Wrappers for fetching/setting a string preference.
+//
+function getStringPref(prefname,def) {
+  try { 
+    var pref = Components.classes["@mozilla.org/preferences-service;1"]
+                       .getService(Components.interfaces.nsIPrefBranch);
+    return pref.getCharPref(prefname);
+  } catch(er) {
+    return def;
+  }
+}
+function setStringPref(prefname,value) {
+   var pref = Components.classes["@mozilla.org/preferences-service;1"]
+                      .getService(Components.interfaces.nsIPrefBranch);
+   return pref.setCharPref(prefname,value);
+}
+
+
 // Make stuff "HTML Safe"
 //
 function sanitize(text) {

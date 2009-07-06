@@ -111,7 +111,12 @@ function sendDirect(id) {
 function retweet(id) {
 	var raw = getBrowser().contentDocument.getElementById("raw-" + id).innerHTML;
 	var user = getBrowser().contentDocument.getElementById("screenname-" + id).innerHTML;
+	var f = getStringPref('buzzbird.retweet.format');
+	jsdump('buzzbird.retweet.format=' + f);
 	var text = 'RT @' + desanitize(user) + ': ' + desanitize(raw);
+	if (f == 'via') {
+		text = desanitize(raw) + ' (via @' + desanitize(user) + ')';
+	} 
 	text = text.substring(0,140);
 	getChromeElement('textboxid').value = text;
 	getChromeElement('textboxid').focus();		
