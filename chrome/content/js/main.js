@@ -38,7 +38,8 @@ var classes = {
 		screenName: "tweetScreenName",
 		content: "tweetContent",
 		info: "tweetInfo",
-		icon: "tweetIcon"
+		icon: "tweetIcon",
+		replyTo: "tweetReplyTo"
 	},
 	"mine" : {
 		message: "mineMessage",
@@ -52,7 +53,8 @@ var classes = {
 		screenName: "mineScreenName",
 		content: "mineContent",
 		info: "mineInfo",
-		icon: "mineIcon"
+		icon: "mineIcon",
+		replyTo: "mineReplyTo"
 	},
 	"reply" : {
 		message: "replyMessage",
@@ -66,7 +68,8 @@ var classes = {
 		screenName: "replyScreenName",
 		content: "replyContent",
 		info: "replyInfo",
-		icon: "replyIcon"
+		icon: "replyIcon",
+		replyTo: "replyReplyTo"
 	},
 	"direct-to" : {
 		message: "directToMessage",
@@ -80,7 +83,8 @@ var classes = {
 		screenName: "directToScreenName",
 		content: "directToContent",
 		info: "directToInfo",
-		icon: "directToIcon"
+		icon: "directToIcon",
+		replyTo: "directToReplyTo"
 	},
 	"direct-from" : {
 		message: "directFromMessage",
@@ -94,7 +98,8 @@ var classes = {
 		screenName: "directFromScreenName",
 		content: "directFromContent",
 		info: "directFromInfo",
-		icon: "directFromIcon"
+		icon: "directFromIcon",
+		replyTo: "directFromReplyTo"
 	}
 }
 
@@ -355,8 +360,25 @@ function formatTweet(tweet) {
 		via = " via " + tweet.source;
 	} 
 
+	if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
+//		var x = getBrowser().contentDocument.getElementById('jump-' + tweet.in_reply_to_status_id);
+//		jsdump('x:' + x);
+//		if (x == null || x == undefined) {
+			// we haven't rendered the tweet to which this tweet is replying, make it a jump out to the browser.
+			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(tweet.in_reply_to_screen_name) + "/statuses/" + tweet.in_reply_to_status_id + "');\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
+// it's a real bummer that this doesn't seem to work, it looks like the browser
+// might get confused about where the anchors are when we dynamically tweak
+// the DOM???
+//		} else {
+//			// we've rendered the tweet we're replying to, so make it a jump to that anchor instead.
+//			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" href=\"#jump-" + tweet.in_reply_to_status_id + "\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
+//			jsdump('modified:' + text);
+//		}
+	}
+
 	var result = 
-	   "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
+	   "<a id=\"jump-" + tweet.id + "\" name=\"jump-" + tweet.id + "\" />"
+	 + "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
      + "<div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
 	 + "<div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
      + "<div id=\"tweet-" + tweet.id + "\" class=\"tweetBox\" name=\"" + tweetType(tweet) + "\" style=\"display:" + display + "\" onmouseover=\"showIcons("+ tweet.id + ")\" onmouseout=\"showInfo(" + tweet.id + ")\">"

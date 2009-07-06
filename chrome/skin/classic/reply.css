@@ -81,6 +81,16 @@ body {
 	text-decoration: underline;
 }
 
+.replyReplyTo a {
+	color:#222;	
+	font-size:11px;
+	font-family:Helvetica, Arial, sans-serif;
+	font-weight:normal;	
+	padding-right:8px;
+	color:#777;
+	text-decoration: none;
+}
+
 a:hover.replyInfo {
 	color: #22A;	
 	cursor: pointer;

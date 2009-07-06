@@ -92,6 +92,16 @@ a:hover.directFromInfo {
 	height: 22px;
 }
 
+.directFromReplyTo a {
+	color:#222;	
+	font-size:11px;
+	font-family:Helvetica, Arial, sans-serif;
+	font-weight:normal;	
+	padding-right:8px;
+	color:#777;
+	text-decoration: none;
+}
+
 a.directFromInfo {
 	color: #666;	
 	font-size: 1.0em;
