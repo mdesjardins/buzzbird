@@ -3,6 +3,8 @@ var passwordManager = Components.classes["@mozilla.org/login-manager;1"]
 
 var hostname = 'localhost';
 var formSubmitURL = 'localhost';  
+// twitter.com
+// realm = Twitter API
 var httprealm = null;
 var user = '';
 var password = '';

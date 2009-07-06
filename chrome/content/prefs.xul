@@ -45,7 +45,7 @@ THE SOFTWARE.
  <prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/content/images/prefs-general.png">
     	<preferences>
       		<preference id="updateInterval" name="buzzbird.update.interval" type="int"/>
-			<preference id="animatedAvatars" name="image.animation_mode" type="string"/>
+			<preference id="retweetFormat" name="buzzbird.retweet.format" type="string"/>
 			<preference id="autoMarkOldTweetsAsRead" name="buzzbird.auto.markread" type="bool"/>
     	</preferences>
 		<vbox>
@@ -62,13 +62,12 @@ THE SOFTWARE.
 				</menulist>
 			</hbox>
 			<hbox>
-				<label control="menulist_animatedAvatars" value="&animatedAvatarPref.label;" /> 
-				<menulist id="menulist_animatedAvatars" preference="animatedAvatars"
-			              accesskey="&animatedAvatarPref.accesskey;">
+				<label control="menulist_retweetFormat" value="&retweetFormatPref.label;" /> 
+				<menulist id="menulist_retweetFormat" preference="retweetFormat"
+			              accesskey="&retweetFormatPref.accesskey;">
 					<menupopup>
-						<menuitem label="&animateOncePref.label;" value="once"/>
-						<menuitem label="&animateNeverPref.label;" value="none"/>
-						<menuitem label="&animateAlwaysPref.label;" value="normal"/>
+						<menuitem label="&retweetFormatRtPref.label;" value="rt"/>
+						<menuitem label="&retweetFormatViaPref.label;" value="via"/>
 					</menupopup>
 				</menulist>
 		    </hbox>

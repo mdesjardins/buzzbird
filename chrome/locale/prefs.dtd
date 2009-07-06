@@ -20,6 +20,12 @@
 <!ENTITY animateNeverPref.label         "Never">
 <!ENTITY animateAlwaysPref.label         "Always">
 
+<!ENTITY retweetFormatPref.label         "Retweet Format"> 
+<!ENTITY retweetFormatPref.accesskey       "R"> 
+<!ENTITY retweetFormatRtPref.label         "RT @handle: Tweet">
+<!ENTITY retweetFormatViaPref.label         "Tweet (via @handle)">
+
+
 <!ENTITY autoMarkOldTweetsAsRead.label         "Automatically mark old tweets as read after update">
 
 <!ENTITY prefForgetAccount.label         "Forget Saved Account Data">

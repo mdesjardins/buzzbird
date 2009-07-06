@@ -316,6 +316,7 @@ function updateTimestamps() {
 // Formats a tweet for display.
 //
 function formatTweet(tweet) {
+	//jsdump('formatting tweet ' + tweet.id);
 	// Clean any junk out of the text.
 	text = sanitize(tweet.text);
 	
@@ -357,7 +358,13 @@ function formatTweet(tweet) {
 	
 	var via = ""
 	if (tweet.source != undefined && tweet.source != null && tweet.source != "") {
-		via = " via " + tweet.source;
+		var re = new RegExp('<a href="(.*?)">(.*?)</a>');
+		var src = re.exec(tweet.source);
+		if (src != undefined && src != null && src.length == 3) {
+			href = src[1]
+			href = href.replace(/&/g, '%26');
+			via = " <span class=\"" + c.info + "\"> posted from <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('" + href + "')\">" + src[2] + "</a></span>";
+		}
 	} 
 
 	if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
@@ -375,6 +382,11 @@ function formatTweet(tweet) {
 //			jsdump('modified:' + text);
 //		}
 	}
+	
+	var altText = "Click to see " + sanitize(user.screen_name) + "'s profile";
+	if (user.location != undefined && user.location != null && user.description != undefined && user.location != null) {
+		var altText = sanitize(user.name) + ", '" + sanitize(user.description) + "' (" + sanitize(user.location) + "). " + altText;
+	}
 
 	var result = 
 	   "<a id=\"jump-" + tweet.id + "\" name=\"jump-" + tweet.id + "\" />"
@@ -386,7 +398,8 @@ function formatTweet(tweet) {
 	 + "  <table class=\"" + c.table + "\">"
 	 + "   <tr>"
 	 + "    <td valign=\"top\" class=\"" + c.avatarColumn + "\">"
-	 + "     <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" style=\"margin:0px;padding:0px\" title=\"View " + sanitize(user.screen_name) + "'s profile\">"
+	 + "     <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" style=\"margin:0px;padding:0px\" "
+	 + "        title=\"" + altText + "\">"
 	 + "      <img src=\"" + user.profile_image_url + "\" class=\"" + c.avatar +"\" />"
      + "     </a>"
      + "    </td>"
@@ -402,15 +415,30 @@ function formatTweet(tweet) {
      + "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" onmouseover=\"this.style.cursor='pointer';\" />"
      + "   <span id=\"tweetInfo-" + tweet.id + "\">"
      + "    <span class=\"" + c.info + "\">" 
-     +       sanitize(user.name) + " <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span>"
+     +       sanitize(user.name) + " <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span> "
      + "    </span>"
      + "   </span>"
-     + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">"	        
-     + "    <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-     + "    <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-     + "    <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-     + "    <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-     + "    <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+     + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">";	        
+
+	 var t = tweetType(tweet);
+	 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
+	      	result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 }
+	 if (t == 'tweet' || t == 'reply') {
+	         result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 }
+	 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
+	      	result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 }
+	 if (t != 'mine') {
+	         result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 }
+	 if (t == 'mine') {
+	    		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
+	 }
+     result = result 
+     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 + via
 	 + "   </span>"
      + "  </div>"
      + " </div>"
@@ -637,8 +665,6 @@ function keyUp(e) {
 	updateLengthDisplay();
 }
 
-// Filter tweet types.
-//
 function showAllTweets() {
 	// showOrHide('tweet','inline');
 	// showOrHide('mine','inline');
@@ -646,12 +672,33 @@ function showAllTweets() {
 	// showOrHide('direct-from','inline');
 	// showOrHide('reply','inline');	
 	var elements = getBrowser().contentDocument.getElementsByClassName('tweetBox');
-	for (i=elements.length-1; i>=0; i--) {
-		element = elements[i];
-		element.style.display = 'inline';
-	}
+	
+	showAllTweetsRecursive(elements,0);
+	
+	// for (i=elements.length-1; i>=0; i--) {
+	// 	element = elements[i];
+	// 	if (element.style.display != 'inline') {
+	// 		element.style.display = 'inline';
+	// 	}
+	// }
 	getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;;
 }
+
+function showAllTweetsRecursive(elements,i) {
+	var x = 50;
+	var len = elements.length;
+	while (x--) {
+		element = elements[i];
+		if (element.style.display != 'inline') {
+			element.style.display = 'inline';
+		}
+		i++;
+	}
+	if (i > len) {
+		setTimeout(showAllTweetsRecursive(elements,i),10);
+	}
+}
+
 function showResponses() {
 	showOrHide('tweet','none');
 	showOrHide('mine','none');
@@ -800,10 +847,18 @@ function zoomReset() {
 }
 
 function appendText(symbol) {
+	var caret = getChromeElement('textboxid').selectionStart;
 	var t = getChromeElement('textboxid').value;
-	t = t + symbol;
-	var len = t.length;
-	getChromeElement('textboxid').value = t;
+	jsdump('caret=' + caret);
+	if (caret == null || caret == undefined) {
+		getChromeElement('textboxid').value = t + symbol;
+	} else {
+		var pre = t.substring(0,caret);
+		var post = t.substring(caret);
+		var t = pre + symbol + post;
+		getChromeElement('textboxid').value = t;
+	}
+	var len = getChromeElement('textboxid').value.length;
 	getChromeElement('statusid').label = len + '/140';
 }
 
