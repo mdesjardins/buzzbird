@@ -659,7 +659,7 @@ function showAllTweets() {
 	// 		element.style.display = 'inline';
 	// 	}
 	// }
-	// getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;;
+	getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;;
 }
 
 function showAllTweetsRecursive(elements,i) {
@@ -672,7 +672,6 @@ function showAllTweetsRecursive(elements,i) {
 		}
 		i++;
 	}
-	
 	if (i > len) {
 		setTimeout(showAllTweetsRecursive(elements,i),10);
 	}
