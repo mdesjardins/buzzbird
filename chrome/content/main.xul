@@ -224,7 +224,7 @@ THE SOFTWARE.
 				<label id="showingDirectId" hidden="true" value="&showingDirect.label;" />
 				<toolbarbutton id="refreshButtonId"
 					       collapsed="true"
-								style="padding:0px 0px 0px 5px; margin:0; width:22px"
+								style="padding:0px 0px 0px 5px; margin:0; width:30px"
 								image="chrome://buzzbird/content/images/reload-button-active-20x20.png" 
 								onmousedown="this.image='chrome://buzzbird/content/images/reload-button-pressed-20x20.png';"
 								onmouseup="this.image='chrome://buzzbird/content/images/reload-button-active-20x20.png';"
@@ -232,7 +232,7 @@ THE SOFTWARE.
 								command="cmd_refreshNow" />
 				<toolbarbutton id="markAllAsReadId"
 					       collapsed="true"
-							style="padding:0; margin:0; width:22px"
+							style="padding:0px 0px 0px 5px; margin:0; width:30px"
 							image="chrome://buzzbird/content/images/check-button-active-20x20.png" 
 							onmousedown="this.image='chrome://buzzbird/content/images/check-button-pressed-20x20.png';"
 							onmouseup="this.image='chrome://buzzbird/content/images/check-button-active-20x20.png';"
@@ -240,7 +240,7 @@ THE SOFTWARE.
 							command="cmd_markAllAsRead" />
 				<toolbarbutton id="deleteAllReadId"
 					       collapsed="true"
-							style="padding:0; margin:0; width:22px"
+							style="padding:0px 0px 0px 5px; margin:0; width:30px"
 							image="chrome://buzzbird/content/images/delete-button-active-20x20.png" 
 							onmousedown="this.image='chrome://buzzbird/content/images/delete-button-pressed-20x20.png';"
 							onmouseup="this.image='chrome://buzzbird/content/images/delete-button-active-20x20.png';"
@@ -248,7 +248,7 @@ THE SOFTWARE.
 							command="cmd_deleteAllRead" />
 				<toolbarbutton id="openSpeechId"
 					       collapsed="true"
-							style="padding:0; margin:0; width:22px"
+							style="padding:0px 0px 0px 5px; margin:0; width:30px"
 							image="chrome://buzzbird/content/images/speech-button-active-20x20.png" 
 							onmousedown="this.image='chrome://buzzbird/content/images/speech-button-pressed-20x20.png';"
 							onmouseup="this.image='chrome://buzzbird/content/images/speech-button-active-20x20.png';"
@@ -256,7 +256,7 @@ THE SOFTWARE.
 							command="cmd_speech" />
 				<toolbarbutton id="shortenUrlId"
 					       collapsed="true"
-								style="padding:0; margin:0; width:22px"
+								style="padding:0px 0px 0px 5px; margin:0; width:30px"
 								image="chrome://buzzbird/content/images/link-button-active-20x20.png" 
 								onmousedown="this.image='chrome://buzzbird/content/images/link-button-pressed-20x20.png';"
 								onmouseup="this.image='chrome://buzzbird/content/images/link-button-active-20x20.png';"
@@ -264,7 +264,7 @@ THE SOFTWARE.
 								command="cmd_shortenUrl"/>
 				<toolbarbutton id="symbolButtonId" 
 					       collapsed="true"
-								style="padding:0; margin:0; width:22px"
+								style="padding:0; margin:0; width:30px"
 								image="chrome://buzzbird/content/images/smiley-button-active-20x20.png" 
 								onmousedown="this.image='chrome://buzzbird/content/images/smiley-button-pressed-20x20.png';"
 								onmouseup="this.image='chrome://buzzbird/content/images/smiley-button-active-20x20.png';"
