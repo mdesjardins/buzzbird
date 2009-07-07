@@ -665,38 +665,24 @@ function keyUp(e) {
 	updateLengthDisplay();
 }
 
+// This one is written funkily because it could take a while, and
+// we don't want to lock up the browser.  We might want to consider
+// doing this to showOrHide as well.
+//
 function showAllTweets() {
-	// showOrHide('tweet','inline');
-	// showOrHide('mine','inline');
-	// showOrHide('direct-to','inline');
-	// showOrHide('direct-from','inline');
-	// showOrHide('reply','inline');	
 	var elements = getBrowser().contentDocument.getElementsByClassName('tweetBox');
-	
-	showAllTweetsRecursive(elements,0);
-	
-	// for (i=elements.length-1; i>=0; i--) {
-	// 	element = elements[i];
-	// 	if (element.style.display != 'inline') {
-	// 		element.style.display = 'inline';
-	// 	}
-	// }
-	getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;;
-}
-
-function showAllTweetsRecursive(elements,i) {
-	var x = 50;
-	var len = elements.length;
-	while (x--) {
-		element = elements[i];
-		if (element.style.display != 'inline') {
-			element.style.display = 'inline';
+	var i = 0;
+	function doWork() {
+		if (elements[i].style.display != 'inline') {
+			elements[i].style.display = 'inline';
 		}
 		i++;
+		if (i < elements.length) {
+			setTimeout(doWork, 1);
+		}
 	}
-	if (i > len) {
-		setTimeout(showAllTweetsRecursive(elements,i),10);
-	}
+	setTimeout(doWork,1);
+	getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;;
 }
 
 function showResponses() {
