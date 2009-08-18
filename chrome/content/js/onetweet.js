@@ -55,10 +55,7 @@ function renderTweet(id,username,password) {
 
 function oneTweetCallback(transport,username,password) {
 	var tweet = eval('(' + transport.responseText + ')');
-	jsdump('transport.responseText: ' + transport.responseText);
-    jsdump('response: ' + tweet);
 	var newText = formatTweet(tweet,username,password);
-	jsdump('newText: ' + newText);
 	var parser = new DOMParser();
 	var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml">' + newText + '</div>', 'application/xhtml+xml');
 	if (doc.documentElement.nodeName != "parsererror" ) {
@@ -72,10 +69,12 @@ function oneTweetCallback(transport,username,password) {
 }
 
 function renderAnother() {
-	jsdump('dispatched!');
-	username = browser.contentDocument.getElementById('username').value
-	password = browser.contentDocument.getElementById('password').value
-	id = browser.contentDocument.getElementById('tweetId').value
-	window.content.document.href = 'chrome://buzzbird/content/onetweet.html';
+	username = browser.contentDocument.getElementById('username').value;
+	password = browser.contentDocument.getElementById('password').value;
+	id = browser.contentDocument.getElementById('tweetId').value;
+	browser = document.getElementById('onetweet-browser');
+	browser.loadURI('chrome://buzzbird/content/onetweet.html');
+	browser.contentDocument.getElementById('username').value = username;
+	browser.contentDocument.getElementById('username').value = password;
 	renderTweet(id,username,password);
 }
