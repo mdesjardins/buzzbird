@@ -19,89 +19,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-var username = "";
-var password = "";
-var mostRecentTweet = null;
-var mostRecentDirect = null;
-var parser = new DOMParser();
-
-var classes = {
-	"tweet" : {
-		message: "tweetMessage",
-		bottomRow: "tweetBottomRow",
-		box: "tweetBox",
-		text: "tweetText",
-		table: "tweetTable",
-		avatar: "tweetAvatar",
-		avatarColumn: "tweetAvatarColumn",
-		textColumn: "tweetTextColumn",
-		screenName: "tweetScreenName",
-		content: "tweetContent",
-		info: "tweetInfo",
-		icon: "tweetIcon",
-		replyTo: "tweetReplyTo"
-	},
-	"mine" : {
-		message: "mineMessage",
-		bottomRow: "mineBottomRow",
-		box: "mineBox",
-		text: "mineText",
-		table: "mineTable",
-		avatar: "mineAvatar",
-		avatarColumn: "mineAvatarColumn",
-		textColumn: "mineTextColumn",
-		screenName: "mineScreenName",
-		content: "mineContent",
-		info: "mineInfo",
-		icon: "mineIcon",
-		replyTo: "mineReplyTo"
-	},
-	"reply" : {
-		message: "replyMessage",
-		bottomRow: "replyBottomRow",
-		box: "replyBox",
-		text: "replyText",
-		table: "replyTable",
-		avatar: "replyAvatar",
-		avatarColumn: "replyAvatarColumn",
-		textColumn: "replyTextColumn",
-		screenName: "replyScreenName",
-		content: "replyContent",
-		info: "replyInfo",
-		icon: "replyIcon",
-		replyTo: "replyReplyTo"
-	},
-	"direct-to" : {
-		message: "directToMessage",
-		bottomRow: "directToBottomRow",
-		box: "directToBox",
-		text: "directToText",
-		table: "directToTable",
-		avatar: "directToAvatar",
-		avatarColumn: "directToAvatarColumn",
-		textColumn: "directToTextColumn",
-		screenName: "directToScreenName",
-		content: "directToContent",
-		info: "directToInfo",
-		icon: "directToIcon",
-		replyTo: "directToReplyTo"
-	},
-	"direct-from" : {
-		message: "directFromMessage",
-		bottomRow: "directFromBottomRow",
-		box: "directFromBox",
-		text: "directFromText",
-		table: "directFromTable",
-		avatar: "directFromAvatar",
-		avatarColumn: "directFromAvatarColumn",
-		textColumn: "directFromTextColumn",
-		screenName: "directFromScreenName",
-		content: "directFromContent",
-		info: "directFromInfo",
-		icon: "directFromIcon",
-		replyTo: "directFromReplyTo"
-	}
-}
+username = "";
+password = "";
+mostRecentTweet = null;
+mostRecentDirect = null;
+parser = new DOMParser();
 
 // Gets the login params and calls login to attempt authenticating
 // with the twitter API.  Calls start() if successful.
@@ -258,23 +180,6 @@ function progress(throbbing) {
 //	}
 }
 
-// Returns 'tweet','reply','direct', or 'mine'
-//
-function tweetType(tweet) {
-	var re = new RegExp(".*?@" + getUsername() + ".*?");
-	var result = 'tweet'
-	if (tweet.text.substring(0,11) == "Directly to") {
-		result = 'direct-to';
-	} else if (tweet.sender != undefined) {
-		result = 'direct-from';
-	} else if (tweet.in_reply_to_screen_name == getUsername() || re.test(tweet.text)) {
-		result = 'reply';
-	} else if (tweet.user.screen_name == getUsername()) {
-		result = 'mine';
-	}
-	return result;
-}
-
 // Update timestamp
 //
 function updateTimestamps() {
@@ -313,186 +218,6 @@ function updateTimestamps() {
 	//setTimeout(updateTimestamps(),ONE_MINUTE);
 }
 
-// Formats a tweet for display.
-//
-function formatTweet(tweet,oneTweet) {
-	jsdump('formatting tweet ' + tweet.id);
-	// Clean any junk out of the text.
-	text = sanitize(tweet.text);
-	
-	jsdump('0');
-	
-	// First, go through and replace links with real links.
-	var re = new RegExp("http://(\\S*)", "g");
-	var text = text.replace(re, "<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://$1');\">http://$1</a>");
-	
-	jsdump('0.1');
-	
-	// Next, replace the twitter handles
-	re = new RegExp("@(\\w*)", "g");
-	text = text.replace(re, "@<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/$1');\">$1</a>");
-
-	jsdump('0.2');
-	
-	// Finally, replace the hashtags
-	re = new RegExp("#(\\w*)", "g");
-	text = text.replace(re, "#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://hashtags.org/tag/$1');\">$1</a>");
-	
-	jsdump('0.3');
-	
-	var when = new Date(tweet.created_at);
-	
-	jsdump('0.4');
-	var prettyWhen = when.toLocaleTimeString() + ' on ' + when.toLocaleDateString().substring(0,5);
-	jsdump('0.5');
-	var user;
-	jsdump('0.6');
-	if (tweetType(tweet) == 'direct-from') {
-		user = tweet.sender;
-	} else {
-		user = tweet.user;
-	}
-	
-	jsdump('1');
-	
-	c = classes[tweetType(tweet)];
-
-	// Figure out if we're displaying this flavor of tweet
-	var display = 'none';
-	if (!oneTweet) {
-		var currentFilter = getChromeElement('filterbuttonid').label;
-		var showingAllTweets = getChromeElement('showingAllTweetsId').value;
-		var showingReplies = getChromeElement('showingRepliesId').value;
-		var showingDirect = getChromeElement('showingDirectId').value;	
-		if (  (currentFilter == showingAllTweets) ||
-	          ((currentFilter == showingDirect) && (tweetType(tweet) == 'direct')) ||
-	          ((currentFilter == showingReplies && (tweetType(tweet) == 'reply')) ) ) {
-		  display = 'inline';
-	    }
-	} else {
-		display = 'inline';
-	}
-	
-	jsdump('2');
-	
-	var via = ""
-	if (tweet.source != undefined && tweet.source != null && tweet.source != "") {
-		var re = new RegExp('<a href="(.*?)">(.*?)</a>');
-		var src = re.exec(tweet.source);
-		if (src != undefined && src != null && src.length == 3) {
-			href = src[1]
-			href = href.replace(/&/g, '%26');
-			via = " <span class=\"" + c.info + "\"> posted from <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('" + href + "')\">" + src[2] + "</a></span>";
-		}
-	} 
-
-	jsdump('3');
-
-	if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
-//		var x = getBrowser().contentDocument.getElementById('jump-' + tweet.in_reply_to_status_id);
-//		jsdump('x:' + x);
-//		if (x == null || x == undefined) {
-			// we haven't rendered the tweet to which this tweet is replying, make it a jump out to the browser.
-			
-			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(tweet.in_reply_to_screen_name) + "/statuses/" + tweet.in_reply_to_status_id + "');\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
-			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"viewOneTweet(" + tweet.in_reply_to_status_id + ");\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
-			
-// it's a real bummer that this doesn't seem to work, it looks like the browser
-// might get confused about where the anchors are when we dynamically tweak
-// the DOM???
-//		} else {
-//			// we've rendered the tweet we're replying to, so make it a jump to that anchor instead.
-//			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" href=\"#jump-" + tweet.in_reply_to_status_id + "\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
-//			jsdump('modified:' + text);
-//		}
-	}
-	
-	jsdump('4');
-	
-	var altText = "Click to see " + sanitize(user.screen_name) + "'s profile";
-	if (user.location != undefined && user.location != null && user.description != undefined && user.location != null) {
-		var altText = sanitize(user.name) + ", '" + sanitize(user.description) + "' (" + sanitize(user.location) + "). " + altText;
-	}
-
-	var result = 
-	   "<a id=\"jump-" + tweet.id + "\" name=\"jump-" + tweet.id + "\" />"
-	 + "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
-     + "<div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
-	 + "<div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
-     + "<div id=\"tweet-" + tweet.id + "\" class=\"tweetBox\" name=\"" + tweetType(tweet) + "\" style=\"display:" + display + "\" onmouseover=\"showIcons("+ tweet.id + ")\" onmouseout=\"showInfo(" + tweet.id + ")\">"
-	 + " <div class=\"" + c.message + "\">"
-	 + "  <table class=\"" + c.table + "\">"
-	 + "   <tr>"
-	 + "    <td valign=\"top\" class=\"" + c.avatarColumn + "\">"
-	 + "     <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" style=\"margin:0px;padding:0px\" "
-	 + "        title=\"" + altText + "\">"
-	 + "      <img src=\"" + user.profile_image_url + "\" class=\"" + c.avatar +"\" />"
-     + "     </a>"
-     + "    </td>"
-     + "    <td>"
-	 + "     <div class=\"" + c.text + "\">"
-	 + "      <p><span class=\"" + c.screenName + "\">" + sanitize(user.screen_name) + "</span> <span class=\"" + c.content + "\">" + text + "</span></p>"
-     + "     </div>"
-     + "    </td>"
-     + "   </tr>"
-     + "  </table>"
-     + "  <div class=\"" + c.bottomRow + "\">"
-     + "   <img name=\"mark\" id=\"mark-" + tweet.id + "\" src=\"chrome://buzzbird/content/images/star-yellow.png\" style=\"width:16px; height:16px;\""
-     + "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" onmouseover=\"this.style.cursor='pointer';\" />"
-     + "   <span id=\"tweetInfo-" + tweet.id + "\">"
-     + "    <span class=\"" + c.info + "\">" 
-     +       sanitize(user.name) + " <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span> "
-     + "    </span>"
-     + "   </span>"
-     + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">";	        
-
-	 if (!oneTweet) {
-		 var t = tweetType(tweet);
-		 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-		      	result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-		 }
-		 if (t == 'tweet' || t == 'reply') {
-		         result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-		 }
-		 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-		      	result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-		 }
-		 if (t != 'mine') {
-		         result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-		 }
-		 if (t == 'mine') {
-		    		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
-		 }
-	 }
-	
-     result = result 
-     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-	 + via
-	 + "   </span>"
-     + "  </div>"
-     + " </div>"
-     + "</div>"
-     + "\n";
-
-	//jsdump('tweet(' + tweet.id +'): ' + result);
-	return result;
-}
-
-// Writes to the top of the page.
-//
-function insertAtTop(newText) {
-	var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml">' + newText + '</div>', 'application/xhtml+xml');
-	if (doc.documentElement.nodeName != "parsererror" ) {
-		var root = doc.documentElement;
-		for (var j=0; j<root.childNodes.length; ++j) {
-			window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.firstChild);
-		}
-	} else {
-		message('An error was encountered while parsing tweets.');
-//		alert('An error was encountered while parsing tweets.');
-	}	
-}
-
 // Iterates over newly fetched tweets to add them to the browser window.
 //
 function renderNewTweets(url,newTweets) {
@@ -517,7 +242,7 @@ function renderNewTweets(url,newTweets) {
 			}
 			var chk = window.content.document.getElementById('tweet-'+newTweets[i].id);
 			if (chk == null) {
-				newText = formatTweet(newTweets[i],false) + newText;
+				newText = formatTweet(newTweets[i],false,getUsername(),getPassword()) + newText;
 			}
 		}
 		insertAtTop(newText);
@@ -526,13 +251,7 @@ function renderNewTweets(url,newTweets) {
 		if (y!=0) {
 			var new_max_y = getBrowser().contentWindow.scrollMaxY;
 			var difference = new_max_y - max_y;
-			// jsdump('new_max_y=' + new_max_y);
-			// jsdump('max_y=' + max_y);
-			// jsdump('difference=' + difference);
-			// jsdump('y=' + y);
-			// jsdump('scrollY=' + getBrowser().contentWindow.scrollY);
 			getBrowser().contentWindow.scrollTo(x,y + difference);
-			// jsdump('updated scrollY=' + getBrowser().contentWindow.scrollY);
 		}
 	}
 }
@@ -651,7 +370,7 @@ function postTweetCallback(tweetText) {
 		tweet.user.name = getChromeElement("realnameLabelId").value;
 		tweet.in_reply_to_screen_name = "";
 		tweet.sender = undefined;
-		insertAtTop(formatTweet(tweet,false));
+		insertAtTop(formatTweet(tweet,false,getUsername(),getPassword()));
 	}
 	forceUpdate();
 }
@@ -699,6 +418,7 @@ function keyUp(e) {
 // doing this to showOrHide as well.
 //
 function showAllTweets() {
+	getChromeElement('filtermenupopupid').disabled=true;
 	var elements = getBrowser().contentDocument.getElementsByClassName('tweetBox');
 	var i = 0;
 	function doWork() {
@@ -711,7 +431,8 @@ function showAllTweets() {
 		}
 	}
 	setTimeout(doWork,1);
-	getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;;
+	getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;
+	getChromeElement('filtermenupopupid').disabled=false;
 }
 
 function showResponses() {
@@ -730,12 +451,23 @@ function showDirect() {
 	showOrHide('reply','none');	
 	getChromeElement('filterbuttonid').label=getChromeElement('showingDirectId').value;;
 }
-function showOrHide(tweetType,display) {
+function showOrHide(tweetType,disp) {
+	getChromeElement('filtermenupopupid').disabled=true;
 	var elements = getBrowser().contentDocument.getElementsByName(tweetType);
-	for (i=elements.length-1; i>=0; i--) {
-		element = elements[i];
-		element.style.display = display;
+	if (elements != null && elements != undefined && elements.length > 0) {
+		var i = 0;
+		function doWork() {
+			if (elements[i].style.display != disp) {
+				elements[i].style.display = disp;
+			}
+			i++;
+			if (i < elements.length) {
+				setTimeout(doWork, 1);
+			}
+		}
+		setTimeout(doWork, 1);
 	}
+	getChromeElement('filtermenupopupid').disabled=false;
 }
 
 // Marks all as read.
@@ -965,6 +697,26 @@ function openAccountPreferences() {
   window.openDialog("chrome://buzzbird/content/prefs.xul", "", features, "paneMultiAccounts");
 }
 
+// Allows the user to click the whole button instead of just the triangle.
+//
+function showFilterMenu() {
+	var x = getChromeElement("filtermenupopupid");
+	jsdump('state=' + x.state);
+	if (x.state === 'closed') {
+		x.showPopup();
+	} else {
+		x.hidePopup();
+	}
+}
+function showAccountMenu() {
+	var x = getChromeElement("accountbuttonmenuid");
+	jsdump('state=' + x.state);
+	if (x.state === 'closed') {
+		x.showPopup();
+	} else {
+		x.hidePopup();
+	}
+}
 
 // Called when the user scrolls the main browser window - we enable/disable autoscroll
 // in here to prevent 'jumping' in a user is scrolling through old tweets when an 

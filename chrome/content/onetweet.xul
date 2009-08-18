@@ -29,21 +29,28 @@ THE SOFTWARE.
 		height="180"
 		title="Tweet"
 		buttons="accept"
+		buttonlabelaccept="Close"
 	  	ondialogaccept="onOk();"
   	    onload="oneTweetOnLoad();">
 	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>	
+<!--	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script> -->
+	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/onetweet.js"></script>
+	
+	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
+	
+	<label id="usernameLabelId" value="" hidden="true" />
+	<label id="passwordLabelId" value="" hidden="true" />
 	
 	<browser height="150" 
                 type="content-primary" 
                 src="chrome://buzzbird/content/onetweet.html" 
-                id="browserid" 
+                id="onetweet-browser" 
                 flex="3"
 			 	autoscroll="true"
-			 	onscroll="browserScrolled(event);" 
                 contextmenu="contentAreaContextMenu"
 			 	style="padding:0px; margin:0px;"
                 tooltip="aHTMLTooltip" />

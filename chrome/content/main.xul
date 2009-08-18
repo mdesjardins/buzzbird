@@ -37,7 +37,7 @@ THE SOFTWARE.
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>
-	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
 
@@ -295,7 +295,8 @@ THE SOFTWARE.
 				<spacer flex="10" />
 				<toolbarbutton id="accountbuttonid" 
 					       type="menu-button" 
-					       style="font-size:0.9em;">
+					       style="font-size:0.9em;"
+						   oncommand="showAccountMenu();">
 		    		<menupopup id="accountbuttonmenuid" selectedIndex="0" style="padding:0px; margin:0px;">
 <!--		        		<menuitem label="mdesjardins" value="1" oncommand="changeToUser('mdesjardins');"/>  -->
 		    		</menupopup>
@@ -304,8 +305,9 @@ THE SOFTWARE.
 				<toolbarbutton id="filterbuttonid" 
 					       type="menu-button" 
 					       label="&showingAllTweets.label;" 
-					       style="font-size:0.9em;">
-		    		<menupopup selectedIndex="0" style="padding:0px; margin:0px;">
+					       style="font-size:0.9em;"
+						   oncommand="showFilterMenu();">
+		    		<menupopup id="filtermenupopupid" selectedIndex="0" style="padding:0px; margin:0px;">
 		        		<menuitem label="&showAllTweets.label;" value="1" oncommand="showAllTweets();"/>
 		        		<menuitem label="&showReplies.label;" value="2" oncommand="showResponses();"/>
 		        		<menuitem label="&showDirect.label;" value="3" oncommand="showDirect();"/>
