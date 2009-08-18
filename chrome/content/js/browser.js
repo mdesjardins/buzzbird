@@ -20,6 +20,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// Displays one tweet in a separate dialog.
+//
+function viewOneTweet(tweetId) {
+  var features = "chrome,titlebar,toolbar,centerscreen,modal";
+  window.openDialog("chrome://buzzbird/content/onetweet.xul", "", features, tweetId, getUsername(), getPassword());	
+}
+
 // Opens a link in the user's default browser.
 //
 function linkTo(href) {
@@ -83,13 +90,9 @@ function dispatch(eventName) {
 function replyTo(id) {
 	jsdump('replying to ' + id);
 	var user = getBrowser().contentDocument.getElementById("screenname-" + id).innerHTML;
-	jsdump('1');
 	var text = '@' + desanitize(user) + ' ';
-	jsdump('2');
 	getChromeElement('textboxid').value = text;
-	jsdump('3');
 	getChromeElement('statusid').label = text.length + "/140";
-	jsdump('4');
 	getChromeElement('textboxid').focus();
 	dispatch('openSpeech');
 }

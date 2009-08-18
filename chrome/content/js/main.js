@@ -315,46 +315,65 @@ function updateTimestamps() {
 
 // Formats a tweet for display.
 //
-function formatTweet(tweet) {
-	//jsdump('formatting tweet ' + tweet.id);
+function formatTweet(tweet,oneTweet) {
+	jsdump('formatting tweet ' + tweet.id);
 	// Clean any junk out of the text.
 	text = sanitize(tweet.text);
+	
+	jsdump('0');
 	
 	// First, go through and replace links with real links.
 	var re = new RegExp("http://(\\S*)", "g");
 	var text = text.replace(re, "<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://$1');\">http://$1</a>");
 	
+	jsdump('0.1');
+	
 	// Next, replace the twitter handles
 	re = new RegExp("@(\\w*)", "g");
 	text = text.replace(re, "@<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/$1');\">$1</a>");
+
+	jsdump('0.2');
 	
 	// Finally, replace the hashtags
 	re = new RegExp("#(\\w*)", "g");
 	text = text.replace(re, "#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://hashtags.org/tag/$1');\">$1</a>");
 	
+	jsdump('0.3');
+	
 	var when = new Date(tweet.created_at);
+	
+	jsdump('0.4');
 	var prettyWhen = when.toLocaleTimeString() + ' on ' + when.toLocaleDateString().substring(0,5);
+	jsdump('0.5');
 	var user;
+	jsdump('0.6');
 	if (tweetType(tweet) == 'direct-from') {
 		user = tweet.sender;
 	} else {
 		user = tweet.user;
 	}
 	
+	jsdump('1');
+	
 	c = classes[tweetType(tweet)];
 
 	// Figure out if we're displaying this flavor of tweet
-	var currentFilter = getChromeElement('filterbuttonid').label;
-	var showingAllTweets = getChromeElement('showingAllTweetsId').value;
-	var showingReplies = getChromeElement('showingRepliesId').value;
-	var showingDirect = getChromeElement('showingDirectId').value;
-	
 	var display = 'none';
-	if (  (currentFilter == showingAllTweets) ||
-          ((currentFilter == showingDirect) && (tweetType(tweet) == 'direct')) ||
-          ((currentFilter == showingReplies && (tweetType(tweet) == 'reply')) ) ) {
-	  display = 'inline';
-    }
+	if (!oneTweet) {
+		var currentFilter = getChromeElement('filterbuttonid').label;
+		var showingAllTweets = getChromeElement('showingAllTweetsId').value;
+		var showingReplies = getChromeElement('showingRepliesId').value;
+		var showingDirect = getChromeElement('showingDirectId').value;	
+		if (  (currentFilter == showingAllTweets) ||
+	          ((currentFilter == showingDirect) && (tweetType(tweet) == 'direct')) ||
+	          ((currentFilter == showingReplies && (tweetType(tweet) == 'reply')) ) ) {
+		  display = 'inline';
+	    }
+	} else {
+		display = 'inline';
+	}
+	
+	jsdump('2');
 	
 	var via = ""
 	if (tweet.source != undefined && tweet.source != null && tweet.source != "") {
@@ -367,12 +386,17 @@ function formatTweet(tweet) {
 		}
 	} 
 
+	jsdump('3');
+
 	if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
 //		var x = getBrowser().contentDocument.getElementById('jump-' + tweet.in_reply_to_status_id);
 //		jsdump('x:' + x);
 //		if (x == null || x == undefined) {
 			// we haven't rendered the tweet to which this tweet is replying, make it a jump out to the browser.
+			
 			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(tweet.in_reply_to_screen_name) + "/statuses/" + tweet.in_reply_to_status_id + "');\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
+			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"viewOneTweet(" + tweet.in_reply_to_status_id + ");\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
+			
 // it's a real bummer that this doesn't seem to work, it looks like the browser
 // might get confused about where the anchors are when we dynamically tweak
 // the DOM???
@@ -382,6 +406,8 @@ function formatTweet(tweet) {
 //			jsdump('modified:' + text);
 //		}
 	}
+	
+	jsdump('4');
 	
 	var altText = "Click to see " + sanitize(user.screen_name) + "'s profile";
 	if (user.location != undefined && user.location != null && user.description != undefined && user.location != null) {
@@ -420,22 +446,25 @@ function formatTweet(tweet) {
      + "   </span>"
      + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">";	        
 
-	 var t = tweetType(tweet);
-	 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-	      	result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 if (!oneTweet) {
+		 var t = tweetType(tweet);
+		 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
+		      	result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		 }
+		 if (t == 'tweet' || t == 'reply') {
+		         result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		 }
+		 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
+		      	result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		 }
+		 if (t != 'mine') {
+		         result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		 }
+		 if (t == 'mine') {
+		    		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
+		 }
 	 }
-	 if (t == 'tweet' || t == 'reply') {
-	         result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-	 }
-	 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-	      	result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-	 }
-	 if (t != 'mine') {
-	         result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-	 }
-	 if (t == 'mine') {
-	    		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
-	 }
+	
      result = result 
      + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 + via
@@ -488,7 +517,7 @@ function renderNewTweets(url,newTweets) {
 			}
 			var chk = window.content.document.getElementById('tweet-'+newTweets[i].id);
 			if (chk == null) {
-				newText = formatTweet(newTweets[i]) + newText;
+				newText = formatTweet(newTweets[i],false) + newText;
 			}
 		}
 		insertAtTop(newText);
@@ -622,7 +651,7 @@ function postTweetCallback(tweetText) {
 		tweet.user.name = getChromeElement("realnameLabelId").value;
 		tweet.in_reply_to_screen_name = "";
 		tweet.sender = undefined;
-		insertAtTop(formatTweet(tweet));
+		insertAtTop(formatTweet(tweet,false));
 	}
 	forceUpdate();
 }

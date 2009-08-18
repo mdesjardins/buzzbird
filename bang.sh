@@ -1,5 +1,5 @@
 #!/bin/sh
-LOCALDIR=~/Projects
+LOCALDIR=~/_play
 sudo rm -fr /Applications/Buzzbird.app 
 sudo /Library/Frameworks/XUL.framework/xulrunner-bin --install-app "${LOCALDIR}/buzzbird" 
 sudo cp ${LOCALDIR}/buzzbird/Info.plist /Applications/Buzzbird.app/Contents
