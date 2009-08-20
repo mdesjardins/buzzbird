@@ -476,7 +476,7 @@ function showOrHide(tweetType,disp) {
 	var elements = getBrowser().contentDocument.getElementsByName(tweetType);
 	for (var i=elements.length-1; i>=0; i--) {
 		element = elements[i];
-		element.style.display = display;
+		element.style.display = disp;
 	}
 	getChromeElement('filtermenupopupid').disabled=false;
 }
