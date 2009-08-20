@@ -24,20 +24,10 @@ THE SOFTWARE.
 //
 function viewOneTweet(tweetId) {
 	jsdump('viewing one tweet')
-//	window.content.document.href = 'chrome://buzzbird/content/onetweet.html';
 	document.getElementById('tweetId').value = tweetId;
 	var ev = document.createEvent("Events");
 	ev.initEvent("renderAnother", true, false);
 	getMainWindow().document.dispatchEvent(ev);
-	// 
-	// 
-	// jsdump('getting uname, pwd');
-	// username = document.getElementById('username').value;
-	// password = document.getElementById('password').value;
-	// jsdump('u='+username+', p='+password);
-	// renderTweet(tweetId,username,password);
-//  var features = "chrome,titlebar,toolbar,centerscreen,modal";
-//  window.openDialog("chrome://buzzbird/content/onetweet.xul", "", features, tweetId, getUsername(), getPassword());	
 }
 
 // Shows the retweet/love/reply/direct icons for an individual tweet.

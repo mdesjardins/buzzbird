@@ -453,19 +453,30 @@ function showDirect() {
 }
 function showOrHide(tweetType,disp) {
 	getChromeElement('filtermenupopupid').disabled=true;
+	// ugh, this didn't work as well as I had hoped...
+	//
+	// var elements = getBrowser().contentDocument.getElementsByName(tweetType);
+	// if (elements != null && elements != undefined && elements.length > 0) {
+	// 	var i = 0;
+	// 	function doWork() {
+	// 		var j = 25;
+	// 		var len = elements.length;
+	// 		while (i<len && j--) {
+	// 			if (elements[i].style.display != disp) {
+	// 				elements[i].style.display = disp;
+	// 			}
+	// 			i++;
+	// 		}
+	// 		if (i < len) {
+	// 			setTimeout(doWork, 1);
+	// 		}
+	// 	}
+	// 	setTimeout(doWork, 1);
+	// }
 	var elements = getBrowser().contentDocument.getElementsByName(tweetType);
-	if (elements != null && elements != undefined && elements.length > 0) {
-		var i = 0;
-		function doWork() {
-			if (elements[i].style.display != disp) {
-				elements[i].style.display = disp;
-			}
-			i++;
-			if (i < elements.length) {
-				setTimeout(doWork, 1);
-			}
-		}
-		setTimeout(doWork, 1);
+	for (var i=elements.length-1; i>=0; i--) {
+		element = elements[i];
+		element.style.display = display;
 	}
 	getChromeElement('filtermenupopupid').disabled=false;
 }
