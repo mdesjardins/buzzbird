@@ -45,7 +45,7 @@ THE SOFTWARE.
 	<label id="usernameLabelId" value="" hidden="true" />
 	<label id="passwordLabelId" value="" hidden="true" />
 	
-	<browser height="150" 
+	<browser height="140" 
                 type="content-primary" 
                 src="chrome://buzzbird/content/onetweet.html" 
                 id="onetweet-browser" 

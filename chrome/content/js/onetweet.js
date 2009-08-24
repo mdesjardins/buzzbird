@@ -32,6 +32,7 @@ function oneTweetOnLoad() {
 	browser = document.getElementById('onetweet-browser');
 	browser.contentDocument.getElementById('username').value = username;
 	browser.contentDocument.getElementById('password').value = password;
+	window.resizeTo(450,180);
 	renderTweet(id,username,password);
 	
 }
@@ -57,14 +58,19 @@ function oneTweetCallback(transport,username,password) {
 	var tweet = eval('(' + transport.responseText + ')');
 	var newText = formatTweet(tweet,username,password);
 	var parser = new DOMParser();
-	var doc = parser.parseFromString('<div id="onetweet" xmlns="http://www.w3.org/1999/xhtml">' + newText + '</div>', 'application/xhtml+xml');
+	var doc = parser.parseFromString('<div id="onetweet" xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
 	if (doc.documentElement.nodeName != "parsererror" ) {
 		var root = doc.documentElement;
 		for (var j=0; j<root.childNodes.length; ++j) {
-			window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.firstChild);
+			window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.lastChild);
 		}
 	} else {
 		jsdump("Couldn't render the tweet.");
+	}
+	
+	if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
+		renderTweet(tweet.in_reply_to_status_id,username,password);
+		window.resizeBy(0,80);
 	}
 }
 
@@ -73,16 +79,12 @@ function renderAnother() {
 	username = browser.contentDocument.getElementById('username').value;
 	password = browser.contentDocument.getElementById('password').value;
 	id = browser.contentDocument.getElementById('tweetId').value;
-	jsdump('u=' + username + ', p=' + password + ', id=' + id);
 	browser = document.getElementById('onetweet-browser');
-//	browser.loadURI('chrome://buzzbird/content/onetweet.html');
-	el = browser.contentDocument.getElementById('onetweet');
+	el = browser.contentDocument.getElementById('foo');
 	if (el) {
 		el.parentNode.removeChild(el); 
 	} else {
 		jsdump('Could not find element with id onetweet');
 	}
-//	browser.contentDocument.getElementById('username').value = username;
-//	browser.contentDocument.getElementById('password').value = password;
 	renderTweet(id,username,password);
 }
