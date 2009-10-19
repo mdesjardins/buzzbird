@@ -27,17 +27,17 @@ THE SOFTWARE.
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
 		width="450" 
 		height="180"
-		title="Conversation"
+		title="User"
 		buttons="accept"
 		buttonlabelaccept="Close"
 	  	ondialogaccept="onOk();"
-  	    onload="oneTweetOnLoad();">
+  	    onload="userOnLoad();">
 	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/onetweet.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/user.js"></script>
 	
 	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
 	
@@ -46,8 +46,8 @@ THE SOFTWARE.
 	<vbox flex="1">
 		<browser height="140" 
 	                type="content-primary" 
-	                src="chrome://buzzbird/content/onetweet.html" 
-	                id="onetweet-browser" 
+	                src="chrome://buzzbird/content/user.html" 
+	                id="user-browser" 
 	                flex="3"
 				 	autoscroll="true"
 	                contextmenu="contentAreaContextMenu"

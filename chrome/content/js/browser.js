@@ -27,6 +27,15 @@ function viewOneTweet(tweetId) {
   window.openDialog("chrome://buzzbird/content/onetweet.xul", "", features, tweetId, getUsername(), getPassword());	
 }
 
+// Displays one user in a separate dialog.
+//
+function showUser(userId) {
+	jsdump('in showUser for userId ' + userId);
+  var features = "chrome,titlebar,toolbar,centerscreen,modal";
+  window.openDialog("chrome://buzzbird/content/user.xul", "", features, userId, getUsername(), getPassword());	
+}
+
+
 // Opens a link in the user's default browser.
 //
 function linkTo(href) {

@@ -298,7 +298,6 @@ THE SOFTWARE.
 					       style="font-size:0.9em;"
 						   oncommand="showAccountMenu();">
 		    		<menupopup id="accountbuttonmenuid" selectedIndex="0" style="padding:0px; margin:0px;">
-<!--		        		<menuitem label="mdesjardins" value="1" oncommand="changeToUser('mdesjardins');"/>  -->
 		    		</menupopup>
 				</toolbarbutton>
 				
@@ -325,14 +324,6 @@ THE SOFTWARE.
 		                  spellcheck="true"
 		                  collapsed="true"
 		 				  width="100%" />
-		<!--
-				<image id="avatarId"
-				       src="chrome://buzzbird/content/images/ajax-loader.gif" 
-				       width="40" 
-				       height="32" 
-				       style="margin:4px 4px 4px 4px;"
-					   hidden="true"/>
-		-->
 			</hbox>
 		</vbox>
     </toolbar>
@@ -340,24 +331,16 @@ THE SOFTWARE.
 	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
 
     <vbox flex="1">
-		<tabbox flex="3" style="padding:0px; margin:0px;">
-			<tabs align="start" closebutton="true" collapsed="true">
-				<tab label="Main"/>
-				<tab label="Secondary" />
-			</tabs>
-			<tabpanel flex="3">
-            	<browser height="450" 
-                         type="content-primary" 
-                         src="chrome://buzzbird/content/login.html" 
-                         id="browserid" 
-                         flex="3"
-						 autoscroll="true"
-						 onscroll="browserScrolled(event);" 
-                         contextmenu="contentAreaContextMenu"
-						 style="padding:0px; margin:0px;"
-                         tooltip="aHTMLTooltip" />
-			</tabpanel>
-		</tabbox>
+      	<browser height="450" 
+                   type="content-primary" 
+                   src="chrome://buzzbird/content/login.html" 
+                   id="browserid" 
+                   flex="3"
+				   autoscroll="true"
+				   onscroll="browserScrolled(event);" 
+                   contextmenu="contentAreaContextMenu"
+				   style="padding:0px; margin:0px;"
+                   tooltip="aHTMLTooltip" />
     </vbox>
     <statusbar id="statusbarid" height="5">
 <!-- toolbarbuttons used to be here -->

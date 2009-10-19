@@ -133,7 +133,7 @@ function formatTweet(tweet,oneTweet,username,password) {
 	// Finally, replace the hashtags
 	re = new RegExp("#(\\w*)", "g");
 	text = text.replace(re, "#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://hashtags.org/tag/$1');\">$1</a>");
-	
+
 	var when = new Date(tweet.created_at);
 	var prettyWhen = when.toLocaleTimeString() + ' on ' + when.toLocaleDateString().substring(0,5);
 	var user;
@@ -173,23 +173,7 @@ function formatTweet(tweet,oneTweet,username,password) {
 	} 
 
 	if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
-//		var x = getBrowser().contentDocument.getElementById('jump-' + tweet.in_reply_to_status_id);
-//		jsdump('x:' + x);
-//		if (x == null || x == undefined) {
-			// we haven't rendered the tweet to which this tweet is replying, make it a jump out to the browser.
-
-// old way, jumps out to browser.			
-//			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(tweet.in_reply_to_screen_name) + "/statuses/" + tweet.in_reply_to_status_id + "');\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
-			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"viewOneTweet(" + tweet.in_reply_to_status_id + ");\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
-			
-// it's a real bummer that this doesn't seem to work, it looks like the browser
-// might get confused about where the anchors are when we dynamically tweak
-// the DOM???
-//		} else {
-//			// we've rendered the tweet we're replying to, so make it a jump to that anchor instead.
-//			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" href=\"#jump-" + tweet.in_reply_to_status_id + "\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
-//			jsdump('modified:' + text);
-//		}
+		text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"viewOneTweet(" + tweet.in_reply_to_status_id + ");\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
 	}
 	
 	var altText = "Click to see " + sanitize(user.screen_name) + "'s profile";
@@ -207,7 +191,8 @@ function formatTweet(tweet,oneTweet,username,password) {
 	 + "  <table class=\"" + c.table + "\">"
 	 + "   <tr>"
 	 + "    <td valign=\"top\" class=\"" + c.avatarColumn + "\">"
-	 + "     <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" style=\"margin:0px;padding:0px\" "
+	 + "     <a onmouseover=\"this.style.cursor='pointer';\" style=\"margin:0px;padding:0px\" "  // old way: onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" "
+	 + "        onclick=\"showUser(" + user.id + ");\" "
 	 + "        title=\"" + altText + "\">"
 	 + "      <img src=\"" + user.profile_image_url + "\" class=\"" + c.avatar +"\" />"
      + "     </a>"
