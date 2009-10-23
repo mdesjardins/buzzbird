@@ -23,7 +23,7 @@ THE SOFTWARE.
 // Displays one tweet in a separate dialog.
 //
 function viewOneTweet(tweetId) {
-  var features = "chrome,titlebar,toolbar,centerscreen,modal";
+  var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
   window.openDialog("chrome://buzzbird/content/onetweet.xul", "", features, tweetId, getUsername(), getPassword());	
 }
 
@@ -31,7 +31,7 @@ function viewOneTweet(tweetId) {
 //
 function showUser(userId) {
 	jsdump('in showUser for userId ' + userId);
-  var features = "chrome,titlebar,toolbar,centerscreen,modal";
+  var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
   window.openDialog("chrome://buzzbird/content/user.xul", "", features, userId, getUsername(), getPassword());	
 }
 

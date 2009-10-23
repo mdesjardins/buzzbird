@@ -25,6 +25,8 @@ function onOk() {
 }
 
 function userOnLoad() {
+	// var scrollable=document.getElementById('user-browser').docShell.QueryInterface(Components.interfaces.nsIScrollable);
+	// alert(scrollable.GetVisible);
 	var user_id = window.arguments[0];
 	var username = window.arguments[1];
 	var password = window.arguments[2];
@@ -60,9 +62,9 @@ function fetchTweetsCallback(transport,username,password) {
 	} else {
 		var newText = '';
 		for (var i=0; i<newTweets.length; i++) {
-			jsdump('calling formatTweet');
-			newText = formatTweet(newTweets[i],true,getUsername(),getPassword()) + newText;
-			jsdump('result ' + newText);
+			jsdump('calling formatTweet... ' + username);
+			newText = formatTweet(newTweets[i],true,username,password) + newText;
+			//jsdump('result ' + newText);
 		}
 		var parser = new DOMParser();
 		var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
@@ -75,4 +77,5 @@ function fetchTweetsCallback(transport,username,password) {
 			jsdump("Couldn't render the tweet.");
 		}
 	}
+	window.content.document.getElementById('fetch-throb').style.display='none';
 }

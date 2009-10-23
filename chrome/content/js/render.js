@@ -205,11 +205,14 @@ function formatTweet(tweet,oneTweet,username,password) {
      + "   </tr>"
      + "  </table>"
      + "  <div class=\"" + c.bottomRow + "\">"
-     + "   <img name=\"mark\" id=\"mark-" + tweet.id + "\" src=\"chrome://buzzbird/content/images/star-yellow.png\" style=\"width:16px; height:16px;\""
-     + "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" onmouseover=\"this.style.cursor='pointer';\" />"
-     + "   <span id=\"tweetInfo-" + tweet.id + "\">"
-     + "    <span class=\"" + c.info + "\">" 
-     +       sanitize(user.name) + " <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span> "
+	 if (!oneTweet) {
+		result = result 
+		+ "   <img name=\"mark\" id=\"mark-" + tweet.id + "\" src=\"chrome://buzzbird/content/images/star-yellow.png\" style=\"width:16px; height:16px;\""
+		+ "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" onmouseover=\"this.style.cursor='pointer';\" />"
+	 }
+	 result = result
+	 + "   <span id=\"tweetInfo-" + tweet.id + "\">"
+	 + "    <span class=\"" + c.info + "\">"      +       sanitize(user.name) + " <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span> "
      + "    </span>"
      + "   </span>"
      + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">";	        
@@ -252,11 +255,14 @@ function insertAtTop(newText) {
 	var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml">' + newText + '</div>', 'application/xhtml+xml');
 	if (doc.documentElement.nodeName != "parsererror" ) {
 		var root = doc.documentElement;
+		// var where = window.content.document.getElementById("top");
+		// alert(where);
+		// alert(where.firstChild);
 		for (var j=0; j<root.childNodes.length; ++j) {
 			window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.firstChild);
+			//window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),where.firstChild);
 		}
 	} else {
 		message('An error was encountered while parsing tweets.');
-//		alert('An error was encountered while parsing tweets.');
 	}	
 }

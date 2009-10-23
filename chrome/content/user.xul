@@ -26,7 +26,7 @@ THE SOFTWARE.
 <dialog id="onetweet-dialog" 
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
 		width="450" 
-		height="180"
+		height="500"
 		title="User"
 		buttons="accept"
 		buttonlabelaccept="Close"
@@ -43,15 +43,15 @@ THE SOFTWARE.
 	
 	<label id="usernameLabelId" value="" hidden="true" />
 	<label id="passwordLabelId" value="" hidden="true" />
-	<vbox flex="1">
-		<browser height="140" 
+	<vbox flex="1" style="overflow:auto;">
+		<browser height="450" 
 	                type="content-primary" 
 	                src="chrome://buzzbird/content/user.html" 
 	                id="user-browser" 
 	                flex="3"
 				 	autoscroll="true"
 	                contextmenu="contentAreaContextMenu"
-				 	style="padding:0px; margin:0px;"
-	                tooltip="aHTMLTooltip" />
+				 	style="padding:0px; margin:0px; overflow:auto;"
+	                tooltip="aHTMLTooltip"/>
 	</vbox>
 </dialog>
