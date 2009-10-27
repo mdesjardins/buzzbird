@@ -62,9 +62,18 @@ function fetchTweetsCallback(transport,username,password) {
 	} else {
 		var newText = '';
 		for (var i=0; i<newTweets.length; i++) {
-			jsdump('calling formatTweet... ' + username);
 			newText = formatTweet(newTweets[i],true,username,password) + newText;
 			//jsdump('result ' + newText);
+			if (i==0) {
+				jsdump('updating user info');
+				user = newTweets[i].user;
+				document.getElementById('name').value = user.name;
+				document.getElementById('username').value = user.screen_name;
+				document.getElementById('avatar').src = user.profile_image_url;
+				document.getElementById('location').value = user.location;
+				document.getElementById('bio').value = user.description;
+			}
+
 		}
 		var parser = new DOMParser();
 		var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');

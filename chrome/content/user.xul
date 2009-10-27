@@ -44,6 +44,15 @@ THE SOFTWARE.
 	<label id="usernameLabelId" value="" hidden="true" />
 	<label id="passwordLabelId" value="" hidden="true" />
 	<vbox flex="1" style="overflow:auto;">
+		<hbox style="margin:5px;">
+			<image id="avatar" src="" width="64" height="64"/>
+			<vbox>
+				<label id="username" style="font-weight:bold;" value=""/>
+				<label id="name" value=""/>
+				<label id="location" value=""/>
+				<label id="bio" value=""/>
+			</vbox>
+		</hbox>
 		<browser height="450" 
 	                type="content-primary" 
 	                src="chrome://buzzbird/content/user.html" 
