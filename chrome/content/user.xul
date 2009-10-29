@@ -43,14 +43,27 @@ THE SOFTWARE.
 	
 	<label id="usernameLabelId" value="" hidden="true" />
 	<label id="passwordLabelId" value="" hidden="true" />
-	<vbox flex="1" style="overflow:auto;">
+	<vbox flex="1" style="overflow:auto; height:100px; width:100%">
 		<hbox style="margin:5px;">
-			<image id="avatar" src="" width="64" height="64"/>
+			<vbox>
+				<image id="avatar" src="" width="64" height="64"/>
+			</vbox>
 			<vbox>
 				<label id="username" style="font-weight:bold;" value=""/>
 				<label id="name" value=""/>
 				<label id="location" value=""/>
-				<label id="bio" value=""/>
+				<box style="padding-left:5px;">
+					<textbox id="bio"
+					        class="plain" 
+							cols="40" 
+							style="background-color: transparent; padding:15px;" 
+							flex="1"
+					        multiline="true" 
+							readonly="true"
+					        onoverflow="this.height = this.inputField.scrollHeight;"
+					        DOMAttrModified="if(event.attrName == 'value') this.value = event.newValue; return true;"
+					        value="" />
+				</box>
 			</vbox>
 		</hbox>
 		<browser height="450" 
