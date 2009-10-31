@@ -542,6 +542,7 @@ function toggleSpeech() {
 function openSpeech() {
 	jsdump('openSpeech called');
 	speech(false);
+	getChromeElement('textboxid').focus();	
 }
 
 function closeSpeech() {

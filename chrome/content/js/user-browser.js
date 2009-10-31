@@ -49,3 +49,60 @@ function linkTo(href) {
 	var extps = Components.classes["@mozilla.org/uriloader/external-protocol-service;1"].getService(Components.interfaces.nsIExternalProtocolService);
 	extps.loadURI(uriToOpen, null);
 }
+
+// Reply
+//
+function replyTo(id) {
+	jsdump('replying to ' + id);
+	var replyTo = document.getElementById("screenname-" + id).innerHTML;
+	getMainWindow().arguments[0].out = {'action':'reply', 'tweetId':id, 'replyTo':replyTo};
+	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
+}
+
+// Send DM
+//
+function sendDirect(id) {
+	jsdump('direct to ' + id);
+	var directTo = document.getElementById("screenname-" + id).innerHTML;
+	getMainWindow().arguments[0].out = {'action':'directTo', 'tweetId':id, 'directTo':directTo};
+	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
+}
+
+// Re-tweet
+//
+function retweet(id) {
+	var raw = document.getElementById("raw-" + id).innerHTML;
+	var user = document.getElementById("screenname-" + id).innerHTML;
+	var f = getStringPref('buzzbird.retweet.format');
+	jsdump('buzzbird.retweet.format=' + f);
+	var text = 'RT @' + desanitize(user) + ': ' + desanitize(raw);
+	if (f == 'via') {
+		text = desanitize(raw) + ' (via @' + desanitize(user) + ')';
+	} 
+	getMainWindow().arguments[0].out = {'action':'retweet', 'tweetId':id, 'user':user, 'text':text};
+	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
+}
+ 
+// Favorite
+//
+function favorite(id) {
+	url = 'http://twitter.com/favorites/create/' + id + '.json';
+	new Ajax.Request(url,
+		{
+			method:'post',
+			httpUserName: getUsername(),
+			httpPassword: getPassword(),
+		    onSuccess: function() { favoriteCallback; },
+		    onFailure: function() { 
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Sorry.", "There was an error favoriting that tweet.");
+			}
+		});	
+}
+
+// Favorite callback
+//
+function favoriteCallback(transport) {
+	getChromeElement('statusid').label = 'Tweet Favorited';
+}

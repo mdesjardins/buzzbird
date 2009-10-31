@@ -27,9 +27,10 @@ function onOk() {
 function userOnLoad() {
 	// var scrollable=document.getElementById('user-browser').docShell.QueryInterface(Components.interfaces.nsIScrollable);
 	// alert(scrollable.GetVisible);
-	var user_id = window.arguments[0];
-	var username = window.arguments[1];
-	var password = window.arguments[2];
+	var params = window.arguments[0];
+	var user_id = params.userId;
+	var username = params.username;
+	var password = params.password;
 	browser = document.getElementById('user-browser');
 	browser.contentDocument.getElementById('username').value = username;
 	browser.contentDocument.getElementById('password').value = password;
@@ -61,19 +62,20 @@ function fetchTweetsCallback(transport,username,password) {
 		jsdump('renderNewTweets: Nothing to do, skipping.');
 	} else {
 		var newText = '';
-		for (var i=0; i<newTweets.length; i++) {
+		for (var i=newTweets.length-1; i>=0; i--) {
 			newText = formatTweet(newTweets[i],true,username,password) + newText;
 			//jsdump('result ' + newText);
 			if (i==0) {
 				jsdump('updating user info');
 				user = newTweets[i].user;
 				document.getElementById('name').value = user.name;
-				document.getElementById('username').value = user.screen_name;
+				document.getElementById('username').value = '@' + user.screen_name;
 				document.getElementById('avatar').src = user.profile_image_url;
+				document.getElementById('followstats').value = 'Following: ' + user.friends_count + ', Followers: ' + user.followers_count; 
 				document.getElementById('location').value = user.location;
+				document.getElementById('homepage').value = user.url;
 				document.getElementById('bio').value = user.description;
 			}
-
 		}
 		var parser = new DOMParser();
 		var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
@@ -87,4 +89,21 @@ function fetchTweetsCallback(transport,username,password) {
 		}
 	}
 	window.content.document.getElementById('fetch-throb').style.display='none';
+}
+
+function goToProfile() {
+	var username = document.getElementById('username').value.substring(1);
+	linkTo('http://twitter.com/' + username);
+}
+
+function goToHomepage() {
+	linkTo(document.getElementById('homepage').value);
+}
+
+function linkTo(href) {
+	jsdump('Opening ' + href);
+	var ioservice = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
+	var uriToOpen = ioservice.newURI(href, null, null);
+	var extps = Components.classes["@mozilla.org/uriloader/external-protocol-service;1"].getService(Components.interfaces.nsIExternalProtocolService);
+	extps.loadURI(uriToOpen, null);	
 }

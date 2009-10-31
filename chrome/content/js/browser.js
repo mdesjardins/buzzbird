@@ -32,7 +32,30 @@ function viewOneTweet(tweetId) {
 function showUser(userId) {
 	jsdump('in showUser for userId ' + userId);
   var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
-  window.openDialog("chrome://buzzbird/content/user.xul", "", features, userId, getUsername(), getPassword());	
+  var params = {'userId':userId, 'username':getUsername(), 'password':getPassword()}
+  window.openDialog("chrome://buzzbird/content/user.xul", "", features, params);
+  if (params.out) {
+	jsdump('action:' + params.out.action);
+	if (params.out.action == 'reply') {
+		var text = '@' + desanitize(params.out.replyTo) + ' ';
+		getChromeElement('textboxid').value = text;
+		getChromeElement('statusid').label = text.length + "/140";
+		getChromeElement('textboxid').focus();
+		dispatch('openSpeech');
+	} else if (params.out.action == 'directTo') {
+		var text = 'd ' + desanitize(params.out.directTo) + ' ';
+		getChromeElement('textboxid').value = text;
+		getChromeElement('statusid').label = text.length + "/140";
+		getChromeElement('textboxid').focus();	
+		dispatch('openSpeech');
+	} else if (params.out.action == 'retweet') {
+		var text = params.out.text
+		getChromeElement('textboxid').value = text;
+		getChromeElement('textboxid').focus();		
+		dispatch('openSpeech');
+		dispatch('updateTweetLength');
+	}
+  }		
 }
 
 

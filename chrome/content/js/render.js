@@ -217,7 +217,7 @@ function formatTweet(tweet,oneTweet,username,password) {
      + "   </span>"
      + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">";	        
 
-	 if (!oneTweet) {
+//	 if (!oneTweet) {
 		 var t = tweetType(tweet,username,password);
 		 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
 		      	result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
@@ -228,13 +228,15 @@ function formatTweet(tweet,oneTweet,username,password) {
 		 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
 		      	result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 		 }
-		 if (t != 'mine') {
+		 if (!oneTweet) {
+		 	if (t != 'mine') {
 		         result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		 	}
 		 }
 		 if (t == 'mine') {
 		    		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
 		 }
-	 }
+//	 }
 	
      result = result 
      + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
