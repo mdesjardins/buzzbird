@@ -23,69 +23,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<dialog id="onetweet-dialog" 
+<dialog id="friendship-dialog" 
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
-		width="450" 
-		height="500"
+		width="480" 
+		height="300"
 		title="User"
 		buttons="accept"
 		buttonlabelaccept="Close"
 	  	ondialogaccept="onOk();"
-  	    onload="userOnLoad();">
+  	    onload="friendshipOnLoad();">
 	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/user.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/friendship.js"></script>
 	
 	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
 	
 	<label id="usernameLabelId" value="" hidden="true" />
 	<label id="passwordLabelId" value="" hidden="true" />
 	<vbox flex="1" style="overflow:auto; height:100px; width:100%">
-		<hbox style="margin:5px;">
-			<vbox>
-				<image id="avatar" src="" width="96" height="96"/>
-				<button id="friendship" onclick="launchFriendship();">Friendship...</button>
-			</vbox>
-			<vbox>
-				<hbox>
-					<label id="name" style="font-weight:bold" value=""/>
-					<label id="username" 
-						 	value="" 
-							style="color:#22A;" 
-							onmouseover="this.style.cursor='pointer';"
-							onclick="goToProfile();" 
-							tooltiptext="Visit this profile"/>
-				</hbox>
-				<label id="followstats" value=""/>
-				<label id="location" value=""/>
-				<label id="homepage" 
-					 	value="" 
-						style="color:#22A;" 
-						onmouseover="this.style.cursor='pointer';"
-						onclick="goToHomepage();" 
-						tooltiptext="Visit this site"/>				
-				<box style="padding-left:5px;">
-					<textbox id="bio"
-					        class="plain" 
-							cols="40" 
-							rows="1"
-							style="background-color: transparent; padding:15px;" 
-							flex="1"
-					        multiline="true" 
-							readonly="true"
-					        onoverflow="this.height = this.inputField.scrollHeight;"
-					        DOMAttrModified="if(event.attrName == 'value') this.value = event.newValue; return true;"
-					        value="" />
-				</box>
-			</vbox>
-		</hbox>
 		<browser height="450" 
 	                type="content-primary" 
-	                src="chrome://buzzbird/content/user.html" 
-	                id="user-browser" 
+	                src="chrome://buzzbird/content/friendship.html" 
+	                id="friendship-browser" 
 	                flex="3"
 				 	autoscroll="true"
 	                contextmenu="contentAreaContextMenu"

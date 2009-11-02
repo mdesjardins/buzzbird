@@ -34,6 +34,7 @@ function userOnLoad() {
 	browser = document.getElementById('user-browser');
 	browser.contentDocument.getElementById('username').value = username;
 	browser.contentDocument.getElementById('password').value = password;
+	browser.contentDocument.getElementById('userId').value = user_id;
 	window.resizeTo(450,180);
 	fetchTweets(user_id,username,password);
 }
@@ -94,6 +95,15 @@ function fetchTweetsCallback(transport,username,password) {
 function goToProfile() {
 	var username = document.getElementById('username').value.substring(1);
 	linkTo('http://twitter.com/' + username);
+}
+
+function launchFriendship() {
+	var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
+	var username = browser.contentDocument.getElementById('username').value;
+	var password = browser.contentDocument.getElementById('password').value;
+	var userId = browser.contentDocument.getElementById('userId').value;
+  	var params = {'userId':userId, 'username':username, 'password':password}
+  	window.openDialog("chrome://buzzbird/content/friendship.xul", "", features, params);
 }
 
 function goToHomepage() {
