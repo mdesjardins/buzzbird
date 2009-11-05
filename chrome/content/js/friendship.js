@@ -33,13 +33,15 @@ function onOk() {
 
 function friendshipOnLoad() {
 	var params = window.arguments[0];
-	var hisUserId = params.userId;
+	var hisUserId = params.hisUserId;
+	var hisUsername = params.hisUsername;
 	var username = params.username;
 	var password = params.password;
 	browser = document.getElementById('friendship-browser');
-	browser.contentDocument.getElementById('username').value = username;
-	browser.contentDocument.getElementById('password').value = password;
-	browser.contentDocument.getElementById('userId').value = hisUserId;
+	browser.contentDocument.getElementById('myUsername').value = username;
+	browser.contentDocument.getElementById('myPassword').value = password;
+	browser.contentDocument.getElementById('hisUserId').value = hisUserId;
+	browser.contentDocument.getElementById('hisUsername').value = hisUsername;
 
    // Get Login Manager 
    var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
@@ -55,16 +57,33 @@ function friendshipOnLoad() {
 	for (var i=0; i<logins.length; i++) {
 		var myUsername = logins[i].username;
 		var myPassword = logins[i].password;
-		var newText = '<br/>' + 
-		              '<div>' +
-		              ' <div style="float:left;">' +  myUsername + '</div>' +
-		              ' <div style="float:right;">' +  
-		              '  <img id="throb-' + myUsername + '" src="chrome://buzzbird/content/images/tiny-throbber.gif"/>' + 
-		              '  <input id="check-' + myUsername + '" type="checkbox" style="display:none;" onclick="toggleFollow(\'' + myUsername + '\',\'' + myPassword + '\',\'' + hisUserId + '\');"/>' +
-		              ' </div>' +
-		              '</div>' +
-					  '<br/>' +
-		              '<hr/>';
+		// couldn't get this to work.
+		// if (window.content.document.height < 400) {
+		// 	jsdump('resizing');
+		// 	window.resizeBy(0,150);
+		// }
+		var newText = '<div class="account">' +
+					  ' <table style="width:99%;">' +
+					  '  <tr>' +
+					  '   <td style="width:100px;">' + myUsername + '</td>' +
+					  '   <td><span id="followback-' + myUsername + '" class="followback"></span></td>' +
+					  '   <td  style="width:40px;">' +
+		              '    <img id="throb-' + myUsername + '" src="chrome://buzzbird/content/images/tiny-throbber.gif"/>' + 
+		              '    <input id="check-' + myUsername + '" type="checkbox" style="display:none;" onclick="toggleFollow(\'' + myUsername + '\',\'' + myPassword + '\',\'' + hisUserId + '\');"/>' +
+					  '   </td>' +
+					  '  </tr>' +
+					  ' </table>' +
+					  '</div>';
+		              // 		
+		              // 		
+		              // ' <div style="float:left;">' 
+		              //    +  myUsername + '<span id="followback-' + myUsername + '" class="followback"></span>'
+		              // + '</div>' +
+		              // ' <div style="float:right;">' +  
+		              // '  <img id="throb-' + myUsername + '" src="chrome://buzzbird/content/images/tiny-throbber.gif"/>' + 
+		              // '  <input id="check-' + myUsername + '" type="checkbox" style="display:none;" onclick="toggleFollow(\'' + myUsername + '\',\'' + myPassword + '\',\'' + hisUserId + '\');"/>' +
+		              // ' </div>' +
+		              // '</div>';
 		var parser = new DOMParser();
 		var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
 		if (doc.documentElement.nodeName != "parsererror" ) {
@@ -113,6 +132,15 @@ function getStatusCallback(transport,hisUserId,myUsername) {
 	var check = browser.contentDocument.getElementById('check-' + myUsername);
 	if (meFollowsHe) {
 		check.checked = true;
+	}
+	var he = browser.contentDocument.getElementById('hisUsername').value;
+	
+	if (heFollowsMe) {
+		browser.contentDocument.getElementById('followback-' + myUsername).innerHTML =
+		  '@' + he + ' follows @' + myUsername + '.'		
+	} else {
+		browser.contentDocument.getElementById('followback-' + myUsername).innerHTML =
+		  '@' + he + ' does not follow @' + myUsername + '.'
 	}
 	check.style.display='inline';
 }

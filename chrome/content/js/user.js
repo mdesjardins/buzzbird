@@ -32,9 +32,9 @@ function userOnLoad() {
 	var username = params.username;
 	var password = params.password;
 	browser = document.getElementById('user-browser');
-	browser.contentDocument.getElementById('username').value = username;
-	browser.contentDocument.getElementById('password').value = password;
-	browser.contentDocument.getElementById('userId').value = user_id;
+	browser.contentDocument.getElementById('myUsername').value = username;
+	browser.contentDocument.getElementById('myPassword').value = password;
+	browser.contentDocument.getElementById('hisUserId').value = user_id;
 	window.resizeTo(450,180);
 	fetchTweets(user_id,username,password);
 }
@@ -76,6 +76,8 @@ function fetchTweetsCallback(transport,username,password) {
 				document.getElementById('location').value = user.location;
 				document.getElementById('homepage').value = user.url;
 				document.getElementById('bio').value = user.description;
+				browser = document.getElementById('user-browser');
+				browser.contentDocument.getElementById('hisUsername').value = user.screen_name;
 			}
 		}
 		var parser = new DOMParser();
@@ -99,10 +101,11 @@ function goToProfile() {
 
 function launchFriendship() {
 	var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
-	var username = browser.contentDocument.getElementById('username').value;
-	var password = browser.contentDocument.getElementById('password').value;
-	var userId = browser.contentDocument.getElementById('userId').value;
-  	var params = {'userId':userId, 'username':username, 'password':password}
+	var username = browser.contentDocument.getElementById('myUsername').value;
+	var password = browser.contentDocument.getElementById('myPassword').value;
+	var hisUserId = browser.contentDocument.getElementById('hisUserId').value;
+	var hisUsername = browser.contentDocument.getElementById('hisUsername').value;
+  	var params = {'hisUserId':hisUserId, 'hisUsername': hisUsername, 'username':username, 'password':password}
   	window.openDialog("chrome://buzzbird/content/friendship.xul", "", features, params);
 }
 

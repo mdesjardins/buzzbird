@@ -8,13 +8,31 @@
 	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/skin/direct-from.css" />
 </head>
 <body style="overflow:auto;">
-	<input type="hidden" id="username" value=""/>
-	<input type="hidden" id="password" value=""/>
-	<input type="hidden" id="userId" value=""/>
+	<input type="hidden" id="myUsername" value=""/>
+	<input type="hidden" id="myPassword" value=""/>
+	<input type="hidden" id="hisUserId" value=""/>
+	<input type="hidden" id="hisUsername" value=""/>
 	<style>
 		body {
-			background-color: #fff;
+			background-color: #ddd;
 			font-family: Helvetica,Arial,sans-serif;
+			font-size:14px;
+		}
+		
+		.account {
+			-moz-border-radius: 4px;
+			-moz-box-shadow: #111 0px 10px 15px 15px;
+			background-color: #fff;	
+			height: 24px;
+			margin: 4px;
+			padding: 6px;
+			width: 95%;		
+		}
+		
+		.followback {
+			color: #555;
+			font-size: 10px;
+			margin-left: 10px;
 		}
 	</style>
 	<span id="top"/>

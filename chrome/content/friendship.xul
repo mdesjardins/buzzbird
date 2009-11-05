@@ -43,7 +43,7 @@ THE SOFTWARE.
 	<label id="usernameLabelId" value="" hidden="true" />
 	<label id="passwordLabelId" value="" hidden="true" />
 	<vbox flex="1" style="overflow:auto; height:100px; width:100%">
-		<browser height="450" 
+		<browser height="200" 
 	                type="content-primary" 
 	                src="chrome://buzzbird/content/friendship.html" 
 	                id="friendship-browser" 
