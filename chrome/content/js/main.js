@@ -581,6 +581,54 @@ function onShortenCancel() {
 	return true;
 }
 
+function goToUser() {
+	var params = {};
+	window.openDialog("chrome://buzzbird/content/gotouser.xul", "",
+	    "chrome, dialog, modal, resizable=no",params).focus();
+	if (params.out) {
+	  var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
+	  if (params.out.handle.match(/^@.*?/)) {
+		params.out.handle = params.out.handle.substring(1);
+	  }
+	  var params = {'userId':params.out.handle, 'username':getUsername(), 'password':getPassword()}
+	  window.openDialog("chrome://buzzbird/content/user.xul", "", features, params);
+	  if (params.out) {
+		if (params.out.action == 'friend') {
+			var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
+			window.openDialog("chrome://buzzbird/content/friendship.xul", "", features, params.out);
+		} else if (params.out.action == 'reply') {
+			var text = '@' + desanitize(params.out.replyTo) + ' ';
+			getChromeElement('textboxid').value = text;
+			getChromeElement('statusid').label = text.length + "/140";
+			getChromeElement('textboxid').focus();
+			dispatch('openSpeech');
+		} else if (params.out.action == 'directTo') {
+			var text = 'd ' + desanitize(params.out.directTo) + ' ';
+			getChromeElement('textboxid').value = text;
+			getChromeElement('statusid').label = text.length + "/140";
+			getChromeElement('textboxid').focus();	
+			dispatch('openSpeech');
+		} else if (params.out.action == 'retweet') {
+			var text = params.out.text
+			getChromeElement('textboxid').value = text;
+			getChromeElement('textboxid').focus();		
+			dispatch('openSpeech');
+			dispatch('updateTweetLength');
+		}
+	  }		
+	  
+	}
+}
+
+function onGoToUserOk() {
+	window.arguments[0].out = {handle:document.getElementById("handle").value};
+	return true;
+}
+
+function onGoToUserCancel() {
+	return true;
+}
+
 function openAboutDialog() {
 	var params = {};
 	window.openDialog("chrome://buzzbird/content/about.xul", "",

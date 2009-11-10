@@ -1,6 +1,9 @@
 <!-- Tools -->
 <!ENTITY toolsMenu.label         "Tools"> 
 <!ENTITY toolsMenu.accesskey       "O"> 
+<!ENTITY goToUserCmd.label           "Go To User">  
+<!ENTITY goToUserCmd.key           "G">  
+<!ENTITY goToUserCmd.accesskey         "G">
 <!ENTITY markAllAsReadCmd.label           "Mark all as read">  
 <!ENTITY markAllAsReadCmd.key           "M">  
 <!ENTITY markAllAsReadCmd.accesskey         "M">

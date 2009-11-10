@@ -40,7 +40,7 @@ function userOnLoad() {
 }
 
 function fetchTweets(userid,username,password) {
-	jsdump('Getting tweet ' + userid);
+	jsdump('Getting tweets for user ' + userid);
 	url = 'http://twitter.com/statuses/user_timeline/' + userid + '.json';
 	new Ajax.Request(url,
 		{
@@ -48,10 +48,17 @@ function fetchTweets(userid,username,password) {
 			httpUserName: username,
 			httpPassword: password,
 			onSuccess: function(transport) { fetchTweetsCallback(transport,username,password); },
-			onFailure: function() { 
+			onFailure: function(transport) { 
+					jsdump('Failed to get tweets for user.');
+					jsdump('status=' + transport.status)
 					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 					                        .getService(Components.interfaces.nsIPromptService);
-					prompts.alert(window, "Sorry.", "There was an error processing this request.");
+					if (transport.status==404) {
+						prompts.alert(window, "Hmph.", "That user doesn't seem to exist.");
+					} else {
+						prompts.alert(window, "Hmph.", "There was an error processing this request.");
+					}
+					getMainWindow().document.getElementById('user-dialog').acceptDialog();
 			}
 		});		
 }
@@ -61,6 +68,12 @@ function fetchTweetsCallback(transport,username,password) {
 	jsdump('renderNewTweets, length: ' +newTweets.length+ ', for ' + url);
 	if (newTweets.length == 0) {
 		jsdump('renderNewTweets: Nothing to do, skipping.');
+		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+		                        .getService(Components.interfaces.nsIPromptService);
+		jsdump('got prompts');
+		prompts.alert(window, "Hmph.", "That user doesn't seem to exist, or hasn't tweeted yet.");
+		jsdump("prompted");
+		getMainWindow().document.getElementById('user-dialog').acceptDialog();
 	} else {
 		var newText = '';
 		for (var i=newTweets.length-1; i>=0; i--) {

@@ -56,6 +56,7 @@ THE SOFTWARE.
     <!-- ======== -->
 	<commandset id="mainCommandSet">
 		<command id="cmd_quitApplication" oncommand="quitApplication();"/>
+		<command id="cmd_goToUser" oncommand="goToUser();" />
 		<command id="cmd_markAllAsRead" oncommand="markAllAsRead();" />
 		<command id="cmd_deleteAllRead" oncommand="deleteAllRead();" />
 		<command id="cmd_refreshNow" oncommand="forceUpdate();" />
@@ -75,6 +76,10 @@ THE SOFTWARE.
 	<keyset id="editMenuKeys" />
 
 	<keyset id="baseMenuKeyset">
+		<key id="key_goToUser" 
+		 	 key="&goToUserCmd.key;" 
+		 	 command="cmd_goToUser" 
+		 	 modifiers="accel"/>
 		<key id="key_markAllAsRead" 
 		 	 key="&markAllAsReadCmd.key;" 
 		 	 command="cmd_markAllAsRead" 
@@ -143,6 +148,10 @@ THE SOFTWARE.
 
 		<menu id="tools-menu" label="&toolsMenu.label;" accesskey="&toolsMenu.accesskey;">
 			<menupopup id="menu_toolsPopup">
+        	<menuitem label="&goToUserCmd.label;"
+                  	  key="key_goToUser"
+                  	  accesskey="&goToUserCmd.accesskey;"
+                  	  command="cmd_goToUser"/>
 	        	<menuitem label="&markAllAsReadCmd.label;"
 	                  	  key="key_markAllAsRead"
 	                  	  accesskey="&markAllAsReadCmd.accesskey;"
