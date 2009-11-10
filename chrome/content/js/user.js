@@ -92,6 +92,7 @@ function fetchTweetsCallback(transport,username,password) {
 		}
 	}
 	window.content.document.getElementById('fetch-throb').style.display='none';
+	this.updateTimestamps();
 }
 
 function goToProfile() {
@@ -99,14 +100,51 @@ function goToProfile() {
 	linkTo('http://twitter.com/' + username);
 }
 
+function updateTimestamps() {
+	var ONE_SECOND = 1000;
+	var ONE_MINUTE = 60 * ONE_SECOND;
+	var ONE_HOUR = 60 * ONE_MINUTE;
+	var ONE_DAY = 24 * ONE_HOUR;
+	
+	var timestamps = window.content.document.getElementsByName('timestamp');
+	var now = new Date();
+	for (var i=0; i<timestamps.length; i++) {
+		tweetid = timestamps[i].id;
+		when = window.content.document.getElementById(tweetid).innerHTML;
+		var then = new Date(parseFloat(when));
+		var delta = now - then;
+		var prettyWhen = "less than 1m ago";
+		if (delta > ONE_MINUTE && delta < ONE_HOUR) {
+			// between 1m and 59m, inclusive
+			var prettyWhen = "about " + parseInt(delta/ONE_MINUTE) + "m ago"
+		} else  if (delta >= ONE_HOUR && delta < ONE_DAY) {
+			// less than 24h ago
+			var prettyWhen = "about " + parseInt(delta/ONE_HOUR) + "h " + parseInt((delta%ONE_HOUR)/ONE_MINUTE) + "m ago"
+		} else if (delta >= ONE_DAY) {
+			var prettyWhen = "more than " + parseInt(delta/(ONE_DAY)) + "d ago";
+		}
+		var elid = 'prettytime-' + tweetid.substring(tweetid.indexOf('-')+1);
+		el = window.content.document.getElementById(elid)
+		if (el) {
+		  el.innerHTML = prettyWhen;
+		}
+	}
+}
+
 function launchFriendship() {
 	var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
+	var browser = document.getElementById('user-browser');
 	var username = browser.contentDocument.getElementById('myUsername').value;
 	var password = browser.contentDocument.getElementById('myPassword').value;
 	var hisUserId = browser.contentDocument.getElementById('hisUserId').value;
 	var hisUsername = browser.contentDocument.getElementById('hisUsername').value;
-  	var params = {'hisUserId':hisUserId, 'hisUsername': hisUsername, 'username':username, 'password':password}
-  	window.openDialog("chrome://buzzbird/content/friendship.xul", "", features, params);
+  	//var params = {'hisUserId':hisUserId, 'hisUsername': hisUsername, 'username':username, 'password':password}
+	getMainWindow().arguments[0].out = {'action':'friend', 'hisUserId':hisUserId, 'hisUsername': hisUsername, 'username':username, 'password':password}
+	jsdump('arguments out =' + 	getMainWindow().arguments[0].out)
+	jsdump('arguments out action =' + 	getMainWindow().arguments[0].out.action)
+	jsdump('arguments out userId =' + 	getMainWindow().arguments[0].out.hisUserId)
+	getMainWindow().document.getElementById('user-dialog').acceptDialog();
+	//window.openDialog("chrome://buzzbird/content/friendship.xul", "", features, params);
 }
 
 function goToHomepage() {

@@ -128,7 +128,7 @@ function formatTweet(tweet,oneTweet,username,password) {
 	
 	// Next, replace the twitter handles
 	re = new RegExp("@(\\w*)", "g");
-	text = text.replace(re, "@<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://twitter.com/$1');\">$1</a>");
+	text = text.replace(re, "@<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"showUser('$1');\">$1</a>");
 	
 	// Finally, replace the hashtags
 	re = new RegExp("#(\\w*)", "g");

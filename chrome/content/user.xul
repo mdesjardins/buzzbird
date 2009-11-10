@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<dialog id="onetweet-dialog" 
+<dialog id="user-dialog" 
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
 		width="450" 
 		height="500"

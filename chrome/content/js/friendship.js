@@ -31,12 +31,44 @@ function onOk() {
 	return true;
 }
 
+function populateUserInfo(myUsername, myPassword, hisUserId) {
+//http://twitter.com/users/show.format
+	var url = "http://twitter.com/users/show/" + hisUserId + ".json";
+	new Ajax.Request(url,
+		{
+			method:'get',
+			httpUserName: myUsername,
+			httpPassword: myPassword,
+			onSuccess: function(transport) { populateUserInfoCallback(transport,hisUserId,myUsername); },
+			onFailure: function() { 
+					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+					                        .getService(Components.interfaces.nsIPromptService);
+					prompts.alert(window, "Sorry.", "There was an error processing this request.");
+			}
+		});		
+	
+}
+
+function populateUserInfoCallback(transport,hisUserId,myUsername) {
+	var user = eval('(' + transport.responseText + ')');
+	document.getElementById('name').value = user.name;
+	document.getElementById('username').value = '@' + user.screen_name;
+	document.getElementById('avatar').src = user.profile_image_url;
+	document.getElementById('followstats').value = 'Following: ' + user.friends_count + ', Followers: ' + user.followers_count; 
+	document.getElementById('location').value = user.location;
+	document.getElementById('homepage').value = user.url;
+	document.getElementById('bio').value = user.description;
+}
+
 function friendshipOnLoad() {
 	var params = window.arguments[0];
 	var hisUserId = params.hisUserId;
 	var hisUsername = params.hisUsername;
 	var username = params.username;
 	var password = params.password;
+
+	populateUserInfo(username,password,hisUserId);
+
 	browser = document.getElementById('friendship-browser');
 	browser.contentDocument.getElementById('myUsername').value = username;
 	browser.contentDocument.getElementById('myPassword').value = password;
@@ -58,10 +90,12 @@ function friendshipOnLoad() {
 		var myUsername = logins[i].username;
 		var myPassword = logins[i].password;
 		// couldn't get this to work.
-		// if (window.content.document.height < 400) {
-		// 	jsdump('resizing');
-		// 	window.resizeBy(0,150);
-		// }
+		jsdump("window.height=" + window.height);
+		jsdump("window.content.document.height=" + window.content.document.height);
+		if (window.content.document.height < 600) {
+			jsdump('resizing');
+			window.resizeBy(0,250);
+		}
 		var newText = '<div class="account">' +
 					  ' <table style="width:99%;">' +
 					  '  <tr>' +
@@ -74,16 +108,6 @@ function friendshipOnLoad() {
 					  '  </tr>' +
 					  ' </table>' +
 					  '</div>';
-		              // 		
-		              // 		
-		              // ' <div style="float:left;">' 
-		              //    +  myUsername + '<span id="followback-' + myUsername + '" class="followback"></span>'
-		              // + '</div>' +
-		              // ' <div style="float:right;">' +  
-		              // '  <img id="throb-' + myUsername + '" src="chrome://buzzbird/content/images/tiny-throbber.gif"/>' + 
-		              // '  <input id="check-' + myUsername + '" type="checkbox" style="display:none;" onclick="toggleFollow(\'' + myUsername + '\',\'' + myPassword + '\',\'' + hisUserId + '\');"/>' +
-		              // ' </div>' +
-		              // '</div>';
 		var parser = new DOMParser();
 		var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
 		if (doc.documentElement.nodeName != "parsererror" ) {
@@ -103,7 +127,12 @@ function friendshipOnLoad() {
 
 function getStatus(hisUserId,myUsername,myPassword) {
 	jsdump('Getting friendship status for ' + hisUserId + ' and ' + myUsername);
-	url = 'http://twitter.com/friendships/show.json?source_screen_name=' + myUsername + '&target_id=' + hisUserId;
+	var number=/\d.+/
+	if (number.match(hisUserId)) {
+		url = 'http://twitter.com/friendships/show.json?source_screen_name=' + myUsername + '&target_id=' + hisUserId;
+	} else {
+		url = 'http://twitter.com/friendships/show.json?source_screen_name=' + myUsername + '&target_screen_name=' + hisUserId;
+	}
 	new Ajax.Request(url,
 		{
 			method:'get',
@@ -122,9 +151,6 @@ function getStatusCallback(transport,hisUserId,myUsername) {
 	var friendship = eval('(' + transport.responseText + ')');
 	var meFollowsHe = friendship.relationship.target.followed_by;
 	var heFollowsMe = friendship.relationship.target.following;
-	jsdump('Got friendship status ' + hisUserId + ' for ' + myUsername);
-	jsdump(' meFollowsHe=' + meFollowsHe);
-	jsdump(' heFollowsMe=' + heFollowsMe);
 	var browser = document.getElementById('friendship-browser');
 	var throb = browser.contentDocument.getElementById('throb-' + myUsername);
 	throb.style.display='none';

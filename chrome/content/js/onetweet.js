@@ -33,8 +33,7 @@ function oneTweetOnLoad() {
 	browser.contentDocument.getElementById('username').value = username;
 	browser.contentDocument.getElementById('password').value = password;
 	window.resizeTo(450,180);
-	renderTweet(id,username,password);
-	
+	renderTweet(id,username,password);	
 }
 
 function renderTweet(id,username,password) {
@@ -76,6 +75,7 @@ function oneTweetCallback(transport,username,password) {
 	} else {
 		browser = document.getElementById('onetweet-browser');
 		browser.contentDocument.getElementById('fetch-throb').style.display='none';
+		updateTimestamps();
 	}
 }
 
@@ -92,4 +92,35 @@ function renderAnother() {
 		jsdump('Could not find element with id onetweet');
 	}
 	renderTweet(id,username,password);
+}
+
+function updateTimestamps() {
+	var ONE_SECOND = 1000;
+	var ONE_MINUTE = 60 * ONE_SECOND;
+	var ONE_HOUR = 60 * ONE_MINUTE;
+	var ONE_DAY = 24 * ONE_HOUR;
+	
+	var timestamps = window.content.document.getElementsByName('timestamp');
+	var now = new Date();
+	for (var i=0; i<timestamps.length; i++) {
+		tweetid = timestamps[i].id;
+		when = window.content.document.getElementById(tweetid).innerHTML;
+		var then = new Date(parseFloat(when));
+		var delta = now - then;
+		var prettyWhen = "less than 1m ago";
+		if (delta > ONE_MINUTE && delta < ONE_HOUR) {
+			// between 1m and 59m, inclusive
+			var prettyWhen = "about " + parseInt(delta/ONE_MINUTE) + "m ago"
+		} else  if (delta >= ONE_HOUR && delta < ONE_DAY) {
+			// less than 24h ago
+			var prettyWhen = "about " + parseInt(delta/ONE_HOUR) + "h " + parseInt((delta%ONE_HOUR)/ONE_MINUTE) + "m ago"
+		} else if (delta >= ONE_DAY) {
+			var prettyWhen = "more than " + parseInt(delta/(ONE_DAY)) + "d ago";
+		}
+		var elid = 'prettytime-' + tweetid.substring(tweetid.indexOf('-')+1);
+		el = window.content.document.getElementById(elid)
+		if (el) {
+		  el.innerHTML = prettyWhen;
+		}
+	}
 }
