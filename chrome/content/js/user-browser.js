@@ -56,7 +56,7 @@ function replyTo(id) {
 	jsdump('replying to ' + id);
 	var replyTo = document.getElementById("screenname-" + id).innerHTML;
 	getMainWindow().arguments[0].out = {'action':'reply', 'tweetId':id, 'replyTo':replyTo};
-	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
+	getMainWindow().document.getElementById('user-dialog').acceptDialog();
 }
 
 // Send DM
@@ -65,7 +65,7 @@ function sendDirect(id) {
 	jsdump('direct to ' + id);
 	var directTo = document.getElementById("screenname-" + id).innerHTML;
 	getMainWindow().arguments[0].out = {'action':'directTo', 'tweetId':id, 'directTo':directTo};
-	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
+	getMainWindow().document.getElementById('user-dialog').acceptDialog();
 }
 
 // Re-tweet
@@ -80,7 +80,7 @@ function retweet(id) {
 		text = desanitize(raw) + ' (via @' + desanitize(user) + ')';
 	} 
 	getMainWindow().arguments[0].out = {'action':'retweet', 'tweetId':id, 'user':user, 'text':text};
-	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
+	getMainWindow().document.getElementById('user-dialog').acceptDialog();
 }
  
 // Favorite

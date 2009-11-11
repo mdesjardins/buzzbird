@@ -26,9 +26,10 @@ function onOk() {
 
 function oneTweetOnLoad() {
 	getMainWindow().document.addEventListener("renderAnother", renderAnother, false); 
-	var id = window.arguments[0];
-	var username = window.arguments[1];
-	var password = window.arguments[2];
+	var params = window.arguments[0];
+	var id = params.tweetId;
+	var username = params.username;
+	var password = params.password;
 	browser = document.getElementById('onetweet-browser');
 	browser.contentDocument.getElementById('username').value = username;
 	browser.contentDocument.getElementById('password').value = password;

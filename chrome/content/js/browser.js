@@ -24,7 +24,8 @@ THE SOFTWARE.
 //
 function viewOneTweet(tweetId) {
   var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
-  window.openDialog("chrome://buzzbird/content/onetweet.xul", "", features, tweetId, getUsername(), getPassword());	
+  var params = {'tweetId':tweetId, 'username':getUsername(), 'password':getPassword()};
+  window.openDialog("chrome://buzzbird/content/onetweet.xul", "", features, params);	
   if (params.out) {
 	jsdump('action:' + params.out.action);
 	if (params.out.action == 'friend') {
