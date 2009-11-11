@@ -49,6 +49,8 @@ function viewOneTweet(tweetId) {
 		getChromeElement('textboxid').focus();		
 		dispatch('openSpeech');
 		dispatch('updateTweetLength');
+	} else if (params.out.action == 'oneTweet') {
+		viewOneTweet(params.out.tweetId);
 	}
   }
 }
@@ -84,6 +86,8 @@ function showUser(userId) {
 		getChromeElement('textboxid').focus();		
 		dispatch('openSpeech');
 		dispatch('updateTweetLength');
+	} else if (params.out.action == 'oneTweet') {
+		viewOneTweet(params.out.tweetId);
 	}
   }		
 }

@@ -23,11 +23,9 @@ THE SOFTWARE.
 // Displays one tweet in a separate dialog.
 //
 function viewOneTweet(tweetId) {
-	jsdump('viewing one tweet')
-	document.getElementById('tweetId').value = tweetId;
-	var ev = document.createEvent("Events");
-	ev.initEvent("renderAnother", true, false);
-	getMainWindow().document.dispatchEvent(ev);
+	jsdump('viewing conversation ' + tweetId);
+	getMainWindow().arguments[0].out = {'action':'oneTweet', 'tweetId':tweetId};
+	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
 }
 
 // Shows the retweet/love/reply/direct icons for an individual tweet.
