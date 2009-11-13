@@ -51,6 +51,8 @@ function viewOneTweet(tweetId) {
 		dispatch('updateTweetLength');
 	} else if (params.out.action == 'oneTweet') {
 		viewOneTweet(params.out.tweetId);
+	} else if (params.out.action == 'user') {
+		showUser(params.out.userId);
 	}
   }
 }
@@ -88,6 +90,8 @@ function showUser(userId) {
 		dispatch('updateTweetLength');
 	} else if (params.out.action == 'oneTweet') {
 		viewOneTweet(params.out.tweetId);
+	} else if (params.out.action == 'user') {
+		showUser(params.out.userId);
 	}
   }		
 }

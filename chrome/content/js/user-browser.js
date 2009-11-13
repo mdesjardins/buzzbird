@@ -104,3 +104,10 @@ function favorite(id) {
 function favoriteCallback(transport) {
 	getChromeElement('statusid').label = 'Tweet Favorited';
 }
+
+// Show User
+//
+function showUser(userId) {
+	getMainWindow().arguments[0].out = {'action':'user', 'userId':userId};
+	getMainWindow().document.getElementById('user-dialog').acceptDialog();
+}

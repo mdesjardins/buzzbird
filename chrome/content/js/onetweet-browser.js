@@ -57,6 +57,13 @@ function replyTo(id) {
 	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
 }
 
+// Show User
+//
+function showUser(userId) {
+	getMainWindow().arguments[0].out = {'action':'user', 'userId':userId};
+	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
+}
+
 // Send DM
 //
 function sendDirect(id) {
