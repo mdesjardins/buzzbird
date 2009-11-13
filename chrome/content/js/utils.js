@@ -146,6 +146,25 @@ function desanitize(text) {
 	return filthy;
 }
 
+// Opens a hashtag link in the user's default browser
+//
+function hashTag(tagName) {
+	if (getStringPref('buzzbird.hashtag.destination','hashtags.org') == 'search.twitter.com') {
+		linkTo('http://search.twitter.com/search?q=%23' + tagName);
+	} else {
+		linkTo('http://hashtags.org/tag/' + tagName);
+	}
+}
+
+// Opens a link in the user's default browser.
+//
+function linkTo(href) {
+	var ioservice = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
+	var uriToOpen = ioservice.newURI(href, null, null);
+	var extps = Components.classes["@mozilla.org/uriloader/external-protocol-service;1"].getService(Components.interfaces.nsIExternalProtocolService);
+	extps.loadURI(uriToOpen, null);
+}
+
 // Craptastic logging.
 //
 function jsdump(str) {

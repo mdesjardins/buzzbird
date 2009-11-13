@@ -39,15 +39,6 @@ function showInfo(id) {
 	$('tweetIcons-' + id).style.display = 'none';
 }
 
-// Opens a link in the user's default browser.
-//
-function linkTo(href) {
-	var ioservice = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
-	var uriToOpen = ioservice.newURI(href, null, null);
-	var extps = Components.classes["@mozilla.org/uriloader/external-protocol-service;1"].getService(Components.interfaces.nsIExternalProtocolService);
-	extps.loadURI(uriToOpen, null);
-}
-
 // Reply
 //
 function replyTo(id) {

@@ -25,6 +25,10 @@
 <!ENTITY retweetFormatRtPref.label         "RT @handle: Tweet">
 <!ENTITY retweetFormatViaPref.label         "Tweet (via @handle)">
 
+<!ENTITY hashtagDestinationPref.label	"Clicking a Hashtag goes to...">
+<!ENTITY hashtagDestinationPref.accesskey	"H">
+<!ENTITY hashtagDestinationHashtagsOrgPref.label "hashtags.org">
+<!ENTITY hashtagDestinationSearchTwitterComPref.label "search.twitter.com">
 
 <!ENTITY autoMarkOldTweetsAsRead.label         "Automatically mark old tweets as read after update">
 

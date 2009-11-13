@@ -132,7 +132,7 @@ function formatTweet(tweet,oneTweet,username,password) {
 	
 	// Finally, replace the hashtags
 	re = new RegExp("#(\\w*)", "g");
-	text = text.replace(re, "#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://hashtags.org/tag/$1');\">$1</a>");
+	text = text.replace(re, "#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"hashTag('$1');\">$1</a>");
 
 	var when = new Date(tweet.created_at);
 	var prettyWhen = when.toLocaleTimeString() + ' on ' + when.toLocaleDateString().substring(0,5);

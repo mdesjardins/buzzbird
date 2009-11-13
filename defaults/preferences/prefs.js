@@ -47,4 +47,5 @@ pref("buzzbird.update.interval", 180000);
 pref("buzzbird.auto.markread", false);
 pref("buzzbird.zoom", 100);
 pref("buzzbird.retweet.format","rt");
+pref("buzzbird.hashtag.destination","hashtags.org");
 

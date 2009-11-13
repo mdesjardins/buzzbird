@@ -345,10 +345,6 @@ function forceUpdate() {
 // Called on succesful tweet postation
 //
 function postTweetCallback(tweetText) {
-	var textbox = getChromeElement('textboxid');
-	textbox.reset();
-	textbox.disabled = false;
-	getChromeElement('statusid').label = updateLengthDisplay();
 	if (tweetText.match(/^d(\s){1}(\w+?)(\s+)(\w+)/)) {
 		// It was a DM, need to display it manually.
 		var tweet = {
@@ -387,7 +383,13 @@ function postTweet() {
 			parameters:'source=buzzbird',
 			httpUserName: getUsername(),
 			httpPassword: getPassword(),
-		    onSuccess: function() { postTweetCallback(tweet); },
+		    onSuccess: function() { 
+				var textbox = getChromeElement('textboxid');
+				textbox.reset();
+				textbox.disabled = false;
+				getChromeElement('statusid').label = updateLengthDisplay();
+				postTweetCallback(tweet); 
+			},
 		    onFailure: function() { 
 				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 				                        .getService(Components.interfaces.nsIPromptService);

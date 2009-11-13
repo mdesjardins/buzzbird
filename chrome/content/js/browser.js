@@ -20,13 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-// Displays one tweet in a separate dialog.
-//
-function viewOneTweet(tweetId) {
-  var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
-  var params = {'tweetId':tweetId, 'username':getUsername(), 'password':getPassword()};
-  window.openDialog("chrome://buzzbird/content/onetweet.xul", "", features, params);	
-  if (params.out) {
+function reopen(params) {
 	jsdump('action:' + params.out.action);
 	if (params.out.action == 'friend') {
 		jsdump('userId=' + params.out.userId);
@@ -54,6 +48,43 @@ function viewOneTweet(tweetId) {
 	} else if (params.out.action == 'user') {
 		showUser(params.out.userId);
 	}
+}
+
+// Displays one tweet in a separate dialog.
+//
+function viewOneTweet(tweetId) {
+  var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
+  var params = {'tweetId':tweetId, 'username':getUsername(), 'password':getPassword()};
+  window.openDialog("chrome://buzzbird/content/onetweet.xul", "", features, params);	
+  if (params.out) {
+	reopen(params);
+	// jsdump('action:' + params.out.action);
+	// if (params.out.action == 'friend') {
+	// 	jsdump('userId=' + params.out.userId);
+	// 	showUser(params.out.userId);
+	// } else if (params.out.action == 'reply') {
+	// 	var text = '@' + desanitize(params.out.replyTo) + ' ';
+	// 	getChromeElement('textboxid').value = text;
+	// 	getChromeElement('statusid').label = text.length + "/140";
+	// 	getChromeElement('textboxid').focus();
+	// 	dispatch('openSpeech');
+	// } else if (params.out.action == 'directTo') {
+	// 	var text = 'd ' + desanitize(params.out.directTo) + ' ';
+	// 	getChromeElement('textboxid').value = text;
+	// 	getChromeElement('statusid').label = text.length + "/140";
+	// 	getChromeElement('textboxid').focus();	
+	// 	dispatch('openSpeech');
+	// } else if (params.out.action == 'retweet') {
+	// 	var text = params.out.text
+	// 	getChromeElement('textboxid').value = text;
+	// 	getChromeElement('textboxid').focus();		
+	// 	dispatch('openSpeech');
+	// 	dispatch('updateTweetLength');
+	// } else if (params.out.action == 'oneTweet') {
+	// 	viewOneTweet(params.out.tweetId);
+	// } else if (params.out.action == 'user') {
+	// 	showUser(params.out.userId);
+	// }
   }
 }
 
@@ -65,45 +96,36 @@ function showUser(userId) {
   var params = {'userId':userId, 'username':getUsername(), 'password':getPassword()}
   window.openDialog("chrome://buzzbird/content/user.xul", "", features, params);
   if (params.out) {
-	jsdump('action:' + params.out.action);
-	if (params.out.action == 'friend') {
-		jsdump('userId=' + params.out.userId);
-		var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
-		window.openDialog("chrome://buzzbird/content/friendship.xul", "", features, params.out);
-	} else if (params.out.action == 'reply') {
-		var text = '@' + desanitize(params.out.replyTo) + ' ';
-		getChromeElement('textboxid').value = text;
-		getChromeElement('statusid').label = text.length + "/140";
-		getChromeElement('textboxid').focus();
-		dispatch('openSpeech');
-	} else if (params.out.action == 'directTo') {
-		var text = 'd ' + desanitize(params.out.directTo) + ' ';
-		getChromeElement('textboxid').value = text;
-		getChromeElement('statusid').label = text.length + "/140";
-		getChromeElement('textboxid').focus();	
-		dispatch('openSpeech');
-	} else if (params.out.action == 'retweet') {
-		var text = params.out.text
-		getChromeElement('textboxid').value = text;
-		getChromeElement('textboxid').focus();		
-		dispatch('openSpeech');
-		dispatch('updateTweetLength');
-	} else if (params.out.action == 'oneTweet') {
-		viewOneTweet(params.out.tweetId);
-	} else if (params.out.action == 'user') {
-		showUser(params.out.userId);
-	}
+	reopen(params);
+	// jsdump('action:' + params.out.action);
+	// if (params.out.action == 'friend') {
+	// 	jsdump('userId=' + params.out.userId);
+	// 	var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
+	// 	window.openDialog("chrome://buzzbird/content/friendship.xul", "", features, params.out);
+	// } else if (params.out.action == 'reply') {
+	// 	var text = '@' + desanitize(params.out.replyTo) + ' ';
+	// 	getChromeElement('textboxid').value = text;
+	// 	getChromeElement('statusid').label = text.length + "/140";
+	// 	getChromeElement('textboxid').focus();
+	// 	dispatch('openSpeech');
+	// } else if (params.out.action == 'directTo') {
+	// 	var text = 'd ' + desanitize(params.out.directTo) + ' ';
+	// 	getChromeElement('textboxid').value = text;
+	// 	getChromeElement('statusid').label = text.length + "/140";
+	// 	getChromeElement('textboxid').focus();	
+	// 	dispatch('openSpeech');
+	// } else if (params.out.action == 'retweet') {
+	// 	var text = params.out.text
+	// 	getChromeElement('textboxid').value = text;
+	// 	getChromeElement('textboxid').focus();		
+	// 	dispatch('openSpeech');
+	// 	dispatch('updateTweetLength');
+	// } else if (params.out.action == 'oneTweet') {
+	// 	viewOneTweet(params.out.tweetId);
+	// } else if (params.out.action == 'user') {
+	// 	showUser(params.out.userId);
+	// }
   }		
-}
-
-
-// Opens a link in the user's default browser.
-//
-function linkTo(href) {
-	var ioservice = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
-	var uriToOpen = ioservice.newURI(href, null, null);
-	var extps = Components.classes["@mozilla.org/uriloader/external-protocol-service;1"].getService(Components.interfaces.nsIExternalProtocolService);
-	extps.loadURI(uriToOpen, null);
 }
 
 // Shows the retweet/love/reply/direct icons for an individual tweet.

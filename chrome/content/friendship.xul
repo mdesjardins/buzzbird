@@ -45,7 +45,7 @@ THE SOFTWARE.
 	<vbox flex="1" style="overflow:auto; height:100px; width:100%">
 		<hbox style="margin:5px;">
 			<vbox>
-				<image id="avatar" src="" width="96" height="96"/>
+				<image id="avatar" src="" width="64" height="64" style="margin:16px;"/>
 				<button id="friendship" onclick="launchFriendship();">Friendship...</button>
 			</vbox>
 			<vbox>

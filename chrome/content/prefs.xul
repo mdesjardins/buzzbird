@@ -46,6 +46,7 @@ THE SOFTWARE.
     	<preferences>
       		<preference id="updateInterval" name="buzzbird.update.interval" type="int"/>
 			<preference id="retweetFormat" name="buzzbird.retweet.format" type="string"/>
+			<preference id="hashtagDestination" name="buzzbird.hashtag.destination" type="string"/>
 			<preference id="autoMarkOldTweetsAsRead" name="buzzbird.auto.markread" type="bool"/>
     	</preferences>
 		<vbox>
@@ -68,6 +69,16 @@ THE SOFTWARE.
 					<menupopup>
 						<menuitem label="&retweetFormatRtPref.label;" value="rt"/>
 						<menuitem label="&retweetFormatViaPref.label;" value="via"/>
+					</menupopup>
+				</menulist>
+		    </hbox>
+			<hbox>
+				<label control="menulist_hashtagDestination" value="&hashtagDestinationPref.label;" /> 
+				<menulist id="menulist_hashtagDestination" preference="hashtagDestination"
+			              accesskey="&hashtagDestinationPref.accesskey;">
+					<menupopup>
+						<menuitem label="&hashtagDestinationHashtagsOrgPref.label;" value="hashtags.org"/>
+						<menuitem label="&hashtagDestinationSearchTwitterComPref.label;" value="search.twitter.com"/>
 					</menupopup>
 				</menulist>
 		    </hbox>
