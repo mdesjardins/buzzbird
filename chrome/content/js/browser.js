@@ -24,7 +24,9 @@ function reopen(params) {
 	jsdump('action:' + params.out.action);
 	if (params.out.action == 'friend') {
 		jsdump('userId=' + params.out.userId);
-		showUser(params.out.userId);
+		//showUser(params.out.userId);
+		var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
+		window.openDialog("chrome://buzzbird/content/friendship.xul", "", features, params.out);
 	} else if (params.out.action == 'reply') {
 		var text = '@' + desanitize(params.out.replyTo) + ' ';
 		getChromeElement('textboxid').value = text;
