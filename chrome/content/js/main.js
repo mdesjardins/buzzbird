@@ -289,6 +289,7 @@ function fetchUrl(destinations) {
 		updateLengthDisplay();		
 		refreshAllowed(true);
 		progress(false);
+		countUnread();
 		setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
 	} else {
 		var since = url.match('friends_timeline') ? mostRecentTweet : mostRecentDirect;
@@ -391,6 +392,8 @@ function postTweet() {
 				postTweetCallback(tweet); 
 			},
 		    onFailure: function() { 
+				var textbox = getChromeElement('textboxid');
+				textbox.disabled = false;
 				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 				                        .getService(Components.interfaces.nsIPromptService);
 				prompts.alert(window, "Sorry.", "There was an error posting that status update.");
@@ -483,15 +486,71 @@ function showOrHide(tweetType,disp) {
 	getChromeElement('filtermenupopupid').disabled=false;
 }
 
+// Counts unread tweets by category.
+//
+function countUnread() {
+	var markers = getBrowser().contentDocument.getElementsByClassName('mark');
+	var len = markers.length;
+	var unread = {'tweet': 0, 'mentions': 0, 'directFrom': 0};
+	if (len > 0) {
+		jsdump('Counting.');
+		var i = 0;
+		function doWork() {
+			if (markers[i].src == 'chrome://buzzbird/content/images/star-yellow.png') {
+				unread.tweet = unread.tweet + 1;
+				if (markers[i].name == "direct-from") {
+					unread.directFrom++;
+				} else if (markers[i].name == "reply") {
+					unread.mentions++;
+				}
+			}
+			i++;
+			if (i < len) {
+				setTimeout(doWork,1);
+			} else {
+				jsdump("Unread: " + unread.tweet + ", Unread mentions: " + unread.mentions + ", Unread direct: " + unread.directFrom);				
+				updateWindowTitle(unread);
+			}
+		}
+		setTimeout(doWork,1);
+	} else {
+		updateWindowTitle(unread);
+	}
+}
+
+function updateWindowTitle(unread) {
+	var windowTitlePref = getStringPref('buzzbird.window.title','both');
+	var windowTitle = "Buzzbird";
+	if (windowTitlePref == 'all') {
+		if (unread.tweet > 0) {
+			windowTitle = windowTitle + " (" + unread.tweet + " unread)"
+		}
+	} else if (windowTitlePref == 'both') {
+		if (unread.directFrom > 0 && unread.mentions > 0) {
+			windowTitle = windowTitle + " (" + unread.directFrom + " unread direct, " + unread.mentions + " unread mentions)"
+		} else if (unread.directFrom > 0 && unread.mentions == 0) {
+			windowTitle = windowTitle + " (" + unread.directFrom + " unread direct)"
+		} else if (unread.directFrom == 0 && unread.mentions > 0) {
+			windowTitle = windowTitle + " (" + unread.mentions + " unread mentions)"
+		}
+	} else if (windowTitlePref == 'direct') {
+		if (unread.directFrom > 0) {
+			windowTitle = windowTitle + " (" + unread.directFrom + " unread direct)"
+		}
+	} 
+	getMainWindow().title = windowTitle;
+	
+}
+
 // Marks all as read.
 //
 function markAllAsRead() {
-	var xx = getBrowser().contentDocument.getElementsByName('mark');
-	var len = xx.length;
+	var markers = getBrowser().contentDocument.getElementsByClassName('mark');
+	var len = markers.length;
 	for (var i=0; i<len; i++) {
-		x = xx[i];
-		x.src='chrome://buzzbird/content/images/checkmark-gray.png'; 
-	}	
+		markers[i].src='chrome://buzzbird/content/images/checkmark-gray.png'; 
+	}
+	countUnread();	
 }
 
 // Deletes all the previously marked-as-read tweets.  This is astoundingly inefficient.
@@ -748,6 +807,7 @@ function openPreferences() {
 
   //var features = "chrome,titlebar,toolbar,centerscreen,modal";
   window.openDialog("chrome://buzzbird/content/prefs.xul", "", features);
+  countUnread();	
 }
 
 function openAccountPreferences() {

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<!-- <?xml-stylesheet href="prefs.css" type="text/css"?> -->
+<?xml-stylesheet href="prefs.css" type="text/css"?>
 <?xul-overlay href="chrome://buzzbird/content/global/globalOverlay.xul"?>
 <?xul-overlay href="chrome://buzzbird/content/global/editMenuOverlay.xul"?>
 
@@ -34,8 +34,8 @@ THE SOFTWARE.
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 			type="prefwindow"
 			windowtype="Browser:Preferences"
-			width="400" 
-	        height="350">
+			width="500" 
+	        height="300">
    
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
@@ -48,6 +48,7 @@ THE SOFTWARE.
 			<preference id="retweetFormat" name="buzzbird.retweet.format" type="string"/>
 			<preference id="hashtagDestination" name="buzzbird.hashtag.destination" type="string"/>
 			<preference id="autoMarkOldTweetsAsRead" name="buzzbird.auto.markread" type="bool"/>
+			<preference id="windowTitle" name="buzzbird.window.title" type="string"/>
     	</preferences>
 		<vbox>
 			<hbox>
@@ -82,6 +83,20 @@ THE SOFTWARE.
 					</menupopup>
 				</menulist>
 		    </hbox>
+
+			<hbox>
+				<label control="menulist_windowTitle" value="&windowTitlePref.label;" /> 
+				<menulist id="menulist_windowTitle" preference="windowTitle"
+			              accesskey="&windowTitlePref.accesskey;">
+					<menupopup>
+						<menuitem label="&windowTitleAppNameOnlyPref.label;" value="buzzbird"/>
+						<menuitem label="&windowTitleUnreadDirectOnlyPref.label;" value="direct"/>
+						<menuitem label="&windowTitleUnreadDirectAndMentionsPref.label;" value="both"/>
+						<menuitem label="&windowTitleAllUnreadPref.label;" value="all"/>
+					</menupopup>
+				</menulist>
+		    </hbox>
+
 			<hbox>
 				<label control="checkbox_autoMarkOldTweetsAsRead" value="&autoMarkOldTweetsAsRead.label;" /> 
 				<checkbox id="checkbox_autoMarkOldTweetsAsRead" preference="autoMarkOldTweetsAsRead" />

@@ -48,4 +48,5 @@ pref("buzzbird.auto.markread", false);
 pref("buzzbird.zoom", 100);
 pref("buzzbird.retweet.format","rt");
 pref("buzzbird.hashtag.destination","hashtags.org");
+pref("buzzbird.window.title","both");
 

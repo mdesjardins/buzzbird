@@ -30,6 +30,13 @@
 <!ENTITY hashtagDestinationHashtagsOrgPref.label "hashtags.org">
 <!ENTITY hashtagDestinationSearchTwitterComPref.label "search.twitter.com">
 
+<!ENTITY windowTitlePref.label	"Window Title">
+<!ENTITY windowTitlePref.accesskey	"T">
+<!ENTITY windowTitleAppNameOnlyPref.label "Application Name Only">
+<!ENTITY windowTitleUnreadDirectOnlyPref.label "Include count of unread DMs">
+<!ENTITY windowTitleUnreadDirectAndMentionsPref.label "Include count of unread DMs and mentions">
+<!ENTITY windowTitleAllUnreadPref.label "Include count of all unread tweets">
+
 <!ENTITY autoMarkOldTweetsAsRead.label         "Automatically mark old tweets as read after update">
 
 <!ENTITY prefForgetAccount.label         "Forget Saved Account Data">
