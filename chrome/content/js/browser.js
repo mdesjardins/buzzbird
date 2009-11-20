@@ -288,6 +288,7 @@ function toggleMarkAsRead(id) {
 	} else {
 		f.src='chrome://buzzbird/content/images/star-yellow.png'; 
 	}
+	dispatch('countUnread');
 }
 
 // Adds stuff to the end of the textbox.

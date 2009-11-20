@@ -125,6 +125,7 @@ function registerEvents() {
 		getMainWindow().document.addEventListener("closeSpeech", getMainWindow().closeSpeech, false); 
 		getMainWindow().document.addEventListener("updateTweetLength", getMainWindow().updateLengthDisplay, false); 
 		getMainWindow().document.addEventListener("updateLoginList", getMainWindow().updateLoginList, false);
+		getMainWindow().document.addEventListener("countUnread", getMainWindow().countUnread, false);
 	} catch(e) {
 		jsdump('Problem initializing events: ' + e);
 	}
@@ -550,7 +551,8 @@ function markAllAsRead() {
 	for (var i=0; i<len; i++) {
 		markers[i].src='chrome://buzzbird/content/images/checkmark-gray.png'; 
 	}
-	countUnread();	
+	unread = {'tweet':0, 'mentions':0, 'directFrom':0}
+	updateWindowTitle(unread);
 }
 
 // Deletes all the previously marked-as-read tweets.  This is astoundingly inefficient.

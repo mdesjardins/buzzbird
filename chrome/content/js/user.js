@@ -36,7 +36,49 @@ function userOnLoad() {
 	browser.contentDocument.getElementById('myPassword').value = password;
 	browser.contentDocument.getElementById('hisUserId').value = user_id;
 	window.resizeTo(450,180);
-	fetchTweets(user_id,username,password);
+	fetchProfile(user_id,username,password);
+}
+
+function fetchProfile(userid,username,password) {
+	jsdump('Getting profile for user ' + userid);
+	url = 'http://twitter.com/users/show/' + userid + '.json';
+	new Ajax.Request(url,
+		{
+			method:'get',
+			httpUserName: username,
+			httpPassword: password,
+			onSuccess: function(transport) { 
+				var profile = eval('(' + transport.responseText + ')');
+				document.getElementById('name').value = profile.name;
+				document.getElementById('username').value = '@' + profile.screen_name;
+				document.getElementById('avatar').src = profile.profile_image_url;
+				document.getElementById('followstats').value = 'Following: ' + profile.friends_count + ', Followers: ' + profile.followers_count; 
+				document.getElementById('location').value = profile.location;
+				document.getElementById('homepage').value = profile.url;
+				document.getElementById('bio').value = profile.description;
+				if (profile.protected == true && profile.following == false) {
+					browser = document.getElementById('user-browser');
+					browser.contentDocument.getElementById('shy-user').style.display='inline';
+					document.getElementById('friendship').disabled = true;
+					//document.getElementById('fetch-throb').style.display='none';
+					window.content.document.getElementById('fetch-throb').style.display='none';
+				} else {
+					fetchTweets(userid,username,password); 
+				}
+			},
+			onFailure: function(transport) { 
+					jsdump('Failed to get tweets for user.');
+					jsdump('status=' + transport.status)
+					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+					                        .getService(Components.interfaces.nsIPromptService);
+					if (transport.status==404) {
+						prompts.alert(window, "Hmph.", "That user doesn't seem to exist.");
+					} else {
+						prompts.alert(window, "Hmph.", "There was an error processing this request.");
+					}
+					getMainWindow().document.getElementById('user-dialog').acceptDialog();
+			}
+		});		
 }
 
 function fetchTweets(userid,username,password) {
@@ -80,15 +122,6 @@ function fetchTweetsCallback(transport,username,password) {
 			newText = formatTweet(newTweets[i],true,username,password) + newText;
 			//jsdump('result ' + newText);
 			if (i==0) {
-				jsdump('updating user info');
-				user = newTweets[i].user;
-				document.getElementById('name').value = user.name;
-				document.getElementById('username').value = '@' + user.screen_name;
-				document.getElementById('avatar').src = user.profile_image_url;
-				document.getElementById('followstats').value = 'Following: ' + user.friends_count + ', Followers: ' + user.followers_count; 
-				document.getElementById('location').value = user.location;
-				document.getElementById('homepage').value = user.url;
-				document.getElementById('bio').value = user.description;
 				browser = document.getElementById('user-browser');
 				browser.contentDocument.getElementById('hisUsername').value = user.screen_name;
 			}
