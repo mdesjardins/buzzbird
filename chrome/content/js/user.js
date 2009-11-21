@@ -56,7 +56,7 @@ function fetchProfile(userid,username,password) {
 				document.getElementById('location').value = profile.location;
 				document.getElementById('homepage').value = profile.url;
 				document.getElementById('bio').value = profile.description;
-				if (profile.protected == true && profile.following == false) {
+				if (profile.protected == true && typeof(profile.status) == "undefined") {
 					browser = document.getElementById('user-browser');
 					browser.contentDocument.getElementById('shy-user').style.display='inline';
 					document.getElementById('friendship').disabled = true;
@@ -123,7 +123,7 @@ function fetchTweetsCallback(transport,username,password) {
 			//jsdump('result ' + newText);
 			if (i==0) {
 				browser = document.getElementById('user-browser');
-				browser.contentDocument.getElementById('hisUsername').value = user.screen_name;
+				browser.contentDocument.getElementById('hisUsername').value = username;
 			}
 		}
 		var parser = new DOMParser();
