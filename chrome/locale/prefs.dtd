@@ -37,6 +37,11 @@
 <!ENTITY windowTitleUnreadDirectAndMentionsPref.label "Include count of unread DMs and mentions">
 <!ENTITY windowTitleAllUnreadPref.label "Include count of all unread tweets">
 
+<!ENTITY boldfaceNamePref.label	"Name emphasised in display">
+<!ENTITY boldfaceNamePref.accesskey	"E">
+<!ENTITY boldfaceNameRealNamePref.label "Real Name">
+<!ENTITY boldfaceNameHandlePref.label "Handle (Screen Name)">
+
 <!ENTITY autoMarkOldTweetsAsRead.label         "Automatically mark old tweets as read after update">
 
 <!ENTITY prefForgetAccount.label         "Forget Saved Account Data">

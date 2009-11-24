@@ -71,7 +71,7 @@ function oneTweetCallback(transport,username,password) {
 	if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
 		renderTweet(tweet.in_reply_to_status_id,username,password);
 		if (window.content.document.height < 400) {
-			window.resizeBy(0,80);
+			window.resizeBy(0,85);
 		}
 	} else {
 		browser = document.getElementById('onetweet-browser');

@@ -183,7 +183,6 @@ function formatTweet(tweet,oneTweet,username,password) {
 	}
 
 	var result = 
-/*	   "<a id=\"jump-" + tweet.id + "\" name=\"jump-" + tweet.id + "\" />" + */
 	   "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
      + "<div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
 	 + "<div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
@@ -203,12 +202,21 @@ function formatTweet(tweet,oneTweet,username,password) {
      + "    </td>"
      + "    <td>"
 	 + "     <div class=\"" + c.text + "\">"
-	 + "      <p><span class=\"" + c.screenName + "\">" + sanitize(user.screen_name) + "</span> <span class=\"" + c.content + "\">" + text + "</span></p>"
+	 
+	 var emphasis = getStringPref('buzzbird.render.bold-name','handle');
+	 if (emphasis == 'realname') {
+	   result += "<p><span class=\"" + c.screenName + "\">" + sanitize(user.name) + "</span> <span class=\"" + c.content + "\">" + text + "</span></p>"	
+	 } else {
+	   result += "<p><span class=\"" + c.screenName + "\">" + sanitize(user.screen_name) + "</span> <span class=\"" + c.content + "\">" + text + "</span></p>"	
+	 }
+	
+	 result = result
      + "     </div>"
      + "    </td>"
      + "   </tr>"
      + "  </table>"
      + "  <div class=\"" + c.bottomRow + "\">"
+
 	 if (!oneTweet) {
 		result = result 
 		+ "   <img class=\"mark\" "
@@ -219,9 +227,16 @@ function formatTweet(tweet,oneTweet,username,password) {
 		+ "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" "
 		+ "        onmouseover=\"this.style.cursor='pointer';\" />"
 	 }
+
+	 result = result + "   <span id=\"tweetInfo-" + tweet.id + "\">"
+	 if (emphasis == 'realname') {
+	   result += "<span class=\"" + c.info + "\">" + sanitize(user.screen_name) 
+	 } else {
+	   result += "<span class=\"" + c.info + "\">" + sanitize(user.name) 
+	
+	 }
+	
 	 result = result
-	 + "   <span id=\"tweetInfo-" + tweet.id + "\">"
-	 + "    <span class=\"" + c.info + "\">" + sanitize(user.name) 
 	 + "     <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span> "
      + "    </span>"
      + "   </span>"
@@ -234,9 +249,17 @@ function formatTweet(tweet,oneTweet,username,password) {
 	 if (t == 'tweet' || t == 'reply') {
 		result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 }
-	 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-	 }
+	
+	 // the user.following check does not work, per Issue 474.
+	 // http://code.google.com/p/twitter-api/issues/detail?id=474
+	 // The "following" member of the user object has been deprecated, 
+	 // anyway, so I probably shouldn't use it.
+	 //if (user.following == true) {
+		 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
+			result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		 }
+	 //}
+		
 	 if (!oneTweet) {
 	 	if (t != 'mine') {
 			result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"

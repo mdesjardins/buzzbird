@@ -406,8 +406,9 @@ function postTweet() {
 // Runs on each key press in the tweet-authoring text area.
 //
 function keyPressed(e) {
-	var textbox = getChromeElement('textboxid');
+	jsdump("ctrl=" + e.ctrlKey);
 	if (e.which == 13) {
+		var textbox = getChromeElement('textboxid');
 		textbox.disabled = true;
 		postTweet();
 	}
@@ -583,6 +584,7 @@ function removeTweetFromDom(id) {
 
 function speech(val) {
 	getChromeElement('textboxid').collapsed=val;		
+	getChromeElement('speechheaderid').collapsed=val;		
 	getChromeElement('shortenUrlId').collapsed=val;		
 	getChromeElement('symbolButtonId').collapsed=val;		
 	if (val) {

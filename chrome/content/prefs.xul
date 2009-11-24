@@ -49,6 +49,7 @@ THE SOFTWARE.
 			<preference id="hashtagDestination" name="buzzbird.hashtag.destination" type="string"/>
 			<preference id="autoMarkOldTweetsAsRead" name="buzzbird.auto.markread" type="bool"/>
 			<preference id="windowTitle" name="buzzbird.window.title" type="string"/>
+			<preference id="boldfaceName" name="buzzbird.render.bold-name" type="string"/>
     	</preferences>
 		<vbox>
 			<hbox>
@@ -96,6 +97,18 @@ THE SOFTWARE.
 					</menupopup>
 				</menulist>
 		    </hbox>
+
+			<hbox>
+				<label control="menulist_boldfaceName" value="&boldfaceNamePref.label;" /> 
+				<menulist id="menulist_boldfaceName" preference="boldfaceName"
+			              accesskey="&boldfaceNamePref.accesskey;">
+					<menupopup>
+						<menuitem label="&boldfaceNameRealNamePref.label;" value="realname"/>
+						<menuitem label="&boldfaceNameHandlePref.label;" value="handle"/>
+					</menupopup>
+				</menulist>
+		    </hbox>
+
 
 			<hbox>
 				<label control="checkbox_autoMarkOldTweetsAsRead" value="&autoMarkOldTweetsAsRead.label;" /> 

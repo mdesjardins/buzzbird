@@ -272,7 +272,7 @@ THE SOFTWARE.
 								tooltiptext="&shortenUrlCmd.label;"
 								command="cmd_shortenUrl"/>
 				<toolbarbutton id="symbolButtonId" 
-					       collapsed="true"
+					            collapsed="true"
 								style="padding:0; margin:0; width:30px"
 								image="chrome://buzzbird/content/images/smiley-button-active-20x20.png" 
 								onmousedown="this.image='chrome://buzzbird/content/images/smiley-button-pressed-20x20.png';"
@@ -322,18 +322,48 @@ THE SOFTWARE.
 		    		</menupopup>
 				</toolbarbutton>
 			</hbox>
-			<hbox flex="5">
+			<vbox flex="5" width="100%">
+				<box id="speechheaderid"
+				     width="100%" 
+				     height="10" 
+				     collapsed="true"
+				     style="background-color:#666; 
+				            color:#fff;
+				            margin-left:4px;
+				            margin-right:4px;
+				            padding-left:3px; 
+				            padding-right:3px;">
+					<label hidden="true">Reply?</label>
+					<box flex="100"/>
+					<toolbarbutton onmousedown="this.style.backgroundColor='#aaa';"
+					               onmouseup="this.style.backgroundColor='#ccc';"
+					               onmouseover="this.style.backgroundColor='#efefef';"
+					               onmouseout="this.style.backgroundColor='#ccc';"
+					               oncommand="postTweet();"
+					               style="background-color:#ccc;
+					                      background-image:url(chrome://buzzbird/content/images/silver-gradient.png);
+					                      border-color:#111;
+					                      color:#111;
+					                      margin:2px;
+					                      width:50px; 
+					                      height:5px; 
+					                      padding:0px;
+					                      -moz-border-radius: 15px;
+					                      font-size:9px;
+					                      font-weight:bold;" label="Post"/>
+				</box>
 				<textbox id="textboxid" 
 				          multiline="true" 
 				          rows="2"
-				          flex="1" 
-		                  onkeypress="keyPressed(event);" 
-		                  onkeyup="keyUp(event);" 
-		                  onblur="updateLengthDisplay();"
-		                  spellcheck="true"
-		                  collapsed="true"
-		 				  width="100%" />
-			</hbox>
+				          flex="2" 
+			              onkeypress="keyPressed(event);" 
+			              onkeyup="keyUp(event);" 
+			              onblur="updateLengthDisplay();"
+			              spellcheck="true"
+			              collapsed="true"
+			              style="margin-top:0px;"
+			 		  	  width="100%" />
+			</vbox>
 		</vbox>
     </toolbar>
 
