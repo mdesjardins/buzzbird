@@ -378,7 +378,20 @@ function postTweetCallback(tweetText) {
 function postTweet() {
 	var tweet = getChromeElement('textboxid').value;
 	url = 'http://twitter.com/statuses/update.json';
-	url = url + '?status=' + encodeURIComponent(tweet);
+	url = url + '?status=' + encodeURIComponent(tweet); 	
+	var replyTweetId = getChromeElement('replyTweetId').value;
+	var replyCheckHidden = getChromeElement('replycheckboxid').hidden;
+	var replyChecked = getChromeElement('replycheckboxid').checked;	
+	jsdump('replyTweetId=' + replyTweetId);
+	jsdump('replyCheckHidden=' + replyCheckHidden);
+	jsdump('replyChecked=' + replyChecked);
+	if (!replyCheckHidden && replyChecked && replyTweetId > 0) {
+		jsdump("Replying");
+		url = url + "&in_reply_to_status_id=" + replyTweetId;
+	}
+	// Need to un-encode at signs or replies won't work.	
+	url = url.replace(/%40/g, '@');
+	jsdump("post url = " + url);
 	new Ajax.Request(url,
 		{
 			method:'post',
@@ -390,6 +403,9 @@ function postTweet() {
 				textbox.reset();
 				textbox.disabled = false;
 				getChromeElement('statusid').label = updateLengthDisplay();
+				getChromeElement('replyTweetId').value = "0";
+				getChromeElement('replycheckboxid').hidden = true;
+				getChromeElement('replycheckboxid').checked = false;		
 				postTweetCallback(tweet); 
 			},
 		    onFailure: function() { 
@@ -406,7 +422,6 @@ function postTweet() {
 // Runs on each key press in the tweet-authoring text area.
 //
 function keyPressed(e) {
-	jsdump("ctrl=" + e.ctrlKey);
 	if (e.which == 13) {
 		var textbox = getChromeElement('textboxid');
 		textbox.disabled = true;
@@ -417,6 +432,12 @@ function keyPressed(e) {
 // Runs on each key up in the tweet-authoring text ara.
 //
 function keyUp(e) {
+	var content = getChromeElement('textboxid').value;
+	if (content.length <= 0 || content.substring(0,1) != "@") {
+		getChromeElement('replyTweetId').value = "0";
+		getChromeElement('replycheckboxid').hidden = true;
+		getChromeElement('replycheckboxid').checked = false;		
+	}
 	updateLengthDisplay();
 }
 
@@ -552,7 +573,7 @@ function markAllAsRead() {
 	for (var i=0; i<len; i++) {
 		markers[i].src='chrome://buzzbird/content/images/checkmark-gray.png'; 
 	}
-	unread = {'tweet':0, 'mentions':0, 'directFrom':0}
+	unread = {'tweet':0, 'mentions':0, 'directFrom':0};
 	updateWindowTitle(unread);
 }
 
@@ -586,7 +607,18 @@ function speech(val) {
 	getChromeElement('textboxid').collapsed=val;		
 	getChromeElement('speechheaderid').collapsed=val;		
 	getChromeElement('shortenUrlId').collapsed=val;		
-	getChromeElement('symbolButtonId').collapsed=val;		
+	getChromeElement('symbolButtonId').collapsed=val;
+	var replyTweetId = getChromeElement('replyTweetId').value;
+	jsdump('replyTweetId is ' + replyTweetId);
+	if (replyTweetId > 0) {
+		jsdump('Showing Reply Checkbox');
+		getChromeElement('replycheckboxid').hidden = false;
+		getChromeElement('replycheckboxid').checked = true;
+	} else {
+		jsdump('Hiding Reply Checkbox');
+		getChromeElement('replycheckboxid').hidden = true;
+		getChromeElement('replycheckboxid').checked = false;
+	}
 	if (val) {
 		getChromeElement('openSpeechId').image = 'chrome://buzzbird/content/images/speech-button-active-20x20.png';	
 	} else {

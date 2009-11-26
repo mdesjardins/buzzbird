@@ -231,6 +231,7 @@ THE SOFTWARE.
 				<label id="showingAllTweetsId" hidden="true" value="&showingAllTweets.label;" />
 				<label id="showingRepliesId" hidden="true" value="&showingReplies.label;" />
 				<label id="showingDirectId" hidden="true" value="&showingDirect.label;" />
+				<label id="replyTweetId" hidden="true" value="0" />
 				<toolbarbutton id="refreshButtonId"
 					       collapsed="true"
 								style="padding:0px 0px 0px 5px; margin:0; width:30px"
@@ -328,12 +329,12 @@ THE SOFTWARE.
 				     height="10" 
 				     collapsed="true"
 				     style="background-color:#666; 
-				            color:#fff;
-				            margin-left:4px;
-				            margin-right:4px;
-				            padding-left:3px; 
-				            padding-right:3px;">
-					<label hidden="true">Reply?</label>
+				     color:#fff;
+				     margin-left:4px;
+					 margin-right:4px;
+                     padding-left:3px; 
+                     padding-right:3px;">
+					<checkbox id="replycheckboxid" label="Reply?" hidden="true" />
 					<box flex="100"/>
 					<toolbarbutton onmousedown="this.style.backgroundColor='#aaa';"
 					               onmouseup="this.style.backgroundColor='#ccc';"
