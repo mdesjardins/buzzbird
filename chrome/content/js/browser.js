@@ -185,6 +185,7 @@ function replyTo(id) {
 	jsdump('replying to ' + id);
 	var user = getBrowser().contentDocument.getElementById("screenname-" + id).innerHTML;
 	var text = '@' + desanitize(user) + ' ';
+	getChromeElement('replyTweetId').value = id;
 	getChromeElement('textboxid').value = text;
 	getChromeElement('statusid').label = text.length + "/140";
 	getChromeElement('textboxid').focus();

@@ -127,12 +127,12 @@ function formatTweet(tweet,oneTweet,username,password) {
 	var text = text.replace(re, "<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://$1');\">http://$1</a>");
 	
 	// Next, replace the twitter handles
-	re = new RegExp("@(\\w*)", "g");
-	text = text.replace(re, "@<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"showUser('$1');\">$1</a>");
-	
+	re = new RegExp("(^|\\s)@(\\w*)", "g");
+	text = text.replace(re, "$1@<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"showUser('$2');\">$2</a>");
+		
 	// Finally, replace the hashtags
-	re = new RegExp("#(\\w*)", "g");
-	text = text.replace(re, "#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"hashTag('$1');\">$1</a>");
+	re = new RegExp("(^|\\s)#(\\w*)", "g");
+	text = text.replace(re, "$1#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"hashTag('$2');\">$2</a>");
 
 	var when = new Date(tweet.created_at);
 	var prettyWhen = when.toLocaleTimeString() + ' on ' + when.toLocaleDateString().substring(0,5);
