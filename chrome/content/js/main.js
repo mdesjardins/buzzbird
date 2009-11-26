@@ -529,13 +529,13 @@ function countUnread() {
 			}
 			i++;
 			if (i < len) {
-				setTimeout(doWork,1);
+				setTimeout(doWork,5);
 			} else {
 				jsdump("Unread: " + unread.tweet + ", Unread mentions: " + unread.mentions + ", Unread direct: " + unread.directFrom);				
 				updateWindowTitle(unread);
 			}
 		}
-		setTimeout(doWork,1);
+		setTimeout(doWork,5);
 	} else {
 		updateWindowTitle(unread);
 	}

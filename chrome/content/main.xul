@@ -336,10 +336,10 @@ THE SOFTWARE.
                      padding-right:3px;">
 					<checkbox id="replycheckboxid" label="Reply?" hidden="true" />
 					<box flex="100"/>
-					<toolbarbutton onmousedown="this.style.backgroundColor='#aaa';"
-					               onmouseup="this.style.backgroundColor='#ccc';"
-					               onmouseover="this.style.backgroundColor='#efefef';"
-					               onmouseout="this.style.backgroundColor='#ccc';"
+					<toolbarbutton onmousedown="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient-pressed.png)';"
+					               onmouseup="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient.png)';"
+					               onmouseover="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient-light.png)';"
+					               onmouseout="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient.png)';"
 					               oncommand="postTweet();"
 					               style="background-color:#ccc;
 					                      background-image:url(chrome://buzzbird/content/images/silver-gradient.png);
