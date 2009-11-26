@@ -551,7 +551,7 @@ function markAllAsRead() {
 	for (var i=0; i<len; i++) {
 		markers[i].src='chrome://buzzbird/content/images/checkmark-gray.png'; 
 	}
-	unread = {'tweet':0, 'mentions':0, 'directFrom':0}
+	unread = {'tweet':0, 'mentions':0, 'directFrom':0};
 	updateWindowTitle(unread);
 }
 
