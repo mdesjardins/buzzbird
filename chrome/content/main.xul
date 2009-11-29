@@ -33,6 +33,10 @@ THE SOFTWARE.
         width="500" 
         height="600" 
         title="Buzzbird">
+<!--
+		activetitlebarcolor="#CACACA" 
+		inactivetitlebarcolor="#E4E4E4"
+-->
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
@@ -220,7 +224,7 @@ THE SOFTWARE.
 	<!-- Actual Window Stuff -->
     <!-- =================== -->
 
-    <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true">
+    <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true" style="border:0;">
 		<vbox flex="5">
 			<hbox pack="5">
 				<label id="realnameLabelId" value="Testy Tester" style="padding:10px 0px 0px 9px; margin:0px 0px 0px 0px; font-size:1.1em;" hidden="true"/>

@@ -1,32 +1,97 @@
+/*
 window {
     -moz-binding: url(chrome://buzzbird/content/unified.xml#unified) !important
 }
 
+
 #main-window:not([active="true"]) > #toolbarid,#statusbarid {
   background-image: url("chrome://buzzbird/content/images/toolbar-background-inactive.png");
+  background-color: -moz-mac-chrome-inactive;
+}
+
+#main-window:not([active="true"]) > #toolbarid {
+  border-top-color: rgba(255, 255, 255, 0.48);
+  background-color: -moz-mac-chrome-inactive;
+  border-bottom-color: rgba(0, 0, 0, 0.32);
 }
 
 #main-window > #toolbarid,#statusbarid {
   background-image: url("chrome://buzzbird/content/images/toolbar-background.gif");
 }
+*/
 
 statusbarpanel {
     border-style: none;
     border: 0px;
 }
 
-/* why doesn't this work?  :( */
-	
-tab {
-	font-size:5px;
+#toolbarid,
+window > toolbox:nth-of-type(1) > toolbar:nth-of-type(1) {
+  -moz-appearance: -moz-mac-unified-toolbar;
 }
 
-tabbox { 
-	height: 12px;
-	padding: 3px;
-	background-image: url("chrome://buzzbird/content/images/toolbar-background.gif");
+toolbar {
+  min-width: 1px;
+  min-height: 20px !important;
+  -moz-appearance: toolbar;
 }
 
-.tab-text {
-	font-size:10px;
+
+/*
+Stuff from FF 3.5 browser.css
+
+#main-window:not([active="true"]) > #navigator-toolbox > #nav-bar {
+  background-image: url("chrome://global/skin/toolbar/toolbar-background-inactive.png");
 }
+
+#main-window:not([active="true"]) > #navigator-toolbox > #PersonalToolbar {
+  border-top-color: rgba(255, 255, 255, 0.48);
+  background-color: -moz-mac-chrome-inactive;
+  border-bottom-color: rgba(0, 0, 0, 0.32);
+}
+
+#main-window:not([active="true"]) > #navigator-toolbox > toolbar > toolbaritem,
+#main-window:not([active="true"]) > #navigator-toolbox > toolbar > toolbarbutton,
+#main-window:not([active="true"]) .tabs-newtab-button > .toolbarbutton-icon {
+  opacity: 0.75;
+}
+
+#main-window:not([active="true"]) > #browser > vbox > #sidebar,
+#main-window:not([active="true"]) > #browser > vbox > sidebarheader { 
+  background-color: #e8e8e8;
+}
+
+#main-window:not([active="true"]) .tabbrowser-strip {
+  background-color: #e2e2e2;
+}
+
+#main-window:not([active="true"]) .tabbrowser-tab {
+  color: #575757;
+}
+
+#main-window:not([active="true"]) .tabbrowser-tab[selected="true"] {
+  background-color: -moz-mac-chrome-inactive;
+}
+
+
+stuff from FF 3.5 global/toolbar.css
+
+toolbarseparator {
+  -moz-appearance       : none;
+  margin: 3px 4px 3px 4px;
+  background: url("chrome://global/skin/toolbar/toolbar-separator.png") transparent repeat-y;
+  
+  padding: 0px;
+  width: 1px !important;
+}
+
+.toolbar-primary {
+        min-height: 24px !important;
+}
+
+.toolbar-primary,
+window > toolbox:nth-of-type(1) > toolbar:nth-of-type(1) {
+  -moz-appearance: -moz-mac-unified-toolbar;
+}
+
+*/

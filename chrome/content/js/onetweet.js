@@ -56,7 +56,7 @@ function renderTweet(id,username,password) {
 
 function oneTweetCallback(transport,username,password) {
 	var tweet = eval('(' + transport.responseText + ')');
-	var newText = formatTweet(tweet,username,password);
+	var newText = formatTweet(tweet,true,username,password);
 	var parser = new DOMParser();
 	var doc = parser.parseFromString('<div id="onetweet" xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
 	if (doc.documentElement.nodeName != "parsererror" ) {
