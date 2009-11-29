@@ -32,6 +32,7 @@ function reopen(params) {
 		getChromeElement('textboxid').value = text;
 		getChromeElement('statusid').label = text.length + "/140";
 		getChromeElement('textboxid').focus();
+		getChromeElement('replyTweetId').value = params.out.tweetId;
 		dispatch('openSpeech');
 	} else if (params.out.action == 'directTo') {
 		var text = 'd ' + desanitize(params.out.directTo) + ' ';
@@ -286,8 +287,10 @@ function toggleMarkAsRead(id) {
 	var f = $(mark);
 	if (f.src=='chrome://buzzbird/content/images/star-yellow.png') {
 		f.src='chrome://buzzbird/content/images/checkmark-gray.png'; 
+		f.className='marked';
 	} else {
 		f.src='chrome://buzzbird/content/images/star-yellow.png'; 
+		f.className='mark';
 	}
 	dispatch('countUnread');
 }

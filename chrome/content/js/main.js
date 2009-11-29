@@ -561,20 +561,28 @@ function updateWindowTitle(unread) {
 			windowTitle = windowTitle + " (" + unread.directFrom + " unread direct)"
 		}
 	} 
-	getMainWindow().title = windowTitle;
+	document.title = windowTitle;
 	
 }
 
 // Marks all as read.
 //
 function markAllAsRead() {
+	unread = {'tweet':0, 'mentions':0, 'directFrom':0};
+	updateWindowTitle(unread);
 	var markers = getBrowser().contentDocument.getElementsByClassName('mark');
+	var ids = new Array();
 	var len = markers.length;
 	for (var i=0; i<len; i++) {
 		markers[i].src='chrome://buzzbird/content/images/checkmark-gray.png'; 
+		ids[i] = markers[i].id;
 	}
-	unread = {'tweet':0, 'mentions':0, 'directFrom':0};
-	updateWindowTitle(unread);
+	var len = ids.length;
+	jsdump("ids.length=" + ids.length);
+	for (var i=0; i<len; i++) {
+		jsdump('marking ID ' + ids[i]);
+		getBrowser().contentDocument.getElementById(ids[i]).className='marked';
+	}
 }
 
 // Deletes all the previously marked-as-read tweets.  This is astoundingly inefficient.
