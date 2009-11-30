@@ -285,11 +285,11 @@ function stopFollowingTweeterCallback(transport) {
 function toggleMarkAsRead(id) {
 	var mark = 'mark-' + id;
 	var f = $(mark);
-	if (f.src=='chrome://buzzbird/content/images/star-yellow.png') {
-		f.src='chrome://buzzbird/content/images/checkmark-gray.png'; 
+	if (f.src=='chrome://buzzbird/skin/images/actions/star-yellow.png') {
+		f.src='chrome://buzzbird/skin/images/actions/checkmark-gray.png'; 
 		f.className='marked';
 	} else {
-		f.src='chrome://buzzbird/content/images/star-yellow.png'; 
+		f.src='chrome://buzzbird/skin/images/actions/star-yellow.png'; 
 		f.className='mark';
 	}
 	dispatch('countUnread');

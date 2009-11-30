@@ -222,7 +222,7 @@ function formatTweet(tweet,oneTweet,username,password) {
 		+ "   <img class=\"mark\" "
 		+ "        id=\"mark-" + tweet.id + "\" "
 		+ "        name=\"" + tt + "\""
-		+ "        src=\"chrome://buzzbird/content/images/star-yellow.png\" "
+		+ "        src=\"chrome://buzzbird/skin/images/actions/star-yellow.png\" "
 		+ "        style=\"width:16px; height:16px;\""
 		+ "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" "
 		+ "        onmouseover=\"this.style.cursor='pointer';\" />"
@@ -244,10 +244,10 @@ function formatTweet(tweet,oneTweet,username,password) {
 
 	 var t = tweetType(tweet,username,password);
 	 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 }
 	 if (t == 'tweet' || t == 'reply') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 }
 	
 	 // the user.following check does not work, per Issue 474.
@@ -256,21 +256,21 @@ function formatTweet(tweet,oneTweet,username,password) {
 	 // anyway, so I probably shouldn't use it.
 	 //if (user.following == true) {
 		 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-			result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+			result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 		 }
 	 //}
 		
 	 if (!oneTweet) {
 	 	if (t != 'mine') {
-			result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+			result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 	}
 	 }
 	 if (t == 'mine') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
+		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
 	 }
 	
      result = result 
-     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/content/images/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 + via
 	 + "   </span>"
      + "  </div>"

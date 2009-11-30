@@ -136,10 +136,10 @@ function registerEvents() {
 function refreshAllowed(allowed) {
 	if (allowed) {
 		getChromeElement('refreshButtonId').disabled=false;
-		getChromeElement('refreshButtonId').image='chrome://buzzbird/content/images/reload-button-active-20x20.png';		
+		getChromeElement('refreshButtonId').image='chrome://buzzbird/skin/images/buttons/reload-button-active-20x20.png';		
 	} else {
 		getChromeElement('refreshButtonId').disabled=true;
-		getChromeElement('refreshButtonId').image='chrome://buzzbird/content/images/reload-button-disabled-20x20.png';				
+		getChromeElement('refreshButtonId').image='chrome://buzzbird/skin/images/buttons/reload-button-disabled-20x20.png';				
 	}
 }
 
@@ -519,7 +519,7 @@ function countUnread() {
 		jsdump('Counting.');
 		var i = 0;
 		function doWork() {
-			if (markers[i].src == 'chrome://buzzbird/content/images/star-yellow.png') {
+			if (markers[i].src == 'chrome://buzzbird/skin/images/actions/star-yellow.png') {
 				unread.tweet = unread.tweet + 1;
 				if (markers[i].name == "direct-from") {
 					unread.directFrom++;
@@ -574,13 +574,11 @@ function markAllAsRead() {
 	var ids = new Array();
 	var len = markers.length;
 	for (var i=0; i<len; i++) {
-		markers[i].src='chrome://buzzbird/content/images/checkmark-gray.png'; 
+		markers[i].src='chrome://buzzbird/skin/images/actions/checkmark-gray.png'; 
 		ids[i] = markers[i].id;
 	}
 	var len = ids.length;
-	jsdump("ids.length=" + ids.length);
 	for (var i=0; i<len; i++) {
-		jsdump('marking ID ' + ids[i]);
 		getBrowser().contentDocument.getElementById(ids[i]).className='marked';
 	}
 }
@@ -593,7 +591,7 @@ function deleteAllRead() {
 	while (len--) {
 		x = xx[len];
 		// Yes, this is a hack, too.
-		if (x.src == 'chrome://buzzbird/content/images/checkmark-gray.png') {
+		if (x.src == 'chrome://buzzbird/skin/images/actions/checkmark-gray.png') {
 			id = x.id.substring(x.id.indexOf('-')+1);
 			//jsdump( 'x.id ' + x.id + ' became ' + id);
 			removeTweetFromDom(id);
@@ -628,9 +626,9 @@ function speech(val) {
 		getChromeElement('replycheckboxid').checked = false;
 	}
 	if (val) {
-		getChromeElement('openSpeechId').image = 'chrome://buzzbird/content/images/speech-button-active-20x20.png';	
+		getChromeElement('openSpeechId').image = 'chrome://buzzbird/skin/images/buttons/speech-button-active-20x20.png';	
 	} else {
-		getChromeElement('openSpeechId').image = 'chrome://buzzbird/content/images/speech-button-pressed-20x20.png';	
+		getChromeElement('openSpeechId').image = 'chrome://buzzbird/skin/images/buttons/speech-button-pressed-20x20.png';	
 
 	}
 }

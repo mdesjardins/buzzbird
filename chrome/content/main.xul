@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<?xml-stylesheet href="main.css" type="text/css"?>
+<?xml-stylesheet href="chrome://buzzbird/skin/main.css" type="text/css"?>
 <?xul-overlay href="chrome://buzzbird/content/global/globalOverlay.xul"?>
 <?xul-overlay href="chrome://buzzbird/content/global/editMenuOverlay.xul"?>
 
@@ -239,49 +239,49 @@ THE SOFTWARE.
 				<toolbarbutton id="refreshButtonId"
 					       collapsed="true"
 								style="padding:0px 0px 0px 5px; margin:0; width:30px"
-								image="chrome://buzzbird/content/images/reload-button-active-20x20.png" 
-								onmousedown="this.image='chrome://buzzbird/content/images/reload-button-pressed-20x20.png';"
-								onmouseup="this.image='chrome://buzzbird/content/images/reload-button-active-20x20.png';"
+								image="chrome://buzzbird/skin/images/buttons/reload-button-active-20x20.png" 
+								onmousedown="this.image='chrome://buzzbird/skin/images/buttons/reload-button-pressed-20x20.png';"
+								onmouseup="this.image='chrome://buzzbird/skin/images/buttons/reload-button-active-20x20.png';"
 								tooltiptext="&refreshNowCmd.label;"
 								command="cmd_refreshNow" />
 				<toolbarbutton id="markAllAsReadId"
 					       collapsed="true"
 							style="padding:0px 0px 0px 5px; margin:0; width:30px"
-							image="chrome://buzzbird/content/images/check-button-active-20x20.png" 
-							onmousedown="this.image='chrome://buzzbird/content/images/check-button-pressed-20x20.png';"
-							onmouseup="this.image='chrome://buzzbird/content/images/check-button-active-20x20.png';"
+							image="chrome://buzzbird/skin/images/buttons/check-button-active-20x20.png" 
+							onmousedown="this.image='chrome://buzzbird/skin/images/buttons/check-button-pressed-20x20.png';"
+							onmouseup="this.image='chrome://buzzbird/skin/images/buttons/check-button-active-20x20.png';"
 							tooltiptext="&markAllAsReadCmd.label;"
 							command="cmd_markAllAsRead" />
 				<toolbarbutton id="deleteAllReadId"
 					       collapsed="true"
 							style="padding:0px 0px 0px 5px; margin:0; width:30px"
-							image="chrome://buzzbird/content/images/delete-button-active-20x20.png" 
-							onmousedown="this.image='chrome://buzzbird/content/images/delete-button-pressed-20x20.png';"
-							onmouseup="this.image='chrome://buzzbird/content/images/delete-button-active-20x20.png';"
+							image="chrome://buzzbird/skin/images/buttons/delete-button-active-20x20.png" 
+							onmousedown="this.image='chrome://buzzbird/skin/images/buttons/delete-button-pressed-20x20.png';"
+							onmouseup="this.image='chrome://buzzbird/skin/images/buttons/delete-button-active-20x20.png';"
 							tooltiptext="&deleteAllReadCmd.label;"
 							command="cmd_deleteAllRead" />
 				<toolbarbutton id="openSpeechId"
 					       collapsed="true"
 							style="padding:0px 0px 0px 5px; margin:0; width:30px"
-							image="chrome://buzzbird/content/images/speech-button-active-20x20.png" 
-							onmousedown="this.image='chrome://buzzbird/content/images/speech-button-pressed-20x20.png';"
-							onmouseup="this.image='chrome://buzzbird/content/images/speech-button-active-20x20.png';"
+							image="chrome://buzzbird/skin/images/buttons/speech-button-active-20x20.png" 
+							onmousedown="this.image='chrome://buzzbird/skin/images/buttons/speech-button-pressed-20x20.png';"
+							onmouseup="this.image='chrome://buzzbird/skin/images/buttons/speech-button-active-20x20.png';"
 							tooltiptext="&speechCmd.label;"
 							command="cmd_speech" />
 				<toolbarbutton id="shortenUrlId"
 					       collapsed="true"
 								style="padding:0px 0px 0px 5px; margin:0; width:30px"
-								image="chrome://buzzbird/content/images/link-button-active-20x20.png" 
-								onmousedown="this.image='chrome://buzzbird/content/images/link-button-pressed-20x20.png';"
-								onmouseup="this.image='chrome://buzzbird/content/images/link-button-active-20x20.png';"
+								image="chrome://buzzbird/skin/images/buttons/link-button-active-20x20.png" 
+								onmousedown="this.image='chrome://buzzbird/skin/images/buttons/link-button-pressed-20x20.png';"
+								onmouseup="this.image='chrome://buzzbird/skin/images/buttons/link-button-active-20x20.png';"
 								tooltiptext="&shortenUrlCmd.label;"
 								command="cmd_shortenUrl"/>
 				<toolbarbutton id="symbolButtonId" 
 					            collapsed="true"
 								style="padding:0; margin:0; width:30px"
-								image="chrome://buzzbird/content/images/smiley-button-active-20x20.png" 
-								onmousedown="this.image='chrome://buzzbird/content/images/smiley-button-pressed-20x20.png';"
-								onmouseup="this.image='chrome://buzzbird/content/images/smiley-button-active-20x20.png';"
+								image="chrome://buzzbird/skin/images/buttons/smiley-button-active-20x20.png" 
+								onmousedown="this.image='chrome://buzzbird/skin/images/buttons/smiley-button-pressed-20x20.png';"
+								onmouseup="this.image='chrome://buzzbird/skin/images/buttons/smiley-button-active-20x20.png';"
 								type="menu"
 								tooltiptext="&insertSymbolCmd.label;">
 						<menupopup>
