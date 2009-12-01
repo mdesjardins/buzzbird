@@ -164,7 +164,7 @@ function formatTweet(tweet,oneTweet,username,password) {
 	
 	var via = ""
 	if (tweet.source != undefined && tweet.source != null && tweet.source != "") {
-		var re = new RegExp('<a href="(.*?)">(.*?)</a>');
+		var re = new RegExp('<a href="(.*?)" rel="nofollow">(.*?)</a>');
 		var src = re.exec(tweet.source);
 		if (src != undefined && src != null && src.length == 3) {
 			href = src[1]
