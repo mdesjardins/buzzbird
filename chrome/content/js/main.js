@@ -914,3 +914,13 @@ function start() {
 	docViewer.fullZoom = zoom/100.0;
 	fetchAll();
 }
+
+// Stuff for the debugger.
+//
+function toOpenWindowByType(inType, uri) {
+  var winopts = "chrome,extrachrome,menubar,resizable,scrollbars,status,toolbar";
+  window.open(uri, "_blank", winopts);
+}
+function showDebugger() {
+	start_venkman();
+}
