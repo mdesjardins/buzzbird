@@ -44,6 +44,7 @@ THE SOFTWARE.
 	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
+    <script src="chrome://venkman/content/venkman-overlay.js" />
 
 	<commandset id="baseMenuCommandSet">
         <command id="minimizeWindow"
@@ -69,6 +70,7 @@ THE SOFTWARE.
 		<command id="cmd_zoomBigger" oncommand="zoomBigger();" />
 		<command id="cmd_zoomSmaller" oncommand="zoomSmaller();" />
 		<command id="cmd_zoomReset" oncommand="zoomReset();" />
+		<command id="cmd_showDebugger" oncommand="showDebugger();" />
 	</commandset>
 
 	<commandset id="editMenuCommands"/>
@@ -96,6 +98,10 @@ THE SOFTWARE.
 		 	 key="&shortenUrlCmd.key;" 
 		 	 command="cmd_shortenUrl" 
 		 	 modifiers="accel"/>
+		<key id="key_showDebugger"
+		     key="D"
+		     command="cmd_showDebugger"
+		     modifiers="accel"/>
 	</keyset>
 
 
