@@ -959,7 +959,7 @@ function updateToolbar() {
 	var openSpeechButton = getChromeElement('openSpeechId');
 	var shortenUrlButton = getChromeElement('shortenUrlId');
 	var emojiButton = getChromeElement('symbolButtonId');
-	var imagePath = 'chrome://buzzbird/skin/images/new-buttons-2/';
+	var imagePath = 'chrome://buzzbird/skin/images/buttons/';
 	if (small) {
 		imagePath += 'small/';
 	} else {
@@ -1003,7 +1003,7 @@ function updateToolbar() {
 
 function iconPath(name) {
 	var small = getBoolPref('buzzbird.toolbar.small-size');
-	var imagePath = 'chrome://buzzbird/skin/images/new-buttons-2/';
+	var imagePath = 'chrome://buzzbird/skin/images/buttons/';
 	if (small) {
 		imagePath += 'small/';
 	} else {
