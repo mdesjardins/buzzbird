@@ -50,4 +50,6 @@ pref("buzzbird.retweet.format","rt");
 pref("buzzbird.hashtag.destination","hashtags.org");
 pref("buzzbird.window.title","both");
 pref("buzzbird.render.bold-name","handle");
-
+pref("buzzbird.toolbar.show-text",true);
+pref("buzzbird.toolbar.show-icons",true);
+pref("buzzbird.toolbar.small-size",true);

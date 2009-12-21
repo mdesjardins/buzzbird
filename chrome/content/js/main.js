@@ -135,11 +135,11 @@ function registerEvents() {
 //
 function refreshAllowed(allowed) {
 	if (allowed) {
-		getChromeElement('refreshButtonId').disabled=false;
-		getChromeElement('refreshButtonId').image='chrome://buzzbird/skin/images/buttons/reload-button-active-20x20.png';		
+		getChromeElement('refreshButtonId').disabled = false;
+		getChromeElement('refreshButtonId').image = normalIcon('refresh');
 	} else {
-		getChromeElement('refreshButtonId').disabled=true;
-		getChromeElement('refreshButtonId').image='chrome://buzzbird/skin/images/buttons/reload-button-disabled-20x20.png';				
+		getChromeElement('refreshButtonId').disabled = true;
+		getChromeElement('refreshButtonId').image = disabledIcon('refresh');
 	}
 }
 
@@ -626,10 +626,9 @@ function speech(val) {
 		getChromeElement('replycheckboxid').checked = false;
 	}
 	if (val) {
-		getChromeElement('openSpeechId').image = 'chrome://buzzbird/skin/images/buttons/speech-button-active-20x20.png';	
+		getChromeElement('openSpeechId').image = normalIcon('comment-add');
 	} else {
-		getChromeElement('openSpeechId').image = 'chrome://buzzbird/skin/images/buttons/speech-button-pressed-20x20.png';	
-
+		getChromeElement('openSpeechId').image = clickedIcon('comment-add');
 	}
 }
 
@@ -898,6 +897,134 @@ function browserScrolled(e) {
 	}
 }
 
+// Sets the checkboxes correctly on the toolbar's context menu.
+//
+function onToolbarContextMenuOpen() {
+	var icon = getBoolPref('buzzbird.toolbar.show-icons');
+	var text = getBoolPref('buzzbird.toolbar.show-text');
+	var small = getBoolPref('buzzbird.toolbar.small-size');
+
+	getChromeElement('toolbar-context-menu-icon-and-text').setAttribute("checked","false");
+	getChromeElement('toolbar-context-menu-icon-only').setAttribute('checked','false');
+	getChromeElement('toolbar-context-menu-text-only').setAttribute('checked','false');
+
+	if (icon && text) {
+		getChromeElement('toolbar-context-menu-icon-and-text').setAttribute("checked","true");
+	} else {
+		if (icon) {
+			getChromeElement('toolbar-context-menu-icon-only').setAttribute('checked','true');
+		} else {
+			getChromeElement('toolbar-context-menu-text-only').setAttribute('checked','true');
+		}
+	}
+	if (small) {
+		getChromeElement('toolbar-context-menu-use-small-size').setAttribute('checked','true');
+	} else {
+		getChromeElement('toolbar-context-menu-use-small-size').setAttribute('checked','false');
+	}
+	return true;
+}
+
+function toolbarMode(mode) {
+	if (mode == 'icons-and-text') {
+		setBoolPref('buzzbird.toolbar.show-icons',true);
+		setBoolPref('buzzbird.toolbar.show-text',true);
+	} else if (mode == 'icons-only') {
+		setBoolPref('buzzbird.toolbar.show-icons',true);
+		setBoolPref('buzzbird.toolbar.show-text',false);
+	} else if (mode == 'text-only') {
+		setBoolPref('buzzbird.toolbar.show-icons',false);
+		setBoolPref('buzzbird.toolbar.show-text',true);
+	}
+	updateToolbar();
+}
+
+function toggleSmallIcons() {
+	var small = getBoolPref('buzzbird.toolbar.small-size');
+	if (small) {
+		setBoolPref('buzzbird.toolbar.small-size',false);
+	} else {
+		setBoolPref('buzzbird.toolbar.small-size',true);		
+	}
+	updateToolbar();
+}
+
+function updateToolbar() {
+	var icon = getBoolPref('buzzbird.toolbar.show-icons');
+	var text = getBoolPref('buzzbird.toolbar.show-text');
+	var small = getBoolPref('buzzbird.toolbar.small-size');
+	
+	var refreshButton = getChromeElement('refreshButtonId');
+	var markAllAsReadButton = getChromeElement('markAllAsReadId');
+	var openSpeechButton = getChromeElement('openSpeechId');
+	var shortenUrlButton = getChromeElement('shortenUrlId');
+	var emojiButton = getChromeElement('symbolButtonId');
+	var imagePath = 'chrome://buzzbird/skin/images/new-buttons-2/';
+	if (small) {
+		imagePath += 'small/';
+	} else {
+		imagePath += 'large/';
+	}
+	
+	refreshButton.setAttribute('image',imagePath + 'refresh.png');
+	markAllAsReadButton.setAttribute('image',imagePath + 'mark-all.png');
+	openSpeechButton.setAttribute('image',imagePath + 'comment-add.png');
+	shortenUrlButton.setAttribute('image',imagePath + 'shorten-link.png');
+	emojiButton.setAttribute('image',imagePath + 'emoji.png');
+	
+	if (text) {
+		refreshButton.setAttribute('label','Refresh');
+		markAllAsReadButton.setAttribute('label','Mark All');
+		openSpeechButton.setAttribute('label','Post');
+		shortenUrlButton.setAttribute('label','Shorten URL');
+		emojiButton.setAttribute('label','Emoji');
+	} else {
+		refreshButton.removeAttribute('label');
+		markAllAsReadButton.removeAttribute('label');
+		openSpeechButton.removeAttribute('label');
+		shortenUrlButton.removeAttribute('label');
+		emojiButton.removeAttribute('label');
+	}
+	
+	if (icon) {
+		refreshButton.setAttribute('image',normalIcon('refresh'));
+		markAllAsReadButton.setAttribute('image',normalIcon('mark-all'));
+		openSpeechButton.setAttribute('image',normalIcon('comment-add'));
+		shortenUrlButton.setAttribute('image',normalIcon('shorten-link'));
+		emojiButton.setAttribute('image',normalIcon('emoji'));
+	} else {
+		refreshButton.removeAttribute('image');
+		markAllAsReadButton.removeAttribute('image');
+		openSpeechButton.removeAttribute('image');
+		shortenUrlButton.removeAttribute('image');
+		emojiButton.removeAttribute('image');
+	}
+}
+
+function iconPath(name) {
+	var small = getBoolPref('buzzbird.toolbar.small-size');
+	var imagePath = 'chrome://buzzbird/skin/images/new-buttons-2/';
+	if (small) {
+		imagePath += 'small/';
+	} else {
+		imagePath += 'large/';
+	}
+	imagePath += name;
+	return imagePath;
+}
+
+function clickedIcon(name) {
+	return iconPath(name) + "-clicked.png";
+}
+
+function disabledIcon(name) {
+	return iconPath(name) + "-disabled.png";
+}
+
+function normalIcon(name) {
+	return iconPath(name) + ".png";
+}
+
 // Called to initialize the main window from the browser's onload method.
 //
 function start() {
@@ -905,6 +1032,7 @@ function start() {
 	showingAllTweets = getChromeElement('showingAllTweetsId').value;
 	showingReplies = getChromeElement('showingRepliesId').value;
 	showingDirect = getChromeElement('showingDirectId').value;
+	updateToolbar();
 	getChromeElement('toolbarid').collapsed=false;
 	getChromeElement('refreshButtonId').collapsed=false;
 	getChromeElement('markAllAsReadId').collapsed=false;

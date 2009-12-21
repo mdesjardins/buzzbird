@@ -71,6 +71,10 @@ THE SOFTWARE.
 		<command id="cmd_zoomSmaller" oncommand="zoomSmaller();" />
 		<command id="cmd_zoomReset" oncommand="zoomReset();" />
 		<command id="cmd_showDebugger" oncommand="showDebugger();" />
+		<command id="cmd_toolbarIconsAndText" oncommand="toolbarMode('icons-and-text');" />
+		<command id="cmd_toolbarIconsOnly" oncommand="toolbarMode('icons-only');" />
+		<command id="cmd_toolbarTextOnly" oncommand="toolbarMode('text-only');" />
+		<command id="cmd_toolbarToggleSmallIcons" oncommand="toggleSmallIcons();" />
 	</commandset>
 
 	<commandset id="editMenuCommands"/>
@@ -225,15 +229,24 @@ THE SOFTWARE.
                 accesskey="&selectAllCmd.accesskey;"
                 command="cmd_selectAll"/>      
     </popup>
+
+	<menupopup id="toolbar-context-menu" onpopupshowing="onToolbarContextMenuOpen();">
+	  <menuitem id="toolbar-context-menu-icon-and-text" type="checkbox" label="Icon and Text" command="cmd_toolbarIconsAndText"/>
+	  <menuitem id="toolbar-context-menu-icon-only" type="checkbox" label="Icon Only" command="cmd_toolbarIconsOnly"/>
+	  <menuitem id="toolbar-context-menu-text-only" type="checkbox" label="Text Only" command="cmd_toolbarTextOnly"/>
+	  <menuseparator/>
+  	  <menuitem id="toolbar-context-menu-use-small-size" type="checkbox" persist="false" label="Use Small Size" command="cmd_toolbarToggleSmallIcons"/>
+	</menupopup>
     
     <!-- =================== -->
 	<!-- Actual Window Stuff -->
     <!-- =================== -->
 
-    <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true" style="border:0;">
+    <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true" style="border:0;" context="toolbar-context-menu">
 		<vbox flex="5">
 			<hbox pack="5">
-				<label id="realnameLabelId" value="Testy Tester" style="padding:10px 0px 0px 9px; margin:0px 0px 0px 0px; font-size:1.1em;" hidden="true"/>
+				<!-- Hidden thingies -->
+				<label id="realnameLabelId" value="Testy Tester" hidden="true"/>
 				<label id="usernameLabelId" value="" hidden="true" />
 				<label id="passwordLabelId" hidden="true" />
 				<label id="updateTimerId" hidden="true" />
@@ -243,53 +256,55 @@ THE SOFTWARE.
 				<label id="showingDirectId" hidden="true" value="&showingDirect.label;" />
 				<label id="replyTweetId" hidden="true" value="0" />
 				<toolbarbutton id="refreshButtonId"
-					       collapsed="true"
-								style="padding:0px 0px 0px 5px; margin:0; width:30px"
-								image="chrome://buzzbird/skin/images/buttons/reload-button-active-20x20.png" 
-								onmousedown="this.image='chrome://buzzbird/skin/images/buttons/reload-button-pressed-20x20.png';"
-								onmouseup="this.image='chrome://buzzbird/skin/images/buttons/reload-button-active-20x20.png';"
-								tooltiptext="&refreshNowCmd.label;"
-								command="cmd_refreshNow" />
+					collapsed="true"
+					label="Reload"
+					orient="vertical"
+					style="width:60px;"
+					image="chrome://buzzbird/skin/images/new-buttons-2/large/refresh.png" 
+					onmousedown="this.image=clickedIcon('refresh');"
+					onmouseup="this.image=normalIcon('refresh');"
+					tooltiptext="&refreshNowCmd.label;"
+					command="cmd_refreshNow" />
 				<toolbarbutton id="markAllAsReadId"
-					       collapsed="true"
-							style="padding:0px 0px 0px 5px; margin:0; width:30px"
-							image="chrome://buzzbird/skin/images/buttons/check-button-active-20x20.png" 
-							onmousedown="this.image='chrome://buzzbird/skin/images/buttons/check-button-pressed-20x20.png';"
-							onmouseup="this.image='chrome://buzzbird/skin/images/buttons/check-button-active-20x20.png';"
-							tooltiptext="&markAllAsReadCmd.label;"
-							command="cmd_markAllAsRead" />
-				<toolbarbutton id="deleteAllReadId"
-					       collapsed="true"
-							style="padding:0px 0px 0px 5px; margin:0; width:30px"
-							image="chrome://buzzbird/skin/images/buttons/delete-button-active-20x20.png" 
-							onmousedown="this.image='chrome://buzzbird/skin/images/buttons/delete-button-pressed-20x20.png';"
-							onmouseup="this.image='chrome://buzzbird/skin/images/buttons/delete-button-active-20x20.png';"
-							tooltiptext="&deleteAllReadCmd.label;"
-							command="cmd_deleteAllRead" />
+					collapsed="true"
+					label="Mark All"
+					orient="vertical"
+					style="width:60px;"
+					image="chrome://buzzbird/skin/images/new-buttons-2/large/mark-all.png" 
+					onmousedown="this.image=clickedIcon('mark-all');"
+					onmouseup="this.image=normalIcon('mark-all');"
+					tooltiptext="&markAllAsReadCmd.label;"
+					command="cmd_markAllAsRead" />
 				<toolbarbutton id="openSpeechId"
-					       collapsed="true"
-							style="padding:0px 0px 0px 5px; margin:0; width:30px"
-							image="chrome://buzzbird/skin/images/buttons/speech-button-active-20x20.png" 
-							onmousedown="this.image='chrome://buzzbird/skin/images/buttons/speech-button-pressed-20x20.png';"
-							onmouseup="this.image='chrome://buzzbird/skin/images/buttons/speech-button-active-20x20.png';"
-							tooltiptext="&speechCmd.label;"
-							command="cmd_speech" />
+					collapsed="true"
+					label="Post"
+					orient="vertical"
+					image="chrome://buzzbird/skin/images/new-buttons-2/large/comment-add.png" 
+					style="width:60px;"
+					onmousedown="this.image=clickedIcon('comment-add');"
+					onmouseup="this.image=normalIcon('comment-add');"
+					tooltiptext="&speechCmd.label;"
+					command="cmd_speech" />
 				<toolbarbutton id="shortenUrlId"
-					       collapsed="true"
-								style="padding:0px 0px 0px 5px; margin:0; width:30px"
-								image="chrome://buzzbird/skin/images/buttons/link-button-active-20x20.png" 
-								onmousedown="this.image='chrome://buzzbird/skin/images/buttons/link-button-pressed-20x20.png';"
-								onmouseup="this.image='chrome://buzzbird/skin/images/buttons/link-button-active-20x20.png';"
-								tooltiptext="&shortenUrlCmd.label;"
-								command="cmd_shortenUrl"/>
+					collapsed="true"
+					label="Shorten Link"
+					style="width:60px"
+					orient="vertical"
+					image="chrome://buzzbird/skin/images/new-buttons-2/large/shorten-link.png" 
+					onmousedown="this.image=clickedIcon('shorten-link');"
+					onmouseup="this.image=normalIcon('shorten-link');"
+					tooltiptext="&shortenUrlCmd.label;"
+					command="cmd_shortenUrl"/>
 				<toolbarbutton id="symbolButtonId" 
-					            collapsed="true"
-								style="padding:0; margin:0; width:30px"
-								image="chrome://buzzbird/skin/images/buttons/smiley-button-active-20x20.png" 
-								onmousedown="this.image='chrome://buzzbird/skin/images/buttons/smiley-button-pressed-20x20.png';"
-								onmouseup="this.image='chrome://buzzbird/skin/images/buttons/smiley-button-active-20x20.png';"
-								type="menu"
-								tooltiptext="&insertSymbolCmd.label;">
+					collapsed="true"
+					label="Emoji"
+					style="width:70px"
+					orient="vertical"					
+					image="chrome://buzzbird/skin/images/new-buttons-2/large/emoji.png" 
+					onmousedown="this.image=clickedIcon('emoji');"
+					onmouseup="this.image=normalIcon('emoji');"
+					type="menu"
+					tooltiptext="&insertSymbolCmd.label;">
 						<menupopup>
 							<menuitem label="&#x2764;" oncommand="appendText('&#x2764;');" /> <!-- Heart -->
 							<menuitem label="&#x266C;" oncommand="appendText('&#x266C;');" /> <!-- Beamed Sixteenth Notes -->
@@ -318,6 +333,7 @@ THE SOFTWARE.
 					       style="font-size:0.9em;"
 						   oncommand="showAccountMenu();">
 		    		<menupopup id="accountbuttonmenuid" selectedIndex="0" style="padding:0px; margin:0px;">
+						<!-- Populated programatically -->
 		    		</menupopup>
 				</toolbarbutton>
 				
@@ -342,8 +358,7 @@ THE SOFTWARE.
 				     color:#fff;
 				     margin-left:4px;
 					 margin-right:4px;
-                     padding-left:3px; 
-                     padding-right:3px;">
+                     padding:0 3px 0 3px;">
 					<checkbox id="replycheckboxid" label="Reply?" hidden="true" />
 					<box flex="100"/>
 					<toolbarbutton onmousedown="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient-pressed.png)';"
