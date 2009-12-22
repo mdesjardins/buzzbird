@@ -285,82 +285,84 @@ THE SOFTWARE.
 					onmouseup="this.image=normalIcon('comment-add');"
 					tooltiptext="&speechCmd.label;"
 					command="cmd_speech" />
-				<toolbarbutton id="shortenUrlId"
-					collapsed="true"
-					label="Shorten Link"
-					style="width:60px"
-					orient="vertical"
-					image="chrome://buzzbird/skin/images/buttons/large/shorten-link.png" 
-					onmousedown="this.image=clickedIcon('shorten-link');"
-					onmouseup="this.image=normalIcon('shorten-link');"
-					tooltiptext="&shortenUrlCmd.label;"
-					command="cmd_shortenUrl"/>
-				<toolbarbutton id="symbolButtonId" 
-					collapsed="true"
-					label="Emoji"
-					style="width:70px"
-					orient="vertical"					
-					image="chrome://buzzbird/skin/images/buttons/large/emoji.png" 
-					onmousedown="this.image=clickedIcon('emoji');"
-					onmouseup="this.image=normalIcon('emoji');"
-					type="menu"
-					tooltiptext="&insertSymbolCmd.label;">
-						<menupopup>
-							<menuitem label="&#x2764;" oncommand="appendText('&#x2764;');" /> <!-- Heart -->
-							<menuitem label="&#x266C;" oncommand="appendText('&#x266C;');" /> <!-- Beamed Sixteenth Notes -->
-							<menuitem label="&#x263A;" oncommand="appendText('&#x263A;');" /> <!-- Smiley -->
-							<menuitem label="&#x2639;" oncommand="appendText('&#x2639;');" /> <!-- Sad -->
-							<menuitem label="&#x2708;" oncommand="appendText('&#x2708;');" /> <!-- Airplane -->
-							<menuitem label="&#x2709;" oncommand="appendText('&#x2709;');" /> <!-- Envelope -->
-							<menuitem label="&#x270E;" oncommand="appendText('&#x270E;');" /> <!-- Pencil -->
-							<menuitem label="&#x271D;" oncommand="appendText('&#x271D;');" /> <!-- Cross -->
-							<menuitem label="&#x273F;" oncommand="appendText('&#x273F;');" /> <!-- Flower -->
-							<menuitem label="&#x2704;" oncommand="appendText('&#x2704;');" /> <!-- Scissors -->
-							<menuitem label="&#x261E;" oncommand="appendText('&#x261E;');" /> <!-- Pointing Finger -->
-							<menuitem label="&#x2620;" oncommand="appendText('&#x2620;');" /> <!-- Skull and Crossbones -->
-							<menuitem label="&#x262E;" oncommand="appendText('&#x262E;');" /> <!-- Peace -->
-							<menuitem label="&#x262F;" oncommand="appendText('&#x262F;');" /> <!-- Yin Yang -->
-							<menuitem label="&#x2600;" oncommand="appendText('&#x2600;');" /> <!-- Sun -->
-							<menuitem label="&#x2601;" oncommand="appendText('&#x2601;');" /> <!-- Cloud -->
-							<menuitem label="&#x2602;" oncommand="appendText('&#x2602;');" /> <!-- Umbrella -->
-							<menuitem label="&#x2744;" oncommand="appendText('&#x2744;');" /> <!-- Snowflake -->
-							<menuitem label="&#x2603;" oncommand="appendText('&#x2603;');" /> <!-- Snowman -->
-						</menupopup>
-				</toolbarbutton>
 				<spacer flex="10" />
-				<toolbarbutton id="accountbuttonid" 
-					       type="menu-button" 
-					       style="font-size:0.9em;"
-						   oncommand="showAccountMenu();">
-		    		<menupopup id="accountbuttonmenuid" selectedIndex="0" style="padding:0px; margin:0px;">
-						<!-- Populated programatically -->
-		    		</menupopup>
-				</toolbarbutton>
-				
-				<toolbarbutton id="filterbuttonid" 
-					       type="menu-button" 
-					       label="&showingAllTweets.label;" 
-					       style="font-size:0.9em;"
-						   oncommand="showFilterMenu();">
-		    		<menupopup id="filtermenupopupid" selectedIndex="0" style="padding:0px; margin:0px;">
-		        		<menuitem label="&showAllTweets.label;" value="1" oncommand="showAllTweets();"/>
-		        		<menuitem label="&showReplies.label;" value="2" oncommand="showResponses();"/>
-		        		<menuitem label="&showDirect.label;" value="3" oncommand="showDirect();"/>
-		    		</menupopup>
-				</toolbarbutton>
+				<vbox>
+					<spacer flex="10"/>
+					<toolbarbutton id="accountbuttonid" 
+						       type="menu-button" 
+						       style="font-size:0.9em;"
+							   oncommand="showAccountMenu();">
+			    		<menupopup id="accountbuttonmenuid" selectedIndex="0" style="padding:0px; margin:0px;">
+							<!-- Populated programatically -->
+			    		</menupopup>
+					</toolbarbutton>
+				</vbox>
+				<vbox>				
+					<spacer flex="10"/>
+					<toolbarbutton id="filterbuttonid" 
+						       type="menu-button" 
+						       label="&showingAllTweets.label;" 
+						       style="font-size:0.9em;"
+							   oncommand="showFilterMenu();">
+			    		<menupopup id="filtermenupopupid" selectedIndex="0" style="padding:0px; margin:0px;">
+			        		<menuitem label="&showAllTweets.label;" value="1" oncommand="showAllTweets();"/>
+			        		<menuitem label="&showReplies.label;" value="2" oncommand="showResponses();"/>
+			        		<menuitem label="&showDirect.label;" value="3" oncommand="showDirect();"/>
+			    		</menupopup>
+					</toolbarbutton>
+				</vbox>
 			</hbox>
 			<vbox flex="5" width="100%">
 				<box id="speechheaderid"
 				     width="100%" 
-				     height="10" 
 				     collapsed="true"
 				     style="background-color:#666; 
 				     color:#fff;
+					 height:24px;
 				     margin-left:4px;
 					 margin-right:4px;
                      padding:0 3px 0 3px;">
-					<checkbox id="replycheckboxid" label="Reply?" hidden="true" />
-					<box flex="100"/>
+
+					<toolbarbutton id="shortenUrlId"
+						collapsed="true"
+						style="height:20px; margin:0; width:20px;"
+						image="chrome://buzzbird/skin/images/buttons/link-button-active-20x20.png" 
+						onmousedown="this.image='chrome://buzzbird/skin/images/buttons/link-button-pressed-20x20.png';"
+						onmouseup="this.image='chrome://buzzbird/skin/images/buttons/link-button-active-20x20.png';"
+						tooltiptext="&shortenUrlCmd.label;"
+						command="cmd_shortenUrl"/>
+
+					<toolbarbutton id="symbolButtonId" 
+						collapsed="true"
+						image="chrome://buzzbird/skin/images/buttons/smiley-button-active-20x20.png" 
+						onmousedown="this.image='chrome://buzzbird/skin/images/buttons/smiley-button-pressed-20x20.png';"
+						onmouseup="this.image='chrome://buzzbird/skin/images/buttons/smiley-button-active-20x20.png';"
+						type="menu"
+						tooltiptext="&insertSymbolCmd.label;">
+							<menupopup>
+								<menuitem label="&#x2764;" oncommand="appendText('&#x2764;');" /> <!-- Heart -->
+								<menuitem label="&#x266C;" oncommand="appendText('&#x266C;');" /> <!-- Beamed Sixteenth Notes -->
+								<menuitem label="&#x263A;" oncommand="appendText('&#x263A;');" /> <!-- Smiley -->
+								<menuitem label="&#x2639;" oncommand="appendText('&#x2639;');" /> <!-- Sad -->
+								<menuitem label="&#x2708;" oncommand="appendText('&#x2708;');" /> <!-- Airplane -->
+								<menuitem label="&#x2709;" oncommand="appendText('&#x2709;');" /> <!-- Envelope -->
+								<menuitem label="&#x270E;" oncommand="appendText('&#x270E;');" /> <!-- Pencil -->
+								<menuitem label="&#x271D;" oncommand="appendText('&#x271D;');" /> <!-- Cross -->
+								<menuitem label="&#x273F;" oncommand="appendText('&#x273F;');" /> <!-- Flower -->
+								<menuitem label="&#x2704;" oncommand="appendText('&#x2704;');" /> <!-- Scissors -->
+								<menuitem label="&#x261E;" oncommand="appendText('&#x261E;');" /> <!-- Pointing Finger -->
+								<menuitem label="&#x2620;" oncommand="appendText('&#x2620;');" /> <!-- Skull and Crossbones -->
+								<menuitem label="&#x262E;" oncommand="appendText('&#x262E;');" /> <!-- Peace -->
+								<menuitem label="&#x262F;" oncommand="appendText('&#x262F;');" /> <!-- Yin Yang -->
+								<menuitem label="&#x2600;" oncommand="appendText('&#x2600;');" /> <!-- Sun -->
+								<menuitem label="&#x2601;" oncommand="appendText('&#x2601;');" /> <!-- Cloud -->
+								<menuitem label="&#x2602;" oncommand="appendText('&#x2602;');" /> <!-- Umbrella -->
+								<menuitem label="&#x2744;" oncommand="appendText('&#x2744;');" /> <!-- Snowflake -->
+								<menuitem label="&#x2603;" oncommand="appendText('&#x2603;');" /> <!-- Snowman -->
+							</menupopup>
+					</toolbarbutton>
+					<checkbox id="replycheckboxid" style="margin-left:14px;" label="Reply?" hidden="true" />
+					<box flex="50"/>
 					<toolbarbutton onmousedown="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient-pressed.png)';"
 					               onmouseup="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient.png)';"
 					               onmouseover="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient-light.png)';"
@@ -370,11 +372,11 @@ THE SOFTWARE.
 					                      background-image:url(chrome://buzzbird/content/images/silver-gradient.png);
 					                      border-color:#111;
 					                      color:#111;
-					                      margin:2px;
+					                      margin:4px;
 					                      width:50px; 
 					                      height:5px; 
 					                      padding:0px;
-					                      -moz-border-radius: 15px;
+					                      -moz-border-radius: 5px;
 					                      font-size:9px;
 					                      font-weight:bold;" label="Post"/>
 				</box>
