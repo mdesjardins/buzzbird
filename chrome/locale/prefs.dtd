@@ -22,10 +22,10 @@
 
 <!ENTITY retweetFormatPref.label         "Retweet Format"> 
 <!ENTITY retweetFormatPref.accesskey       "R"> 
-<!ENTITY retweetFormatRtPref.label         "RT @handle: Tweet">
-<!ENTITY retweetFormatViaPref.label         "Tweet (via @handle)">
+<!ENTITY retweetFormatRtPref.label         "RT @screenname: Tweet">
+<!ENTITY retweetFormatViaPref.label         "Tweet (via @screenname)">
 
-<!ENTITY hashtagDestinationPref.label	"Clicking a Hashtag goes to...">
+<!ENTITY hashtagDestinationPref.label	"Clicking a Hashtag goes to">
 <!ENTITY hashtagDestinationPref.accesskey	"H">
 <!ENTITY hashtagDestinationHashtagsOrgPref.label "hashtags.org">
 <!ENTITY hashtagDestinationSearchTwitterComPref.label "search.twitter.com">
@@ -40,9 +40,9 @@
 <!ENTITY boldfaceNamePref.label	"Name emphasised in display">
 <!ENTITY boldfaceNamePref.accesskey	"E">
 <!ENTITY boldfaceNameRealNamePref.label "Real Name">
-<!ENTITY boldfaceNameHandlePref.label "Handle (Screen Name)">
+<!ENTITY boldfaceNameHandlePref.label "Screen Name">
 
-<!ENTITY autoMarkOldTweetsAsRead.label         "Automatically mark old tweets as read after update">
+<!ENTITY autoMarkOldTweetsAsRead.label         "Auto-mark old tweets as read">
 
 <!ENTITY prefForgetAccount.label         "Forget Saved Account Data">
 

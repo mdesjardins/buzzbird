@@ -34,8 +34,8 @@ THE SOFTWARE.
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 			type="prefwindow"
 			windowtype="Browser:Preferences"
-			width="500" 
-	        height="300">
+			width="550" 
+	        height="320">
    
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
@@ -52,8 +52,10 @@ THE SOFTWARE.
 			<preference id="boldfaceName" name="buzzbird.render.bold-name" type="string"/>
     	</preferences>
 		<vbox>
-			<hbox>
-				<label control="menulist_updateInterval" value="&updateIntervalPref.label;" />
+			<hbox style="padding-bottom:10px;">
+				<box width="200" align="right">
+					<label control="menulist_updateInterval" value="&updateIntervalPref.label;" />
+				</box>
 			    <menulist id="menulist_updateInterval" preference="updateInterval"
 			              accesskey="&updateIntervalPref.accesskey;">
 					<menupopup>
@@ -64,8 +66,11 @@ THE SOFTWARE.
 					</menupopup>
 				</menulist>
 			</hbox>
-			<hbox>
-				<label control="menulist_retweetFormat" value="&retweetFormatPref.label;" /> 
+			
+			<hbox style="padding-bottom:10px;">
+				<box width="200" align="right">
+					<label control="menulist_retweetFormat" value="&retweetFormatPref.label;" /> 
+				</box>
 				<menulist id="menulist_retweetFormat" preference="retweetFormat"
 			              accesskey="&retweetFormatPref.accesskey;">
 					<menupopup>
@@ -74,8 +79,11 @@ THE SOFTWARE.
 					</menupopup>
 				</menulist>
 		    </hbox>
-			<hbox>
-				<label control="menulist_hashtagDestination" value="&hashtagDestinationPref.label;" /> 
+			
+			<hbox style="padding-bottom:10px;">
+				<box width="200" align="right">
+					<label control="menulist_hashtagDestination" value="&hashtagDestinationPref.label;" /> 
+				</box>
 				<menulist id="menulist_hashtagDestination" preference="hashtagDestination"
 			              accesskey="&hashtagDestinationPref.accesskey;">
 					<menupopup>
@@ -85,8 +93,10 @@ THE SOFTWARE.
 				</menulist>
 		    </hbox>
 
-			<hbox>
-				<label control="menulist_windowTitle" value="&windowTitlePref.label;" /> 
+			<hbox style="padding-bottom:10px;">
+				<box width="200" align="right">
+					<label control="menulist_windowTitle" value="&windowTitlePref.label;" /> 
+				</box>
 				<menulist id="menulist_windowTitle" preference="windowTitle"
 			              accesskey="&windowTitlePref.accesskey;">
 					<menupopup>
@@ -98,8 +108,10 @@ THE SOFTWARE.
 				</menulist>
 		    </hbox>
 
-			<hbox>
-				<label control="menulist_boldfaceName" value="&boldfaceNamePref.label;" /> 
+			<hbox style="padding-bottom:10px;">
+				<box width="200" align="right">
+					<label control="menulist_boldfaceName" value="&boldfaceNamePref.label;" /> 
+				</box>
 				<menulist id="menulist_boldfaceName" preference="boldfaceName"
 			              accesskey="&boldfaceNamePref.accesskey;">
 					<menupopup>
@@ -109,22 +121,15 @@ THE SOFTWARE.
 				</menulist>
 		    </hbox>
 
-
-			<hbox>
-				<label control="checkbox_autoMarkOldTweetsAsRead" value="&autoMarkOldTweetsAsRead.label;" /> 
+			<hbox style="padding-bottom:10px;">
+				<box width="200" align="right">
+					<label control="checkbox_autoMarkOldTweetsAsRead" value="&autoMarkOldTweetsAsRead.label;" /> 
+				</box>
 				<checkbox id="checkbox_autoMarkOldTweetsAsRead" preference="autoMarkOldTweetsAsRead" />
 			</hbox>
 		</vbox>
 	</prefpane>
-	<!--
-	 superceded by the multi-account pane.
-	<prefpane id="paneAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/content/images/prefs-accounts.png">
-		<preferences></preferences>
-		<label value="Yeah, this is pretty lame right now."/>
-		<label value="It'll get better in the next release!"/>
-		<button label="&prefForgetAccount.label;" oncommand="forgetCredentials();" />
-	</prefpane>
-	-->
+
 	<prefpane id="paneMultiAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/content/images/prefs-accounts.png">
 		<preferences></preferences>
 		<listbox id="richlistbox_accounts" onclick="loginListClicked();">
