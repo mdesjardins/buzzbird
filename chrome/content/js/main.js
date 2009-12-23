@@ -969,35 +969,25 @@ function updateToolbar() {
 	refreshButton.setAttribute('image',imagePath + 'refresh.png');
 	markAllAsReadButton.setAttribute('image',imagePath + 'mark-all.png');
 	openSpeechButton.setAttribute('image',imagePath + 'comment-add.png');
-//	shortenUrlButton.setAttribute('image',imagePath + 'shorten-link.png');
-//	emojiButton.setAttribute('image',imagePath + 'emoji.png');
 	
 	if (text) {
 		refreshButton.setAttribute('label','Refresh');
 		markAllAsReadButton.setAttribute('label','Mark All');
 		openSpeechButton.setAttribute('label','Post');
-//		shortenUrlButton.setAttribute('label','Shorten URL');
-//		emojiButton.setAttribute('label','Emoji');
 	} else {
 		refreshButton.removeAttribute('label');
 		markAllAsReadButton.removeAttribute('label');
 		openSpeechButton.removeAttribute('label');
-//		shortenUrlButton.removeAttribute('label');
-//		emojiButton.removeAttribute('label');
 	}
 	
 	if (icon) {
 		refreshButton.setAttribute('image',normalIcon('refresh'));
 		markAllAsReadButton.setAttribute('image',normalIcon('mark-all'));
 		openSpeechButton.setAttribute('image',normalIcon('comment-add'));
-//		shortenUrlButton.setAttribute('image',normalIcon('shorten-link'));
-//		emojiButton.setAttribute('image',normalIcon('emoji'));
 	} else {
 		refreshButton.removeAttribute('image');
 		markAllAsReadButton.removeAttribute('image');
 		openSpeechButton.removeAttribute('image');
-//		shortenUrlButton.removeAttribute('image');
-//		emojiButton.removeAttribute('image');
 	}
 }
 
@@ -1014,15 +1004,18 @@ function iconPath(name) {
 }
 
 function clickedIcon(name) {
-	return iconPath(name) + "-clicked.png";
+	var show = getBoolPref('buzzbird.toolbar.show-icons');
+	return show ? iconPath(name) + "-clicked.png" : null;
 }
 
 function disabledIcon(name) {
-	return iconPath(name) + "-disabled.png";
+	var show = getBoolPref('buzzbird.toolbar.show-icons');
+	return show ? iconPath(name) + "-disabled.png" : null;
 }
 
 function normalIcon(name) {
-	return iconPath(name) + ".png";
+	var show = getBoolPref('buzzbird.toolbar.show-icons');
+	return show ? iconPath(name) + ".png" : null;
 }
 
 // Called to initialize the main window from the browser's onload method.
