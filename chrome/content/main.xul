@@ -321,22 +321,21 @@ THE SOFTWARE.
 					 height:24px;
 				     margin-left:4px;
 					 margin-right:4px;
-                     padding:0 3px 0 3px;">
+                     padding:0 4px 0 4px;">
 
 					<toolbarbutton id="shortenUrlId"
 						collapsed="true"
-						style="height:20px; margin:0; width:20px;"
-						image="chrome://buzzbird/skin/images/buttons/link-button-active-20x20.png" 
-						onmousedown="this.image='chrome://buzzbird/skin/images/buttons/link-button-pressed-20x20.png';"
-						onmouseup="this.image='chrome://buzzbird/skin/images/buttons/link-button-active-20x20.png';"
+						image="chrome://buzzbird/skin/images/buttons/Link.png" 
+						onmousedown="this.image='chrome://buzzbird/skin/images/buttons/Link-Pressed.png';"
+						onmouseup="this.image='chrome://buzzbird/skin/images/buttons/Link.png';"
 						tooltiptext="&shortenUrlCmd.label;"
 						command="cmd_shortenUrl"/>
 
 					<toolbarbutton id="symbolButtonId" 
 						collapsed="true"
-						image="chrome://buzzbird/skin/images/buttons/smiley-button-active-20x20.png" 
-						onmousedown="this.image='chrome://buzzbird/skin/images/buttons/smiley-button-pressed-20x20.png';"
-						onmouseup="this.image='chrome://buzzbird/skin/images/buttons/smiley-button-active-20x20.png';"
+						image="chrome://buzzbird/skin/images/buttons/Smiley1.png" 
+						onmousedown="this.image='chrome://buzzbird/skin/images/buttons/Smiley1-Pressed.png';"
+						onmouseup="this.image='chrome://buzzbird/skin/images/buttons/Smiley1.png';"
 						type="menu"
 						tooltiptext="&insertSymbolCmd.label;">
 							<menupopup>
