@@ -316,12 +316,7 @@ THE SOFTWARE.
 				<box id="speechheaderid"
 				     width="100%" 
 				     collapsed="true"
-				     style="background-color:#666; 
-				     color:#fff;
-					 height:24px;
-				     margin-left:4px;
-					 margin-right:4px;
-                     padding:0 4px 0 4px;">
+				     style="">
 
 					<toolbarbutton id="shortenUrlId"
 						collapsed="true"
@@ -362,22 +357,13 @@ THE SOFTWARE.
 					</toolbarbutton>
 					<checkbox id="replycheckboxid" style="margin-left:14px;" label="Reply?" hidden="true" />
 					<box flex="50"/>
-					<toolbarbutton onmousedown="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient-pressed.png)';"
-					               onmouseup="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient.png)';"
-					               onmouseover="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient-light.png)';"
-					               onmouseout="this.style.backgroundImage='url(chrome://buzzbird/content/images/silver-gradient.png)';"
+					<toolbarbutton id="postbuttonid"
+					               onmousedown="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-inverse.png)';"
+					               onmouseup="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';"
+					               onmouseover="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-hover.png)';"
+					               onmouseout="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';"
 					               oncommand="postTweet();"
-					               style="background-color:#ccc;
-					                      background-image:url(chrome://buzzbird/content/images/silver-gradient.png);
-					                      border-color:#111;
-					                      color:#111;
-					                      margin:4px;
-					                      width:50px; 
-					                      height:5px; 
-					                      padding:0px;
-					                      -moz-border-radius: 5px;
-					                      font-size:9px;
-					                      font-weight:bold;" label="Post"/>
+					               style="" label="Post"/>
 				</box>
 				<textbox id="textboxid" 
 				          multiline="true" 

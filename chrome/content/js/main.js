@@ -119,6 +119,7 @@ function registerEvents() {
 	jsdump('register events')
 	try {
 		getMainWindow().document.addEventListener("fetchAll", fetchAll, false); 
+		getMainWindow().document.addEventListener("fetchWithRetweets", fetchWithRetweets, false); 
 		getMainWindow().document.addEventListener("fetch", fetch, false); 
 		getMainWindow().document.addEventListener("start", start, false); 
 		getMainWindow().document.addEventListener("openSpeech", getMainWindow().openSpeech, false); 
@@ -293,8 +294,8 @@ function fetchUrl(destinations) {
 		countUnread();
 		setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
 	} else {
-		var since = url.match('home_timeline') ? mostRecentTweet : mostRecentDirect;
-		if ((url.match('home_timeline') || url.match('direct_messages')) && since != null) {
+		var since = (url.match('home_timeline') || url.match('retweeted_by_me')) ? mostRecentTweet : mostRecentDirect;
+		if ((url.match('home_timeline') || url.match('retweeted_by_me') || url.match('direct_messages')) && since != null) {
 			url = url + '?since_id=' + since;
 		}
 		jsdump('fetching ===>' + url);
@@ -322,6 +323,12 @@ function fetch() {
 	// Don't think we need this check anymore, but I'm superstitious...
 	if(typeof fetchUrl === 'function') {
 		fetchUrl(['http://twitter.com/statuses/home_timeline.json','http://twitter.com/direct_messages.json']);
+	}
+}
+function fetchWithRetweets() {
+	// Don't think we need this check anymore, but I'm superstitious...
+	if(typeof fetchUrl === 'function') {
+		fetchUrl(['http://twitter.com/statuses/home_timeline.json','http://twitter.com/direct_messages.json','http://twitter.com/statuses/retweeted_by_me.json']);
 	}
 }
 

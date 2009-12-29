@@ -190,9 +190,10 @@ function retweet(id) {
 		new Ajax.Request(url,
 			{
 				method:'post',
+				parameters:'source=buzzbird',
 				httpUserName: getUsername(),
 				httpPassword: getPassword(),
-			    onSuccess: function() { retweetCallback(text); },
+			    onSuccess: function() { dispatch('fetchWithRetweets'); },
 			    onFailure: function() { 
 					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 					                        .getService(Components.interfaces.nsIPromptService);
@@ -205,30 +206,6 @@ function retweet(id) {
 		dispatch('openSpeech');
 		dispatch('updateTweetLength');
 	}
-}
- 
-function retweetCallback(text) {
-	var tweet = {
-		id : 0,
-		text : "",
-		created_at : new Date(),
-		sender : "",
-		user : {
-		   	screen_name : "",
-			profile_image_url : "",
-			name : ""
-		},
-		source : ""
-	};
-	tweet.text = text;
-	tweet.sender = getUsername();
-	tweet.user.screen_name = getUsername();
-	tweet.user.profile_image_url = getChromeElement("avatarLabelId").value;
-	tweet.user.name = getChromeElement("realnameLabelId").value;
-	tweet.in_reply_to_screen_name = "";
-	tweet.sender = undefined;
-	jsdump('rendering ' + text);
-	insertAtTop(formatTweet(tweet,false,getUsername(),getPassword()));
 }
 
 // Favorite
