@@ -234,7 +234,7 @@ function renderNewTweets(url,newTweets) {
 
 		var newText = '';
 		for (var i=0; i<newTweets.length; i++) {
-			if (url.match('friends_timeline') && (mostRecentTweet == null || mostRecentTweet < newTweets[i].id)) {
+			if (url.match('home_timeline') && (mostRecentTweet == null || mostRecentTweet < newTweets[i].id)) {
 				mostRecentTweet = newTweets[i].id;
 				jsdump('mostRecentTweet:' + mostRecentTweet);
 			} else if (url.match('direct_messages') && (mostRecentDirect == null || mostRecentDirect < newTweets[i].id)) {
@@ -293,8 +293,8 @@ function fetchUrl(destinations) {
 		countUnread();
 		setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
 	} else {
-		var since = url.match('friends_timeline') ? mostRecentTweet : mostRecentDirect;
-		if ((url.match('friends_timeline') || url.match('direct_messages')) && since != null) {
+		var since = url.match('home_timeline') ? mostRecentTweet : mostRecentDirect;
+		if ((url.match('home_timeline') || url.match('direct_messages')) && since != null) {
 			url = url + '?since_id=' + since;
 		}
 		jsdump('fetching ===>' + url);
@@ -311,7 +311,7 @@ function fetchUrl(destinations) {
 
 function fetchAll() {
 	jsdump('in fetchAll');
-	fetchUrl(['http://twitter.com/direct_messages.json','http://twitter.com/statuses/mentions.json','http://twitter.com/statuses/friends_timeline.json?count=50']);
+	fetchUrl(['http://twitter.com/direct_messages.json','http://twitter.com/statuses/mentions.json','http://twitter.com/statuses/home_timeline.json?count=50']);
 }
 function fetch() {
 	var markAsReadNow = getBoolPref("buzzbird.auto.markread",false);
@@ -321,7 +321,7 @@ function fetch() {
 	
 	// Don't think we need this check anymore, but I'm superstitious...
 	if(typeof fetchUrl === 'function') {
-		fetchUrl(['http://twitter.com/statuses/friends_timeline.json','http://twitter.com/direct_messages.json']);
+		fetchUrl(['http://twitter.com/statuses/home_timeline.json','http://twitter.com/direct_messages.json']);
 	}
 }
 

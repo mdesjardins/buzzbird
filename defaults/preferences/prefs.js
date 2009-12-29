@@ -53,3 +53,4 @@ pref("buzzbird.render.bold-name","handle");
 pref("buzzbird.toolbar.show-text",true);
 pref("buzzbird.toolbar.show-icons",true);
 pref("buzzbird.toolbar.small-size",true);
+pref("buzzbird.retweet.method","Q");

@@ -37,6 +37,12 @@
 <!ENTITY windowTitleUnreadDirectAndMentionsPref.label "Include count of unread DMs and mentions">
 <!ENTITY windowTitleAllUnreadPref.label "Include count of all unread tweets">
 
+<!ENTITY retweetMethodPref.label	"Retweet Method">
+<!ENTITY retweetMethodPref.accesskey	"M">
+<!ENTITY retweetMethodAskPref.label	"Always Ask">
+<!ENTITY retweetMethodAutoPref.label	"Automatic ('Official')">
+<!ENTITY retweetMethodManualPref.label	"Manual ('Classic')">
+
 <!ENTITY boldfaceNamePref.label	"Name emphasised in display">
 <!ENTITY boldfaceNamePref.accesskey	"E">
 <!ENTITY boldfaceNameRealNamePref.label "Real Name">

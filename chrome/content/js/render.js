@@ -120,7 +120,12 @@ function tweetType(tweet,username,password) {
 function formatTweet(tweet,oneTweet,username,password) {
 	//jsdump('formatting tweet ' + tweet.id);
 	// Clean any junk out of the text.
+	var retweet = tweet.retweeted_status;
 	var text = sanitize(tweet.text);
+	if (retweet != null && retweet != undefined) {
+		// just to get all 140 characters...
+		text = "RT @" + retweet.user.screen_name + " " + sanitize(retweet.text);
+	} 
 	
 	// First, go through and replace links with real links.
 	var re = new RegExp("http://(\\S*)", "g");

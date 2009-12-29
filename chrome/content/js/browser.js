@@ -61,33 +61,6 @@ function viewOneTweet(tweetId) {
   window.openDialog("chrome://buzzbird/content/onetweet.xul", "", features, params);	
   if (params.out) {
 	reopen(params);
-	// jsdump('action:' + params.out.action);
-	// if (params.out.action == 'friend') {
-	// 	jsdump('userId=' + params.out.userId);
-	// 	showUser(params.out.userId);
-	// } else if (params.out.action == 'reply') {
-	// 	var text = '@' + desanitize(params.out.replyTo) + ' ';
-	// 	getChromeElement('textboxid').value = text;
-	// 	getChromeElement('statusid').label = text.length + "/140";
-	// 	getChromeElement('textboxid').focus();
-	// 	dispatch('openSpeech');
-	// } else if (params.out.action == 'directTo') {
-	// 	var text = 'd ' + desanitize(params.out.directTo) + ' ';
-	// 	getChromeElement('textboxid').value = text;
-	// 	getChromeElement('statusid').label = text.length + "/140";
-	// 	getChromeElement('textboxid').focus();	
-	// 	dispatch('openSpeech');
-	// } else if (params.out.action == 'retweet') {
-	// 	var text = params.out.text
-	// 	getChromeElement('textboxid').value = text;
-	// 	getChromeElement('textboxid').focus();		
-	// 	dispatch('openSpeech');
-	// 	dispatch('updateTweetLength');
-	// } else if (params.out.action == 'oneTweet') {
-	// 	viewOneTweet(params.out.tweetId);
-	// } else if (params.out.action == 'user') {
-	// 	showUser(params.out.userId);
-	// }
   }
 }
 
@@ -100,34 +73,6 @@ function showUser(userId) {
   window.openDialog("chrome://buzzbird/content/user.xul", "", features, params);
   if (params.out) {
 	reopen(params);
-	// jsdump('action:' + params.out.action);
-	// if (params.out.action == 'friend') {
-	// 	jsdump('userId=' + params.out.userId);
-	// 	var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
-	// 	window.openDialog("chrome://buzzbird/content/friendship.xul", "", features, params.out);
-	// } else if (params.out.action == 'reply') {
-	// 	var text = '@' + desanitize(params.out.replyTo) + ' ';
-	// 	getChromeElement('textboxid').value = text;
-	// 	getChromeElement('statusid').label = text.length + "/140";
-	// 	getChromeElement('textboxid').focus();
-	// 	dispatch('openSpeech');
-	// } else if (params.out.action == 'directTo') {
-	// 	var text = 'd ' + desanitize(params.out.directTo) + ' ';
-	// 	getChromeElement('textboxid').value = text;
-	// 	getChromeElement('statusid').label = text.length + "/140";
-	// 	getChromeElement('textboxid').focus();	
-	// 	dispatch('openSpeech');
-	// } else if (params.out.action == 'retweet') {
-	// 	var text = params.out.text
-	// 	getChromeElement('textboxid').value = text;
-	// 	getChromeElement('textboxid').focus();		
-	// 	dispatch('openSpeech');
-	// 	dispatch('updateTweetLength');
-	// } else if (params.out.action == 'oneTweet') {
-	// 	viewOneTweet(params.out.tweetId);
-	// } else if (params.out.action == 'user') {
-	// 	showUser(params.out.userId);
-	// }
   }		
 }
 
@@ -208,6 +153,28 @@ function sendDirect(id) {
 // Re-tweet
 //
 function retweet(id) {
+	var configMethod = getStringPref('buzzbird.retweet.method','Q');
+	
+	if (configMethod == 'Q') {
+		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+		                        .getService(Components.interfaces.nsIPromptService);
+		var check = {value:false};
+		var flags = prompts.BUTTON_TITLE_IS_STRING * prompts.BUTTON_POS_0 + 
+		            prompts.BUTTON_TITLE_IS_STRING * prompts.BUTTON_POS_1;
+		var button = prompts.confirmEx(window, "Retweet Method", "Which retweet method do you want to use?", flags, 
+		             "Manual Edit", "Automatic", "Button 2", "Do this for all retweets", check);
+		
+		if (button == 0) {
+			configMethod = 'M'
+		} else {
+			configMethod = 'A'
+		}
+		
+		if (check.value == true) {
+			setStringPref('buzzbird.retweet.method',configMethod);
+		}
+	}	
+
 	var raw = getBrowser().contentDocument.getElementById("raw-" + id).innerHTML;
 	var user = getBrowser().contentDocument.getElementById("screenname-" + id).innerHTML;
 	var f = getStringPref('buzzbird.retweet.format');
@@ -217,12 +184,53 @@ function retweet(id) {
 		text = desanitize(raw) + ' (via @' + desanitize(user) + ')';
 	} 
 	text = text.substring(0,140);
-	getChromeElement('textboxid').value = text;
-	getChromeElement('textboxid').focus();		
-	dispatch('openSpeech');
-	dispatch('updateTweetLength');
+	
+	if (configMethod == 'A') {
+		url = 'http://twitter.com/statuses/retweet/' + id + '.json';
+		new Ajax.Request(url,
+			{
+				method:'post',
+				httpUserName: getUsername(),
+				httpPassword: getPassword(),
+			    onSuccess: function() { retweetCallback(text); },
+			    onFailure: function() { 
+					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+					                        .getService(Components.interfaces.nsIPromptService);
+					prompts.alert(window, "Sorry.", "There was an error retweeting that tweet.");
+				}
+			});	
+	} else {
+		getChromeElement('textboxid').value = text;
+		getChromeElement('textboxid').focus();		
+		dispatch('openSpeech');
+		dispatch('updateTweetLength');
+	}
 }
  
+function retweetCallback(text) {
+	var tweet = {
+		id : 0,
+		text : "",
+		created_at : new Date(),
+		sender : "",
+		user : {
+		   	screen_name : "",
+			profile_image_url : "",
+			name : ""
+		},
+		source : ""
+	};
+	tweet.text = text;
+	tweet.sender = getUsername();
+	tweet.user.screen_name = getUsername();
+	tweet.user.profile_image_url = getChromeElement("avatarLabelId").value;
+	tweet.user.name = getChromeElement("realnameLabelId").value;
+	tweet.in_reply_to_screen_name = "";
+	tweet.sender = undefined;
+	jsdump('rendering ' + text);
+	insertAtTop(formatTweet(tweet,false,getUsername(),getPassword()));
+}
+
 // Favorite
 //
 function favorite(id) {

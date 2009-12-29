@@ -35,7 +35,7 @@ THE SOFTWARE.
 			type="prefwindow"
 			windowtype="Browser:Preferences"
 			width="550" 
-	        height="320">
+	        height="375">
    
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
@@ -46,6 +46,7 @@ THE SOFTWARE.
     	<preferences>
       		<preference id="updateInterval" name="buzzbird.update.interval" type="int"/>
 			<preference id="retweetFormat" name="buzzbird.retweet.format" type="string"/>
+			<preference id="retweetMethod" name="buzzbird.retweet.method" type="string"/>
 			<preference id="hashtagDestination" name="buzzbird.hashtag.destination" type="string"/>
 			<preference id="autoMarkOldTweetsAsRead" name="buzzbird.auto.markread" type="bool"/>
 			<preference id="windowTitle" name="buzzbird.window.title" type="string"/>
@@ -79,6 +80,20 @@ THE SOFTWARE.
 					</menupopup>
 				</menulist>
 		    </hbox>
+			
+			<hbox style="padding-bottom:10px;">
+				<box width="200" align="right">
+					<label control="menulist_retweetMethod" value="&retweetMethodPref.label;" /> 
+				</box>
+				<menulist id="menulist_retweetMethod" preference="retweetMethod"
+			              accesskey="&retweetMethodPref.accesskey;">
+					<menupopup>
+						<menuitem label="&retweetMethodAskPref.label;" value="Q"/>
+						<menuitem label="&retweetMethodAutoPref.label;" value="A"/>
+						<menuitem label="&retweetMethodManualPref.label;" value="M"/>
+					</menupopup>
+				</menulist>
+			</hbox>			
 			
 			<hbox style="padding-bottom:10px;">
 				<box width="200" align="right">
