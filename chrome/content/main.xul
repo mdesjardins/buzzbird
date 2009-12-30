@@ -305,9 +305,9 @@ THE SOFTWARE.
 						       style="font-size:0.9em;"
 							   oncommand="showFilterMenu();">
 			    		<menupopup id="filtermenupopupid" selectedIndex="0" style="padding:0px; margin:0px;">
-			        		<menuitem label="&showAllTweets.label;" value="1" oncommand="showAllTweets();"/>
-			        		<menuitem label="&showReplies.label;" value="2" oncommand="showResponses();"/>
-			        		<menuitem label="&showDirect.label;" value="3" oncommand="showDirect();"/>
+			        		<menuitem id="filter-alltweets" type="checkbox" label="&showAllTweets.label;" value="1" oncommand="showAllTweets();" checked="true"/>
+			        		<menuitem id="filter-responses" type="checkbox" label="&showReplies.label;" value="2" oncommand="showResponses();" checked="false"/>
+			        		<menuitem id="filter-direct" type="checkbox" label="&showDirect.label;" value="3" oncommand="showDirect();" checked="false"/>
 			    		</menupopup>
 					</toolbarbutton>
 				</vbox>

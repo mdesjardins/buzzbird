@@ -463,11 +463,15 @@ function showAllTweets() {
 		i++;
 		if (i < elements.length) {
 			setTimeout(doWork, 1);
+		} else {
+			getChromeElement('filtermenupopupid').disabled=false;
 		}
 	}
 	setTimeout(doWork,1);
 	getChromeElement('filterbuttonid').label=getChromeElement('showingAllTweetsId').value;
-	getChromeElement('filtermenupopupid').disabled=false;
+	getChromeElement('filter-alltweets').setAttribute("checked","true");
+	getChromeElement('filter-responses').setAttribute("checked","false");
+	getChromeElement('filter-direct').setAttribute("checked","false");
 }
 
 function showResponses() {
@@ -477,6 +481,9 @@ function showResponses() {
 	showOrHide('direct-from','none');
 	showOrHide('reply','inline');	
 	getChromeElement('filterbuttonid').label=getChromeElement('showingRepliesId').value;
+	getChromeElement('filter-alltweets').setAttribute("checked","false");
+	getChromeElement('filter-responses').setAttribute("checked","true");
+	getChromeElement('filter-direct').setAttribute("checked","false");
 }
 function showDirect() {
 	showOrHide('tweet','none');
@@ -484,7 +491,11 @@ function showDirect() {
 	showOrHide('direct-to','inline');
 	showOrHide('direct-from','inline');
 	showOrHide('reply','none');	
-	getChromeElement('filterbuttonid').label=getChromeElement('showingDirectId').value;;
+	getChromeElement('filterbuttonid').label=getChromeElement('showingDirectId').value;
+	getChromeElement('filter-alltweets').setAttribute("checked","false");
+	getChromeElement('filter-responses').setAttribute("checked","false");
+	getChromeElement('filter-direct').setAttribute("checked","true");
+	
 }
 function showOrHide(tweetType,disp) {
 	getChromeElement('filtermenupopupid').disabled=true;
@@ -807,6 +818,7 @@ function updateLoginList() {
 		menuitem.setAttribute("value", item);
 		var f = "switchUser('" + logins[i].username + "','" + logins[i].password + "');";
 		menuitem.setAttribute("oncommand", f);
+		menuitem.setAttribute("checked","false");
 		getChromeElement('accountbuttonmenuid').appendChild(menuitem);
    }
 
@@ -967,15 +979,38 @@ function updateToolbar() {
 	var shortenUrlButton = getChromeElement('shortenUrlId');
 	var emojiButton = getChromeElement('symbolButtonId');
 	var imagePath = 'chrome://buzzbird/skin/images/buttons/';
+	var fontSize = '11px';
 	if (small) {
 		imagePath += 'small/';
+		fontSize = '9px';
 	} else {
 		imagePath += 'large/';
 	}
 	
 	refreshButton.setAttribute('image',imagePath + 'refresh.png');
+	refreshButton.style.fontSize = fontSize;
 	markAllAsReadButton.setAttribute('image',imagePath + 'mark-all.png');
+	markAllAsReadButton.style.fontSize = fontSize;
 	openSpeechButton.setAttribute('image',imagePath + 'comment-add.png');
+	openSpeechButton.style.fontSize = fontSize;
+	
+	var width = '60px';
+	if (text) {
+		if (small) {
+			width = '55px';
+		} else {
+			width = '60px';
+		}
+	} else {
+		if (small) {
+			width = '30px';
+		} else {
+			width = '45px';
+		}
+	}
+	refreshButton.style.width = width;
+	markAllAsReadButton.style.width = width;
+	openSpeechButton.style.width = width;
 	
 	if (text) {
 		refreshButton.setAttribute('label','Refresh');
