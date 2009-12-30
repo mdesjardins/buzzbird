@@ -319,6 +319,7 @@ THE SOFTWARE.
 				     style="">
 
 					<toolbarbutton id="shortenUrlId"
+						class="post-toolbar-button"
 						collapsed="true"
 						image="chrome://buzzbird/skin/images/buttons/Link.png" 
 						onmousedown="this.image='chrome://buzzbird/skin/images/buttons/Link-Pressed.png';"
@@ -327,6 +328,7 @@ THE SOFTWARE.
 						command="cmd_shortenUrl"/>
 
 					<toolbarbutton id="symbolButtonId" 
+						class="post-toolbar-button"
 						collapsed="true"
 						image="chrome://buzzbird/skin/images/buttons/Smiley1.png" 
 						onmousedown="this.image='chrome://buzzbird/skin/images/buttons/Smiley1-Pressed.png';"

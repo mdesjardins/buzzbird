@@ -16,6 +16,7 @@ toolbar {
 }
 
 #speechheaderid {
+	border:1px solid #515151;
 	background-color:#666; 
 	background-image:url(chrome://buzzbird/skin/images/speech-toolbar-background.png);
 	background-repeat:repeat-x;
@@ -27,15 +28,19 @@ toolbar {
 }
 
 #postbuttonid {
+	border:1px solid #515151;
 	background-color:#ccc;
     background-image:url(chrome://buzzbird/skin/images/post-button-background.png);
 	border-color:#111;
 	color:#eee;
-	margin:4px;
+	margin:3px 4px 3px 4px;
 	width:50px; 
-	height:5px; 
 	padding:0px;
-	-moz-border-radius: 5px;
-	font-size:9px;
+	-moz-border-radius: 15px;
+	font-family:"Lucida Grande";
+	font-size:11px;
 	font-weight:bold;
+}
+
+.post-toolbar-button {
 }
