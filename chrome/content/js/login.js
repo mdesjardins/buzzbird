@@ -29,6 +29,7 @@ try {
    }
 
    updateLoginList();
+   getChromeElement('accountmenu-' + user).setAttribute("checked","true");
 
 } catch (e) {
   // This will only happen if there is no nsILoginManager component class

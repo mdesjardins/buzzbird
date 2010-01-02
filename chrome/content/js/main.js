@@ -41,11 +41,9 @@ function authenticate(u, p, save) {
 	if (login()) {
 		getChromeElement('usernameLabelId').value = username;
 		getChromeElement('passwordLabelId').value = password;
-//		registerEvents();
 		if (save) {
 			saveCredentials(username,password);
 		}
-		
 		var interval = getIntPref('buzzbird.update.interval',180000);
 		jsdump('interval=' + interval);
 		var updateTimer = getMainWindow().setInterval( function(that) { that.fetch(); }, interval, getMainWindow());
@@ -819,6 +817,9 @@ function updateLoginList() {
 		var f = "switchUser('" + logins[i].username + "','" + logins[i].password + "');";
 		menuitem.setAttribute("oncommand", f);
 		menuitem.setAttribute("checked","false");
+		menuitem.setAttribute("type","checkbox");
+		menuitem.setAttribute("id","accountmenu-" + logins[i].username);
+		menuitem.setAttribute("class","accountmenu-account");  
 		getChromeElement('accountbuttonmenuid').appendChild(menuitem);
    }
 
@@ -832,6 +833,7 @@ function updateLoginList() {
 }
 
 function switchUser(u,p) {	
+	var oldusername = getUsername();
 	username = u;
 	password = p;
 	if (login()) {	
@@ -839,10 +841,12 @@ function switchUser(u,p) {
 		loginButton.label = username;
 		setUsername(u);
 		setPassword(p);
-
+		if (oldusername != null && oldusername != undefined && oldusername != "") {
+			getChromeElement('accountmenu-' + oldusername).setAttribute("checked","false");
+		}
+		getChromeElement('accountmenu-' + u).setAttribute("checked","true");
 		mostRecentTweet = null;
 		mostRecentDirect = null;
-
 		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 	} else {
 		username = getUsername();
@@ -982,7 +986,7 @@ function updateToolbar() {
 	var fontSize = '11px';
 	if (small) {
 		imagePath += 'small/';
-		fontSize = '9px';
+		fontSize = '10px';
 	} else {
 		imagePath += 'large/';
 	}
