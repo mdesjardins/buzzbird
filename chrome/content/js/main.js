@@ -535,7 +535,7 @@ function countUnread() {
 		jsdump('Counting.');
 		var i = 0;
 		function doWork() {
-			if (markers[i].src == 'chrome://buzzbird/skin/images/actions/star-yellow.png') {
+			if (markers[i].src == 'chrome://buzzbird/skin/images/actions/unread.png') {
 				unread.tweet = unread.tweet + 1;
 				if (markers[i].name == "direct-from") {
 					unread.directFrom++;
@@ -590,7 +590,7 @@ function markAllAsRead() {
 	var ids = new Array();
 	var len = markers.length;
 	for (var i=0; i<len; i++) {
-		markers[i].src='chrome://buzzbird/skin/images/actions/checkmark-gray.png'; 
+		markers[i].src='chrome://buzzbird/skin/images/actions/read.png'; 
 		ids[i] = markers[i].id;
 	}
 	var len = ids.length;

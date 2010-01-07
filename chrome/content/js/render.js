@@ -34,7 +34,10 @@ var classes = {
 		content: "tweetContent",
 		info: "tweetInfo",
 		icon: "tweetIcon",
-		replyTo: "tweetReplyTo"
+		replyTo: "tweetReplyTo",
+		mark: "tweetMark",
+		marked: "tweetMarked",
+		via: "tweetVia"
 	},
 	"mine" : {
 		message: "mineMessage",
@@ -49,7 +52,10 @@ var classes = {
 		content: "mineContent",
 		info: "mineInfo",
 		icon: "mineIcon",
-		replyTo: "mineReplyTo"
+		replyTo: "mineReplyTo",
+		mark: "mineMark",
+		marked: "mineMarked",
+		via: "mineVia"
 	},
 	"reply" : {
 		message: "replyMessage",
@@ -64,7 +70,10 @@ var classes = {
 		content: "replyContent",
 		info: "replyInfo",
 		icon: "replyIcon",
-		replyTo: "replyReplyTo"
+		replyTo: "replyReplyTo",
+		mark: "replyMark",
+		marked: "replyMarked",
+		via: "replyVia"
 	},
 	"direct-to" : {
 		message: "directToMessage",
@@ -79,7 +88,10 @@ var classes = {
 		content: "directToContent",
 		info: "directToInfo",
 		icon: "directToIcon",
-		replyTo: "directToReplyTo"
+		replyTo: "directToReplyTo",
+		mark: "directToMark",
+		marked: "directToMarked",
+		via: "directToVia"
 	},
 	"direct-from" : {
 		message: "directFromMessage",
@@ -94,7 +106,10 @@ var classes = {
 		content: "directFromContent",
 		info: "directFromInfo",
 		icon: "directFromIcon",
-		replyTo: "directFromReplyTo"
+		replyTo: "directFromReplyTo",
+		mark: "directFromMark",
+		marked: "directFromMarked",
+		via: "directFromVia"
 	}
 }
 
@@ -174,7 +189,7 @@ function formatTweet(tweet,oneTweet,username,password) {
 		if (src != undefined && src != null && src.length == 3) {
 			href = src[1]
 			href = href.replace(/&/g, '%26');
-			via = " <span class=\"" + c.info + "\"> posted from <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('" + href + "')\">" + src[2] + "</a></span>";
+			via = " <span class=\"" + c.via + "\"> posted from <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('" + href + "')\">" + src[2] + "</a></span>";
 		}
 	} 
 
@@ -227,8 +242,7 @@ function formatTweet(tweet,oneTweet,username,password) {
 		+ "   <img class=\"mark\" "
 		+ "        id=\"mark-" + tweet.id + "\" "
 		+ "        name=\"" + tt + "\""
-		+ "        src=\"chrome://buzzbird/skin/images/actions/star-yellow.png\" "
-		+ "        style=\"width:16px; height:16px;\""
+		+ "        src=\"chrome://buzzbird/skin/images/actions/unread.png\" "
 		+ "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" "
 		+ "        onmouseover=\"this.style.cursor='pointer';\" />"
 	 }
@@ -238,8 +252,8 @@ function formatTweet(tweet,oneTweet,username,password) {
 	   result += "<span class=\"" + c.info + "\">" + sanitize(user.screen_name) 
 	 } else {
 	   result += "<span class=\"" + c.info + "\">" + sanitize(user.name) 
-	
 	 }
+
 	
 	 result = result
 	 + "     <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span> "
