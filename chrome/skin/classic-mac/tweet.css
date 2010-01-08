@@ -18,7 +18,7 @@ body {
 	padding:0;
 	margin:-1;
 	min-height:52px;
-	color: #666;
+	color: #444;
 }
 
 .tweetTable {
@@ -33,7 +33,7 @@ body {
 	padding:0;
 	margin:0;
 	min-height:52px;
-	color: #666;
+	color: #444;
 }
 
 .tweetMessage {
@@ -46,7 +46,7 @@ body {
 
 .tweetAvatar {
 	-moz-border-radius: 4px;
-	-moz-box-shadow: #111 0px 1px 1px 1px;
+	-moz-box-shadow: #999 0px 1px 1px 1px;
 	float:left;
 	height:40px;
 	margin:5px 5px 5px 10px;
@@ -70,12 +70,11 @@ body {
 }
 
 .tweetContent {
-	color:#222;	
+	color:#444;	
 	font-size:12px;
 	font-family:Helvetica, Arial, sans-serif;
 	font-weight:normal;	
 	padding-right:8px;
-	color:#666;
 }
 
 .tweetContent a {
