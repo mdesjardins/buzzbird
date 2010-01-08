@@ -4,7 +4,6 @@ body {
 }
 
 .tweetBottomRow {
-/**	border:1px solid red;  DEBUG **/
 	clear: both;
 	height:18px;
 	overflow: hidden;
@@ -46,6 +45,8 @@ body {
 }
 
 .tweetAvatar {
+	-moz-border-radius: 4px;
+	-moz-box-shadow: #111 0px 1px 1px 1px;
 	float:left;
 	height:40px;
 	margin:5px 5px 5px 10px;
@@ -137,14 +138,16 @@ a.tweetInfo {
 
 .tweetIcon {
 	background-color: #fff;	
-	margin:0;
+	margin:0 2px 0 2px;
 	padding:0;
 	position:relative;
 	top:-2px;
 }
 
-.tweetMark {
+.mark {
+	margin-left:5px;
 }
 
-.tweetMarked {
+.marked {
+	margin-left:5px;
 }

@@ -35,8 +35,8 @@ var classes = {
 		info: "tweetInfo",
 		icon: "tweetIcon",
 		replyTo: "tweetReplyTo",
-		mark: "tweetMark",
-		marked: "tweetMarked",
+		mark: "mark",
+		marked: "marked",
 		via: "tweetVia"
 	},
 	"mine" : {
@@ -53,8 +53,8 @@ var classes = {
 		info: "mineInfo",
 		icon: "mineIcon",
 		replyTo: "mineReplyTo",
-		mark: "mineMark",
-		marked: "mineMarked",
+		mark: "mark",
+		marked: "marked",
 		via: "mineVia"
 	},
 	"reply" : {
@@ -71,8 +71,8 @@ var classes = {
 		info: "replyInfo",
 		icon: "replyIcon",
 		replyTo: "replyReplyTo",
-		mark: "replyMark",
-		marked: "replyMarked",
+		mark: "mark",
+		marked: "marked",
 		via: "replyVia"
 	},
 	"direct-to" : {
@@ -89,8 +89,8 @@ var classes = {
 		info: "directToInfo",
 		icon: "directToIcon",
 		replyTo: "directToReplyTo",
-		mark: "directToMark",
-		marked: "directToMarked",
+		mark: "mark",
+		marked: "marked",
 		via: "directToVia"
 	},
 	"direct-from" : {
@@ -107,8 +107,8 @@ var classes = {
 		info: "directFromInfo",
 		icon: "directFromIcon",
 		replyTo: "directFromReplyTo",
-		mark: "directFromMark",
-		marked: "directFromMarked",
+		mark: "mark",
+		marked: "marked",
 		via: "directFromVia"
 	}
 }
@@ -239,7 +239,7 @@ function formatTweet(tweet,oneTweet,username,password) {
 
 	 if (!oneTweet) {
 		result = result 
-		+ "   <img class=\"mark\" "
+		+ "   <img class=\"" + c.mark + "\" "
 		+ "        id=\"mark-" + tweet.id + "\" "
 		+ "        name=\"" + tt + "\""
 		+ "        src=\"chrome://buzzbird/skin/images/actions/unread.png\" "
