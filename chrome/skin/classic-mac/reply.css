@@ -64,15 +64,15 @@ body {
 
 .replyScreenName {
 	color:#445;	
-	font-size:12px;
-	font-family:Helvetica, Arial, sans-serif;
+	font-size:11px;
+	font-family:'Lucida Sans', Helvetica,   Arial, sans-serif;
 	font-weight:bold;
 }
 
 .replyContent {
 	color:#222;	
-	font-size:12px;
-	font-family:Helvetica, Arial, sans-serif;
+	font-size:11px;
+	font-family:'Lucida Sans', Helvetica,  Arial, sans-serif;
 	font-weight:normal;	
 	padding-right:8px;
 }
@@ -84,8 +84,8 @@ body {
 
 .replyReplyTo a {
 	color:#222;	
-	font-size:11px;
-	font-family:Helvetica, Arial, sans-serif;
+	font-size:10px;
+	font-family:'Lucida Sans', Helvetica,  Arial, sans-serif;
 	font-weight:normal;	
 	padding-right:8px;
 	color:#88A;
@@ -97,7 +97,7 @@ a:hover.replyInfo {
 	color: #22A;	
 	clear:none;
 	cursor: pointer;
-	font-size: 1.0em;
+	font-size: 10px;
 	height: 16px;
 	margin-left:5px;
 	min-height: 16px;
@@ -108,7 +108,7 @@ a:hover.replyInfo {
 a.replyInfo {
 	clear:none;
 	color: #666;	
-	font-size: 1.0em;
+	font-size: 10px;
 	height: 16px;
 	margin-left:5px;
 	min-height: 16px;
@@ -119,8 +119,8 @@ a.replyInfo {
 .replyInfo {
 	clear:none;
 	color: #666;
-	font-size: 0.7em;
-	font-family: Helvetica, Arial, sans-serif;	
+	font-size: 10px;
+	font-family: 'Lucida Sans', Helvetica,  Arial, sans-serif;	
 	height:16px;
 	margin-left:5px;
 	min-height: 16px;
@@ -131,8 +131,8 @@ a.replyInfo {
 .replyVia {
 	clear:none;
 	color: #666;
-	font-size: 0.7em;
-	font-family: Helvetica, Arial, sans-serif;	
+	font-size: 10px;
+	font-family: 'Lucida Sans', Helvetica,  Arial, sans-serif;	
 	height:16px;
 	display:inline-block;
 	vertical-align:middle;
