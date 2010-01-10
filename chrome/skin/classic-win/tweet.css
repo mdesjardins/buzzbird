@@ -64,14 +64,14 @@ body {
 
 .tweetScreenName {
 	color:#222;	
-	font-size:12px;
+	font-size:11px;
 	font-family:Helvetica, Arial, sans-serif;
 	font-weight:bold;
 }
 
 .tweetContent {
 	color:#444;	
-	font-size:12px;
+	font-size:11px;
 	font-family:Helvetica, Arial, sans-serif;
 	font-weight:normal;	
 	padding-right:8px;
@@ -84,7 +84,7 @@ body {
 
 .tweetReplyTo a {
 	color:#222;	
-	font-size:11px;
+	font-size:10px;
 	font-family:Helvetica, Arial, sans-serif;
 	font-weight:normal;	
 	padding-right:8px;
@@ -97,8 +97,9 @@ a:hover.tweetInfo {
 	color: #22A;	
 	clear:none;
 	cursor: pointer;
-	font-size: 1.0em;
+	font-size: 10px;
 	height: 16px;
+	margin-left:5px;
 	min-height: 16px;
 	display:inline-block;
 	vertical-align:middle;
@@ -107,8 +108,9 @@ a:hover.tweetInfo {
 a.tweetInfo {
 	clear:none;
 	color: #666;	
-	font-size: 1.0em;
+	font-size: 10px;
 	height: 16px;
+	margin-left:5px;
 	min-height: 16px;
 	display:inline-block;
 	vertical-align:middle;
@@ -117,9 +119,10 @@ a.tweetInfo {
 .tweetInfo {
 	clear:none;
 	color: #666;
-	font-size: 0.7em;
-	font-family: Helvetica, Arial, sans-serif;	
+	font-size: 10px;
+	font-family:Helvetica, Arial, sans-serif;
 	height:16px;
+	margin-left:5px;
 	min-height: 16px;
 	display:inline-block;
 	vertical-align:middle;
@@ -128,8 +131,8 @@ a.tweetInfo {
 .tweetVia {
 	clear:none;
 	color: #666;
-	font-size: 0.7em;
-	font-family: Helvetica, Arial, sans-serif;	
+	font-size: 10px;
+	font-family:Helvetica, Arial, sans-serif;	
 	height:16px;
 	display:inline-block;
 	vertical-align:middle;
@@ -145,8 +148,10 @@ a.tweetInfo {
 
 .mark {
 	margin-left:5px;
+	margin-right:-2px;
 }
 
 .marked {
 	margin-left:5px;
+	margin-right:-2px;	
 }
