@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://buzzbird/skin/user.css" type="text/css"?>
 
 <!--
 Copyright (c) 2009 Mike Desjardins
@@ -43,28 +44,24 @@ THE SOFTWARE.
 	
 	<label id="usernameLabelId" value="" hidden="true" />
 	<label id="passwordLabelId" value="" hidden="true" />
-	<vbox flex="1" style="overflow:auto; height:100px; width:100%">
-		<hbox style="margin:5px;">
+	<vbox flex="1">
+		<hbox id="user_info" style="margin:5px;">
 			<vbox>
-				<image id="avatar" src="" width="64" height="64" style="margin:16px;"/>
+				<image id="avatar" src="" width="64" height="64" onclick="goToAvatar();" tooltiptext="Open Profile Image in Default Browser"/>
 				<button id="friendship" onclick="launchFriendship();">Friendship...</button>
 			</vbox>
 			<vbox>
-				<hbox>
-					<label id="name" style="font-weight:bold" value=""/>
+				<hbox id="name_line">
 					<label id="username" 
 						 	value="" 
-							style="color:#22A;" 
-							onmouseover="this.style.cursor='pointer';"
 							onclick="goToProfile();" 
 							tooltiptext="Visit this profile"/>
+					<label id="name" style="" value=""/>
 				</hbox>
 				<label id="followstats" value=""/>
 				<label id="location" value=""/>
 				<label id="homepage" 
 					 	value="" 
-						style="color:#22A;" 
-						onmouseover="this.style.cursor='pointer';"
 						onclick="goToHomepage();" 
 						tooltiptext="Visit this site"/>				
 				<box style="padding-left:5px;">
@@ -72,7 +69,6 @@ THE SOFTWARE.
 					        class="plain" 
 							cols="40" 
 							rows="1"
-							style="background-color: transparent; padding:15px;" 
 							flex="1"
 					        multiline="true" 
 							readonly="true"

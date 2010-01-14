@@ -49,8 +49,8 @@ function fetchProfile(userid,username,password) {
 			httpPassword: password,
 			onSuccess: function(transport) { 
 				var profile = eval('(' + transport.responseText + ')');
-				document.getElementById('name').value = profile.name;
-				document.getElementById('username').value = '@' + profile.screen_name;
+				document.getElementById('name').value = '(' + profile.name + ')';
+				document.getElementById('username').value = profile.screen_name
 				document.getElementById('avatar').src = profile.profile_image_url;
 				document.getElementById('followstats').value = 'Following: ' + profile.friends_count + ', Followers: ' + profile.followers_count; 
 				document.getElementById('location').value = profile.location;
@@ -142,8 +142,13 @@ function fetchTweetsCallback(transport,username,password) {
 }
 
 function goToProfile() {
-	var username = document.getElementById('username').value.substring(1);
+	var username = document.getElementById('username').value;
 	linkTo('http://twitter.com/' + username);
+}
+
+function goToAvatar() {
+	var username = document.getElementById('username').value;
+	linkTo('http://twitter.com/account/profile_image/' + username);
 }
 
 function updateTimestamps() {

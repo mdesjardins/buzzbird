@@ -1,0 +1,57 @@
+#user_info {
+	-moz-border-radius:3px;
+	background-color:#666; 
+	background-image:url(chrome://buzzbird/skin/images/user-info-background.png);
+	background-repeat:repeat-x;
+	background-position:top left;
+	color:#fff;
+	height:150px; 
+	margin-bottom:15px;
+	overflow:auto; 
+	width:100%;
+}
+
+#avatar {
+	-moz-border-radius: 4px;
+	-moz-box-shadow: #222 0px 1px 1px 1px;
+	height:64px;
+	margin:16px;
+	width:64px;
+}
+
+#avatar:hover {
+	-moz-box-shadow: #cddfea 0px 1px 1px 1px;
+	cursor:pointer;
+}
+
+#bio {
+	color:#eee;
+	background-color: transparent; 
+	padding:15px;
+}
+
+#name_line {
+	margin-top:10px;
+}
+
+#name {
+	font-size:13px;
+	font-weight:bold;
+}
+
+#username {
+	font-size:13px;
+	color:#cddfea;
+}
+#username:hover {
+	cursor:pointer;
+	text-decoration:underline;
+}
+
+#homepage {
+	color:#cddfea;
+}
+#homepage:hover {
+	cursor:pointer;
+	text-decoration:underline;
+}
