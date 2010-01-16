@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://buzzbird/skin/friendship.css" type="text/css"?>
 
 <!--
 Copyright (c) 2009 Mike Desjardins
@@ -43,18 +44,15 @@ THE SOFTWARE.
 	<label id="usernameLabelId" value="" hidden="true" />
 	<label id="passwordLabelId" value="" hidden="true" />
 	<vbox flex="1" style="overflow:auto; height:100px; width:100%">
-		<hbox style="margin:5px;">
+		<hbox id="user_info">
 			<vbox>
 				<image id="avatar" src="" width="64" height="64" style="margin:16px;"/>
-				<button id="friendship" onclick="launchFriendship();">Friendship...</button>
 			</vbox>
 			<vbox>
-				<hbox>
+				<hbox id="name_line">
 					<label id="name" style="font-weight:bold" value=""/>
 					<label id="username" 
 						 	value="" 
-							style="color:#22A;" 
-							onmouseover="this.style.cursor='pointer';"
 							onclick="goToProfile();" 
 							tooltiptext="Visit this profile"/>
 				</hbox>
@@ -62,8 +60,6 @@ THE SOFTWARE.
 				<label id="location" value=""/>
 				<label id="homepage" 
 					 	value="" 
-						style="color:#22A;" 
-						onmouseover="this.style.cursor='pointer';"
 						onclick="goToHomepage();" 
 						tooltiptext="Visit this site"/>				
 				<box style="padding-left:5px;">
@@ -71,7 +67,6 @@ THE SOFTWARE.
 					        class="plain" 
 							cols="40" 
 							rows="1"
-							style="background-color: transparent; padding:15px;" 
 							flex="1"
 					        multiline="true" 
 							readonly="true"

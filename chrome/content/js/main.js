@@ -242,7 +242,7 @@ function renderNewTweets(url,newTweets) {
 			}
 			var chk = window.content.document.getElementById('tweet-'+newTweets[i].id);
 			if (chk == null) {
-				newText = formatTweet(newTweets[i],false,getUsername(),getPassword()) + newText;
+				newText = formatTweet(newTweets[i],getUsername(),getPassword()) + newText;
 			}
 		}
 		insertAtTop(newText);
@@ -373,7 +373,7 @@ function postTweetCallback(tweetText) {
 		tweet.user.name = getChromeElement("realnameLabelId").value;
 		tweet.in_reply_to_screen_name = "";
 		tweet.sender = undefined;
-		insertAtTop(formatTweet(tweet,false,getUsername(),getPassword()));
+		insertAtTop(formatTweet(tweet,getUsername(),getPassword()));
 	}
 	forceUpdate();
 }

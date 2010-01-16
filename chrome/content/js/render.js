@@ -132,7 +132,7 @@ function tweetType(tweet,username,password) {
 
 // Formats a tweet for display.
 //
-function formatTweet(tweet,oneTweet,username,password) {
+function formatTweet(tweet,username,password) {
 	//jsdump('formatting tweet ' + tweet.id);
 	// Clean any junk out of the text.
 	var retweet = tweet.retweeted_status;
@@ -168,18 +168,19 @@ function formatTweet(tweet,oneTweet,username,password) {
 
 	// Figure out if we're displaying this flavor of tweet
 	var display = 'none';
-	if (!oneTweet) {
+	var filterer = getChromeElement('filterbuttonid');
+	if (filterer == null) {
+		display = 'inline'
+	} else {
 		var currentFilter = getChromeElement('filterbuttonid').label;
 		var showingAllTweets = getChromeElement('showingAllTweetsId').value;
 		var showingReplies = getChromeElement('showingRepliesId').value;
-		var showingDirect = getChromeElement('showingDirectId').value;	
+		var showingDirect = getChromeElement('showingDirectId').value;		
 		if (  (currentFilter == showingAllTweets) ||
 	          ((currentFilter == showingDirect) && (tweetType(tweet,username,password) == 'direct')) ||
 	          ((currentFilter == showingReplies && (tweetType(tweet,username,password) == 'reply')) ) ) {
 		  display = 'inline';
 	    }
-	} else {
-		display = 'inline';
 	}
 	
 	var via = ""
@@ -236,25 +237,19 @@ function formatTweet(tweet,oneTweet,username,password) {
      + "   </tr>"
      + "  </table>"
      + "  <div class=\"" + c.bottomRow + "\">"
-
-	 if (!oneTweet) {
-		result = result 
-		+ "   <img class=\"" + c.mark + "\" "
-		+ "        id=\"mark-" + tweet.id + "\" "
-		+ "        name=\"" + tt + "\""
-		+ "        src=\"chrome://buzzbird/skin/images/actions/unread.png\" "
-		+ "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" "
-		+ "        onmouseover=\"this.style.cursor='pointer';\" />"
-	 }
-
-	 result = result + "   <span id=\"tweetInfo-" + tweet.id + "\">"
+ 	 + "   <img class=\"" + c.mark + "\" "
+	 + "        id=\"mark-" + tweet.id + "\" "
+	 + "        name=\"" + tt + "\""
+	 + "        src=\"chrome://buzzbird/skin/images/actions/unread.png\" "
+	 + "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" "
+	 + "        onmouseover=\"this.style.cursor='pointer';\" />"
+     + "   <span id=\"tweetInfo-" + tweet.id + "\">"
 	 if (emphasis == 'realname') {
 	   result += "<span class=\"" + c.info + "\">" + sanitize(user.screen_name) 
 	 } else {
 	   result += "<span class=\"" + c.info + "\">" + sanitize(user.name) 
 	 }
 
-	
 	 result = result
 	 + "     <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span> "
      + "    </span>"
@@ -278,12 +273,10 @@ function formatTweet(tweet,oneTweet,username,password) {
 			result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 		 }
 	 //}
-		
-	 if (!oneTweet) {
-	 	if (t != 'mine') {
-			result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
-	 	}
-	 }
+
+ 	 if (t != 'mine') {
+		result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+ 	 }
 	 if (t == 'mine') {
 		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
 	 }

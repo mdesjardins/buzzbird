@@ -46,6 +46,14 @@ function renderTweet(id,username,password) {
 			httpUserName: username,
 			httpPassword: password,
 			onSuccess: function(transport) { oneTweetCallback(transport,username,password); },
+			on403: function() {
+				// we hit a protected user's tweets while following the thread.  the party
+				// ends here.
+				browser = document.getElementById('onetweet-browser');
+				browser.contentDocument.getElementById('fetch-throb').style.display='none';
+				window.resizeBy(0,-85);
+				updateTimestamps();	
+			},
 			onFailure: function() { 
 					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 					                        .getService(Components.interfaces.nsIPromptService);
@@ -56,7 +64,7 @@ function renderTweet(id,username,password) {
 
 function oneTweetCallback(transport,username,password) {
 	var tweet = eval('(' + transport.responseText + ')');
-	var newText = formatTweet(tweet,true,username,password);
+	var newText = formatTweet(tweet,username,password);
 	var parser = new DOMParser();
 	var doc = parser.parseFromString('<div id="onetweet" xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
 	if (doc.documentElement.nodeName != "parsererror" ) {

@@ -48,7 +48,7 @@ THE SOFTWARE.
 		<hbox id="user_info" style="margin:5px;">
 			<vbox>
 				<image id="avatar" src="" width="64" height="64" onclick="goToAvatar();" tooltiptext="Open Profile Image in Default Browser"/>
-				<button id="friendship" onclick="launchFriendship();">Friendship...</button>
+				<toolbarbutton id="friendship" onclick="launchFriendship();" label="Friendship..."></toolbarbutton>
 			</vbox>
 			<vbox>
 				<hbox id="name_line">

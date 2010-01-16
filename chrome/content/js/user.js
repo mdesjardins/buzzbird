@@ -114,13 +114,11 @@ function fetchTweetsCallback(transport,username,password) {
 		                        .getService(Components.interfaces.nsIPromptService);
 		jsdump('got prompts');
 		prompts.alert(window, "Hmph.", "That user doesn't seem to exist, or hasn't tweeted yet.");
-		jsdump("prompted");
 		getMainWindow().document.getElementById('user-dialog').acceptDialog();
 	} else {
 		var newText = '';
 		for (var i=newTweets.length-1; i>=0; i--) {
-			newText = formatTweet(newTweets[i],true,username,password) + newText;
-			//jsdump('result ' + newText);
+			newText = formatTweet(newTweets[i],username,password) + newText;
 			if (i==0) {
 				browser = document.getElementById('user-browser');
 				browser.contentDocument.getElementById('hisUsername').value = username;
