@@ -1293,7 +1293,7 @@ Ajax.Request = Class.create(Ajax.Base, {
 
 	// mdd tweaked to emit headers
     for (var name in headers) {
-		jsdump('HEADER: '  + name + ': ' + headers[name])
+//		jsdump('HEADER: '  + name + ': ' + headers[name])
       this.transport.setRequestHeader(name, headers[name]);
 	}
   },

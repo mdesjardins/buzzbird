@@ -187,8 +187,7 @@ function launchFriendship() {
 	var password = browser.contentDocument.getElementById('myPassword').value;
 	var hisUserId = browser.contentDocument.getElementById('hisUserId').value;
 	var hisUsername = browser.contentDocument.getElementById('hisUsername').value;
-  	//var params = {'hisUserId':hisUserId, 'hisUsername': hisUsername, 'username':username, 'password':password}
-	getMainWindow().arguments[0].out = {'action':'friend', 'hisUserId':hisUserId, 'hisUsername': hisUsername, 'username':username, 'password':password}
+	getMainWindow().arguments[0].out = {'action':'friend', 'hisUserId':hisUserId, 'hisUsername': hisUsername/*, 'username':'''', 'password':password*/}
 	jsdump('arguments out =' + 	getMainWindow().arguments[0].out)
 	jsdump('arguments out action =' + 	getMainWindow().arguments[0].out.action)
 	jsdump('arguments out userId =' + 	getMainWindow().arguments[0].out.hisUserId)

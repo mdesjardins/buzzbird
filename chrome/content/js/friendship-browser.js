@@ -36,14 +36,13 @@ function unfollow(myUsername,myPassword,hisUserId) {
 	var check = document.getElementById('check-' + myUsername);
 	check.style.display='none';
 	
-	//url = 'http://twitter.com/friendships/destroy/' + hisUserId + '.json';
-	url = 'http://' + myUsername + ':' + myPassword + '@twitter.com/friendships/destroy/' + hisUserId + '.json';
-	jsdump('hitting ' + url);
+	//url = 'http://' + myUsername + ':' + myPassword + '@twitter.com/friendships/destroy/' + hisUserId + '.json';
+	var url = 'http://twitter.com/friendships/destroy/' + hisUserId + '.json';
+	var auth = makeBaseAuth(myUsername,myPassword);
 	new Ajax.Request(url,
 		{
 			method:'post',
-			httpUserName: myUsername,
-			httpPassword: myPassword,
+			requestHeaders: ['Authorization', auth],			
 		    onSuccess: function(transport) { friendshipCallback(transport,myUsername); },
 		    onFailure: function() { 
 				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
@@ -73,8 +72,6 @@ function follow(myUsername,myPassword,hisUserId) {
 	new Ajax.Request(url,
 		{
 			method:'post',
-/*			httpUserName: myUsername,
-			httpPassword: myPassword,*/
 			requestHeaders: ['Authorization', auth],
 		    onSuccess: function(transport) { friendshipCallback(transport,myUsername); },
 		    onFailure: function(transport) { 

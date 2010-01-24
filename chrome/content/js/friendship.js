@@ -64,14 +64,14 @@ function friendshipOnLoad() {
 	var params = window.arguments[0];
 	var hisUserId = params.hisUserId;
 	var hisUsername = params.hisUsername;
-	var username = params.username;
-	var password = params.password;
+	// var username = params.username;
+	// var password = params.password;
 
-	populateUserInfo(username,password,hisUserId);
+	populateUserInfo('','',hisUserId);
 
 	browser = document.getElementById('friendship-browser');
-	browser.contentDocument.getElementById('myUsername').value = username;
-	browser.contentDocument.getElementById('myPassword').value = password;
+	// browser.contentDocument.getElementById('myUsername').value = username;
+	// browser.contentDocument.getElementById('myPassword').value = password;
 	browser.contentDocument.getElementById('hisUserId').value = hisUserId;
 	browser.contentDocument.getElementById('hisUsername').value = hisUsername;
 
