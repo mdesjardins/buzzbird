@@ -1291,8 +1291,11 @@ Ajax.Request = Class.create(Ajax.Base, {
         $H(extras).each(function(pair) { headers[pair.key] = pair.value });
     }
 
-    for (var name in headers)
+	// mdd tweaked to emit headers
+    for (var name in headers) {
+		jsdump('HEADER: '  + name + ': ' + headers[name])
       this.transport.setRequestHeader(name, headers[name]);
+	}
   },
 
   success: function() {

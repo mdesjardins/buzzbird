@@ -535,23 +535,25 @@ function countUnread() {
 		jsdump('Counting.');
 		var i = 0;
 		function doWork() {
-			if (markers[i].src == 'chrome://buzzbird/skin/images/actions/unread.png') {
-				unread.tweet = unread.tweet + 1;
-				if (markers[i].name == "direct-from") {
-					unread.directFrom++;
-				} else if (markers[i].name == "reply") {
-					unread.mentions++;
+			if (markers !== undefined) {
+				if (markers[i].src == 'chrome://buzzbird/skin/images/actions/unread.png') {
+					unread.tweet = unread.tweet + 1;
+					if (markers[i].name == "direct-from") {
+						unread.directFrom++;
+					} else if (markers[i].name == "reply") {
+						unread.mentions++;
+					}
 				}
-			}
-			i++;
-			if (i < len) {
+				i++;
+				if (i < len) {
+					setTimeout(doWork,5);
+				} else {
+					jsdump("Unread: " + unread.tweet + ", Unread mentions: " + unread.mentions + ", Unread direct: " + unread.directFrom);				
+					updateWindowTitle(unread);
+				}
 				setTimeout(doWork,5);
-			} else {
-				jsdump("Unread: " + unread.tweet + ", Unread mentions: " + unread.mentions + ", Unread direct: " + unread.directFrom);				
-				updateWindowTitle(unread);
 			}
 		}
-		setTimeout(doWork,5);
 	} else {
 		updateWindowTitle(unread);
 	}

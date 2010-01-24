@@ -63,19 +63,22 @@ function follow(myUsername,myPassword,hisUserId) {
 	throb.style.display='inline';
 	var check = document.getElementById('check-' + myUsername);
 	check.style.display='none';
+	var hisUsername = document.getElementById('hisUsername').value;
 	
 	//var url = 'http://' + myUsername + ':' + myPassword + '@twitter.com/friendships/create/' + hisUserId + '.json';
 	var url = 'http://twitter.com/friendships/create/' + hisUserId + '.json';
-	var auth = make_base_auth(myUsername,myPassword);
+	jsdump('myUsername: ' + myUsername + ', myPassword: ' + myPassword + ', hisUserId: ' + hisUserId + ', hisUsername: ' + hisUsername);
+	var auth = makeBaseAuth(myUsername,myPassword);
 	jsdump('auth: ' + auth);
 	new Ajax.Request(url,
 		{
 			method:'post',
-			httpUserName: myUsername,
-			httpPassword: myPassword,
+/*			httpUserName: myUsername,
+			httpPassword: myPassword,*/
 			requestHeaders: ['Authorization', auth],
 		    onSuccess: function(transport) { friendshipCallback(transport,myUsername); },
 		    onFailure: function(transport) { 
+				jsdump('ERROR: ' + transport.responseText)
 				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 				                        .getService(Components.interfaces.nsIPromptService);
 				prompts.alert(window, "Sorry.", "There was an error processing your follow request (Error Code " + transport.status + ").");

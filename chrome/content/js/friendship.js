@@ -159,7 +159,7 @@ function getStatusCallback(transport,hisUserId,myUsername) {
 	if (meFollowsHe) {
 		check.checked = true;
 	}
-	var he = browser.contentDocument.getElementById('hisUsername').value;
+	var he = hisUserId; //browser.contentDocument.getElementById('hisUsername').value;
 	
 	if (heFollowsMe) {
 		browser.contentDocument.getElementById('followback-' + myUsername).innerHTML =

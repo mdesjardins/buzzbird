@@ -177,7 +177,7 @@ function jsdump(str) {
 
 // Requires base64
 //
-function make_base_auth(user, password) {
+function makeBaseAuth(user, password) {
   var tok = user + ':' + password;
   var hash = Base64.encode(tok);
   return "Basic " + hash;
