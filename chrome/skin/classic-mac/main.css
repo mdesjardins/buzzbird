@@ -44,3 +44,8 @@ toolbar {
 
 .post-toolbar-button {
 }
+
+#textboxid {
+	margin-top:0px;
+	overflow:auto;
+}

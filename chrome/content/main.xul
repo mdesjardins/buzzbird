@@ -376,7 +376,6 @@ THE SOFTWARE.
 			              onblur="updateLengthDisplay();"
 			              spellcheck="true"
 			              collapsed="true"
-			              style="margin-top:0px;"
 			 		  	  width="100%" />
 			</vbox>
 		</vbox>
