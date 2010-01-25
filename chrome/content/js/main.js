@@ -551,10 +551,11 @@ function countUnread() {
 					jsdump("Unread: " + unread.tweet + ", Unread mentions: " + unread.mentions + ", Unread direct: " + unread.directFrom);				
 					updateWindowTitle(unread);
 				}
-				setTimeout(doWork,5);
 			}
 		}
+		setTimeout(doWork,5);
 	} else {
+		jsdump('None unread?');
 		updateWindowTitle(unread);
 	}
 }
