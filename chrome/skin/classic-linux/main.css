@@ -17,3 +17,6 @@ toolbar {
   -moz-appearance: toolbar;
 }
 
+#accountbuttonid, #filterbuttonid {
+ font-size:0.9em;
+}

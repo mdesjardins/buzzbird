@@ -49,3 +49,7 @@ toolbar {
 	margin-top:0px;
 	overflow:auto;
 }
+
+#accountbuttonid, #filterbuttonid {
+ font-size:0.9em;
+}

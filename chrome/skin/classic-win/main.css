@@ -4,6 +4,7 @@ statusbarpanel {
     border: 0px;
 }
 
+/*
 #toolbarid,
 window > toolbox:nth-of-type(1) > toolbar:nth-of-type(1) {
   -moz-appearance: -moz-mac-unified-toolbar;
@@ -14,4 +15,12 @@ toolbar {
   min-height: 20px !important;
   -moz-appearance: toolbar;
 }
+*/
 
+#accountbuttonid , #filterbuttonid {
+	margin-bottom:8px;
+}
+
+.toolbarbutton-text {
+	padding-top:2px;
+}
