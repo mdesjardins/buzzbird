@@ -46,7 +46,7 @@ THE SOFTWARE.
 	<vbox flex="1" style="overflow:auto; height:100px; width:100%">
 		<hbox id="user_info">
 			<vbox>
-				<image id="avatar" src="" width="64" height="64" style="margin:16px;"/>
+				<image id="avatar" src="" width="64" height="64" onclick="goToAvatar();" style="margin:16px;"/>
 			</vbox>
 			<vbox>
 				<hbox id="name_line">

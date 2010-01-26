@@ -159,7 +159,8 @@ function getStatusCallback(transport,hisUserId,myUsername) {
 	if (meFollowsHe) {
 		check.checked = true;
 	}
-	var he = hisUserId; //browser.contentDocument.getElementById('hisUsername').value;
+	//var he = hisUserId; //browser.contentDocument.getElementById('hisUsername').value;
+	var he = friendship.relationship.target.screen_name;
 	
 	if (heFollowsMe) {
 		browser.contentDocument.getElementById('followback-' + myUsername).innerHTML =
@@ -169,6 +170,11 @@ function getStatusCallback(transport,hisUserId,myUsername) {
 		  '@' + he + ' does not follow @' + myUsername + '.'
 	}
 	check.style.display='inline';
+}
+
+function goToAvatar() {
+	var username = document.getElementById('username').value;
+	linkTo('http://twitter.com/account/profile_image/' + username);
 }
 
 

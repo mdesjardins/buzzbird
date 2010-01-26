@@ -1,5 +1,5 @@
 #user_info {
-	-moz-border-radius:3px;
+	-moz-border-radius:4px;
 	background-color:#666; 
 	background-image:url(chrome://buzzbird/skin/images/user-info-background.png);
 	background-repeat:repeat-x;
@@ -24,6 +24,20 @@
 	cursor:pointer;
 }
 
+#friendship {
+	border:1px solid #515151;
+	background-color:#ccc;
+    background-image:url(chrome://buzzbird/skin/images/friendship-button-background.png);
+	border-color:#111;
+	color:#eee;
+	margin:3px 4px 3px 4px;
+	width:50px; 
+	padding:0px;
+	-moz-border-radius: 15px;
+	font-size:11px;
+	font-weight:bold;
+}
+
 #bio {
 	color:#eee;
 	background-color: transparent; 
@@ -36,12 +50,14 @@
 
 #name {
 	font-size:13px;
-	font-weight:bold;
+	text-shadow: 1px 1px 2px black;
 }
 
 #username {
 	font-size:13px;
+	font-weight:bold;
 	color:#cddfea;
+	text-shadow: 1px 1px 2px black;
 }
 #username:hover {
 	cursor:pointer;
@@ -54,8 +70,4 @@
 #homepage:hover {
 	cursor:pointer;
 	text-decoration:underline;
-}
-
-#friendship {
-	color:#cddfea;
 }

@@ -3,7 +3,7 @@
 <?xml-stylesheet href="chrome://buzzbird/skin/user.css" type="text/css"?>
 
 <!--
-Copyright (c) 2009 Mike Desjardins
+Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 <dialog id="user-dialog" 
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
-		width="450" 
+		width="480" 
 		height="500"
 		title="User"
 		buttons="accept"
