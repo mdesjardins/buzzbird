@@ -361,7 +361,7 @@ THE SOFTWARE.
 					</toolbarbutton>
 					<checkbox id="replycheckboxid" style="margin-left:14px;" label="Reply?" hidden="true" />
 					<box flex="50"/>
-					<button id="postbuttonid"
+					<toolbarbutton id="postbuttonid"
 					               onmousedown="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-inverse.png)';"
 					               onmouseup="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';"
 					               onmouseover="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-hover.png)';"
