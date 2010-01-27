@@ -7,7 +7,7 @@
 <!DOCTYPE window SYSTEM "chrome://buzzbird/locale/main.dtd">
 
 <!--
-Copyright (c) 2009 Mike Desjardins
+Copyright 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -311,6 +311,9 @@ THE SOFTWARE.
 					</toolbarbutton>
 				</vbox>
 			</hbox>
+			
+			<!-- Speech Area  -->
+			
 			<vbox flex="5" width="100%">
 				<box id="speechheaderid"
 				     width="100%" 
@@ -364,7 +367,7 @@ THE SOFTWARE.
 					               onmouseover="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-hover.png)';"
 					               onmouseout="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';"
 					               oncommand="postTweet();"
-					               style="" label="Post"/>
+					               label="Post"/>
 				</box>
 				<textbox id="textboxid" 
 				          multiline="true" 

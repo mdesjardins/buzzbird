@@ -4,23 +4,41 @@ statusbarpanel {
     border: 0px;
 }
 
-/*
-#toolbarid,
-window > toolbox:nth-of-type(1) > toolbar:nth-of-type(1) {
-  -moz-appearance: -moz-mac-unified-toolbar;
-}
-
-toolbar {
-  min-width: 1px;
-  min-height: 20px !important;
-  -moz-appearance: toolbar;
-}
-*/
-
 #accountbuttonid , #filterbuttonid {
 	margin-bottom:8px;
 }
 
 .toolbarbutton-text {
 	padding-top:2px;
+}
+
+#speechheaderid {
+	border:1px solid #515151;
+	background-color:#666; 
+	background-image:url(chrome://buzzbird/skin/images/speech-toolbar-background.png);
+	background-repeat:repeat-x;
+	color:#fff;
+	height:32px;
+	margin-left:4px;
+	margin-right:4px;
+	padding:0 1px 0 1px;
+}
+
+#postbuttonid {
+	color:#cddfea;
+	font-size:12px;
+	padding:0 4px 3px 0;
+	width:50px; 
+}
+
+.post-toolbar-button {
+}
+
+#textboxid {
+	margin-top:0px;
+	overflow:auto;
+}
+
+#accountbuttonid, #filterbuttonid {
+ font-size:0.9em;
 }
