@@ -7,7 +7,7 @@
 <!DOCTYPE window SYSTEM "chrome://buzzbird/locale/main.dtd">
 
 <!--
-Copyright (c) 2009 Mike Desjardins
+Copyright 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -311,6 +311,9 @@ THE SOFTWARE.
 					</toolbarbutton>
 				</vbox>
 			</hbox>
+			
+			<!-- Speech Area  -->
+			
 			<vbox flex="5" width="100%">
 				<box id="speechheaderid"
 				     width="100%" 
@@ -358,13 +361,13 @@ THE SOFTWARE.
 					</toolbarbutton>
 					<checkbox id="replycheckboxid" style="margin-left:14px;" label="Reply?" hidden="true" />
 					<box flex="50"/>
-					<toolbarbutton id="postbuttonid"
+					<button id="postbuttonid"
 					               onmousedown="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-inverse.png)';"
 					               onmouseup="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';"
 					               onmouseover="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-hover.png)';"
 					               onmouseout="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';"
 					               oncommand="postTweet();"
-					               style="" label="Post"/>
+					               label="Post"/>
 				</box>
 				<textbox id="textboxid" 
 				          multiline="true" 
