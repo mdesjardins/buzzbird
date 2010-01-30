@@ -9,7 +9,7 @@
 <?xul-overlay href="chrome://buzzbird/content/global/platformOverlay.xul"?>
 
 <!--
-Copyright (c) 2009 Mike Desjardins
+Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ THE SOFTWARE.
 			type="prefwindow"
 			windowtype="Browser:Preferences"
 			width="550" 
-	        height="375">
+	        height="400">
    
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>

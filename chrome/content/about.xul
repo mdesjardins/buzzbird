@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
 <!--
-Copyright (c) 2009 Mike Desjardins
+Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<dialog id="about-dialog" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" width="300" height="220"
+<dialog id="about-dialog" 
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
+		width="400" 
+		height="250"
 		title="About"
 		buttons="accept"
 		style="padding:0;margin:0">
@@ -32,8 +35,9 @@ THE SOFTWARE.
 				<image src="chrome://buzzbird/content/images/Buzzbird-Logo-48x48.png" height="48" width="48"/>
 			</box>
 			<label style="font-weight:bold;font-size:14px;">Buzzbird</label>
-			<label>Version 0.5</label>
+			<label>Version 0.6</label>
 			<label></label>
-			<label>Copyright 2009 Mike Desjardins</label>
+			<label>Copyright 2010 Mike Desjardins</label>
+			<label>See http://getbuzzbird.com/bb/credits for other credits</label>
 		</vbox>
 </dialog>

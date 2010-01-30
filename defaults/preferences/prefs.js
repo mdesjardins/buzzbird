@@ -12,8 +12,8 @@ pref("browser.chrome.tooltips.attrlist.enabled", true);
 pref("browser.chrome.tooltips.attrlist", "alt|src|data|title|href|cite|action|onclick|onmouseover|onsubmit");
 
 // Needed for preferences window (see https://developer.mozilla.org/en/Preferences_System, or mozilla bug 302509)
-pref("browser.preferences.animateFadeIn", false);
-pref("browser.preferences.instantApply", true);
+//pref("browser.preferences.animateFadeIn", false);
+//pref("browser.preferences.instantApply", true);
 
 // enable password manager
 pref("signon.rememberSignons", true);
