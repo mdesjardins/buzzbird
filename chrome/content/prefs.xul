@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<?xml-stylesheet href="prefs.css" type="text/css"?>
+<?xml-stylesheet href="chrome://buzzbird/skin/prefs.css" type="text/css"?>
 <?xul-overlay href="chrome://buzzbird/content/global/globalOverlay.xul"?>
 <?xul-overlay href="chrome://buzzbird/content/global/editMenuOverlay.xul"?>
 
