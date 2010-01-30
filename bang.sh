@@ -3,6 +3,7 @@ LOCALDIR=~/_play
 if [ "`uname`" = "Linux" ] ; then
   [ -d ./chrome/skin/classic ] || mkdir ./chrome/skin/classic
   cp -fr ./chrome/skin/classic-linux/* ./chrome/skin/classic/
+  cp ./chrome/content/global/linuxOverlay.xul ./chrome/content/global/platformOverlay.xul 
   /opt/xulrunner/xulrunner ./application.ini &
 else
   sudo rm -fr /Applications/Buzzbird.app 

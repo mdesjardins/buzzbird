@@ -12,18 +12,4 @@
 	  </menu>
 	</menubar>
 
-	<label id="realnameLabelId" value="Testy Tester" style="padding:10px 0px 0px 9px; margin:0px 0px 0px 0px; font-size:1.2em;" />
-
-	<toolbarbutton id="accountbuttonid" 
-		       type="menu-button" 
-		       style="font-size:0.9em; margin-left:10px; margin-top:7px;">
-   		<menupopup id="accountbuttonmenuid" selectedIndex="0" style="padding:0px; margin:0px;">
-    		</menupopup>
-	</toolbarbutton>
-
-	<toolbarbutton id="filterbuttonid" 
-		       type="menu-button" 
-		       label="&showingAllTweets.label;" 
-		       style="font-size:0.9em; margin-left:10px; margin-top:7px;"/>
-
 </overlay>
