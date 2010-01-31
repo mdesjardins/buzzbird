@@ -18,14 +18,14 @@ statusbarpanel {
 	background-image:url(chrome://buzzbird/skin/images/speech-toolbar-background.png);
 	background-repeat:repeat-x;
 	color:#fff;
-	height:32px;
+	height:40px;
 	margin-left:4px;
 	margin-right:4px;
 	padding:0 1px 0 1px;
 }
 
 #postbuttonid {
-	color:#eee;
+	color:#291c1c;
 	font-size:12px;
 	padding:0 4px 3px 0;
 	width:50px; 
