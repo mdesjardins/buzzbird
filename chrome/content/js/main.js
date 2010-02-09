@@ -310,7 +310,7 @@ function fetchUrl(destinations) {
 
 function fetchAll() {
 	jsdump('in fetchAll');
-	fetchUrl(['http://twitter.com/direct_messages.json','http://twitter.com/statuses/mentions.json','http://twitter.com/statuses/home_timeline.json?count=50']);
+	fetchUrl(['http://twitter.com/direct_messages.json','http://twitter.com/statuses/mentions.json','http://twitter.com/statuses/home_timeline.json?count=50']);	
 }
 function fetch() {
 	var markAsReadNow = getBoolPref("buzzbird.auto.markread",false);
