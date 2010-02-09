@@ -259,6 +259,7 @@ function renderNewTweets(url,newTweets) {
 // THE BIG CHEESE.
 //
 function fetchUrlCallback(transport,url,destinations) {
+	var url = '';
 	jsdump('fetched ===> ' + url);
     var response = eval('(' + transport.responseText + ')');
 	jsdump('url:' + url);
@@ -308,27 +309,72 @@ function fetchUrl(destinations) {
 	}
 }
 
+function fetchFinished() {
+	var d = new Date();
+	var mins = d.getMinutes()
+	if (mins < 10) {
+		mins = '0' + mins;
+	}
+	updateLengthDisplay();		
+	refreshAllowed(true);
+	progress(false);
+	countUnread();
+	setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
+}
+
+function fetchCallback(transport) {
+    //var response = eval('(' + transport.responseText + ')');
+	renderNewTweets('',transport);
+}
+
 function fetchAll() {
-	jsdump('in fetchAll');
-	fetchUrl(['http://twitter.com/direct_messages.json','http://twitter.com/statuses/mentions.json','http://twitter.com/statuses/home_timeline.json?count=50']);	
+	BzTwitter.fetchAll({
+		username: getUsername(),
+		password: getPassword(),
+		onFetched: fetchCallback,
+		onFinished: fetchFinished,
+		count: 50,
+		timelineSince: mostRecentTweet,
+		directSince: mostRecentDirect,
+		allMentions: true
+	});
 }
+
 function fetch() {
-	var markAsReadNow = getBoolPref("buzzbird.auto.markread",false);
-	if (markAsReadNow) {
-		markAllAsRead();
-	}
-	
-	// Don't think we need this check anymore, but I'm superstitious...
-	if(typeof fetchUrl === 'function') {
-		fetchUrl(['http://twitter.com/statuses/home_timeline.json','http://twitter.com/direct_messages.json']);
-	}
+	BzTwitter.fetchAll({
+		username: getUsername(),
+		password: getPassword(),
+		onFetched: fetchCallback,
+		onFinished: fetchFinished,
+		count: 50,
+		timelineSince: mostRecentTweet,
+		directSince: mostRecentDirect,
+		allMentions: false
+	});
 }
-function fetchWithRetweets() {
-	// Don't think we need this check anymore, but I'm superstitious...
-	if(typeof fetchUrl === 'function') {
-		fetchUrl(['http://twitter.com/statuses/home_timeline.json','http://twitter.com/direct_messages.json','http://twitter.com/statuses/retweeted_by_me.json']);
-	}
-}
+
+//function fetchAll() {
+//	jsdump('in fetchAll');
+//	fetchUrl(['http://twitter.com/direct_messages.json','http://twitter.com/statuses/mentions.json','http://twitter.com/statuses/home_timeline.json?count=50']);	
+//}
+//
+// function fetch() {
+// 	var markAsReadNow = getBoolPref("buzzbird.auto.markread",false);
+// 	if (markAsReadNow) {
+// 		markAllAsRead();
+// 	}
+// 	
+// 	// Don't think we need this check anymore, but I'm superstitious...
+// 	if(typeof fetchUrl === 'function') {
+// 		fetchUrl(['http://twitter.com/statuses/home_timeline.json','http://twitter.com/direct_messages.json']);
+// 	}
+// }
+// function fetchWithRetweets() {
+// 	// Don't think we need this check anymore, but I'm superstitious...
+// 	if(typeof fetchUrl === 'function') {
+// 		fetchUrl(['http://twitter.com/statuses/home_timeline.json','http://twitter.com/direct_messages.json','http://twitter.com/statuses/retweeted_by_me.json']);
+// 	}
+// }
 
 // This function is called from the UI to request a tweet fetch.
 // We need to reset the update timer when the user requests a 
