@@ -182,3 +182,20 @@ function makeBaseAuth(user, password) {
   var hash = Base64.encode(tok);
   return "Basic " + hash;
 }
+
+// Returns 'tweet','reply','direct', or 'mine'
+//
+function tweetType(tweet,username,password) {
+	var re = new RegExp(".*?@" + username + ".*?");
+	var result = 'tweet'
+	if (tweet.text.substring(0,11) == "Directly to") {
+		result = 'direct-to';
+	} else if (tweet.sender != undefined) {
+		result = 'direct-from';
+	} else if (tweet.in_reply_to_screen_name == username || re.test(tweet.text)) {
+		result = 'reply';
+	} else if (tweet.user.screen_name == username) {
+		result = 'mine';
+	}
+	return result;
+}

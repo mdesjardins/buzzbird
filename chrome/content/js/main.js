@@ -117,7 +117,7 @@ function registerEvents() {
 	jsdump('register events')
 	try {
 		getMainWindow().document.addEventListener("fetchAll", fetchAll, false); 
-		getMainWindow().document.addEventListener("fetchWithRetweets", fetchWithRetweets, false); 
+//		getMainWindow().document.addEventListener("fetchWithRetweets", fetchWithRetweets, false); 
 		getMainWindow().document.addEventListener("fetch", fetch, false); 
 		getMainWindow().document.addEventListener("start", start, false); 
 		getMainWindow().document.addEventListener("openSpeech", getMainWindow().openSpeech, false); 
@@ -233,10 +233,14 @@ function renderNewTweets(url,newTweets) {
 
 		var newText = '';
 		for (var i=0; i<newTweets.length; i++) {
-			if (url.match('home_timeline') && (mostRecentTweet == null || mostRecentTweet < newTweets[i].id)) {
+			//if (url.match('home_timeline') && (mostRecentTweet == null || mostRecentTweet < newTweets[i].id)) {
+			var type = tweetType(newTweets[i]);
+			if ((type == 'tweet' || type == 'reply' || type == 'mine') &&
+			    (mostRecentTweet == null || mostRecentTweet < newTweets[i].id)) {
 				mostRecentTweet = newTweets[i].id;
 				jsdump('mostRecentTweet:' + mostRecentTweet);
-			} else if (url.match('direct_messages') && (mostRecentDirect == null || mostRecentDirect < newTweets[i].id)) {
+			//} else if (url.match('direct_messages') && (mostRecentDirect == null || mostRecentDirect < newTweets[i].id)) {
+			} else if (type == 'direct' && (mostRecentDirect == null || mostRecentDirect < newTweets[i].id)) {
 				mostRecentDirect = newTweets[i].id;
 				jsdump('mostRecentDirect:' + mostRecentDirect);
 			}
