@@ -171,15 +171,15 @@ var BzTwitter = {
 		fetchUserTimeline: 'http://twitter.com/statuses/user_timeline/QUERIED_USER_ID.json?count=COUNT',
 		fetchRetweetedByMe: 'http://twitter.com/statuses/retweeted_by_me.json?count=COUNT',
 		fetchUserProfile: 'http://twitter.com/users/show/QUERIED_USER_ID.json',
-		postUpdate: 'http://twitter.com/statuses/update.json?status=STATUS'
+		postUpdate: 'http://twitter.com/statuses/update.json?status=STATUS&source=SOURCE'
 	},
 	
-	_funcs : [],
+	_source : "buzzbird",
 	
 	// A lot of this AJAXery was inspired by the jx.js library.
 	// http://www.openjs.com/scripts/jx/
 	//
-	_ajax : function(username,password,url,callback,method) {
+	_ajax : function(username,password,url,callback,error,method) {
 		try {
 			http = new XMLHttpRequest();
 		} catch (e) {
@@ -207,7 +207,7 @@ var BzTwitter = {
 						if (error) {
 							result = { error: http.status };
 							callback(result);
-							error(http.status); // TODO - Error Callback
+							error(http.status); 
 						}
 					}
 				}
@@ -216,17 +216,15 @@ var BzTwitter = {
 		}
 	},
 	
-	_ajaxGet : function(username,password,url,callback) {
-		return this._ajax(username,password,url,callback,"GET");
+	_ajaxGet : function(username,password,url,callback,error) {
+		return this._ajax(username,password,url,callback,error,"GET");
 	},
 	
-	_ajaxPost : function(username,password,url,callback) {
-		return this._ajax(username,password,url,callback,"POST");
+	_ajaxPost : function(username,password,url,callback,error) {
+		return this._ajax(username,password,url,callback,error,"POST");
 	},
 	
-	_initUrl : function(url,username,password,count,since,queriedId) {
-		url = url.replace("USERNAME",username);
-		url = url.replace("PASSWORD",password);
+	_initUrl : function(url,count,since,queriedId) {
 		if (url.match(/COUNT/)) {
 			if (count == undefined || count == null) {
 				count = 50;
@@ -239,95 +237,119 @@ var BzTwitter = {
 		if (since != undefined && since != null) {
 			url = url + '&since_id=' + since;
 		}
+		if (url.match(/SOURCE/)) {
+			url = url.replace("SOURCE",BzTwitter._source)
+		}
 		return url;
 	},
 	
-	fetchTimeline : function(username,password,callback,count,since) {
-		var url = this.url.fetchTimeline;
-		url = this._initUrl(url,username,password,count,since,null);
-		return this._ajaxGet(username,password,url,callback);
-	},
-	
-	fetchMentions : function(username,password,callback,count) {
-		var url = this.url.fetchMentions;
-		url = this._initUrl(url,username,password,count,null,null);
-		return this._ajaxGet(username,password,url,callback);
-	},
-	
-	fetchDirectTo : function(username,password,callback,count,since) {
-		var url = this.url.fetchDirectTo;
-		url = this._initUrl(url,username,password,count,since,null);
-		return this._ajaxGet(username,password,url,callback);
-	},
-	
-	fetchUserTimeline : function(username,password,callback,queriedUserId,count) {
-		var url = this.url.fetchUserTimeline;
-		url = this._initUrl(url,username,password,count,null,queriedUserId);
-		return this._ajaxGet(username,password,url,callback);
-	},
-	
-	fetchUserProfile : function(username,password,callback,queriedUserId) {
-		var url = this.url.fetchUserTimeline;
-		url = this._initUrl(url,username,password,0,null,queriedUserId);
-		return this._ajaxGet(username,password,url,callback);
-	},	
-	
-	postUpdate : function(username,password,callback,text) {
-		var url = this.url.postUpdate;
-		url = this._initUrl(url,username,password,0,null,queriedUserId);
-		url = url.replace('STATUS', encodeURIComponent(text));
-		// Need to un-encode at signs or replies will not work.	
-		url = url.replace(/%40/g, '@');
-		return this._ajaxPost(username,password,url,callback);
-	},
-	
-	postReply : function(username,password,callback,text,replyingToId) {
-		var url = this.url.postUpdate;
-		url = this._initUrl(url,username,password,0,null,queriedUserId);
-		url = url + '?status=' + encodeURIComponent(tweet);
-		// Need to un-encode at signs or replies will not work.	
-		url = url.replace(/%40/g, '@');
-		url = url + '&in_reply_to_status_id=' + replyingToId;
-		return this._ajaxPost(username,password,url,callback);
-	},
-	
-	// The next three functions can be used to perform a single update.
+	// Fetches the user's timeline.
 	// Options:
 	//  username = username
 	//  password = password
-	//  onFetched = called on each update
-	//  onFinished = called after all updates
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
 	//  count = number of tweets to ask for.
-	//  directSince = fetch directs since this ID
-	//  timelineSince = fetch timeline tweets since this ID
-	//  allMentions = (true|false) fetch all mentions, too.
+	//  since = fetch timeline tweets since this ID
 	//
-	fetchAll : function(options) {
-		var u = options.username;
-		var p = options.password;
-		var c = function(transport) { BzTwitter._fetchOneCallback(transport,options); };
-		if (options.allMentions == undefined || options.allMentions == false) {
-			this._funcs = [function() {BzTwitter.fetchDirectTo(u,p,c,options.count,options.directSince);},
-			               function() {BzTwitter.fetchTimeline(u,p,c,options.count,options.timelineSince);}];
-		} else {
-			this._funcs = [function() {BzTwitter.fetchDirectTo(u,p,c,options.count,options.directSince);},
-			               function() {BzTwitter.fetchMentions(u,p,c,options.count);},
-			               function() {BzTwitter.fetchTimeline(u,p,c,options.count,options.timelineSince);}];
-		}
-		this._fetchOne(options);
+	fetchTimeline : function(options) {
+		var url = this.url.fetchTimeline;
+		url = this._initUrl(url, options.count, options.since, null);
+		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 	
-	_fetchOne : function(options) {
-		var func = this._funcs.shift();
-		if (func == undefined && options.onFinished != undefined) {
-			options.onFinished();
-		} else {
-			func();
-		}
+	// Fetches mentions of the user.
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  count = number of tweets to ask for.
+	//  since = fetch timeline tweets since this ID
+	//
+	fetchMentions : function(options) {
+		var url = this.url.fetchMentions;
+		url = this._initUrl(url, options.count, options.since, null);
+		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 	
-	_fetchOneCallback : function(transport,options) {
-		options.onFetched(transport);
-		this._fetchOne(options);
-	}
+	// Fetches direct messages to this user.
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  count = number of tweets to ask for.
+	//
+	fetchDirectTo : function(options) {
+		var url = this.url.fetchDirectTo;
+		url = this._initUrl(url, options.count, options.since, null);
+		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+	},
+	
+	// Fetches another user's timeline (not the logged in user's)
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  count = number of tweets to ask for.
+	//  queriedUserId = the ID of the user to look up.
+	//
+	fetchUserTimeline : function(options) {
+		var url = this.url.fetchUserTimeline;
+		url = this._initUrl(url, options.count, null, options.queriedUserId);
+		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+	},
+	
+	// Fetches a user's profile.
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  count = number of tweets to ask for.
+	//  queriedUserId = the ID of the user to look up.
+	//
+	fetchUserProfile : function(options) {
+		var url = this.url.fetchUserTimeline;
+		url = this._initUrl(url, null, null, options.queriedUserId);
+		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+	},	
+	
+	// Posts a status update.
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  text = the content of the status update to post.
+	//
+	postUpdate : function(options) {
+		var url = this.url.postUpdate;
+		url = this._initUrl(url,null,null,null);
+		url = url.replace('STATUS', encodeURIComponent(options.text));
+		// Need to un-encode at signs or replies will not work.	
+		url = url.replace(/%40/g, '@');
+		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);
+	},
+	
+	// Posts a reply to an existing status update.
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  text = the content of the status update to post.
+	//  replyingToId = ID of the status to which we're replying.
+	//
+	postReply : function(options) {
+		var url = this.url.postUpdate;
+		url = this._initUrl(url,null,null,null);
+		url = url + '?status=' + encodeURIComponent(options.text);
+		// Need to un-encode at signs or replies will not work.	
+		url = url.replace(/%40/g, '@');
+		url = url + '&in_reply_to_status_id=' + options.replyingToId;
+		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);
+	},
 }

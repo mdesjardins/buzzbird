@@ -62,7 +62,7 @@ THE SOFTWARE.
 		<command id="cmd_goToUser" oncommand="goToUser();" />
 		<command id="cmd_markAllAsRead" oncommand="markAllAsRead();" />
 		<command id="cmd_deleteAllRead" oncommand="deleteAllRead();" />
-		<command id="cmd_refreshNow" oncommand="forceUpdate();" />
+		<command id="cmd_refreshNow" oncommand="forceFetch();" />
 		<command id="cmd_shortenUrl" oncommand="shortenUrl();" />
 		<command id="cmd_speech" oncommand="toggleSpeech();" />
 		<command id="cmd_zoomBigger" oncommand="zoomBigger();" />
@@ -94,7 +94,7 @@ THE SOFTWARE.
 		 	 modifiers="accel"/>
 		<key id="key_refreshNow" 
 		 	 key="&refreshNowCmd.key;" 
-		 	 command="cmd_forceUpdate" 
+		 	 command="cmd_refreshNow" 
 		 	 modifiers="accel"/>
 		<key id="key_shortenUrl" 
 		 	 key="&shortenUrlCmd.key;" 

@@ -56,7 +56,7 @@ THE SOFTWARE.
 	<commandset id="mainCommandSet">
 		<command id="cmd_quitApplication" oncommand="quitApplication();"/>
 		<command id="cmd_markAllAsRead" oncommand="markAllAsRead();" />
-		<command id="cmd_refreshNow" oncommand="forceUpdate();" />
+		<command id="cmd_refreshNow" oncommand="forceFetch();" />
 		<command id="cmd_shortenUrl" oncommand="shortenUrl();" />
 	</commandset>
 	
@@ -76,7 +76,7 @@ THE SOFTWARE.
 		 	 modifiers="accel"/>
 		<key id="key_refreshNow" 
 		 	 key="&refreshNowCmd.key;" 
-		 	 command="cmd_forceUpdate" 
+		 	 command="cmd_refreshNow" 
 		 	 modifiers="accel"/>
 		<key id="key_shortenUrl" 
 		 	 key="&shortenUrlCmd.key;" 

@@ -102,14 +102,14 @@ function start() {
 
 // Just dispatches for now.
 //
-function fetchAll() {
+function firstCycleFetch() {
     jsdump('sending event up.');
 	try {
         var ev = document.createEvent("Events");
-        ev.initEvent("fetchAll", true, false);
+        ev.initEvent("firstCycleFetch", true, false);
         getMainWindow().document.dispatchEvent(ev);
     } catch (e) {
-        jsdump("Exception sending fetchAll event: "+ e);
+        jsdump("Exception sending firstCycleFetch event: "+ e);
     }
 }
 
@@ -193,7 +193,7 @@ function retweet(id) {
 				parameters:'source=buzzbird',
 				httpUserName: getUsername(),
 				httpPassword: getPassword(),
-			    onSuccess: function() { dispatch('fetchWithRetweets'); },
+			    onSuccess: function() { dispatch('cycleFetch'); },
 			    onFailure: function() { 
 					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 					                        .getService(Components.interfaces.nsIPromptService);

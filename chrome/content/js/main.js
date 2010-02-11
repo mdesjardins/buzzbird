@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2009 Mike Desjardins
+Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ function authenticate(u, p, save) {
 		}
 		var interval = getIntPref('buzzbird.update.interval',180000);
 		jsdump('interval=' + interval);
-		var updateTimer = getMainWindow().setInterval( function(that) { that.fetch(); }, interval, getMainWindow());
+		var updateTimer = getMainWindow().setInterval( function(that) { that.cycleFetch(); }, interval, getMainWindow());
 		getChromeElement('updateTimerId').value = updateTimer;
 		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 	} else {
@@ -116,9 +116,8 @@ function login() {
 function registerEvents() {
 	jsdump('register events')
 	try {
-		getMainWindow().document.addEventListener("fetchAll", fetchAll, false); 
-//		getMainWindow().document.addEventListener("fetchWithRetweets", fetchWithRetweets, false); 
-		getMainWindow().document.addEventListener("fetch", fetch, false); 
+		getMainWindow().document.addEventListener("firstCycleFetch", firstCycleFetch, false); 
+		getMainWindow().document.addEventListener("cycleFetch", cycleFetch, false); 
 		getMainWindow().document.addEventListener("start", start, false); 
 		getMainWindow().document.addEventListener("openSpeech", getMainWindow().openSpeech, false); 
 		getMainWindow().document.addEventListener("closeSpeech", getMainWindow().closeSpeech, false); 
@@ -169,17 +168,6 @@ function updateLengthDisplay() {
 	}
 }
 
-// Toggles the progress meter.
-//
-function progress(throbbing) {
-	var mainWindow = getMainWindow();
-//	if (throbbing) {
-//		getChromeElement('avatarId').src = 'chrome://buzzbird/content/images/ajax-loader.gif';
-//	} else {
-//		getChromeElement('avatarId').src = getChromeElement('avatarLabelId').value;
-//	}
-}
-
 // Update timestamp
 //
 function updateTimestamps() {
@@ -220,8 +208,8 @@ function updateTimestamps() {
 
 // Iterates over newly fetched tweets to add them to the browser window.
 //
-function renderNewTweets(url,newTweets) {
-	jsdump('renderNewTweets, length: ' +newTweets.length+ ', for ' + url);
+function renderNewTweets(newTweets) {
+	jsdump('renderNewTweets, number of tweets: ' + newTweets.length);
 	if (newTweets.length == 0) {
 		jsdump('renderNewTweets: Nothing to do, skipping.');
 	} else {
@@ -233,13 +221,11 @@ function renderNewTweets(url,newTweets) {
 
 		var newText = '';
 		for (var i=0; i<newTweets.length; i++) {
-			//if (url.match('home_timeline') && (mostRecentTweet == null || mostRecentTweet < newTweets[i].id)) {
 			var type = tweetType(newTweets[i]);
 			if ((type == 'tweet' || type == 'reply' || type == 'mine') &&
 			    (mostRecentTweet == null || mostRecentTweet < newTweets[i].id)) {
 				mostRecentTweet = newTweets[i].id;
 				jsdump('mostRecentTweet:' + mostRecentTweet);
-			//} else if (url.match('direct_messages') && (mostRecentDirect == null || mostRecentDirect < newTweets[i].id)) {
 			} else if (type == 'direct' && (mostRecentDirect == null || mostRecentDirect < newTweets[i].id)) {
 				mostRecentDirect = newTweets[i].id;
 				jsdump('mostRecentDirect:' + mostRecentDirect);
@@ -258,220 +244,6 @@ function renderNewTweets(url,newTweets) {
 			getBrowser().contentWindow.scrollTo(x,y + difference);
 		}
 	}
-}
-
-// THE BIG CHEESE.
-//
-function fetchUrlCallback(transport,url,destinations) {
-	var url = '';
-	jsdump('fetched ===> ' + url);
-    var response = eval('(' + transport.responseText + ')');
-	jsdump('url:' + url);
-	renderNewTweets(url,response);
-	fetchUrl(destinations);
-}
-function fetchFailureCallback(transport) {
- 	progress(false); 
-	refreshAllowed(true); 
-	jsdump('Something went wrong: ' + transport.status + ', ' + transport.responseText);	
-	message('Error: ' + transport.status);
-}
-function fetchUrl(destinations) {
-	message("Fetching tweets");
-	refreshAllowed(false);
-	progress(true);
-	var url = destinations.shift();
-
-	if (url == undefined) {
-		//
-		// All done fetching
-		//
-		var d = new Date();
-		var mins = d.getMinutes()
-		if (mins < 10) {
-			mins = '0' + mins;
-		}
-		updateLengthDisplay();		
-		refreshAllowed(true);
-		progress(false);
-		countUnread();
-		setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
-	} else {
-		var since = (url.match('home_timeline') || url.match('retweeted_by_me')) ? mostRecentTweet : mostRecentDirect;
-		if ((url.match('home_timeline') || url.match('retweeted_by_me') || url.match('direct_messages')) && since != null) {
-			url = url + '?since_id=' + since;
-		}
-		jsdump('fetching ===>' + url);
-		new Ajax.Request(url,
-		  {
-		    method:'get',
-			httpUserName: getUsername(),
-			httpPassword: getPassword(),
-		    onSuccess: function(transport) { fetchUrlCallback(transport,url,destinations); },
-		    onFailure: fetchFailureCallback
-		  });	
-	}
-}
-
-function fetchFinished() {
-	var d = new Date();
-	var mins = d.getMinutes()
-	if (mins < 10) {
-		mins = '0' + mins;
-	}
-	updateLengthDisplay();		
-	refreshAllowed(true);
-	progress(false);
-	countUnread();
-	setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
-}
-
-function fetchCallback(transport) {
-    //var response = eval('(' + transport.responseText + ')');
-	renderNewTweets('',transport);
-}
-
-function fetchAll() {
-	BzTwitter.fetchAll({
-		username: getUsername(),
-		password: getPassword(),
-		onFetched: fetchCallback,
-		onFinished: fetchFinished,
-		count: 50,
-		timelineSince: mostRecentTweet,
-		directSince: mostRecentDirect,
-		allMentions: true
-	});
-}
-
-function fetch() {
-	BzTwitter.fetchAll({
-		username: getUsername(),
-		password: getPassword(),
-		onFetched: fetchCallback,
-		onFinished: fetchFinished,
-		count: 50,
-		timelineSince: mostRecentTweet,
-		directSince: mostRecentDirect,
-		allMentions: false
-	});
-}
-
-//function fetchAll() {
-//	jsdump('in fetchAll');
-//	fetchUrl(['http://twitter.com/direct_messages.json','http://twitter.com/statuses/mentions.json','http://twitter.com/statuses/home_timeline.json?count=50']);	
-//}
-//
-// function fetch() {
-// 	var markAsReadNow = getBoolPref("buzzbird.auto.markread",false);
-// 	if (markAsReadNow) {
-// 		markAllAsRead();
-// 	}
-// 	
-// 	// Don't think we need this check anymore, but I'm superstitious...
-// 	if(typeof fetchUrl === 'function') {
-// 		fetchUrl(['http://twitter.com/statuses/home_timeline.json','http://twitter.com/direct_messages.json']);
-// 	}
-// }
-// function fetchWithRetweets() {
-// 	// Don't think we need this check anymore, but I'm superstitious...
-// 	if(typeof fetchUrl === 'function') {
-// 		fetchUrl(['http://twitter.com/statuses/home_timeline.json','http://twitter.com/direct_messages.json','http://twitter.com/statuses/retweeted_by_me.json']);
-// 	}
-// }
-
-// This function is called from the UI to request a tweet fetch.
-// We need to reset the update timer when the user requests a 
-// refresh to prevent our tweets from happening too closely
-// together.
-//
-function forceUpdate() {
-	// This stuff doesn't seem to work... not sure why?  I was just trying to cancel
-	// a pending update and push it out to updateinterval seconds from now...
-	//
-	// var timer = getUpdateTimer();
-	// jsdump('clearing timer #' + timer);
-	// window.clearInterval(timer);
-	// timer = window.setInterval(fetch,getIntPref('buzzbird.update.interval',180000));
-	// jsdump('setting timer #' + timer);
-	// getChromeElement('updateTimerId').value = timer;
-	jsdump('forceUpdate called.');
-	fetch();
-}
-
-// Called on succesful tweet postation
-//
-function postTweetCallback(tweetText) {
-	if (tweetText.match(/^d(\s){1}(\w+?)(\s+)(\w+)/)) {
-		// It was a DM, need to display it manually.
-		var tweet = {
-			id : 0,
-			text : "",
-			created_at : new Date(),
-			sender : "",
-			user : {
-			   	screen_name : "",
-				profile_image_url : "",
-				name : ""
-			},
-			source : ""
-		};
-		tweet.text = "Directly to " + tweetText.substring(2);
-		tweet.sender = getUsername();
-		tweet.user.screen_name = getUsername();
-		tweet.user.profile_image_url = getChromeElement("avatarLabelId").value;
-		tweet.user.name = getChromeElement("realnameLabelId").value;
-		tweet.in_reply_to_screen_name = "";
-		tweet.sender = undefined;
-		insertAtTop(formatTweet(tweet,getUsername(),getPassword()));
-	}
-	forceUpdate();
-}
-
-// Posts a twitter update.
-//
-function postTweet() {
-	var tweet = getChromeElement('textboxid').value;
-	url = 'http://twitter.com/statuses/update.json';
-	url = url + '?status=' + encodeURIComponent(tweet); 	
-	var replyTweetId = getChromeElement('replyTweetId').value;
-	var replyCheckHidden = getChromeElement('replycheckboxid').hidden;
-	var replyChecked = getChromeElement('replycheckboxid').checked;	
-	jsdump('replyTweetId=' + replyTweetId);
-	jsdump('replyCheckHidden=' + replyCheckHidden);
-	jsdump('replyChecked=' + replyChecked);
-	if (!replyCheckHidden && replyChecked && replyTweetId > 0) {
-		jsdump("Replying");
-		url = url + "&in_reply_to_status_id=" + replyTweetId;
-	}
-	// Need to un-encode at signs or replies won't work.	
-	url = url.replace(/%40/g, '@');
-	jsdump("post url = " + url);
-	new Ajax.Request(url,
-		{
-			method:'post',
-			parameters:'source=buzzbird',
-			httpUserName: getUsername(),
-			httpPassword: getPassword(),
-		    onSuccess: function() { 
-				var textbox = getChromeElement('textboxid');
-				textbox.reset();
-				textbox.disabled = false;
-				getChromeElement('statusid').label = updateLengthDisplay();
-				getChromeElement('replyTweetId').value = "0";
-				getChromeElement('replycheckboxid').hidden = true;
-				getChromeElement('replycheckboxid').checked = false;		
-				postTweetCallback(tweet); 
-			},
-		    onFailure: function() { 
-				var textbox = getChromeElement('textboxid');
-				textbox.disabled = false;
-				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-				                        .getService(Components.interfaces.nsIPromptService);
-				prompts.alert(window, "Sorry.", "There was an error posting that status update.");
-				postTweetCallback(); 
-			}
-		});
 }
 
 // Runs on each key press in the tweet-authoring text area.
@@ -547,26 +319,6 @@ function showDirect() {
 }
 function showOrHide(tweetType,disp) {
 	getChromeElement('filtermenupopupid').disabled=true;
-	// ugh, this didn't work as well as I had hoped...
-	//
-	// var elements = getBrowser().contentDocument.getElementsByName(tweetType);
-	// if (elements != null && elements != undefined && elements.length > 0) {
-	// 	var i = 0;
-	// 	function doWork() {
-	// 		var j = 25;
-	// 		var len = elements.length;
-	// 		while (i<len && j--) {
-	// 			if (elements[i].style.display != disp) {
-	// 				elements[i].style.display = disp;
-	// 			}
-	// 			i++;
-	// 		}
-	// 		if (i < len) {
-	// 			setTimeout(doWork, 1);
-	// 		}
-	// 	}
-	// 	setTimeout(doWork, 1);
-	// }
 	var elements = getBrowser().contentDocument.getElementsByName(tweetType);
 	for (var i=elements.length-1; i>=0; i--) {
 		element = elements[i];
@@ -610,6 +362,8 @@ function countUnread() {
 	}
 }
 
+// Puts unread counters in the titlebar.
+//
 function updateWindowTitle(unread) {
 	var windowTitlePref = getStringPref('buzzbird.window.title','both');
 	var windowTitle = "Buzzbird";
@@ -630,8 +384,7 @@ function updateWindowTitle(unread) {
 			windowTitle = windowTitle + " (" + unread.directFrom + " unread direct)"
 		}
 	} 
-	document.title = windowTitle;
-	
+	document.title = windowTitle;	
 }
 
 // Marks all as read.
@@ -652,7 +405,8 @@ function markAllAsRead() {
 	}
 }
 
-// Deletes all the previously marked-as-read tweets.  This is astoundingly inefficient.
+// Deletes all the previously marked-as-read tweets.  This is astoundingly inefficient.  It's
+// so bad that I don't use it anymore.
 //
 function deleteAllRead() {
 	var xx = getBrowser().contentDocument.getElementsByName('mark');
@@ -660,7 +414,7 @@ function deleteAllRead() {
 	while (len--) {
 		x = xx[len];
 		// Yes, this is a hack, too.
-		if (x.src == 'chrome://buzzbird/skin/images/actions/checkmark-gray.png') {
+		if (x.src == 'chrome://buzzbird/skin/images/actions/unread.png') {
 			id = x.id.substring(x.id.indexOf('-')+1);
 			//jsdump( 'x.id ' + x.id + ' became ' + id);
 			removeTweetFromDom(id);
@@ -786,8 +540,7 @@ function goToUser() {
 			dispatch('openSpeech');
 			dispatch('updateTweetLength');
 		}
-	  }		
-	  
+	  }			  
 	}
 }
 
@@ -1132,7 +885,231 @@ function start() {
 	var zoom = getIntPref("buzzbird.zoom",100);
 	var docViewer = getBrowser().markupDocumentViewer;
 	docViewer.fullZoom = zoom/100.0;
-	fetchAll();
+	firstCycleFetch();
+}
+
+//
+// Twitter API calls here.
+//
+
+function fetchAll() {
+	jsdump('!!!! DEPRECATED CALL TO fetchAll()');
+	firstCycleFetch();
+}
+
+function fetch() {
+	jsdump('!!!! DEPRECATED CALL TO fetch()');	
+	cycleFetch();
+}
+
+// First cycle... fetch direct, mentions, then timeline...
+//
+function firstCycleFetch() {
+	jsdump('firstCycleFetch');
+	BzTwitter.fetchDirectTo({
+		username: getUsername(),
+		password: getPassword(),
+		onSuccess: firstCycleFetchDirectCallback,
+		onError: fetchError,
+		count: 50,
+		since: mostRecentDirect,
+	});	
+}
+
+function firstCycleFetchDirectCallback(tweets) {
+	jsdump('firstCycleFetchDirectCallback');
+	renderNewTweets(tweets);
+	BzTwitter.fetchMentions({
+		username: getUsername(),
+		password: getPassword(),
+		onSuccess: firstCycleFetchMentionsCallback,
+		onError: fetchError,
+		count: 50,
+		timelineSince: mostRecentTweet,
+	});		
+}
+
+function firstCycleFetchMentionsCallback(tweets) {
+	jsdump('firstCycleFetchMentionsCallback');
+	renderNewTweets(tweets);
+	BzTwitter.fetchTimeline({
+		username: getUsername(),
+		password: getPassword(),
+		onSuccess: firstCycleFetchTimelineCallback,
+		onError: fetchError,
+		count: 50,
+		timelineSince: mostRecentTweet,
+	});		
+}
+
+function firstCycleFetchTimelineCallback(tweets) {
+	jsdump('firstCycleFetchTimelineCallback');
+	renderNewTweets(tweets);
+	fetchFinished();
+}
+
+// Regular cycle... direct, then timeline...
+//
+function cycleFetch() {
+	jsdump('cycleFetch');
+	BzTwitter.fetchDirectTo({
+		username: getUsername(),
+		password: getPassword(),
+		onSuccess: cycleFetchDirectCallback,
+		onError: fetchError,
+		count: 50,
+		timelineSince: mostRecentTweet,
+		directSince: mostRecentDirect,
+	});	
+}
+
+function cycleFetchDirectCallback(tweets) {
+	jsdump('cycleFetchDirectCallback');
+	renderNewTweets(tweets);
+	BzTwitter.fetchTimeline({
+		username: getUsername(),
+		password: getPassword(),
+		onSuccess: cycleFetchTimelineCallback,
+		onError: fetchError,
+		count: 50,
+		timelineSince: mostRecentTweet,
+	});		
+}
+
+function cycleFetchTimelineCallback(tweets) {
+	jsdump('cycleFetchTimelineCallback');
+	renderNewTweets(tweets);
+	fetchFinished();
+}
+
+function fetchFinished() {
+	var d = new Date();
+	var mins = d.getMinutes()
+	if (mins < 10) {
+		mins = '0' + mins;
+	}
+	updateLengthDisplay();		
+	refreshAllowed(true);
+	countUnread();
+	setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
+}
+
+function fetchError(errorCode) {
+	var message = "Fetch Error: " + errorCode;
+	if (errorCode == 401) {
+		message = "Fetch Error: Bad Credentials";
+	} else if (errorCode == 403 || errorCode == 420) {
+		message = "Fetch Error: API Rate Limit Exceeded";
+	} else if (errorCode == 500 || errorCode == 502) {
+		message = "Fetch Error: Server Error";
+	} else if (errorCode == 503) {
+		message = "Fetch Error: Over Capacity";
+	}
+	message(message);
+}
+
+// This function is called from the UI to request a tweet fetch.
+// We need to reset the update timer when the user requests a 
+// refresh to prevent our tweets from happening too closely
+// together.
+//
+function forceFetch() {
+	jsdump('forceFetch called.');
+	cycleFetch();
+}
+
+// Called on successful tweet postation
+//
+function postUpdateSuccess(tweet) {	
+	var textbox = getChromeElement('textboxid');
+	textbox.reset();
+	textbox.disabled = false;
+	getChromeElement('statusid').label = updateLengthDisplay();
+	getChromeElement('replyTweetId').value = "0";
+	getChromeElement('replycheckboxid').hidden = true;
+	getChromeElement('replycheckboxid').checked = false;		
+	postUpdateComplete(tweet);
+}
+
+// Called on a failure to post.
+// 
+function postUpdateError(errorCode) {
+	var textbox = getChromeElement('textboxid');
+	textbox.disabled = false;
+	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+	                        .getService(Components.interfaces.nsIPromptService);
+	prompts.alert(window, "Sorry.", "There was an error posting that status update.");
+	message("Post Error: " + errorCode);
+	postUpdateComplete(null); 	
+}
+
+// Called by postTweetSuccess and postTweetError
+//
+function postUpdateComplete(transport) {
+	if (transport != null) {
+		var tweetText = transport.text;
+		if (tweetText.match(/^d(\s){1}(\w+?)(\s+)(\w+)/)) {
+			// It was a DM, need to display it manually.
+			var tweet = {
+				id : 0,
+				text : "",
+				created_at : new Date(),
+				sender : "",
+				user : {
+				   	screen_name : "",
+					profile_image_url : "",
+					name : ""
+				},
+				source : ""
+			};
+			tweet.text = "Directly to " + tweetText.substring(2);
+			tweet.sender = getUsername();
+			tweet.user.screen_name = getUsername();
+			tweet.user.profile_image_url = getChromeElement("avatarLabelId").value;
+			tweet.user.name = getChromeElement("realnameLabelId").value;
+			tweet.in_reply_to_screen_name = "";
+			tweet.sender = undefined;
+			insertAtTop(formatTweet(tweet,getUsername(),getPassword()));
+		}
+	}
+	forceFetch();	
+}
+
+// Posts a twitter update.
+//
+function postTweet() {
+	var tweet = getChromeElement('textboxid').value;
+	// url = 'http://twitter.com/statuses/update.json';
+	// url = url + '?status=' + encodeURIComponent(tweet); 	
+	var replyTweetId = getChromeElement('replyTweetId').value;
+	var replyCheckHidden = getChromeElement('replycheckboxid').hidden;
+	var replyChecked = getChromeElement('replycheckboxid').checked;	
+	jsdump('replyTweetId=' + replyTweetId);
+	jsdump('replyCheckHidden=' + replyCheckHidden);
+	jsdump('replyChecked=' + replyChecked);
+	// Need to un-encode at signs or replies won't work.	
+	// url = url.replace(/%40/g, '@');
+	// jsdump("post url = " + url);
+	if (!replyCheckHidden && replyChecked && replyTweetId > 0) {
+		//	url = url + "&in_reply_to_status_id=" + replyTweetId;
+		jsdump("Replying");
+		BzTwitter.postReply({
+			username: getUsername(),
+			password: getPassword(),
+			onSuccess: postTweetCallback,
+			onError: postTweetError,	
+			text: tweet		
+		})
+	} else {
+		jsdump("Posting");
+		BzTwitter.postUpdate({
+			username: getUsername(),
+			password: getPassword(),
+			onSuccess: postUpdateSuccess,
+			onError: postUpdateError,	
+			text: tweet		
+		})		
+	}
 }
 
 // Stuff for the debugger.
@@ -1144,3 +1121,4 @@ function toOpenWindowByType(inType, uri) {
 function showDebugger() {
 	start_venkman();
 }
+
