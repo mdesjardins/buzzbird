@@ -363,7 +363,7 @@ THE SOFTWARE.
 					               onmouseup="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';"
 					               onmouseover="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-hover.png)';"
 					               onmouseout="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';"
-					               oncommand="postTweet();"
+					               oncommand="postUpdate();"
 					               label="Post"/>
 				</box>
 				<textbox id="textboxid" 

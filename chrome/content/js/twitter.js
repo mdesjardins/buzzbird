@@ -157,11 +157,14 @@ var BzTwitter = {
 		fetchLists: false,
 		post: true,
 		reply: true,
-		autoRetweet: true,
+		echo: true,
+		deletePost: true,	
 		governor: false,
 		authenticate: true,
+		favorite: true,
 		follow: true,
-		unfollow: true
+		unfollow: true,
+		verifyCredentials: true
 	},
 	
 	url : {
@@ -171,7 +174,12 @@ var BzTwitter = {
 		fetchUserTimeline: 'http://twitter.com/statuses/user_timeline/QUERIED_USER_ID.json?count=COUNT',
 		fetchRetweetedByMe: 'http://twitter.com/statuses/retweeted_by_me.json?count=COUNT',
 		fetchUserProfile: 'http://twitter.com/users/show/QUERIED_USER_ID.json',
-		postUpdate: 'http://twitter.com/statuses/update.json?status=STATUS&source=SOURCE'
+		postUpdate: 'http://twitter.com/statuses/update.json?status=STATUS&source=SOURCE',
+		postEcho: 'http://twitter.com/statuses/retweet/RETWEET_ID.json',
+		deletePost: 'http://twitter.com/statuses/destroy/DELETE_ID.json',
+		favorite: 'http://twitter.com/favorites/create/UPDATE_ID.json',
+		verifyCredentials: 'http://twitter.com/account/verify_credentials.json',
+		unfollow: 'http://twitter.com/friendships/destroy.json'
 	},
 	
 	_source : "buzzbird",
@@ -346,10 +354,111 @@ var BzTwitter = {
 	postReply : function(options) {
 		var url = this.url.postUpdate;
 		url = this._initUrl(url,null,null,null);
-		url = url + '?status=' + encodeURIComponent(options.text);
+		url = url.replace('STATUS', encodeURIComponent(options.text));
 		// Need to un-encode at signs or replies will not work.	
 		url = url.replace(/%40/g, '@');
 		url = url + '&in_reply_to_status_id=' + options.replyingToId;
 		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);
 	},
+	
+	// Posts an echo of an update (this corresponds to twitter's auto-retweet feature)
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  echoId = ID of the status that we're echoing.
+	//
+	postEcho : function(options) {
+		var url = this.url.postEcho;
+		url = this._initUrl(url,null,null,null);
+		url = url.replace('RETWEET_ID', options.echoId);
+		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);
+	},
+	
+	// Delete's a user's existing post.
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  deleteId = ID of the status that we're deleting.
+	//
+	deletePost: function(options) {
+		var url = this.url.deletePost;
+		url = url.replace('DELETE_ID', options.deleteId);
+		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);		
+	},
+	
+	// Posts an echo of an update (this corresponds to twitter's auto-retweet feature)
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  updateId = ID of the status to which we're echoing.
+	//	
+	favorite : function(options) {
+		var url = this.url.favorite;
+		url = url.replace('UPDATE_ID', options.updateId);
+		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);		
+	},
+	
+	// Stops following a user.
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  userId = ID of the user to stop following.
+	//  screenName = screen name of the user to stop following.
+	//
+	// either the userId or the screenName must be provided.
+	//	
+	unfollow : function(options) {
+		var url = this.url.unfollow;
+		if (options.userId != undefined) {
+			url = url + '?user_id=' + options.userId;
+		} else if (options.screenName != undefined) {
+			url = url + '?screen_name=' + options.screenName;
+		} else {
+			return null; // TODO THROW EXCEPTION
+		}
+		jsdump('unfollow URL=' + url);
+		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);		
+	},
+	
+	// Verifies the credentials of a user.  On failure, returns null,
+	// otherwise returns a user object.
+	//
+	verifyCredentials : function(username,password) {
+		var req = new XMLHttpRequest();
+		req.mozBackgroundRequest = true;
+		req.open('GET',this.url.verifyCredentials,false,username,password);
+		req.send(null);
+
+		var re = /\{"request":NULL.*?/
+		if (re.match(req.responseText)) {
+			jsdump ("Badness in twitter response.  Perhaps down for maintenance?");
+			jsdump(req.responseText);
+			return null;
+		}
+
+		if (req.status == 200 && req.responseText != 'NULL') {
+			var user = '';
+			try {
+				user = eval('(' + req.responseText + ')');
+			} catch(e) {
+				jsdump('Caught an exception trying to login.');
+				return null;
+			}
+			if (user == '') {
+				jsdump('JSON parse must have borked?');
+				return null;
+			}
+			return user;
+		} else {
+			return null;
+		}		
+	}
 }

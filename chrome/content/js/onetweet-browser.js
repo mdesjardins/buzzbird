@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2009 Mike Desjardins
+Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -82,23 +82,24 @@ function retweet(id) {
 // Favorite
 //
 function favorite(id) {
-	url = 'http://twitter.com/favorites/create/' + id + '.json';
-	new Ajax.Request(url,
-		{
-			method:'post',
-			httpUserName: getUsername(),
-			httpPassword: getPassword(),
-		    onSuccess: function() { favoriteCallback; },
-		    onFailure: function() { 
-				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-				                        .getService(Components.interfaces.nsIPromptService);
-				prompts.alert(window, "Sorry.", "There was an error favoriting that tweet.");
-			}
-		});	
+	BzTwitter.favorite({
+		username: getUsername(),
+		password: getPassword(),
+		updateId: id,
+		onSuccess: favoriteCallback,
+		onError: function(status) {
+			jsdump('Error favoriting, HTTP status ' + status)
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			                        .getService(Components.interfaces.nsIPromptService);
+			prompts.alert(window, "Sorry.", "There was an error favoriting.");
+		}
+	});
 }
 
 // Favorite callback
 //
 function favoriteCallback(transport) {
-	getChromeElement('statusid').label = 'Tweet Favorited';
+	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+	                        .getService(Components.interfaces.nsIPromptService);
+	prompts.alert(window, "Sweet...", "Favorited!");
 }

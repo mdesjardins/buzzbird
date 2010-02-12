@@ -38,7 +38,7 @@ function authenticate(u, p, save) {
 	username = u;
 	password = p;
 	
-	if (login()) {
+	if (login(username,password)) {
 		getChromeElement('usernameLabelId').value = username;
 		getChromeElement('passwordLabelId').value = password;
 		if (save) {
@@ -77,37 +77,15 @@ function saveCredentials(username,password) {
 // This function does the actual authentication request to the twitter API.  Called
 // by the login function.
 //
-function login() {
-	var req = new XMLHttpRequest();
-	req.mozBackgroundRequest = true;
-	req.open('GET','http://twitter.com/account/verify_credentials.json',false,username,password);
-	req.send(null);
-	
-	var re = /\{"request":NULL.*?/
-	if (re.match(req.responseText)) {
-		jsdump ("Badness in twitter response.  Perhaps down for maintenance?");
-		jsdump(req.responseText);
+function login(username,password) {
+	var user = BzTwitter.verifyCredentials(username,password);
+	if (user == null) {
 		return false;
-	}
-	
-	if (req.status == 200 && req.responseText != 'NULL') {
-		var user = '';
-		try {
-			user = eval('(' + req.responseText + ')');
-		} catch(e) {
-			jsdump('Caught an exception trying to login.');
-			return false;
-		}
-		if (user == '') {
-			jsdump('JSON parse must have borked?');
-			return false;
-		}
+	} else {
 		var img = user.profile_image_url;
 		getChromeElement('avatarLabelId').value = img;
 		getChromeElement('realnameLabelId').value = user.name;
-		return true;
-	} else {
-		return false;
+		return true;	
 	}
 }
 
@@ -252,7 +230,7 @@ function keyPressed(e) {
 	if (e.which == 13) {
 		var textbox = getChromeElement('textboxid');
 		textbox.disabled = true;
-		postTweet();
+		postUpdate();
 	}
 }
 
@@ -1043,7 +1021,7 @@ function postUpdateError(errorCode) {
 	postUpdateComplete(null); 	
 }
 
-// Called by postTweetSuccess and postTweetError
+// Called by postUpdateSuccess and postUpdateError
 //
 function postUpdateComplete(transport) {
 	if (transport != null) {
@@ -1075,40 +1053,32 @@ function postUpdateComplete(transport) {
 	forceFetch();	
 }
 
-// Posts a twitter update.
+// Posts a status update.
 //
-function postTweet() {
+function postUpdate() {
 	var tweet = getChromeElement('textboxid').value;
-	// url = 'http://twitter.com/statuses/update.json';
-	// url = url + '?status=' + encodeURIComponent(tweet); 	
 	var replyTweetId = getChromeElement('replyTweetId').value;
 	var replyCheckHidden = getChromeElement('replycheckboxid').hidden;
 	var replyChecked = getChromeElement('replycheckboxid').checked;	
-	jsdump('replyTweetId=' + replyTweetId);
-	jsdump('replyCheckHidden=' + replyCheckHidden);
-	jsdump('replyChecked=' + replyChecked);
-	// Need to un-encode at signs or replies won't work.	
-	// url = url.replace(/%40/g, '@');
-	// jsdump("post url = " + url);
 	if (!replyCheckHidden && replyChecked && replyTweetId > 0) {
-		//	url = url + "&in_reply_to_status_id=" + replyTweetId;
 		jsdump("Replying");
 		BzTwitter.postReply({
 			username: getUsername(),
 			password: getPassword(),
-			onSuccess: postTweetCallback,
-			onError: postTweetError,	
-			text: tweet		
-		})
+			onSuccess: postUpdateSuccess,
+			onError: postUpdateError,	
+			text: tweet,
+			replyingToId: replyTweetId
+		});
 	} else {
-		jsdump("Posting");
+		jsdump("Posting (no reply)");
 		BzTwitter.postUpdate({
 			username: getUsername(),
 			password: getPassword(),
 			onSuccess: postUpdateSuccess,
 			onError: postUpdateError,	
 			text: tweet		
-		})		
+		});		
 	}
 }
 

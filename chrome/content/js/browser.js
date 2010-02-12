@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2009 Mike Desjardins
+Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -186,20 +186,21 @@ function retweet(id) {
 	text = text.substring(0,140);
 	
 	if (configMethod == 'A') {
-		url = 'http://twitter.com/statuses/retweet/' + id + '.json';
-		new Ajax.Request(url,
-			{
-				method:'post',
-				parameters:'source=buzzbird',
-				httpUserName: getUsername(),
-				httpPassword: getPassword(),
-			    onSuccess: function() { dispatch('cycleFetch'); },
-			    onFailure: function() { 
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
-					prompts.alert(window, "Sorry.", "There was an error retweeting that tweet.");
-				}
-			});	
+		jsdump("Posting Echo (auto retweet)");
+		BzTwitter.postEcho({
+			username: getUsername(),
+			password: getPassword(),
+			echoId: id,
+			onSuccess: function() {
+				dispatch('cycleFetch');
+			},
+			onError: function(status) {
+				jsdump('Error retweeting, HTTP status ' + status);
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Sorry.", "There was an error retweeting that tweet.");				
+			}
+		});		
 	} else {
 		getChromeElement('textboxid').value = text;
 		getChromeElement('textboxid').focus();		
@@ -211,25 +212,26 @@ function retweet(id) {
 // Favorite
 //
 function favorite(id) {
-	url = 'http://twitter.com/favorites/create/' + id + '.json';
-	new Ajax.Request(url,
-		{
-			method:'post',
-			httpUserName: getUsername(),
-			httpPassword: getPassword(),
-		    onSuccess: function() { favoriteCallback; },
-		    onFailure: function() { 
-				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-				                        .getService(Components.interfaces.nsIPromptService);
-				prompts.alert(window, "Sorry.", "There was an error favoriting that tweet.");
-			}
-		});	
+	BzTwitter.favorite({
+		username: getUsername(),
+		password: getPassword(),
+		updateId: id,
+		onSuccess: favoriteCallback,
+		onError: function(status) {
+			jsdump('Error favoriting, HTTP status ' + status)
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			                        .getService(Components.interfaces.nsIPromptService);
+			prompts.alert(window, "Sorry.", "There was an error favoriting.");
+		}
+	});
 }
 
 // Favorite callback
 //
 function favoriteCallback(transport) {
-	getChromeElement('statusid').label = 'Tweet Favorited';
+	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+	                        .getService(Components.interfaces.nsIPromptService);
+	prompts.alert(window, "Sweet...", "Favorited!");
 }
 
 // Stop Following
@@ -241,19 +243,18 @@ function stopFollowingTweeter(id) {
 	var result = prompts.confirm(window, "Confirm", 'Do you want to stop following ' + user + '?');
 	if (result) {
 		jsdump('Unfollowing ' + user);
-		url = 'http://twitter.com/friendships/destroy/' + user + '.json';
-		new Ajax.Request(url,
-			{
-				method:'post',
-				httpUserName: getUsername(),
-				httpPassword: getPassword(),
-			    onSuccess: function() { stopFollowingTweeterCallback; },
-			    onFailure: function() { 
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
-					prompts.alert(window, "Sorry.", "There was an error processing your unfollow request.");
-				}
-			});	
+		BzTwitter.unfollow({
+			username: getUsername(),
+			password: getPassword(),
+			screenName: user,
+			onSuccess: stopFollowingTweeterCallback,
+			onError: function(status) {
+				jsdump('Error processing unfollow, HTTP status ' + status);
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Sorry.", "There was an error processing your unfollow request.");
+			}			
+		})
 	} else {
 		jsdump('Aborted unfollow');
 	}
@@ -262,7 +263,9 @@ function stopFollowingTweeter(id) {
 // Favorite callback
 //
 function stopFollowingTweeterCallback(transport) {
-	getChromeElement('statusid').label = 'Unfollowed';
+	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+	                        .getService(Components.interfaces.nsIPromptService);
+	prompts.alert(window, "Unfollowed", "You are no longer following this user.");
 }
 
 // Marks/Unmarks one tweet.
@@ -292,14 +295,13 @@ function appendText(symbol) {
 
 // As the name implies... deletes a tweet.
 //
-function deleteTweetCallback(id) {
+function deleteTweetCallback(id,transport) {
 	jsdump('id='+id);
 	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 	                        .getService(Components.interfaces.nsIPromptService);
 	prompts.alert(window, "Presto!", "Your tweet has been deleted.");
 	var x = $('tweet-'+id);
 	if (id != undefined && x != null) {
-		jsdump('x='+x);
 		x.style.display = 'none';
 
 		// Why does this give me weird FF security exceptions?
@@ -313,21 +315,17 @@ function deleteTweet(id) {
 	                        .getService(Components.interfaces.nsIPromptService);
 	var result = prompts.confirm(window, "Confirm", 'Do you want to delete this tweet?  There is no Undo!');
 	if (result) {
-		url = 'http://twitter.com/statuses/destroy/';
-		url = url + id + '.json';
-		new Ajax.Request(url,
-			{
-				method:'post',
-				parameters:'source=buzzbird',
-				httpUserName: getUsername(),
-				httpPassword: getPassword(),
-			    onSuccess: function() { deleteTweetCallback(id); },
-			    onFailure: function() { 
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
-					prompts.alert(window, "Sorry.", "There was an error deleting that status update.");
-					deleteTweetCallback(); 
-				}
-			});
+		BzTwitter.deletePost({
+			username: getUsername(),
+			password: getPassword(),
+			deleteId: id,
+			onSuccess: function(transport) { deleteTweetCallback(id,transport); },
+			onError: function(status) {
+				jsdump('Error processing delete, HTTP status ' + status);
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Sorry.", "There was an error deleting that status update.");
+			}						
+		});
 	}
 }
