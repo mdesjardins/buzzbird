@@ -1,0 +1,41 @@
+
+This is the source code for the Buzzbird multi-platform twitter client.
+Buzzbird is based on the Mozilla XUL platform and runs on OSX, Windows, and
+Linux.
+
+You can learn more about Buzzbird on its homepage, here:  
+http://getbuzzbird.com
+
+If you want to download the source and try it out "the hard way", first 
+download the Mozilla XULrunner runtime from here:
+
+http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/
+
+Follow Mozilla's instructions for how to install it.
+
+After installing XULrunner, you *should* be able to run Buzzbird at the 
+command line, either by running bang.sh (OSX and Linux), or bang.bat 
+(Windows).  On OSX, bang.sh will put an application bundle in your
+/Applications folder prior to running the app.
+
+Buzzbird is packaged using the pkg.sh/pkg.bat scripts, along with some
+other magic after the fact - on Windows, the free version of the
+Advanced Installer (http://www.advancedinstaller.com/) is used
+in conjunction with the buzzbird-template.aip file in the source directory 
+and the contents of the pkg directory to create an install package.  On
+Linux and OSX, we just create a tarball or ZIP file of the pkg directory.
+
+Once packaged, end users don't need to concern themselves with getting a XUL
+runner runtime.
+
+This source code is pretty terrible.  I started writing it when I knew
+literally no Javascript, and very little CSS, in order to teach myself 
+Javascript and CSS.  Since then, I've learned a lot both from this project 
+and from other work-related activity, and I now recognize how ugly a lot of 
+it is.   I'm slowly working on refactoring it, but refactoring is never as 
+fun as adding new features, so it'll be ugly for a while.
+
+All the source code is licensed under the MIT license.
+
+Enjoy.
+- Mike
