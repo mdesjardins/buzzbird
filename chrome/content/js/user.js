@@ -40,88 +40,79 @@ function userOnLoad() {
 }
 
 function fetchProfile(userid,username,password) {
-	jsdump('Getting profile for user ' + userid);
-	url = 'http://twitter.com/users/show/' + userid + '.json';
-	new Ajax.Request(url,
-		{
-			method:'get',
-			httpUserName: username,
-			httpPassword: password,
-			onSuccess: function(transport) { 
-				var profile = eval('(' + transport.responseText + ')');
-				document.getElementById('name').value = '(' + profile.name + ')';
-				document.getElementById('username').value = profile.screen_name
-				document.getElementById('avatar').src = profile.profile_image_url;
-				document.getElementById('followstats').value = 'Following: ' + profile.friends_count + ', Followers: ' + profile.followers_count; 
-				document.getElementById('location').value = profile.location;
-				document.getElementById('homepage').value = profile.url;
-				document.getElementById('bio').value = profile.description;
-				if (profile.protected == true && typeof(profile.status) == "undefined") {
-					browser = document.getElementById('user-browser');
-					browser.contentDocument.getElementById('shy-user').style.display='inline';
-					document.getElementById('friendship').disabled = true;
-					//document.getElementById('fetch-throb').style.display='none';
-					window.content.document.getElementById('fetch-throb').style.display='none';
-				} else {
-					fetchTweets(userid,username,password); 
-				}
-			},
-			onFailure: function(transport) { 
-					jsdump('Failed to get tweets for user.');
-					jsdump('status=' + transport.status)
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
-					if (transport.status==404) {
-						prompts.alert(window, "Hmph.", "That user doesn't seem to exist.");
-					} else {
-						prompts.alert(window, "Hmph.", "There was an error processing this request.");
-					}
-					getMainWindow().document.getElementById('user-dialog').acceptDialog();
+	BzTwitter.fetchUserProfile({
+		"username": username,
+		"password": password,
+		"queriedUserId": userid,
+		"onSuccess": function(profile) {
+			jsdump("profile=" + profile);
+			document.getElementById('name').value = '(' + profile.name + ')';
+			document.getElementById('username').value = profile.screen_name
+			document.getElementById('avatar').src = profile.profile_image_url;
+			document.getElementById('followstats').value = 'Following: ' + profile.friends_count + ', Followers: ' + profile.followers_count; 
+			document.getElementById('location').value = profile.location;
+			document.getElementById('homepage').value = profile.url;
+			document.getElementById('bio').value = profile.description;
+			if (profile.protected == true && typeof(profile.status) == "undefined") {
+				browser = document.getElementById('user-browser');
+				browser.contentDocument.getElementById('shy-user').style.display='inline';
+				document.getElementById('friendship').disabled = true;
+				//document.getElementById('fetch-throb').style.display='none';
+				window.content.document.getElementById('fetch-throb').style.display='none';
+			} else {
+				fetchUpdates(userid,username,password); 
 			}
-		});		
+		},
+		"onError": function(status) {
+			jsdump('Failed to get tweets for user.');
+			jsdump('status=' + transport.status)
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			                        .getService(Components.interfaces.nsIPromptService);
+			if (status==404) {
+				prompts.alert(window, "Hmph.", "That user doesn't exist.");
+			} else {
+				prompts.alert(window, "Hmph.", "There was an error processing this request.");
+			}
+			getMainWindow().document.getElementById('user-dialog').acceptDialog();
+		}						
+	});
 }
 
-function fetchTweets(userid,username,password) {
-	jsdump('Getting tweets for user ' + userid);
-	url = 'http://twitter.com/statuses/user_timeline/' + userid + '.json';
-	new Ajax.Request(url,
-		{
-			method:'get',
-			httpUserName: username,
-			httpPassword: password,
-			onSuccess: function(transport) { fetchTweetsCallback(transport,username,password); },
-			onFailure: function(transport) { 
-					jsdump('Failed to get tweets for user.');
-					jsdump('status=' + transport.status)
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
-					if (transport.status==404) {
-						prompts.alert(window, "Hmph.", "That user doesn't seem to exist.");
-					} else {
-						prompts.alert(window, "Hmph.", "There was an error processing this request.");
-					}
-					getMainWindow().document.getElementById('user-dialog').acceptDialog();
+function fetchUpdates(userid,username,password) {
+	BzTwitter.fetchUserTimeline({
+		"username": username,
+		"password": password,
+		"queriedUserId": userid,
+		"onSuccess": function(updates) { fetchUpdatesCallback(updates,username,password); },
+		"onError": function(status) {
+			jsdump('Failed to get tweets for user.');
+			jsdump('status=' + status)
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			                        .getService(Components.interfaces.nsIPromptService);
+			if (status==404) {
+				prompts.alert(window, "Hmph.", "That user doesn't seem to exist.");
+			} else {
+				prompts.alert(window, "Hmph.", "There was an error processing this request.");
 			}
-		});		
+			getMainWindow().document.getElementById('user-dialog').acceptDialog();
+		}
+	});
 }
 
-function fetchTweetsCallback(transport,username,password) {
-	var newTweets = eval('(' + transport.responseText + ')');
-	jsdump('renderNewTweets, length: ' +newTweets.length+ ', for ' + url);
-	if (newTweets.length == 0) {
-		jsdump('renderNewTweets: Nothing to do, skipping.');
+function fetchUpdatesCallback(updates,username,password) {
+	if (updates.length == 0) {
+		jsdump('fetchUpdatesCallback: Nothing to do, skipping.');
 		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 		                        .getService(Components.interfaces.nsIPromptService);
-		jsdump('got prompts');
 		prompts.alert(window, "Hmph.", "That user doesn't seem to exist, or hasn't tweeted yet.");
 		getMainWindow().document.getElementById('user-dialog').acceptDialog();
 	} else {
 		var newText = '';
-		for (var i=newTweets.length-1; i>=0; i--) {
-			newText = formatTweet(newTweets[i],username,password) + newText;
+		for (var i=updates.length-1; i>=0; i--) {
+			newText = formatTweet(updates[i],username,password) + newText;
 			if (i==0) {
 				browser = document.getElementById('user-browser');
-				browser.contentDocument.getElementById('hisUsername').value = username;
+				browser.contentDocument.getElementById('hisUsername').value = username; // TODO - This seems wrong?
 			}
 		}
 		var parser = new DOMParser();
@@ -132,7 +123,7 @@ function fetchTweetsCallback(transport,username,password) {
 				window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.lastChild);
 			}
 		} else {
-			jsdump("Couldn't render the tweet.");
+			jsdump("Couldn't render the update.");
 		}
 	}
 	window.content.document.getElementById('fetch-throb').style.display='none';

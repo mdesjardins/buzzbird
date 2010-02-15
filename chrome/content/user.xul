@@ -38,6 +38,7 @@ THE SOFTWARE.
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/twitter.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/user.js"></script>
 	
 	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />

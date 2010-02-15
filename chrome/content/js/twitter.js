@@ -205,6 +205,7 @@ var BzTwitter = {
 						var result = "";
 						if (http.responseText) {
 							result = http.responseText;
+							//jsdump('_ajax result ===>'+result+'<===');
 							result = result.replace(/[\n\r]/g,"");
 							result = eval('('+result+')');
 						}
@@ -232,7 +233,7 @@ var BzTwitter = {
 		return this._ajax(username,password,url,callback,error,"POST");
 	},
 	
-	_initUrl : function(url,count,since,queriedId) {
+	_initUrl : function(url,count,since,queriedUserId) {
 		if (url.match(/COUNT/)) {
 			if (count == undefined || count == null) {
 				count = 50;
@@ -320,7 +321,7 @@ var BzTwitter = {
 	//  queriedUserId = the ID of the user to look up.
 	//
 	fetchUserProfile : function(options) {
-		var url = this.url.fetchUserTimeline;
+		var url = this.url.fetchUserProfile;
 		url = this._initUrl(url, null, null, options.queriedUserId);
 		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
 	},	
