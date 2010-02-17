@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2009 Mike Desjardins
+Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,25 +35,23 @@ function unfollow(myUsername,myPassword,hisUserId) {
 	throb.style.display='inline';
 	var check = document.getElementById('check-' + myUsername);
 	check.style.display='none';
-	
-	//url = 'http://' + myUsername + ':' + myPassword + '@twitter.com/friendships/destroy/' + hisUserId + '.json';
-	var url = 'http://twitter.com/friendships/destroy/' + hisUserId + '.json';
-	var auth = makeBaseAuth(myUsername,myPassword);
-	new Ajax.Request(url,
-		{
-			method:'post',
-			requestHeaders: ['Authorization', auth],			
-		    onSuccess: function(transport) { friendshipCallback(transport,myUsername); },
-		    onFailure: function() { 
-				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-				                        .getService(Components.interfaces.nsIPromptService);
-				prompts.alert(window, "Sorry.", "There was an error processing your unfollow request.");
-				var check = document.getElementById('check-' + myUsername);
-				check.checked=true;
-				check.style.display='inline';
-				document.getElementById('throb-' + myUsername).style.display='none';
-			}
-		});	
+
+	BzTwitter.unfollow({
+		"username":myUsername,
+		"password":myPassword,
+		"userId":hisUserId,
+		"onSuccess": function(result) { friendshipCallback(result,myUsername); },
+		"onError": function(status) {
+			jsdump("Error w/ unfollow, HTTP Status: " + status);
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			                        .getService(Components.interfaces.nsIPromptService);
+			prompts.alert(window, "Sorry.", "There was an error processing your unfollow request (Error Code" + status + ").");
+			var check = document.getElementById('check-' + myUsername);
+			check.checked=true;
+			check.style.display='inline';
+			document.getElementById('throb-' + myUsername).style.display='none';
+		}
+	});
 }
 
 function follow(myUsername,myPassword,hisUserId) {
@@ -63,27 +61,22 @@ function follow(myUsername,myPassword,hisUserId) {
 	var check = document.getElementById('check-' + myUsername);
 	check.style.display='none';
 	var hisUsername = document.getElementById('hisUsername').value;
-	
-	//var url = 'http://' + myUsername + ':' + myPassword + '@twitter.com/friendships/create/' + hisUserId + '.json';
-	var url = 'http://twitter.com/friendships/create/' + hisUserId + '.json';
-	jsdump('myUsername: ' + myUsername + ', myPassword: ' + myPassword + ', hisUserId: ' + hisUserId + ', hisUsername: ' + hisUsername);
-	var auth = makeBaseAuth(myUsername,myPassword);
-	jsdump('auth: ' + auth);
-	new Ajax.Request(url,
-		{
-			method:'post',
-			requestHeaders: ['Authorization', auth],
-		    onSuccess: function(transport) { friendshipCallback(transport,myUsername); },
-		    onFailure: function(transport) { 
-				jsdump('ERROR: ' + transport.responseText)
-				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-				                        .getService(Components.interfaces.nsIPromptService);
-				prompts.alert(window, "Sorry.", "There was an error processing your follow request (Error Code " + transport.status + ").");
-				check.checked=false;
-				check.style.display='inline';
-				document.getElementById('throb-' + myUsername).style.display='none';
-			}
-		});	
+
+	BzTwitter.follow({
+		"username":myUsername,
+		"password":myPassword,
+		"userId":hisUserId,
+		"onSuccess": function(result) { friendshipCallback(result,myUsername); },
+		"onError": function(status) {
+			jsdump('Error w/ follow: HTTP status: ' + status)
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			                        .getService(Components.interfaces.nsIPromptService);
+			prompts.alert(window, "Sorry.", "There was an error processing your follow request (Error Code " + status + ").");
+			check.checked=false;
+			check.style.display='inline';
+			document.getElementById('throb-' + myUsername).style.display='none';
+		}
+	});
 }
 
 function friendshipCallback(transport,myUsername) {

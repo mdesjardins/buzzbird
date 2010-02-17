@@ -3,7 +3,7 @@
 <?xml-stylesheet href="chrome://buzzbird/skin/friendship.css" type="text/css"?>
 
 <!--
-Copyright (c) 2009 Mike Desjardins
+Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,7 @@ THE SOFTWARE.
 	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/twitter.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/friendship.js"></script>
 	
 	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />

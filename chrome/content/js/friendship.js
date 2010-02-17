@@ -32,25 +32,21 @@ function onOk() {
 }
 
 function populateUserInfo(myUsername, myPassword, hisUserId) {
-//http://twitter.com/users/show.format
-	var url = "http://twitter.com/users/show/" + hisUserId + ".json";
-	new Ajax.Request(url,
-		{
-			method:'get',
-			httpUserName: myUsername,
-			httpPassword: myPassword,
-			onSuccess: function(transport) { populateUserInfoCallback(transport,hisUserId,myUsername); },
-			onFailure: function() { 
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
-					prompts.alert(window, "Sorry.", "There was an error processing this request.");
-			}
-		});		
-	
+	BzTwitter.fetchUserProfile({
+		"username":myUsername,
+		"password":myPassword,
+		"queriedUserId":hisUserId,
+		"onSuccess": function(profile) { populateUserInfoCallback(profile,hisUserId,myUsername); },
+		"onError": function(status) {
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			                        .getService(Components.interfaces.nsIPromptService);
+			prompts.alert(window, "Sorry.", "There was an error processing this request.");
+		}
+	});
 }
 
-function populateUserInfoCallback(transport,hisUserId,myUsername) {
-	var user = eval('(' + transport.responseText + ')');
+function populateUserInfoCallback(user,hisUserId,myUsername) {
+//	var user = eval('(' + transport.responseText + ')');
 	document.getElementById('name').value = user.name;
 	document.getElementById('username').value = '@' + user.screen_name;
 	document.getElementById('avatar').src = user.profile_image_url;
@@ -127,28 +123,42 @@ function friendshipOnLoad() {
 
 function getStatus(hisUserId,myUsername,myPassword) {
 	jsdump('Getting friendship status for ' + hisUserId + ' and ' + myUsername);
-	var number=/\d.+/
-	if (number.match(hisUserId)) {
-		url = 'http://twitter.com/friendships/show.json?source_screen_name=' + myUsername + '&target_id=' + hisUserId;
-	} else {
-		url = 'http://twitter.com/friendships/show.json?source_screen_name=' + myUsername + '&target_screen_name=' + hisUserId;
-	}
-	new Ajax.Request(url,
-		{
-			method:'get',
-			httpUserName: myUsername,
-			httpPassword: myPassword,
-			onSuccess: function(transport) { getStatusCallback(transport,hisUserId,myUsername); },
-			onFailure: function() { 
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
-					prompts.alert(window, "Sorry.", "There was an error processing this request.");
-			}
-		});		
+	BzTwitter.isFollowing({
+		"username":myUsername,
+		"password":myPassword,
+		"sourceScreenName":myUsername,
+		"targetUserId":hisUserId,
+		"onSuccess": function(result) { getStatusCallback(result,hisUserId,myUsername); },
+		"onError": function(status) {
+			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			                        .getService(Components.interfaces.nsIPromptService);
+			prompts.alert(window, "Sorry.", "There was an error processing this request.");
+		}
+	});
+	
+	// var number=/\d.+/
+	// if (number.match(hisUserId)) {
+	// 	url = 'http://twitter.com/friendships/show.json?source_screen_name=' + myUsername + '&target_id=' + hisUserId;
+	// } else {
+	// 	url = 'http://twitter.com/friendships/show.json?source_screen_name=' + myUsername + '&target_screen_name=' + hisUserId;
+	// }
+	// new Ajax.Request(url,
+	// 	{
+	// 		method:'get',
+	// 		httpUserName: myUsername,
+	// 		httpPassword: myPassword,
+	// 		onSuccess: function(transport) { getStatusCallback(transport,hisUserId,myUsername); },
+	// 		onFailure: function() { 
+	// 				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+	// 				                        .getService(Components.interfaces.nsIPromptService);
+	// 				prompts.alert(window, "Sorry.", "There was an error processing this request.");
+	// 		}
+	// 	});		
 }
 
-function getStatusCallback(transport,hisUserId,myUsername) {
-	var friendship = eval('(' + transport.responseText + ')');
+function getStatusCallback(friendship,hisUserId,myUsername) {
+//	var friendship = eval('(' + transport.responseText + ')');
+	jsdump("Callback, result is " + friendship + ", hisUserId " + hisUserId + ", myUsername " + myUsername);
 	var meFollowsHe = friendship.relationship.target.followed_by;
 	var heFollowsMe = friendship.relationship.target.following;
 	var browser = document.getElementById('friendship-browser');
@@ -157,15 +167,18 @@ function getStatusCallback(transport,hisUserId,myUsername) {
 
 	var check = browser.contentDocument.getElementById('check-' + myUsername);
 	if (meFollowsHe) {
+		jsdump("meFollowsHe is true.");
 		check.checked = true;
 	}
 	//var he = hisUserId; //browser.contentDocument.getElementById('hisUsername').value;
 	var he = friendship.relationship.target.screen_name;
 	
 	if (heFollowsMe) {
+		jsdump("heFollowsMe is true.");
 		browser.contentDocument.getElementById('followback-' + myUsername).innerHTML =
 		  '@' + he + ' follows @' + myUsername + '.'		
 	} else {
+		jsdump("heFollowsMe is false.");
 		browser.contentDocument.getElementById('followback-' + myUsername).innerHTML =
 		  '@' + he + ' does not follow @' + myUsername + '.'
 	}

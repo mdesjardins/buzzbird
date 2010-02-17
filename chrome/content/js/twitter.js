@@ -164,6 +164,7 @@ var BzTwitter = {
 		favorite: true,
 		follow: true,
 		unfollow: true,
+		isFollowing: true,
 		verifyCredentials: true
 	},
 	
@@ -179,8 +180,10 @@ var BzTwitter = {
 		postEcho: 'http://twitter.com/statuses/retweet/RETWEET_ID.json?source=SOURCE',
 		deletePost: 'http://twitter.com/statuses/destroy/DELETE_ID.json?source=SOURCE',
 		favorite: 'http://twitter.com/favorites/create/UPDATE_ID.json',
+		follow: 'http://twitter.com/friendships/create.json',
+		unfollow: 'http://twitter.com/friendships/destroy.json',
+		isFollowing: 'http://twitter.com/friendships/show.json',
 		verifyCredentials: 'http://twitter.com/account/verify_credentials.json',
-		unfollow: 'http://twitter.com/friendships/destroy.json'
 	},
 	
 	_source : "buzzbird",
@@ -197,16 +200,19 @@ var BzTwitter = {
 		if (http) {
 			http.overrideMimeType('application/json');
 			http.open(method,url,true);	
-			var tok = username + ':' + password;
-		  	var hash = Base64.encode(tok);
-			http.setRequestHeader('Authorization', 'Basic ' + hash);
+			if (username != null && username != undefined && 
+				password != null && password != undefined) {
+				var tok = username + ':' + password;
+			  	var hash = Base64.encode(tok);
+				http.setRequestHeader('Authorization', 'Basic ' + hash);
+			}
 			http.onreadystatechange = function() {
 				if (http.readyState == 4) {
 					if (http.status == 200) {
 						var result = "";
 						if (http.responseText) {
 							result = http.responseText;
-							//jsdump('_ajax result ===>'+result+'<===');
+							jsdump('_ajax result ===>'+result+'<===');
 							result = result.replace(/[\n\r]/g,"");
 							result = eval('('+result+')');
 						}
@@ -420,6 +426,29 @@ var BzTwitter = {
 		url = url.replace('UPDATE_ID', options.updateId);
 		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);		
 	},
+
+	// Starts following a user.
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  userId = ID of the user to stop following.
+	//  screenName = screen name of the user to stop following.
+	//
+	// either the userId or the screenName must be provided.
+	//	
+	follow : function(options) {
+		var url = this.url.follow;
+		if (options.userId != undefined) {
+			url = url + '?user_id=' + options.userId;
+		} else if (options.screenName != undefined) {
+			url = url + '?screen_name=' + options.screenName;
+		} else {
+			return null; // TODO THROW EXCEPTION
+		}
+		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);		
+	},
 	
 	// Stops following a user.
 	// Options:
@@ -444,6 +473,44 @@ var BzTwitter = {
 		jsdump('unfollow URL=' + url);
 		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);		
 	},
+
+	// Checks to see if two users are following each other.
+	// Options:
+	//  username = authorizing username.
+	//  password = authorizing password.
+	//  sourceUserId = user ID of the source user.
+	//  sourceScreenName = screen name of the source user.
+	//  targetUserId = user ID of the target user.
+	//  targetScreenName = screen name of the target user.
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//
+	// either the sourceUserId or the sourceScreenName must be provided.
+	// either the targetUserId or the targetScreenName must be provided.
+	//	
+	isFollowing : function(options) {
+		var url = this.url.isFollowing;
+
+		if (options.sourceUserId != undefined) {
+			url = url + '?source_id=' + options.sourceUserId;
+		} else if (options.sourceScreenName != undefined) {
+			url = url + '?source_screen_name=' + options.sourceScreenName;
+		} else {
+			return null; // TODO THROW EXCEPTION
+		}
+
+		if (options.targetUserId != undefined) {
+			url = url + '&target_id=' + options.targetUserId;
+		} else if (options.targetScreenName != undefined) {
+			url = url + '&target_screen_name=' + options.targetScreenName;
+		} else {
+			return null; // TODO THROW EXCEPTION
+		}
+		
+		jsdump('isFollowing URL=' + url);
+		return this._ajaxGet(null, null, url, options.onSuccess, options.onError);		
+	},
+	
 	
 	// Verifies the credentials of a user.  On failure, returns null,
 	// otherwise returns a user object.
