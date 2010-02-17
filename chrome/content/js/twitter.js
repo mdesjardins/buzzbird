@@ -174,9 +174,10 @@ var BzTwitter = {
 		fetchUserTimeline: 'http://twitter.com/statuses/user_timeline/QUERIED_USER_ID.json?count=COUNT',
 		fetchRetweetedByMe: 'http://twitter.com/statuses/retweeted_by_me.json?count=COUNT',
 		fetchUserProfile: 'http://twitter.com/users/show/QUERIED_USER_ID.json',
+		fetchSingleUpdate: 'http://twitter.com/statuses/show/STATUS_ID.json',
 		postUpdate: 'http://twitter.com/statuses/update.json?status=STATUS&source=SOURCE',
-		postEcho: 'http://twitter.com/statuses/retweet/RETWEET_ID.json',
-		deletePost: 'http://twitter.com/statuses/destroy/DELETE_ID.json',
+		postEcho: 'http://twitter.com/statuses/retweet/RETWEET_ID.json?source=SOURCE',
+		deletePost: 'http://twitter.com/statuses/destroy/DELETE_ID.json?source=SOURCE',
 		favorite: 'http://twitter.com/favorites/create/UPDATE_ID.json',
 		verifyCredentials: 'http://twitter.com/account/verify_credentials.json',
 		unfollow: 'http://twitter.com/friendships/destroy.json'
@@ -323,6 +324,21 @@ var BzTwitter = {
 	fetchUserProfile : function(options) {
 		var url = this.url.fetchUserProfile;
 		url = this._initUrl(url, null, null, options.queriedUserId);
+		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+	},	
+	
+	// Fetches a single tweet.
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  statusId = the ID of the update to be fetched.
+	//
+	fetchSingleUpdate : function(options) {
+		var url = this.url.fetchSingleUpdate;
+		url = this._initUrl(url, null, null, null);
+		url = url.replace('STATUS_ID',options.statusId);
 		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
 	},	
 	

@@ -973,17 +973,17 @@ function fetchFinished() {
 }
 
 function fetchError(errorCode) {
-	var message = "Fetch Error: " + errorCode;
+	var msg = "Fetch Error: " + errorCode;
 	if (errorCode == 401) {
-		message = "Fetch Error: Bad Credentials";
+		msg = "Fetch Error: Bad Credentials";
 	} else if (errorCode == 403 || errorCode == 420) {
-		message = "Fetch Error: API Rate Limit Exceeded";
+		msg = "Fetch Error: API Rate Limit Exceeded";
 	} else if (errorCode == 500 || errorCode == 502) {
-		message = "Fetch Error: Server Error";
+		msg = "Fetch Error: Server Error";
 	} else if (errorCode == 503) {
-		message = "Fetch Error: Over Capacity";
+		msg = "Fetch Error: Over Capacity";
 	}
-	message(message);
+	message(msg);
 }
 
 // This function is called from the UI to request a tweet fetch.

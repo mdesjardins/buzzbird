@@ -34,37 +34,35 @@ function oneTweetOnLoad() {
 	browser.contentDocument.getElementById('username').value = username;
 	browser.contentDocument.getElementById('password').value = password;
 	window.resizeTo(450,180);
-	renderTweet(id,username,password);	
+	renderStatusUpdate(id,username,password);	
 }
 
-function renderTweet(id,username,password) {
-	jsdump('Getting tweet ' + id);
-	url = 'http://twitter.com/statuses/show/' + id + '.json';
-	new Ajax.Request(url,
-		{
-			method:'get',
-			httpUserName: username,
-			httpPassword: password,
-			onSuccess: function(transport) { oneTweetCallback(transport,username,password); },
-			on403: function() {
+function renderStatusUpdate(statusId,username,password) {
+	jsdump('Getting tweet ' + statusId);
+	BzTwitter.fetchSingleUpdate({
+		"username": username,
+		"password": password,
+		"statusId": statusId,
+		"onSuccess": function(updates) { fetchSingleUpdateCallback(updates,username,password); },
+		"onError": function(status) {
+			if (status==403) {
 				// we hit a protected user's tweets while following the thread.  the party
 				// ends here.
 				browser = document.getElementById('onetweet-browser');
 				browser.contentDocument.getElementById('fetch-throb').style.display='none';
 				window.resizeBy(0,-85);
-				updateTimestamps();	
-			},
-			onFailure: function() { 
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
-					prompts.alert(window, "Sorry.", "There was an error processing this request.");
+				updateTimestamps();					
+			} else {
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Sorry.", "There was an error processing this request.");				
 			}
-		});		
+		}							
+	});
 }
 
-function oneTweetCallback(transport,username,password) {
-	var tweet = eval('(' + transport.responseText + ')');
-	var newText = formatTweet(tweet,username,password);
+function fetchSingleUpdateCallback(update,username,password) {
+	var newText = formatTweet(update,username,password);
 	var parser = new DOMParser();
 	var doc = parser.parseFromString('<div id="onetweet" xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
 	if (doc.documentElement.nodeName != "parsererror" ) {
@@ -76,8 +74,8 @@ function oneTweetCallback(transport,username,password) {
 		jsdump("Couldn't render the tweet.");
 	}
 	
-	if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
-		renderTweet(tweet.in_reply_to_status_id,username,password);
+	if (update.in_reply_to_status_id != null && update.in_reply_to_screen_name != null) {
+		renderStatusUpdate(update.in_reply_to_status_id,username,password);
 		if (window.content.document.height < 400) {
 			window.resizeBy(0,85);
 		}
@@ -100,7 +98,7 @@ function renderAnother() {
 	} else {
 		jsdump('Could not find element with id onetweet');
 	}
-	renderTweet(id,username,password);
+	renderStatusUpdate(id,username,password);
 }
 
 function updateTimestamps() {
