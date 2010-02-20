@@ -186,7 +186,7 @@ function makeBaseAuth(user, password) {
 // Returns 'tweet','reply','direct', or 'mine'
 //
 function tweetType(tweet,username,password) {
-	var re = new RegExp(".*?@" + username + ".*?");
+	var re = new RegExp(".*?@" + username + ".*?","i");
 	var result = 'tweet'
 	if (tweet.text.substring(0,11) == "Directly to") {
 		result = 'direct-to';
