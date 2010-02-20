@@ -42,6 +42,9 @@ pref("extensions.getMoreThemesURL", "chrome://mozapps/locale/extensions/extensio
 pref("javascript.options.jit.content",true);
 pref("javascript.options.jit.chrome",true);
 
+// Crank up the number of simultaneous ajax requests
+pref("network.http.max-persistent-connections-per-server",10);
+
 // defaults
 pref("buzzbird.update.interval", 180000);
 pref("buzzbird.auto.markread", false);
