@@ -970,6 +970,7 @@ function fetchFinished() {
 	updateLengthDisplay();		
 	refreshAllowed(true);
 	countUnread();
+	Notify.notify();
 	setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
 }
 

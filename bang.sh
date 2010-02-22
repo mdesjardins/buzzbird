@@ -12,6 +12,8 @@ else
 	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/content/global/macOverlay.xul /Applications/Buzzbird.app/Contents/Resources/chrome/content/global/platformOverlay.xul 
 
 	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic-mac /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic
+	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/content/notifications/notify-mac.sh /Applications/Buzzbird.app/Contents/Resources/chrome/content/notifications/notify.sh
+	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/content/js/notify/notify-mac.js /Applications/Buzzbird.app/Contents/Resources/chrome/content/js/notify/notify.js
 
 	sudo sh -c "echo \"pref('browser.preferences.animateFadeIn', false);\" > /Applications/Buzzbird.app/Contents/Resources/defaults/preferences/mac.js"
 	sudo sh -c "echo \"pref('browser.preferences.instantApply', true);\" >> /Applications/Buzzbird.app/Contents/Resources/defaults/preferences/mac.js"
