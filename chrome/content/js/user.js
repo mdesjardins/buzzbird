@@ -111,8 +111,10 @@ function fetchUpdatesCallback(updates,username,password) {
 		for (var i=updates.length-1; i>=0; i--) {
 			newText = formatTweet(updates[i],username,password) + newText;
 			if (i==0) {
+				jsdump('in THIS SEEMS WRONG part. user.screen_name=' + updates[i].user.screen_name);
 				browser = document.getElementById('user-browser');
-				browser.contentDocument.getElementById('hisUsername').value = username; // TODO - This seems wrong?
+				//browser.contentDocument.getElementById('hisUsername').value = username; // TODO - This seems wrong?
+				browser.contentDocument.getElementById('hisUsername').value = updates[i].user.screen_name;
 			}
 		}
 		var parser = new DOMParser();
@@ -178,7 +180,7 @@ function launchFriendship() {
 	var password = browser.contentDocument.getElementById('myPassword').value;
 	var hisUserId = browser.contentDocument.getElementById('hisUserId').value;
 	var hisUsername = browser.contentDocument.getElementById('hisUsername').value;
-	getMainWindow().arguments[0].out = {'action':'friend', 'hisUserId':hisUserId, 'hisUsername': hisUsername/*, 'username':'''', 'password':password*/}
+	getMainWindow().arguments[0].out = {'action':'friend', 'hisUserId':hisUserId, 'hisUsername': hisUsername }
 	jsdump('arguments out =' + 	getMainWindow().arguments[0].out)
 	jsdump('arguments out action =' + 	getMainWindow().arguments[0].out.action)
 	jsdump('arguments out userId =' + 	getMainWindow().arguments[0].out.hisUserId)

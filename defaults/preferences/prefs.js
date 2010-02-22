@@ -43,7 +43,9 @@ pref("javascript.options.jit.content",true);
 pref("javascript.options.jit.chrome",true);
 
 // Crank up the number of simultaneous ajax requests
-pref("network.http.max-persistent-connections-per-server",10);
+pref("network.http.max-connections",40);
+pref("network.http.max-connections-per-server",25);
+pref("network.http.max-persistent-connections-per-server",25);
 
 // defaults
 pref("buzzbird.update.interval", 180000);

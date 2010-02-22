@@ -46,7 +46,6 @@ function populateUserInfo(myUsername, myPassword, hisUserId) {
 }
 
 function populateUserInfoCallback(user,hisUserId,myUsername) {
-//	var user = eval('(' + transport.responseText + ')');
 	document.getElementById('name').value = user.name;
 	document.getElementById('username').value = '@' + user.screen_name;
 	document.getElementById('avatar').src = user.profile_image_url;
@@ -60,8 +59,6 @@ function friendshipOnLoad() {
 	var params = window.arguments[0];
 	var hisUserId = params.hisUserId;
 	var hisUsername = params.hisUsername;
-	// var username = params.username;
-	// var password = params.password;
 
 	populateUserInfo('','',hisUserId);
 
@@ -85,6 +82,7 @@ function friendshipOnLoad() {
 	for (var i=0; i<logins.length; i++) {
 		var myUsername = logins[i].username;
 		var myPassword = logins[i].password;
+		jsdump("myUsername=" + myUsername + ", hisUsername=" + hisUsername);
 		if (myUsername != hisUsername) {
 			// couldn't get this to work.
 			jsdump("window.height=" + window.height);
@@ -129,7 +127,7 @@ function getStatus(hisUserId,myUsername,myPassword) {
 		"username":myUsername,
 		"password":myPassword,
 		"sourceScreenName":myUsername,
-		"targetUserId":hisUserId,
+		"targetScreenName":hisUserId,
 		"onSuccess": function(result) { getStatusCallback(result,hisUserId,myUsername); },
 		"onError": function(status) {
 			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
@@ -137,44 +135,21 @@ function getStatus(hisUserId,myUsername,myPassword) {
 			prompts.alert(window, "Sorry.", "There was an error processing this request.");
 		}
 	});
-	
-	// var number=/\d.+/
-	// if (number.match(hisUserId)) {
-	// 	url = 'http://twitter.com/friendships/show.json?source_screen_name=' + myUsername + '&target_id=' + hisUserId;
-	// } else {
-	// 	url = 'http://twitter.com/friendships/show.json?source_screen_name=' + myUsername + '&target_screen_name=' + hisUserId;
-	// }
-	// new Ajax.Request(url,
-	// 	{
-	// 		method:'get',
-	// 		httpUserName: myUsername,
-	// 		httpPassword: myPassword,
-	// 		onSuccess: function(transport) { getStatusCallback(transport,hisUserId,myUsername); },
-	// 		onFailure: function() { 
-	// 				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-	// 				                        .getService(Components.interfaces.nsIPromptService);
-	// 				prompts.alert(window, "Sorry.", "There was an error processing this request.");
-	// 		}
-	// 	});		
 }
 
 function getStatusCallback(friendship,hisUserId,myUsername) {
-//	var friendship = eval('(' + transport.responseText + ')');
 	jsdump("Callback, result is " + friendship + ", hisUserId " + hisUserId + ", myUsername " + myUsername);
 	var meFollowsHe = friendship.relationship.target.followed_by;
 	var heFollowsMe = friendship.relationship.target.following;
 	var browser = document.getElementById('friendship-browser');
 	var throb = browser.contentDocument.getElementById('throb-' + myUsername);
 	throb.style.display='none';
-
 	var check = browser.contentDocument.getElementById('check-' + myUsername);
 	if (meFollowsHe) {
 		jsdump("meFollowsHe is true.");
 		check.checked = true;
 	}
-	//var he = hisUserId; //browser.contentDocument.getElementById('hisUsername').value;
 	var he = friendship.relationship.target.screen_name;
-	
 	if (heFollowsMe) {
 		jsdump("heFollowsMe is true.");
 		browser.contentDocument.getElementById('followback-' + myUsername).innerHTML =

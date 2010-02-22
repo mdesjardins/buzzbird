@@ -493,6 +493,7 @@ function goToUser() {
 	  if (params.out.handle.match(/^@.*?/)) {
 		params.out.handle = params.out.handle.substring(1);
 	  }
+	  jsdump("Going to user. userId:" + params.out.handle + ", username:" + getUsername() + ", password:" + getPassword());
 	  var params = {'userId':params.out.handle, 'username':getUsername(), 'password':getPassword()}
 	  window.openDialog("chrome://buzzbird/content/user.xul", "", features, params);
 	  if (params.out) {
@@ -1027,6 +1028,7 @@ function postUpdateComplete(transport) {
 	if (transport != null) {
 		var tweetText = transport.text;
 		if (tweetText.match(/^d(\s){1}(\w+?)(\s+)(\w+)/)) {
+			jsdump("MATCH A DM");
 			// It was a DM, need to display it manually.
 			var tweet = {
 				id : 0,

@@ -213,7 +213,7 @@ var BzTwitter = {
 						var result = "";
 						if (http.responseText) {
 							result = http.responseText;
-							jsdump('_ajax result ===>'+result+'<===');
+							//jsdump('_ajax result ===>'+result+'<===');
 							result = result.replace(/[\n\r]/g,"");
 							result = eval('('+result+')');
 						}

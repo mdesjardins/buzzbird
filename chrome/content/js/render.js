@@ -199,7 +199,7 @@ function formatTweet(tweet,username,password) {
 	 + "   <tr>"
 	 + "    <td valign=\"top\" class=\"" + c.avatarColumn + "\">"
 	 + "     <a onmouseover=\"this.style.cursor='pointer';\" style=\"margin:0px;padding:0px\" "  // old way: onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" "
-	 + "        onclick=\"showUser(" + user.id + ");\" "
+	 + "        onclick=\"showUser('" + user.screen_name + "');\" "
 	 + "        title=\"" + altText + "\">"
 	 + "      <img src=\"" + user.profile_image_url + "\" class=\"" + c.avatar +"\" />"
      + "     </a>"
