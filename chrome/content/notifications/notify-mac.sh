@@ -31,13 +31,24 @@ G_APPLICATION_NAME="Buzzbird"
 G_ALL_NAMES="\"Tweet\",\"Mention\",\"Direct Message\""
 G_WITH_NAME="Tweet" # default notification
 G_TITLE="Buzzbird"         # default title
-G_APPLICATION_ICON="Buzzbird.app}" # default icon to use
+G_APPLICATION_ICON="Buzzbird.app" # default icon to use
 G_STICKY="no"                      # default sticky setting
 G_PRIORITY="0"                    # default priority (normal)
 
-description=$@
+notification_type=$1
+image=$2
+sticky=$3
+title=$4
+description=$5
 
-osascript <<EOD >/dev/null 2>&1
+echo "===============================" >> ~/notify.log
+echo "Notificication Type : ${notification_type}" >> ~/notify.log
+echo "Image: ${image}" >> ~/notify.log
+echo "Sticky: ${sticky}" >> ~/notify.log
+echo "Title: ${title}" >> ~/notify.log
+echo "Description: ${description}" >> ~/notify.log
+
+osascript <<EOD >> ~/notify.log 2>&1
   -- From <http://growl.info/documentation/applescript-support.php>
   --
   tell application "GrowlHelperApp"
@@ -54,7 +65,7 @@ osascript <<EOD >/dev/null 2>&1
      register as application "${G_APPLICATION_NAME}" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "${G_APPLICATION_ICON}"
              
      -- Send a Notification...
-     notify with name "${G_WITH_NAME}" title "${G_TITLE}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${G_STICKY} priority ${G_PRIORITY}
+     notify with name "${G_WITH_NAME}" title "${title}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${G_STICKY} priority ${G_PRIORITY}
 
   end tell
 EOD

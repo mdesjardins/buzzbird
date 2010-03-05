@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 var Notify = {
-	notify : function() {
+	notify : function(type,image,title,description) {
 		jsdump('experimental notification');
 		var chromeDirectory = Components.classes["@mozilla.org/file/directory_service;1"].  
 		                      getService(Components.interfaces.nsIProperties).  
@@ -36,7 +36,7 @@ var Notify = {
 		                        .createInstance(Components.interfaces.nsIProcess);
 		process.init(file);
 
-		var args = ["argument1", "argument2"];
+		var args = [type,image,"no",title,description];
 		process.run(false, args, args.length);
 	}
 }

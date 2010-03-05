@@ -199,17 +199,26 @@ function renderNewTweets(newTweets) {
 
 		var newText = '';
 		for (var i=0; i<newTweets.length; i++) {
-			var type = tweetType(newTweets[i]);
+			var tweet = newTweets[i]
+			var type = tweetType(tweet,getUsername(),getPassword());
 			if ((type == 'tweet' || type == 'reply' || type == 'mine') &&
-			    (mostRecentTweet == null || mostRecentTweet < newTweets[i].id)) {
-				mostRecentTweet = newTweets[i].id;
+			    (mostRecentTweet == null || mostRecentTweet < tweet.id)) {
+				mostRecentTweet = tweet.id;
 				jsdump('mostRecentTweet:' + mostRecentTweet);
-			} else if (type == 'direct' && (mostRecentDirect == null || mostRecentDirect < newTweets[i].id)) {
+			} else if (type == 'direct' && (mostRecentDirect == null || mostRecentDirect < tweet.id)) {
 				mostRecentDirect = newTweets[i].id;
 				jsdump('mostRecentDirect:' + mostRecentDirect);
 			}
-			var chk = window.content.document.getElementById('tweet-'+newTweets[i].id);
+
+			var chk = window.content.document.getElementById('tweet-' + tweet.id);
 			if (chk == null) {
+				if (type == 'reply') {
+					jsdump("Notifying of reply.... type = " + type);
+					Notify.notify("Mention", tweet.user.profile_image_url, "Mentioned by @" + tweet.user.screen_name, tweet.text);
+				} else if (type == 'direct') {
+					jsdump("Notifying of direct.");
+					Notify.notify("Direct Message", tweet.user.profile_image_url, "Direct Message from @" + tweet.user.screen_name, newTweets[i].text);
+				}
 				newText = formatTweet(newTweets[i],getUsername(),getPassword()) + newText;
 			}
 		}
@@ -970,7 +979,6 @@ function fetchFinished() {
 	updateLengthDisplay();		
 	refreshAllowed(true);
 	countUnread();
-	Notify.notify();
 	setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
 }
 
