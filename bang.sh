@@ -4,7 +4,9 @@ if [ "`uname`" = "Linux" ] ; then
 	[ -d ./chrome/skin/classic ] || mkdir ./chrome/skin/classic
 	cp -fr ./chrome/skin/classic-linux/* ./chrome/skin/classic/
 	cp ./chrome/content/global/linuxOverlay.xul ./chrome/content/global/platformOverlay.xul 
-	/opt/xulrunner/xulrunner ./application.ini &
+	cp ./chrome/content/notifications/notify-linux.sh	./chrome/content/notifications/notify.sh
+	cp ./chrome/content/js/notify/notify-linux.js chrome/content/js/notify/notify.js
+	/opt/xulrunner/xulrunner ./application.ini -jsconsole -console & 
 else
 	sudo rm -fr /Applications/Buzzbird.app 
 	sudo /Library/Frameworks/XUL.framework/xulrunner-bin --install-app "${LOCALDIR}/buzzbird" 
