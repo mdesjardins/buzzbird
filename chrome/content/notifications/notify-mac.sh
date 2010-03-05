@@ -31,30 +31,61 @@ G_APPLICATION_NAME="Buzzbird"
 G_ALL_NAMES="\"Tweet\",\"Mention\",\"Direct Message\""
 G_WITH_NAME="Tweet" # default notification
 G_TITLE="Buzzbird"         # default title
-G_APPLICATION_ICON="Buzzbird.app}" # default icon to use
+G_APPLICATION_ICON="Buzzbird.app" # default icon to use
 G_STICKY="no"                      # default sticky setting
 G_PRIORITY="0"                    # default priority (normal)
 
-description=$@
+notification_type=$1
+image=$2
+sticky=$3
+title=$4
+description=$5
 
-osascript <<EOD >/dev/null 2>&1
-  -- From <http://growl.info/documentation/applescript-support.php>
-  --
-  tell application "GrowlHelperApp"
-     -- Make a list of all the notification types that this script will ever send:
-     set the allNotificationsList to {${G_ALL_NAMES}}
+echo "===============================" >> ~/notify.log
+echo "Notificication Type : ${notification_type}" >> ~/notify.log
+echo "Image: ${image}" >> ~/notify.log
+echo "Sticky: ${sticky}" >> ~/notify.log
+echo "Title: ${title}" >> ~/notify.log
+echo "Description: ${description}" >> ~/notify.log
 
-     -- Make a list of the notifications that will be enabled by default.      
-     -- Those not enabled by default can be enabled later in the 'Applications'
-     -- tab of the growl prefpane.
-     set the enabledNotificationsList to {"${G_WITH_NAME}"}
+if [ ! "$image" == "" ] ; then 
+	osascript <<EOD >> ~/notify.log 2>&1
+	  -- From <http://growl.info/documentation/applescript-support.php>
+	  --
+	  tell application "GrowlHelperApp"
+	     -- Make a list of all the notification types that this script will ever send:
+	     set the allNotificationsList to {${G_ALL_NAMES}}
 
-     -- Register our script with growl.  You can optionally (as here) set a
-     -- default icon for this script's notifications.
-     register as application "${G_APPLICATION_NAME}" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "${G_APPLICATION_ICON}"
+	     -- Make a list of the notifications that will be enabled by default.      
+	     -- Those not enabled by default can be enabled later in the 'Applications'
+	     -- tab of the growl prefpane.
+	     set the enabledNotificationsList to {"${G_WITH_NAME}"}
+
+	     -- Register our script with growl.  You can optionally (as here) set a
+	     -- default icon for this script's notifications.
+	     register as application "${G_APPLICATION_NAME}" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "${G_APPLICATION_ICON}"
              
-     -- Send a Notification...
-     notify with name "${G_WITH_NAME}" title "${G_TITLE}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${G_STICKY} priority ${G_PRIORITY}
-
-  end tell
+	     -- Send a Notification...
+	     notify with name "${G_WITH_NAME}" title "${title}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${G_STICKY} priority ${G_PRIORITY} image from location "${image}"
+	  end tell
 EOD
+else
+	osascript <<EOD >> ~/notify.log 2>&1
+	  tell application "GrowlHelperApp"
+	     -- Make a list of all the notification types that this script will ever send:
+	     set the allNotificationsList to {${G_ALL_NAMES}}
+
+	     -- Make a list of the notifications that will be enabled by default.      
+	     -- Those not enabled by default can be enabled later in the 'Applications'
+	     -- tab of the growl prefpane.
+	     set the enabledNotificationsList to {"${G_WITH_NAME}"}
+
+	     -- Register our script with growl.  You can optionally (as here) set a
+	     -- default icon for this script's notifications.
+	     register as application "${G_APPLICATION_NAME}" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "${G_APPLICATION_ICON}"
+             
+	     -- Send a Notification...
+	     notify with name "${G_WITH_NAME}" title "${title}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${G_STICKY} priority ${G_PRIORITY}
+	  end tell
+EOD
+fi

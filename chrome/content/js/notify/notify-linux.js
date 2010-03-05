@@ -26,7 +26,7 @@ var Notify = {
 		var imageData = this._getImage(image);
 		var imagePath = "";
 		if (imageData != null) {
-			var imagePath = "file://" + imageData.path;
+			var imagePath = imageData.path;
 		}
 		var chromeDirectory = Components.classes["@mozilla.org/file/directory_service;1"].  
 		                      getService(Components.interfaces.nsIProperties).  

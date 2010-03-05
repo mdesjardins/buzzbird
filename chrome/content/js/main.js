@@ -186,7 +186,7 @@ function updateTimestamps() {
 
 // Iterates over newly fetched tweets to add them to the browser window.
 //
-function renderNewTweets(newTweets) {
+function renderNewTweets(newTweets,doNotifications) {
 	jsdump('renderNewTweets, number of tweets: ' + newTweets.length);
 	if (newTweets.length == 0) {
 		jsdump('renderNewTweets: Nothing to do, skipping.');
@@ -199,18 +199,28 @@ function renderNewTweets(newTweets) {
 
 		var newText = '';
 		for (var i=0; i<newTweets.length; i++) {
-			var type = tweetType(newTweets[i]);
+			var tweet = newTweets[i]
+			var type = tweetType(tweet,getUsername(),getPassword());
 			if ((type == 'tweet' || type == 'reply' || type == 'mine') &&
-			    (mostRecentTweet == null || mostRecentTweet < newTweets[i].id)) {
-				mostRecentTweet = newTweets[i].id;
+			    (mostRecentTweet == null || mostRecentTweet < tweet.id)) {
+				mostRecentTweet = tweet.id;
 				jsdump('mostRecentTweet:' + mostRecentTweet);
-			} else if (type == 'direct' && (mostRecentDirect == null || mostRecentDirect < newTweets[i].id)) {
+			} else if ((type == 'direct-from' || type == 'direct-to') && 
+			           (mostRecentDirect == null || mostRecentDirect < tweet.id)) {
 				mostRecentDirect = newTweets[i].id;
 				jsdump('mostRecentDirect:' + mostRecentDirect);
 			}
-			var chk = window.content.document.getElementById('tweet-'+newTweets[i].id);
+
+			var chk = window.content.document.getElementById('tweet-' + tweet.id);
 			if (chk == null) {
-				newText = formatTweet(newTweets[i],getUsername(),getPassword()) + newText;
+				if (doNotifications) {
+					if (type == 'reply') {
+						Notify.notify("Mention", tweet.user.profile_image_url, "Mentioned by @" + tweet.user.screen_name, tweet.text);
+					} else if (type == 'direct-from') {
+						Notify.notify("Direct Message", tweet.sender.profile_image_url, "Direct Message from @" + tweet.sender.screen_name, tweet.text);
+					}
+				}
+				newText = formatTweet(tweet,getUsername(),getPassword()) + newText;
 			}
 		}
 		insertAtTop(newText);
@@ -897,7 +907,7 @@ function firstCycleFetch() {
 
 function firstCycleFetchDirectCallback(tweets) {
 	jsdump('firstCycleFetchDirectCallback');
-	renderNewTweets(tweets);
+	renderNewTweets(tweets,false);
 	BzTwitter.fetchMentions({
 		username: getUsername(),
 		password: getPassword(),
@@ -910,7 +920,7 @@ function firstCycleFetchDirectCallback(tweets) {
 
 function firstCycleFetchMentionsCallback(tweets) {
 	jsdump('firstCycleFetchMentionsCallback');
-	renderNewTweets(tweets);
+	renderNewTweets(tweets,false);
 	BzTwitter.fetchTimeline({
 		username: getUsername(),
 		password: getPassword(),
@@ -923,7 +933,7 @@ function firstCycleFetchMentionsCallback(tweets) {
 
 function firstCycleFetchTimelineCallback(tweets) {
 	jsdump('firstCycleFetchTimelineCallback');
-	renderNewTweets(tweets);
+	renderNewTweets(tweets,false);
 	fetchFinished();
 }
 
@@ -944,7 +954,7 @@ function cycleFetch() {
 
 function cycleFetchDirectCallback(tweets) {
 	jsdump('cycleFetchDirectCallback');
-	renderNewTweets(tweets);
+	renderNewTweets(tweets,true);
 	BzTwitter.fetchTimeline({
 		username: getUsername(),
 		password: getPassword(),
@@ -957,7 +967,7 @@ function cycleFetchDirectCallback(tweets) {
 
 function cycleFetchTimelineCallback(tweets) {
 	jsdump('cycleFetchTimelineCallback');
-	renderNewTweets(tweets);
+	renderNewTweets(tweets,true);
 	fetchFinished();
 }
 
@@ -970,7 +980,6 @@ function fetchFinished() {
 	updateLengthDisplay();		
 	refreshAllowed(true);
 	countUnread();
-	Notify.notify();
 	setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
 }
 
