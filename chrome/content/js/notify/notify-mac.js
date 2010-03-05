@@ -22,6 +22,12 @@ THE SOFTWARE.
 var Notify = {
 	notify : function(type,image,title,description) {
 		jsdump('experimental notification');
+		
+		var imageData = this._getImage(image);
+		var imagePath = "";
+		if (imageData != null) {
+			var imagePath = "file://" + imageData.path;
+		}
 		var chromeDirectory = Components.classes["@mozilla.org/file/directory_service;1"].  
 		                      getService(Components.interfaces.nsIProperties).  
 		                      get("AChrom", Components.interfaces.nsIFile).
@@ -36,7 +42,35 @@ var Notify = {
 		                        .createInstance(Components.interfaces.nsIProcess);
 		process.init(file);
 
-		var args = [type,image,"no",title,description];
+		var args = [type,imagePath,"no",title,description];
 		process.run(false, args, args.length);
+	},
+	
+	_getImage : function(url) {
+		jsdump("URL=" + url);
+	 	try {
+			var nsILocalFile = Components
+						.classes["@mozilla.org/file/directory_service;1"]
+						.getService(Components.interfaces.nsIProperties)
+						.get("TmpD", Components.interfaces.nsIFile);  
+			var re = /.*?\/profile_images\/.*?\/(.*?)$/;
+			var f = re.exec(url)[1]
+			nsILocalFile.append(f);  
+			nsILocalFile.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0666);  
+
+	   		var nsIURI = Components.classes["@mozilla.org/network/standard-url;1"]
+	                .getService(Components.interfaces.nsIURI);
+	   		//nsILocalFile.initWithPath(filename);
+	   		nsIURI.spec = url;
+	   		var nsIWBP = Components.interfaces.nsIWebBrowserPersist;
+	   		var persist = Components.classes["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"]
+	                	.createInstance(nsIWBP);
+			persist.persistFlags = nsIWBP.PERSIST_FLAGS_REPLACE_EXISTING_FILES;
+	   		persist.saveURI(nsIURI, null, null, null, null, nsILocalFile);
+	   		return nsILocalFile;
+	 	} catch (e) {
+			jsdump("Exception fetching the avatar for the notification: " + e.name + " - " + e.message);
+	   		return null;
+	 	}
 	}
 }

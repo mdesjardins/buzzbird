@@ -213,10 +213,8 @@ function renderNewTweets(newTweets) {
 			var chk = window.content.document.getElementById('tweet-' + tweet.id);
 			if (chk == null) {
 				if (type == 'reply') {
-					jsdump("Notifying of reply.... type = " + type);
 					Notify.notify("Mention", tweet.user.profile_image_url, "Mentioned by @" + tweet.user.screen_name, tweet.text);
 				} else if (type == 'direct') {
-					jsdump("Notifying of direct.");
 					Notify.notify("Direct Message", tweet.user.profile_image_url, "Direct Message from @" + tweet.user.screen_name, newTweets[i].text);
 				}
 				newText = formatTweet(newTweets[i],getUsername(),getPassword()) + newText;

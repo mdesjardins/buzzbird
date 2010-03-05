@@ -48,24 +48,44 @@ echo "Sticky: ${sticky}" >> ~/notify.log
 echo "Title: ${title}" >> ~/notify.log
 echo "Description: ${description}" >> ~/notify.log
 
-osascript <<EOD >> ~/notify.log 2>&1
-  -- From <http://growl.info/documentation/applescript-support.php>
-  --
-  tell application "GrowlHelperApp"
-     -- Make a list of all the notification types that this script will ever send:
-     set the allNotificationsList to {${G_ALL_NAMES}}
+if [ ! "$image" == "" ] ; then 
+	osascript <<EOD >> ~/notify.log 2>&1
+	  -- From <http://growl.info/documentation/applescript-support.php>
+	  --
+	  tell application "GrowlHelperApp"
+	     -- Make a list of all the notification types that this script will ever send:
+	     set the allNotificationsList to {${G_ALL_NAMES}}
 
-     -- Make a list of the notifications that will be enabled by default.      
-     -- Those not enabled by default can be enabled later in the 'Applications'
-     -- tab of the growl prefpane.
-     set the enabledNotificationsList to {"${G_WITH_NAME}"}
+	     -- Make a list of the notifications that will be enabled by default.      
+	     -- Those not enabled by default can be enabled later in the 'Applications'
+	     -- tab of the growl prefpane.
+	     set the enabledNotificationsList to {"${G_WITH_NAME}"}
 
-     -- Register our script with growl.  You can optionally (as here) set a
-     -- default icon for this script's notifications.
-     register as application "${G_APPLICATION_NAME}" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "${G_APPLICATION_ICON}"
+	     -- Register our script with growl.  You can optionally (as here) set a
+	     -- default icon for this script's notifications.
+	     register as application "${G_APPLICATION_NAME}" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "${G_APPLICATION_ICON}"
              
-     -- Send a Notification...
-     notify with name "${G_WITH_NAME}" title "${title}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${G_STICKY} priority ${G_PRIORITY}
-
-  end tell
+	     -- Send a Notification...
+	     notify with name "${G_WITH_NAME}" title "${title}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${G_STICKY} priority ${G_PRIORITY} image from location "${image}"
+	  end tell
 EOD
+else
+	osascript <<EOD >> ~/notify.log 2>&1
+	  tell application "GrowlHelperApp"
+	     -- Make a list of all the notification types that this script will ever send:
+	     set the allNotificationsList to {${G_ALL_NAMES}}
+
+	     -- Make a list of the notifications that will be enabled by default.      
+	     -- Those not enabled by default can be enabled later in the 'Applications'
+	     -- tab of the growl prefpane.
+	     set the enabledNotificationsList to {"${G_WITH_NAME}"}
+
+	     -- Register our script with growl.  You can optionally (as here) set a
+	     -- default icon for this script's notifications.
+	     register as application "${G_APPLICATION_NAME}" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "${G_APPLICATION_ICON}"
+             
+	     -- Send a Notification...
+	     notify with name "${G_WITH_NAME}" title "${title}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${G_STICKY} priority ${G_PRIORITY}
+	  end tell
+EOD
+fi
