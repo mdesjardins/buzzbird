@@ -37,6 +37,6 @@ var Notify = {
 		process.init(file);
 
 		var args = ["argument1", "argument2"];
-		process.run(false, args, args.length);
+		//process.run(false, args, args.length);
 	}
 }
