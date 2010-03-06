@@ -944,7 +944,7 @@ function cycleFetch() {
 	BzTwitter.fetchDirectTo({
 		username: getUsername(),
 		password: getPassword(),
-		onSuccess: cycleFetchDirectCallback,
+		onSuccess: cycleFetchDirectToCallback,
 		onError: fetchError,
 		count: 50,
 		timelineSince: mostRecentTweet,
@@ -952,7 +952,7 @@ function cycleFetch() {
 	});	
 }
 
-function cycleFetchDirectCallback(tweets) {
+function cycleFetchDirectToCallback(tweets) {
 	jsdump('cycleFetchDirectCallback');
 	renderNewTweets(tweets,true);
 	BzTwitter.fetchTimeline({
@@ -1032,36 +1032,34 @@ function postUpdateError(errorCode) {
 	postUpdateComplete(null); 	
 }
 
+// Called when a DM is successfully posted.
+//
+function postDirectSuccess(tweet) {
+	var fakeTweet = {
+		id : 0,
+		text : "",
+		created_at : new Date(),
+		sender : "",
+		user : {
+		   	screen_name : "",
+			profile_image_url : "",
+			name : ""
+		},
+		source : ""
+	};
+	fakeTweet.text = "Directly to " + tweet.substring(2);
+	fakeTweet.sender = getUsername();
+	fakeTweet.user.screen_name = getUsername();
+	fakeTweet.user.profile_image_url = getChromeElement("avatarLabelId").value;
+	fakeTweet.user.name = getChromeElement("realnameLabelId").value;
+	fakeTweet.in_reply_to_screen_name = "";
+	fakeTweet.sender = undefined;
+	insertAtTop(formatTweet(fakeTweet,getUsername(),getPassword()));
+}
+
 // Called by postUpdateSuccess and postUpdateError
 //
 function postUpdateComplete(transport) {
-	if (transport != null) {
-		var tweetText = transport.text;
-		if (tweetText.match(/^d(\s){1}(\w+?)(\s+)(\w+)/)) {
-			jsdump("MATCH A DM");
-			// It was a DM, need to display it manually.
-			var tweet = {
-				id : 0,
-				text : "",
-				created_at : new Date(),
-				sender : "",
-				user : {
-				   	screen_name : "",
-					profile_image_url : "",
-					name : ""
-				},
-				source : ""
-			};
-			tweet.text = "Directly to " + tweetText.substring(2);
-			tweet.sender = getUsername();
-			tweet.user.screen_name = getUsername();
-			tweet.user.profile_image_url = getChromeElement("avatarLabelId").value;
-			tweet.user.name = getChromeElement("realnameLabelId").value;
-			tweet.in_reply_to_screen_name = "";
-			tweet.sender = undefined;
-			insertAtTop(formatTweet(tweet,getUsername(),getPassword()));
-		}
-	}
 	forceFetch();	
 }
 
@@ -1071,7 +1069,8 @@ function postUpdate() {
 	var tweet = getChromeElement('textboxid').value;
 	var replyTweetId = getChromeElement('replyTweetId').value;
 	var replyCheckHidden = getChromeElement('replycheckboxid').hidden;
-	var replyChecked = getChromeElement('replycheckboxid').checked;	
+	var replyChecked = getChromeElement('replycheckboxid').checked;
+	var isDirect = tweet.match(/^d(\s){1}(\w+?)(\s+)(\w+)/);	
 	if (!replyCheckHidden && replyChecked && replyTweetId > 0) {
 		jsdump("Replying");
 		BzTwitter.postReply({
@@ -1082,8 +1081,17 @@ function postUpdate() {
 			text: tweet,
 			replyingToId: replyTweetId
 		});
+	} else if (isDirect) {
+		jsdump("Posting (direct)");
+		BzTwitter.postUpdate({
+			username: getUsername(),
+			password: getPassword(),
+			onSuccess: function(response) { postDirectSuccess(tweet); postUpdateSuccess(response); },
+			onError: postUpdateError,	
+			text: tweet		
+		});				
 	} else {
-		jsdump("Posting (no reply)");
+		jsdump("Posting (no reply not direct)");
 		BzTwitter.postUpdate({
 			username: getUsername(),
 			password: getPassword(),

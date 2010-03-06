@@ -172,6 +172,7 @@ var BzTwitter = {
 		fetchTimeline: 'http://twitter.com/statuses/home_timeline.json?count=COUNT',
 		fetchMentions: 'http://twitter.com/statuses/mentions.json?count=COUNT',
 		fetchDirectTo: 'http://twitter.com/direct_messages.json?count=COUNT',
+		fetchDirectFrom: 'http://twitter.com/direct_messages/sent.json?count=COUNT',
 		fetchUserTimeline: 'http://twitter.com/statuses/user_timeline/QUERIED_USER_ID.json?count=COUNT',
 		fetchRetweetedByMe: 'http://twitter.com/statuses/retweeted_by_me.json?count=COUNT',
 		fetchUserProfile: 'http://twitter.com/users/show/QUERIED_USER_ID.json',
@@ -290,7 +291,7 @@ var BzTwitter = {
 		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 	
-	// Fetches direct messages to this user.
+	// Fetches direct messages to this user (i.e., received)
 	// Options:
 	//  username = username
 	//  password = password
@@ -300,6 +301,20 @@ var BzTwitter = {
 	//
 	fetchDirectTo : function(options) {
 		var url = this.url.fetchDirectTo;
+		url = this._initUrl(url, options.count, options.since, null);
+		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+	},
+
+	// Fetches direct messages from this user (i.e., sent).
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//  count = number of tweets to ask for.
+	//
+	fetchDirectFrom : function(options) {
+		var url = this.url.fetchDirectFrom;
 		url = this._initUrl(url, options.count, options.since, null);
 		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
 	},
