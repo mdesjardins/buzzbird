@@ -521,7 +521,7 @@ function onShortenCancel() {
 function onShortenLoad() {
 	var shortUrlProvider = window.arguments[0].inn.shortUrlProvider;
 	var dialogHeader = document.getElementsByTagName("dialogheader")[0];
-	dialogHeader.setAttribute('description','(using ' + shortUrlProvider +')');
+	dialogHeader.setAttribute('description','Using the ' + shortUrlProvider +' URL shortening service');
 }
 
 
