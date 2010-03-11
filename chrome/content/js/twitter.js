@@ -184,7 +184,7 @@ var BzTwitter = {
 		follow: 'http://twitter.com/friendships/create.json',
 		unfollow: 'http://twitter.com/friendships/destroy.json',
 		isFollowing: 'http://twitter.com/friendships/show.json',
-		verifyCredentials: 'http://twitter.com/account/verify_credentials.json',
+		verifyCredentials: 'https://twitter.com/account/verify_credentials.json',
 	},
 	
 	_source : "buzzbird",

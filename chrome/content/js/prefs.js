@@ -32,7 +32,7 @@ function loginListClicked() {
 function checkCredentials(aUsername,aPassword) {
 	var req = new XMLHttpRequest();
 	req.mozBackgroundRequest = true;
-	req.open('GET','http://twitter.com/account/verify_credentials.json',false,aUsername,aPassword);
+	req.open('GET','https://twitter.com/account/verify_credentials.json',false,aUsername,aPassword);
 	req.send(null);
 	
 	// This crap should totally work.  Why is it bitching that match isn't a valid method?
