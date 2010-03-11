@@ -152,7 +152,7 @@ function hashTag(tagName) {
 	if (getStringPref('buzzbird.hashtag.destination','hashtags.org') == 'search.twitter.com') {
 		linkTo('http://search.twitter.com/search?q=%23' + tagName);
 	} else {
-		linkTo('http://hashtags.org/tag/' + tagName);
+		linkTo('http://hashtags.org/' + tagName);
 	}
 }
 
