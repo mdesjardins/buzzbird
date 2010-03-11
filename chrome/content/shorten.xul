@@ -26,13 +26,15 @@ THE SOFTWARE.
 <dialog id="shortenurl-dialog" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" width="450" height="150"
 		title="Shorten URL"
 		buttons="accept,cancel"
+		onload="onShortenLoad();"
 	  	ondialogaccept="onShortenOk();"
 		ondialogcancel="onShortenCancel();"
 		buttonlabelaccept="Shorten URL"
 		buttonaccesskeyaccept="S">
+	
+	<script type="application/javascript" src="chrome://buzzbird/content/js/main.js" />
 	<vbox align="center">
 		<dialogheader title="Shorten URL" description="Enter a URL, and is.gd will shorten it for you"/>
-		<script src="chrome://buzzbird/content/js/main.js"></script>
 		<hbox align="center">
 			<label>URL</label>
 			<textbox id="urlid" size="40" />

@@ -30,6 +30,11 @@
 <!ENTITY hashtagDestinationHashtagsOrgPref.label "hashtags.org">
 <!ENTITY hashtagDestinationSearchTwitterComPref.label "search.twitter.com">
 
+<!ENTITY shorturlDestinationPref.label	"Default ShortURL provider">
+<!ENTITY shorturlDestinationPref.accesskey	"U">
+<!ENTITY shorturlDestinationIdGdPref.label "is.gd">
+<!ENTITY shorturlDestinationTinyUrlComPref.label "TinyURL.com">
+
 <!ENTITY windowTitlePref.label	"Window Title">
 <!ENTITY windowTitlePref.accesskey	"T">
 <!ENTITY windowTitleAppNameOnlyPref.label "Application Name Only">

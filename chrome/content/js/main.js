@@ -471,12 +471,26 @@ function closeSpeech() {
 	speech(true);
 }
 function shortenUrl() {
-	var params = {};
+	var shortUrlProvider = getStringPref('buzzbird.shorturl.destination', 'is.gd');
+	var params = {inn:{shortUrlProvider:shortUrlProvider},out:null};
 	window.openDialog("chrome://buzzbird/content/shorten.xul", "",
 	    "chrome, dialog, modal, resizable=no",params).focus();
 	if (params.out) {
 		var url2shorten = params.out.urlid;
-		url = 'http://is.gd/api.php?longurl=' + url2shorten;
+		switch(shortUrlProvider) {
+		case "is.gd":
+			url = 'http://is.gd/api.php?longurl=' + url2shorten;
+			break;
+		case "tinyurl.com":
+			url = 'http://tinyurl.com/api-create.php?url=' + url2shorten;
+			break;
+		default:
+			//XXX: Should never happen
+			url = "http://example.org/wrong-shorten-provider";
+			prompts.alert(window, "Sorry.", "We hit a bug! There was an internal error shortning your URL.");
+			return;
+		}
+		
 		new Ajax.Request(url,
 			{
 				method:'post',
@@ -502,6 +516,14 @@ function onShortenOk() {
 function onShortenCancel() {
 	return true;
 }
+
+//Alter the Shorten dialog to display correct contents
+function onShortenLoad() {
+	var shortUrlProvider = window.arguments[0].inn.shortUrlProvider;
+	var dialogHeader = document.getElementsByTagName("dialogheader")[0];
+	dialogHeader.setAttribute('description','(using ' + shortUrlProvider +')');
+}
+
 
 function goToUser() {
 	var params = {};

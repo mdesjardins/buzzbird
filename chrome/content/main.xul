@@ -199,6 +199,11 @@ THE SOFTWARE.
 			<menuitem id="visitSite"
 					  label="&visitSiteCmd.label;"
 					  oncommand="linkTo('http://getbuzzbird.com');"/>
+			<!-- XXX: Should properly only be enabled when using the debug mode.
+			<menuitem id="showDebugger"
+					  label="&showDebuggerCmd.label;"
+                      oncommand="showDebugger()" />
+            -->
 		  </menupopup>
 		</menu>
 	</menubar>

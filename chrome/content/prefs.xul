@@ -48,6 +48,7 @@ THE SOFTWARE.
 			<preference id="retweetFormat" name="buzzbird.retweet.format" type="string"/>
 			<preference id="retweetMethod" name="buzzbird.retweet.method" type="string"/>
 			<preference id="hashtagDestination" name="buzzbird.hashtag.destination" type="string"/>
+			<preference id="shorturlDestination" name="buzzbird.shorturl.destination" type="string"/>
 			<preference id="autoMarkOldTweetsAsRead" name="buzzbird.auto.markread" type="bool"/>
 			<preference id="windowTitle" name="buzzbird.window.title" type="string"/>
 			<preference id="boldfaceName" name="buzzbird.render.bold-name" type="string"/>
@@ -104,6 +105,18 @@ THE SOFTWARE.
 					<menupopup>
 						<menuitem label="&hashtagDestinationHashtagsOrgPref.label;" value="hashtags.org"/>
 						<menuitem label="&hashtagDestinationSearchTwitterComPref.label;" value="search.twitter.com"/>
+					</menupopup>
+				</menulist>
+		    </hbox>
+		    <hbox style="padding-bottom:10px;">
+				<box width="200" align="right">
+					<label control="menulist_shorturlDestination" value="&shorturlDestinationPref.label;" /> 
+				</box>
+				<menulist id="menulist_shorturlDestination" preference="shorturlDestination"
+			              accesskey="&shorturlDestinationPref.accesskey;">
+					<menupopup>
+						<menuitem label="&shorturlDestinationIdGdPref.label;" value="is.gd"/>
+						<menuitem label="&shorturlDestinationTinyUrlComPref.label;" value="tinyurl.com"/>
 					</menupopup>
 				</menulist>
 		    </hbox>
