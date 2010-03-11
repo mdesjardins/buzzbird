@@ -71,6 +71,15 @@ function saveCredentials(username,password) {
 	                                             "init");
    var loginInfo = new nsLoginInfo('localhost', 'localhost', null, username, password,
 	                                'username', 'password');
+   
+   // Make sure to delete old entries when trying to add the new details
+   var logins = myLoginManager.findLogins({}, 'localhost', 'localhost', null);
+   for (var i = 0; i < logins.length; i++) {
+      if (logins[i].username == username) {
+    	  myLoginManager.removeLogin(logins[i]);
+         break;
+      }
+   }    
    myLoginManager.addLogin(loginInfo);
 }
 
