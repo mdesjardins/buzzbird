@@ -6,14 +6,14 @@ if [ "`uname`" = "Linux" ] ; then
 	cp -fr ./chrome/* ./pkg/chrome
 	rm -fr ./pkg/chrome/skin/classic
 	mkdir ./pkg/chrome/skin/classic
-	cp -fr ./chrome/skin/classic-linux/* ./pkg/chrome/skin/classic
+	cp -fr ./pkg/chrome/skin/classic-linux/* ./pkg/chrome/skin/classic
+	cp ./pkg/chrome/content/notifications/notify-linux.sh ./pkg/chrome/content/notifications/notify.sh
+	cp ./pkg/chrome/content/js/notify/notify-linux.js ./pkg/chrome/content/js/notify/notify.js
 	rm -fr ./pkg/chrome/skin/classic-win
 	rm -fr ./pkg/chrome/skin/classic-mac
 	rm -fr ./pkg/chrome/skin/classic-linux
-	cp ./pkg/chrome/content/global/linuxOverlay.xul ./pkg/chrome/content/global/platformOverlay.xul  
-	rm ./pkg/chrome/content/global/linuxOverlay.xul
-	rm ./pkg/chrome/content/global/windowsOverlay.xul
-	rm ./pkg/chrome/content/global/macOverlay.xul
+	cp ./pkg/chrome/content/platform/linux/* ./pkg/chrome/content
+	rm -fr ./pkg/chrome/content/platform
 	mkdir ./pkg/defaults
 	cp -fr ./defaults/* ./pkg/defaults
 	mkdir ./pkg/xulrunner
@@ -31,8 +31,11 @@ else
 	sudo rm -fr /Applications/Buzzbird.app 
 	sudo /Library/Frameworks/XUL.framework/xulrunner-bin --install-app "${LOCALDIR}/buzzbird" 
 	sudo cp ${LOCALDIR}/buzzbird/Info.plist /Applications/Buzzbird.app/Contents
-	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/content/global/macOverlay.xul /Applications/Buzzbird.app/Contents/Resources/chrome/content/global/platformOverlay.xul 
+	sudo cp /Applications/Buzzbird.app/Contents/Resources/chrome/content/platform/* /Applications/Buzzbird.app/Contents/Resources/chrome/content
+	
  	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic-mac /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic
+	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/content/notifications/notify-mac.sh /Applications/Buzzbird.app/Contents/Resources/chrome/content/notifications/notify.sh
+	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/content/js/notify/notify-mac.js /Applications/Buzzbird.app/Contents/Resources/chrome/content/js/notify/notify.js
 
 	sudo sh -c "echo \"pref('browser.preferences.animateFadeIn', false);\" > /Applications/Buzzbird.app/Contents/Resources/defaults/preferences/mac.js"
 	sudo sh -c "echo \"pref('browser.preferences.instantApply', true);\" >> /Applications/Buzzbird.app/Contents/Resources/defaults/preferences/mac.js"
@@ -44,6 +47,7 @@ else
 	sudo rm -fr /Applications/Buzzbird.app/Contents/Resources/defaults/preferences/debug.js 
 	sudo rm -fr /Applications/Buzzbird.app/Contents/Resources/distribution
 	sudo rm -fr /Applications/Buzzbird.app/Contents/Resources/extensions
+	sudo rm -fr /Applications/Buzzbird.app/Contents/Resources/chrome/content/platform
 	
 	# Cleanup
 	sudo rm -fr /Applications/Buzzbird.app/Contents/Resources/.git

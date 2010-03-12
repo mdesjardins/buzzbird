@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://buzzbird/skin/prefs.css" type="text/css"?>
-<?xul-overlay href="chrome://buzzbird/content/global/globalOverlay.xul"?>
+<?xul-overlay href="chrome://buzzbird/content/platformOverlay.xul"?>
 <?xul-overlay href="chrome://buzzbird/content/global/editMenuOverlay.xul"?>
 
 <!DOCTYPE prefwindow SYSTEM "chrome://buzzbird/locale/prefs.dtd">
-
-<?xul-overlay href="chrome://buzzbird/content/global/platformOverlay.xul"?>
 
 <!--
 Copyright (c) 2010 Mike Desjardins
@@ -33,16 +31,14 @@ THE SOFTWARE.
 <prefwindow id="BrowserPreferences"
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 			type="prefwindow"
-			windowtype="Browser:Preferences"
-			width="550" 
-	        height="400">
-   
+			windowtype="Browser:Preferences">
+			   
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/utils.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
 
- <prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/content/images/prefs-general.png">
+ <prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/skin/images/prefs/prefs-general.png">
     	<preferences>
       		<preference id="updateInterval" name="buzzbird.update.interval" type="int"/>
 			<preference id="retweetFormat" name="buzzbird.retweet.format" type="string"/>
@@ -158,7 +154,7 @@ THE SOFTWARE.
 		</vbox>
 	</prefpane>
 
-	<prefpane id="paneMultiAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/content/images/prefs-accounts.png">
+	<prefpane id="paneMultiAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/skin/images/prefs/prefs-accounts.png">
 		<preferences></preferences>
 		<listbox id="richlistbox_accounts" onclick="loginListClicked();">
 		</listbox>
@@ -168,4 +164,15 @@ THE SOFTWARE.
 		</hbox>
 	</prefpane>
 	
+	<prefpane id="paneAlerts" label="&prefPaneAlerts.label;" image="chrome://buzzbird/skin/images/prefs/prefs-alerts.png">
+		<preferences>
+			<preference id="generalVisualAlert" name="buzzbird.alert.visual.general" type="bool"></preference>
+			<preference id="generalVisualAlertSticky" name="buzzbird.alert.visual.general.sticky" type="bool"></preference>
+			<preference id="mentionVisualAlert" name="buzzbird.alert.visual.mention" type="bool"></preference>
+			<preference id="mentionVisualAlertSticky" name="buzzbird.alert.visual.mention.sticky" type="bool"></preference>
+			<preference id="directVisualAlert" name="buzzbird.alert.visual.direct" type="bool"></preference>
+			<preference id="directVisualAlertSticky" name="buzzbird.alert.visual.direct.sticky" type="bool"></preference>
+		</preferences>
+	</prefpane>
 </prefwindow>
+

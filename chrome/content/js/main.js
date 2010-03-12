@@ -334,7 +334,7 @@ function countUnread() {
 		jsdump('Counting.');
 		var i = 0;
 		function doWork() {
-			if (markers !== undefined) {
+			if (markers !== undefined && markers[i] !== undefined) {
 				if (markers[i].src == 'chrome://buzzbird/skin/images/actions/unread.png') {
 					unread.tweet = unread.tweet + 1;
 					if (markers[i].name == "direct-from") {
@@ -517,7 +517,7 @@ function onShortenCancel() {
 	return true;
 }
 
-//Alter the Shorten dialog to display correct contents
+//Alter the dialog to display correct contents
 function onShortenLoad() {
 	var shortUrlProvider = window.arguments[0].inn.shortUrlProvider;
 	var dialogHeader = document.getElementsByTagName("dialogheader")[0];

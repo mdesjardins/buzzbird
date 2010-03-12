@@ -3,7 +3,7 @@ LOCALDIR=~/_play
 if [ "`uname`" = "Linux" ] ; then
 	[ -d ./chrome/skin/classic ] || mkdir ./chrome/skin/classic
 	cp -fr ./chrome/skin/classic-linux/* ./chrome/skin/classic/
-	cp ./chrome/content/global/linuxOverlay.xul ./chrome/content/global/platformOverlay.xul 
+	cp -fr ./chrome/content/platform/linux/* ./chrome/content/
 	cp ./chrome/content/notifications/notify-linux.sh	./chrome/content/notifications/notify.sh
 	cp ./chrome/content/js/notify/notify-linux.js chrome/content/js/notify/notify.js
 	/opt/xulrunner/xulrunner ./application.ini -jsconsole -console & 
@@ -11,7 +11,7 @@ else
 	sudo rm -fr /Applications/Buzzbird.app 
 	sudo /Library/Frameworks/XUL.framework/xulrunner-bin --install-app "${LOCALDIR}/buzzbird" 
 	sudo cp ${LOCALDIR}/buzzbird/Info.plist /Applications/Buzzbird.app/Contents
-	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/content/global/macOverlay.xul /Applications/Buzzbird.app/Contents/Resources/chrome/content/global/platformOverlay.xul 
+	sudo cp /Applications/Buzzbird.app/Contents/Resources/chrome/content/platform/mac/* /Applications/Buzzbird.app/Contents/Resources/chrome/content
 
 	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic-mac /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic
 	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/content/notifications/notify-mac.sh /Applications/Buzzbird.app/Contents/Resources/chrome/content/notifications/notify.sh
@@ -23,6 +23,7 @@ else
 	sudo rm -fr /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic-win
 	sudo rm -fr /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic-linux
 	sudo rm -fr /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic-mac
+	sudo rm -fr /Applications/Buzzbird.app/Contents/Resources/chrome/content/platform
 
 	# Cleanup
 	sudo rm -fr /Applications/Buzzbird.app/Contents/Resources/.git

@@ -66,7 +66,6 @@
 }
 
 .paneSelector {
-  list-style-image: url("chrome://browser/skin/preferences/Options.png");
   padding: 0 5px 2px 5px;
   background-color: #999;
   border-bottom: 1px solid #404040;
@@ -74,10 +73,6 @@
   background-repeat: repeat-x;
   background-position: top right;
   margin: 0;
-}
-
-.paneSelector > radio[pane] {
-  -moz-binding: url("chrome://browser/skin/browser.xml#radio-shadow") !important;
 }
 
 .paneSelector radio {
@@ -99,91 +94,9 @@
 }
 
 radio[pane][selected="true"] {
-    background: url("chrome://browser/skin/radio-selected-bg.png") repeat-x center center;
+    background: url("chrome://buzzbird/skin/images/radio-selected-bg.png") repeat-x center center;
     -moz-border-left-colors: #6a6a6a #868686;
     -moz-border-right-colors: #6a6a6a #868686;    
-}
-
-/* ----- GENERAL BUTTON ----- */
-
-radio[pane=paneGeneral],
-radio[pane=paneMain] {
-	-moz-image-region: rect(0px, 32px, 32px, 0px)
-} 
-radio[pane=paneGeneral]:active,
-radio[pane=paneMain]:active {
-	-moz-image-region: rect(32px, 32px, 64px, 0px)
-}
-
-/* ----- TABS BUTTON ----- */
-
-radio[pane=paneTabs] {
-	-moz-image-region: rect(0px, 64px, 32px, 32px);
-}
-
-radio[pane=paneTabs]:active {
-	-moz-image-region: rect(32px, 64px, 64px, 32px);
-}
-
-/* ----- CONTENT BUTTON ----- */
-
-radio[pane=paneContent] {
-	-moz-image-region: rect(0px, 96px, 32px, 64px);
-}
-
-radio[pane=paneContent]:active {
-	-moz-image-region: rect(32px, 96px, 64px, 64px);
-}
-
-/* ----- APPLICATIONS BUTTON ----- */
-
-radio[pane=paneApplications] {
-	-moz-image-region: rect(0px, 128px, 32px, 96px);
-}
-
-radio[pane=paneApplications]:active {
-	-moz-image-region: rect(32px, 128px, 64px, 96px);
-}
-
-/* ----- PRIVACY BUTTON ----- */
-
-radio[pane=panePrivacy] {
-	-moz-image-region: rect(0px, 160px, 32px, 128px);
-}
-
-radio[pane=panePrivacy]:active {
-	-moz-image-region: rect(32px, 160px, 64px, 128px);
-}
-
-/* ----- SECURITY BUTTON ----- */
-
-radio[pane=paneSecurity] {
-	-moz-image-region: rect(0px, 192px, 32px, 160px);
-}
-
-radio[pane=paneSecurity]:active {
-	-moz-image-region: rect(32px, 192px, 64px, 160px);
-}
-
-/* ----- ADVANCED BUTTON ----- */
-
-radio[pane=paneAdvanced] {
-	-moz-image-region: rect(0px, 224px, 32px, 192px);
-}
-
-radio[pane=paneAdvanced]:active {
-	-moz-image-region: rect(32px, 224px, 64px, 192px);
-}
-
-
-
-/* ----- APPLICATIONS PREFPANE ----- */
-#BrowserPreferences[animated="true"] #handlersView {
-  height: 25em;
-}
-
-#BrowserPreferences[animated="false"] #handlersView {
-  -moz-box-flex: 1;
 }
 
 description {
@@ -191,30 +104,6 @@ description {
   font-weight: normal;
   line-height: 1.3em;
   margin-bottom: 4px !important;
-}
-
-#downloadFolderIcon {
-  width: 16px;
-  height: 16px;
-}
-
-#downloadFolderContainer {
-  margin: 2px 4px 2px 27px;
-  -moz-appearance: textfield;
-}
-
-#downloadFolderContainer2 {
-  background-color: -moz-Dialog;
-  color: -moz-DialogText;
-  margin: 1px;
-  padding: 0px 0px 0px 3px;
-}
-
-#downloadFolder {
-  -moz-appearance: none;
-  background-color: transparent;
-  border: none;
-  padding: 1px 0px 0px 0px;
 }
 
 prefpane .groupbox-body {
@@ -240,10 +129,8 @@ caption {
   padding: 4px 4px 0px 0px !important;
 }
 
-#paneMain description,
-#paneContent description,
-#paneAdvanced description,
-#paneSecurity description {
+#paneGeneral description,
+#paneMultiAccounts description {
   font: -moz-dialog;
 }
 
@@ -264,35 +151,4 @@ caption {
 
 #enableImagesRow {
   -moz-box-align: start !important;
-}
-
-#browserUseCurrent, #browserUseBookmark, #browserUseBlank {
-  margin-top: 10px;
-}
-
-#advancedPrefs {
-  margin: 0 8px;
-}
-
-#privacyPrefs {
-  padding: 0 4px;
-}
-
-#privacyPrefs > tabpanels {
-  padding: 18px 10px 10px 10px;
-}
-
-#OCSPDialogPane {
-  font: message-box !important;
-}
-
-/**
- * Update Preferences
- */
-#autoInstallOptions {
-  -moz-margin-start: 20px;
-}
-
-.updateControls {
-  -moz-margin-start: 10px;
 }

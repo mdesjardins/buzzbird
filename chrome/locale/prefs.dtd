@@ -57,6 +57,16 @@
 
 <!ENTITY prefForgetAccount.label         "Forget Saved Account Data">
 
+<!ENTITY prefPaneAlerts.label "Notifications">
+<!ENTITY generalVisualAlert.label "Notify on every update">
+<!ENTITY generalVisualAlertSticky.label "Sticky">
+
+<!ENTITY mentionVisualAlert.label "Notify whenever mentioned">
+<!ENTITY mentionVisualAlertSticky.label "Sticky">
+
+<!ENTITY directVisualAlert.label "Notify of Direct Messages">
+<!ENTITY directVisualAlertSticky.label "Sticky">
+
 
 
 
