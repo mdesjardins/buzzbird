@@ -65,7 +65,7 @@ function follow(myUsername,myPassword,hisUserId) {
 	BzTwitter.follow({
 		"username":myUsername,
 		"password":myPassword,
-		"userId":hisUserId,
+		"screenName":hisUserId,
 		"onSuccess": function(result) { friendshipCallback(result,myUsername); },
 		"onError": function(status) {
 			jsdump('Error w/ follow: HTTP status: ' + status)

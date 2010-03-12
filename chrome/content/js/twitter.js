@@ -193,6 +193,7 @@ var BzTwitter = {
 	// http://www.openjs.com/scripts/jx/
 	//
 	_ajax : function(username,password,url,callback,error,method) {
+		//jsdump("=== " + method + " ===> " + url);
 		var http = false;
 		try {
 			http = new XMLHttpRequest();
