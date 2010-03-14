@@ -3,7 +3,6 @@
 <?xml-stylesheet href="chrome://buzzbird/skin/prefs.css" type="text/css"?>
 <?xul-overlay href="chrome://buzzbird/content/platformOverlay.xul"?>
 <?xul-overlay href="chrome://buzzbird/content/global/editMenuOverlay.xul"?>
-
 <!DOCTYPE prefwindow SYSTEM "chrome://buzzbird/locale/prefs.dtd">
 
 <!--

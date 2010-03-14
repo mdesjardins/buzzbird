@@ -164,27 +164,6 @@ function initLogins() {
 	}
 }
 
-// not needed anymore w/ multi-acct support.
-//
-// function forgetCredentials() {
-// 	// Get Login Manager 
-//    var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-// 		                         .getService(Components.interfaces.nsILoginManager);
-// 
-//    // Find users for the given parameters
-//    var logins = myLoginManager.findLogins({}, 'localhost', 'localhost', null);
-// 
-//    // Find user from returned array of nsILoginInfo objects
-//    // Will be modified when support for multiple accounts is added.  For now,
-//    // just use the first one we find.
-//    if (logins != null && logins.length > 0) {
-// 	 myLoginManager.removeLogin(logins[0]);
-//    } else {
-//      jsdump('No saved logins found.');	
-//    }
-// 	alert('Your screen name and password information was discarded.');
-// }
-
 function deleteAccount() {
 	var selection = document.getElementById('richlistbox_accounts').getSelectedItem(0).value;
 	var selIndex = document.getElementById('richlistbox_accounts').selectedIndex;
@@ -202,4 +181,28 @@ function deleteAccount() {
 	dispatch('updateLoginList');
 }
 
+function setSticky(name,newState) {
+	var checkbox = document.getElementById('checkbox_' + name);
+	var sticky = document.getElementById('checkbox_' + name + 'Sticky');
+	var label = document.getElementById('checkbox_' + name + 'StickyLabel');
+	if (checkbox.hasAttribute('checked') && checkbox.checked) {
+		sticky.disabled = newState;
+		label.disabled = newState;
+	} else {
+		sticky.disabled = !newState;
+		label.disabled = !newState;
+	}
+	if (sticky.disabled) {
+		sticky.checked = false;
+	}
+}
+
+function initSticky() {
+	jsdump('initSticky');
+	setSticky('generalVisualAlert',false);
+	setSticky('mentionVisualAlert',false);
+	setSticky('directVisualAlert',false);		
+}
+
 window.addEventListener("load", initLogins, false);
+window.addEventListener("load", initSticky, false);

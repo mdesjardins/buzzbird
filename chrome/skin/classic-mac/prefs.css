@@ -152,3 +152,7 @@ caption {
 #enableImagesRow {
   -moz-box-align: start !important;
 }
+
+#paneAlerts {
+	height:350px;
+}

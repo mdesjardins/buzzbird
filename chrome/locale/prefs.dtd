@@ -58,14 +58,15 @@
 <!ENTITY prefForgetAccount.label         "Forget Saved Account Data">
 
 <!ENTITY prefPaneAlerts.label "Notifications">
-<!ENTITY generalVisualAlert.label "Notify on every update">
-<!ENTITY generalVisualAlertSticky.label "Sticky">
+<!ENTITY generalVisualAlert.label "Visual Notification on every update">
+<!ENTITY generalVisualAlertSticky.label "Stay on Screen">
 
-<!ENTITY mentionVisualAlert.label "Notify whenever mentioned">
-<!ENTITY mentionVisualAlertSticky.label "Sticky">
+<!ENTITY mentionVisualAlert.label "Visual Notification whenever mentioned">
+<!ENTITY mentionVisualAlertSticky.label "Stay on Screen">
 
-<!ENTITY directVisualAlert.label "Notify of Direct Messages">
-<!ENTITY directVisualAlertSticky.label "Sticky">
+<!ENTITY directVisualAlert.label "Visual Notification of Direct Messages">
+<!ENTITY directVisualAlertSticky.label "Stay on Screen">
+<!ENTITY growlExplain.label "Visual notifications require Growl. You can get Growl from http://growl.info.">
 
 
 
