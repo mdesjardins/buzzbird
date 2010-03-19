@@ -5,14 +5,14 @@
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <prefwindow id="BrowserPreferences">
 	<prefpane id="paneAlerts" label="&prefPaneAlerts.label;" image="chrome://buzzbird/skin/images/prefs/prefs-alerts.png">
-		<box style="width:100%;">
-			<label style="margin:auto;" value="&growlExplain.label;"/>
+		<box style="margin-left:15px;">
+			<label value="&growlExplain.label;"/>
 		</box>
 		<vbox>
 			<groupbox>
 				<caption label="Every Update"/>
 				<hbox>
-					<checkbox id="checkbox_generalVisualAlert" preference="generalVisualAlert" onclick="setSticky('generalVisualAlert',true);"/>
+					<checkbox id="checkbox_generalVisualAlert" preference="generalVisualAlert" onclick="Prefs.setSticky('generalVisualAlert',true);"/>
 					<label control="checkbox_generalVisualAlert" value="&generalVisualAlert.label;" /> 
 				</hbox>
 				<hbox style="padding-left:10px;">
@@ -25,7 +25,7 @@
 			<groupbox>
 				<caption label="When Mentioned"/>
 				<hbox>
-					<checkbox id="checkbox_mentionVisualAlert" preference="mentionVisualAlert" onclick="setSticky('mentionVisualAlert',true);"/>
+					<checkbox id="checkbox_mentionVisualAlert" preference="mentionVisualAlert" onclick="Prefs.setSticky('mentionVisualAlert',true);"/>
 					<label control="checkbox_mentionVisualAlert" value="&mentionVisualAlert.label;" /> 
 				</hbox>
 				<hbox style="padding-left:10px;">
@@ -38,7 +38,7 @@
 			<groupbox>
 				<caption label="Direct Messages"/>
 				<hbox>
-					<checkbox id="checkbox_directVisualAlert" preference="directVisualAlert" onclick="setSticky('directVisualAlert',true);"/>
+					<checkbox id="checkbox_directVisualAlert" preference="directVisualAlert" onclick="Prefs.setSticky('directVisualAlert',true);"/>
 					<label control="checkbox_directVisualAlert" value="&directVisualAlert.label;" /> 
 				</hbox>
 				<hbox style="padding-left:10px;">

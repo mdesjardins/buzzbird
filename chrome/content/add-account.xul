@@ -26,8 +26,8 @@ THE SOFTWARE.
 <dialog id="addaccount-dialog" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" width="450" height="180"
 		title="Add Account"
 		buttons="accept,cancel"
-	  	ondialogaccept="onAddAccountOk();"
-		ondialogcancel="onAddAccountCancel();">
+	  	ondialogaccept="Prefs.onAddAccountOk();"
+		ondialogcancel="Prefs.onAddAccountCancel();">
 	<vbox align="center">
 		<dialogheader title="Enter Account Credentials" description="Enter the new account credentials below"/>
 		<script src="chrome://buzzbird/content/js/utils.js"></script>

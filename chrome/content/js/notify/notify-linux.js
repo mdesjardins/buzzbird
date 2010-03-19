@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 var Notify = {
-	notify : function(type,image,title,description) {
+	notify : function(type,sticky,image,title,description) {
 		jsdump('experimental notification');
 		
 		var imageData = this._getImage(image);

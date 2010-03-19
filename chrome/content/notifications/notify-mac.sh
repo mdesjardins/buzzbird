@@ -41,15 +41,15 @@ sticky=$3
 title=$4
 description=$5
 
-echo "===============================" >> ~/notify.log
-echo "Notificication Type : ${notification_type}" >> ~/notify.log
-echo "Image: ${image}" >> ~/notify.log
-echo "Sticky: ${sticky}" >> ~/notify.log
-echo "Title: ${title}" >> ~/notify.log
-echo "Description: ${description}" >> ~/notify.log
+#echo "===============================" >> ~/notify.log
+#echo "Notificication Type : ${notification_type}" >> ~/notify.log
+#echo "Image: ${image}" >> ~/notify.log
+#echo "Sticky: ${sticky}" >> ~/notify.log
+#echo "Title: ${title}" >> ~/notify.log
+#echo "Description: ${description}" >> ~/notify.log
 
 if [ ! "$image" == "" ] ; then 
-	osascript <<EOD >> ~/notify.log 2>&1
+	osascript <<EOD >> /dev/null 2>&1
 	  -- From <http://growl.info/documentation/applescript-support.php>
 	  --
 	  tell application "GrowlHelperApp"
@@ -66,11 +66,11 @@ if [ ! "$image" == "" ] ; then
 	     register as application "${G_APPLICATION_NAME}" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "${G_APPLICATION_ICON}"
              
 	     -- Send a Notification...
-	     notify with name "${G_WITH_NAME}" title "${title}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${G_STICKY} priority ${G_PRIORITY} image from location "${image}"
+	     notify with name "${G_WITH_NAME}" title "${title}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${sticky} priority ${G_PRIORITY} image from location "${image}"
 	  end tell
 EOD
 else
-	osascript <<EOD >> ~/notify.log 2>&1
+	osascript <<EOD >> /dev/null 2>&1
 	  tell application "GrowlHelperApp"
 	     -- Make a list of all the notification types that this script will ever send:
 	     set the allNotificationsList to {${G_ALL_NAMES}}
@@ -85,7 +85,7 @@ else
 	     register as application "${G_APPLICATION_NAME}" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "${G_APPLICATION_ICON}"
              
 	     -- Send a Notification...
-	     notify with name "${G_WITH_NAME}" title "${title}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${G_STICKY} priority ${G_PRIORITY}
+	     notify with name "${G_WITH_NAME}" title "${title}" description "${description}" application name "${G_APPLICATION_NAME}" sticky ${sticky} priority ${G_PRIORITY}
 	  end tell
 EOD
 fi

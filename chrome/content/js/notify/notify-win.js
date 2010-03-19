@@ -21,7 +21,7 @@ THE SOFTWARE.
 */
 
 var Notify = {
-	notify : function(type,image,title,description) {
+	notify : function(type,sticky,image,title,description) {
 		jsdump('experimental notification');
 		
 		var imageData = this._getImage(image);

@@ -175,7 +175,7 @@ var BzTwitter = {
 		fetchDirectFrom: 'http://twitter.com/direct_messages/sent.json?count=COUNT',
 		fetchUserTimeline: 'http://twitter.com/statuses/user_timeline/QUERIED_USER_ID.json?count=COUNT',
 		fetchRetweetedByMe: 'http://twitter.com/statuses/retweeted_by_me.json?count=COUNT',
-		fetchUserProfile: 'http://twitter.com/users/show/QUERIED_USER_ID.json',
+		fetchUserProfile: 'http://twitter.com/users/show/',
 		fetchSingleUpdate: 'http://twitter.com/statuses/show/STATUS_ID.json',
 		postUpdate: 'http://twitter.com/statuses/update.json?status=STATUS&source=SOURCE',
 		postEcho: 'http://twitter.com/statuses/retweet/RETWEET_ID.json?source=SOURCE',
@@ -347,6 +347,11 @@ var BzTwitter = {
 	fetchUserProfile : function(options) {
 		var url = this.url.fetchUserProfile;
 		url = this._initUrl(url, null, null, options.queriedUserId);
+		if (options.queriedUserId != undefined) {
+			url = url + options.queriedUserId + '.json';
+		} else if (options.queriedScreenName != undefined) {
+			url = url + options.queriedScreenName + '.json';			
+		}
 		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
 	},	
 	

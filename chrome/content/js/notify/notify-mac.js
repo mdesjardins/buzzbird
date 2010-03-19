@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 var Notify = {
-	notify : function(type,image,title,description) {
+	notify : function(type,sticky,image,title,description) {
 		jsdump('experimental notification');
 		
 		var imageData = this._getImage(image);
@@ -41,7 +41,8 @@ var Notify = {
 		                        .createInstance(Components.interfaces.nsIProcess);
 		process.init(file);
 
-		var args = [type,imagePath,"no",title,description];
+		var stickyYesNo = sticky ? "yes" : "no";
+		var args = [type,imagePath,stickyYesNo,title,description];
 		process.run(false, args, args.length);
 		
 		// Clean up after ourselves. Give Growl 60 seconds to use the image.

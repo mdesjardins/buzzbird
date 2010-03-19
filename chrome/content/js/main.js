@@ -205,8 +205,9 @@ function renderNewTweets(newTweets,doNotifications) {
 		var x = getBrowser().contentWindow.scrollX;
 		var y = getBrowser().contentWindow.scrollY;
 		var max_y = getBrowser().contentWindow.scrollMaxY;
-
+		var newCount = 0;
 		var newText = '';
+		
 		for (var i=0; i<newTweets.length; i++) {
 			var tweet = newTweets[i]
 			var type = tweetType(tweet,getUsername(),getPassword());
@@ -223,16 +224,30 @@ function renderNewTweets(newTweets,doNotifications) {
 			var chk = window.content.document.getElementById('tweet-' + tweet.id);
 			if (chk == null) {
 				if (doNotifications) {
-					if (type == 'reply') {
-						Notify.notify("Mention", tweet.user.profile_image_url, "Mentioned by @" + tweet.user.screen_name, tweet.text);
-					} else if (type == 'direct-from') {
-						Notify.notify("Direct Message", tweet.sender.profile_image_url, "Direct Message from @" + tweet.sender.screen_name, tweet.text);
+					if (type == 'reply' && getBoolPref("buzzbird.alert.visual.mention",true)) {
+						var sticky = getBoolPref("buzzbird.alert.visual.mention.sticky",false)
+						Notify.notify("Mention", sticky, tweet.user.profile_image_url, "Mentioned by @" + tweet.user.screen_name, tweet.text);
+					} else if (type == 'direct-from' && getBoolPref("buzzbird.alert.visual.direct",true)) {
+						var sticky = getBoolPref("buzzbird.alert.visual.direct.sticky",false)						
+						Notify.notify("Direct Message", sticky, tweet.sender.profile_image_url, "Direct Message from @" + tweet.sender.screen_name, tweet.text);
 					}
 				}
+				newCount++;
 				newText = formatTweet(tweet,getUsername(),getPassword()) + newText;
 			}
 		}
 		insertAtTop(newText);
+		
+		if (doNotifications && newCount > 0 && getBoolPref("buzzbird.alert.visual.general",true)) {
+			var sticky = getBoolPref("buzzbird.alert.visual.general.sticky",false)
+			var messageText = "You have " + newCount;
+			if (newCount == 1) {
+				messageText += " new status update."
+			} else {
+				messageText += " new status updates."
+			}
+			Notify.notify("Tweet", sticky, null, "New updates received", messageText);
+		}
 		
 		// Restore the scrollbar position.
 		if (y!=0) {

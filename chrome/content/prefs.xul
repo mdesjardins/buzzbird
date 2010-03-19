@@ -30,14 +30,17 @@ THE SOFTWARE.
 <prefwindow id="BrowserPreferences"
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 			type="prefwindow"
+			onload="sizeToContent();"
 			windowtype="Browser:Preferences">
 			   
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/utils.js"></script>
+ <script type="application/x-javascript" src="chrome://buzzbird/content/js/twitter.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
 
- <prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/skin/images/prefs/prefs-general.png">
+ <prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/skin/images/prefs/prefs-general.png" 
+  onLoad="sizeToContent();">
     	<preferences>
       		<preference id="updateInterval" name="buzzbird.update.interval" type="int"/>
 			<preference id="retweetFormat" name="buzzbird.retweet.format" type="string"/>
@@ -153,17 +156,31 @@ THE SOFTWARE.
 		</vbox>
 	</prefpane>
 
-	<prefpane id="paneMultiAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/skin/images/prefs/prefs-accounts.png">
+	<prefpane id="paneMultiAccounts" label="&prefPaneAccounts.label;" 
+	  image="chrome://buzzbird/skin/images/prefs/prefs-accounts.png"
+	  onLoad="sizeToContent();">
 		<preferences></preferences>
-		<listbox id="richlistbox_accounts" onclick="loginListClicked();">
-		</listbox>
 		<hbox>
-			<button id="addAccount" label="Add" oncommand="addAccount();" />
-			<button id="deleteAccount" label="Delete" oncommand="deleteAccount();" disabled="true" />
+			<button id="addAccount" label="Add" oncommand="Prefs.addAccount();" />
+			<button id="deleteAccount" label="Delete" oncommand="Prefs.deleteAccount();" disabled="true" />
 		</hbox>
+
+		<richlistitem id="account_template" hidden="true" style="border-bottom:1px solid #999;">
+			<hbox style="padding:5px; margin:5px;">
+				<image field="image" height="40" width="40" style="-moz-border-radius:3px;"></image>
+				<vbox>
+					<label field="screen_name" style="color:#444; font:18px sans-serif;"></label>
+					<label field="real_name" style="color:#444; font:12px sans-serif;"></label>
+				</vbox>
+			</hbox>
+		</richlistitem>
+		
+		<richlistbox id="richlistbox_accounts" onclick="Prefs.loginListClicked();" height="280">
+		</richlistbox>
 	</prefpane>
 	
-	<prefpane id="paneAlerts" label="&prefPaneAlerts.label;" image="chrome://buzzbird/skin/images/prefs/prefs-alerts.png">
+	<prefpane id="paneAlerts" label="&prefPaneAlerts.label;" image="chrome://buzzbird/skin/images/prefs/prefs-alerts.png"
+	 onLoad="sizeToContent();">
 		<preferences>
 			<preference id="generalVisualAlert" name="buzzbird.alert.visual.general" type="bool"></preference>
 			<preference id="generalVisualAlertSticky" name="buzzbird.alert.visual.general.sticky" type="bool"></preference>
