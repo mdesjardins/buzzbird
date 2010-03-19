@@ -183,7 +183,7 @@ function retweet(id) {
 	if (f == 'via') {
 		text = desanitize(raw) + ' (via @' + desanitize(user) + ')';
 	} 
-	text = text.substring(0,140);
+	//text = text.substring(0,140);
 	
 	if (configMethod == 'A') {
 		jsdump("Posting Echo (auto retweet)");
