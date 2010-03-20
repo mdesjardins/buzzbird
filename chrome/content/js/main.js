@@ -262,9 +262,11 @@ function renderNewTweets(newTweets,doNotifications) {
 //
 function keyPressed(e) {
 	if (e.which == 13) {
-		var textbox = getChromeElement('textboxid');
-		textbox.disabled = true;
-		postUpdate();
+		if (getBoolPref('buzzbird.post.return',false)) {
+			var textbox = getChromeElement('textboxid');
+			textbox.disabled = true;
+			postUpdate();
+		}
 	}
 }
 
@@ -285,6 +287,7 @@ function keyUp(e) {
 // doing this to showOrHide as well.
 //
 function showAllTweets() {
+	getChromeElement('filterbuttonid').disabled=true;
 	getChromeElement('filtermenupopupid').disabled=true;
 	var elements = getBrowser().contentDocument.getElementsByClassName('tweetBox');
 	var i = 0;
@@ -297,6 +300,7 @@ function showAllTweets() {
 			setTimeout(doWork, 1);
 		} else {
 			getChromeElement('filtermenupopupid').disabled=false;
+			getChromeElement('filterbuttonid').disabled=false;
 		}
 	}
 	setTimeout(doWork,1);
@@ -331,12 +335,14 @@ function showDirect() {
 }
 function showOrHide(tweetType,disp) {
 	getChromeElement('filtermenupopupid').disabled=true;
+	getChromeElement('filterbuttonid').disabled=true;
 	var elements = getBrowser().contentDocument.getElementsByName(tweetType);
 	for (var i=elements.length-1; i>=0; i--) {
 		element = elements[i];
 		element.style.display = disp;
 	}
 	getChromeElement('filtermenupopupid').disabled=false;
+	getChromeElement('filterbuttonid').disabled=false;
 }
 
 // Counts unread tweets by category.
@@ -988,6 +994,7 @@ function firstCycleFetchTimelineCallback(tweets) {
 //
 function cycleFetch() {
 	jsdump('cycleFetch');
+	getChromeElement('accountbuttonid').disable=true;
 	BzTwitter.fetchDirectTo({
 		username: getUsername(),
 		password: getPassword(),
@@ -1027,6 +1034,7 @@ function fetchFinished() {
 	updateLengthDisplay();		
 	refreshAllowed(true);
 	countUnread();
+	getChromeElement('accountbuttonid').disable=false;
 	setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
 }
 
@@ -1041,6 +1049,7 @@ function fetchError(errorCode) {
 	} else if (errorCode == 503) {
 		msg = "Fetch Error: Over Capacity";
 	}
+	getChromeElement('accountbuttonid').disable=false;
 	message(msg);
 }
 
@@ -1064,6 +1073,10 @@ function postUpdateSuccess(tweet) {
 	getChromeElement('replyTweetId').value = "0";
 	getChromeElement('replycheckboxid').hidden = true;
 	getChromeElement('replycheckboxid').checked = false;		
+	var closeIt = getBoolPref('buzzbird.autoclose.post');
+	if (closeIt) {
+		closeSpeech();
+	}
 	postUpdateComplete(tweet);
 }
 

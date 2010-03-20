@@ -50,6 +50,8 @@ THE SOFTWARE.
 			<preference id="autoMarkOldTweetsAsRead" name="buzzbird.auto.markread" type="bool"/>
 			<preference id="windowTitle" name="buzzbird.window.title" type="string"/>
 			<preference id="boldfaceName" name="buzzbird.render.bold-name" type="string"/>
+			<preference id="autoClosePostArea" name="buzzbird.autoclose.post" type="bool"/>
+			<preference id="returnToPost" name="buzzbird.post.return" type="bool"/>
     	</preferences>
 		<vbox>
 			<hbox style="padding-bottom:10px;">
@@ -153,6 +155,20 @@ THE SOFTWARE.
 				</box>
 				<checkbox id="checkbox_autoMarkOldTweetsAsRead" preference="autoMarkOldTweetsAsRead" />
 			</hbox>
+			
+			<hbox style="padding-bottom:10px;">
+				<box width="200" align="right">
+					<label control="checkbox_autoMarkOldTweetsAsRead" value="&autoClosePostArea.label;" /> 
+				</box>
+				<checkbox id="checkbox_autoClosePostArea" preference="autoClosePostArea" />
+			</hbox>			
+			
+			<hbox style="padding-bottom:10px;">
+				<box width="200" align="right">
+					<label control="checkbox_returnToPost" value="&returnToPost.label;" /> 
+				</box>
+				<checkbox id="checkbox_returnToPost" preference="returnToPost" />
+			</hbox>						
 		</vbox>
 	</prefpane>
 

@@ -66,3 +66,6 @@ pref("buzzbird.alert.visual.mention",true);
 pref("buzzbird.alert.visual.mention.sticky",false);
 pref("buzzbird.alert.visual.direct",true);
 pref("buzzbird.alert.visual.direct.sticky",false);
+pref("buzzbird.autoclose.post",true);
+pref("buzzbird.post.return",false);
+

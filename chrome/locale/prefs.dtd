@@ -48,12 +48,14 @@
 <!ENTITY retweetMethodAutoPref.label	"Automatic ('Official')">
 <!ENTITY retweetMethodManualPref.label	"Manual ('Classic')">
 
-<!ENTITY boldfaceNamePref.label	"Name emphasised in display">
+<!ENTITY boldfaceNamePref.label	"Name emphasized in display">
 <!ENTITY boldfaceNamePref.accesskey	"E">
 <!ENTITY boldfaceNameRealNamePref.label "Real Name">
 <!ENTITY boldfaceNameHandlePref.label "Screen Name">
 
 <!ENTITY autoMarkOldTweetsAsRead.label         "Auto-mark old tweets as read">
+<!ENTITY autoClosePostArea.label         "Auto-close Post area">
+<!ENTITY returnToPost.label         "Post by pressing Return Key">
 
 <!ENTITY prefForgetAccount.label         "Forget Saved Account Data">
 
