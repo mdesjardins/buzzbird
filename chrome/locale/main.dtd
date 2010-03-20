@@ -29,6 +29,10 @@
 <!ENTITY insertSymbolCmd.key           "I">  
 <!ENTITY insertSymbolCmd.accesskey         "I">
 
+<!ENTITY openPostCmd.keyCode           "VK_RETURN">  
+<!ENTITY openPostCmd.modifiers         "accel">
+
+
 <!-- Edit Menu -->
 <!ENTITY editMenu.label         "Edit"> 
 <!ENTITY editMenu.accesskey       "E"> 

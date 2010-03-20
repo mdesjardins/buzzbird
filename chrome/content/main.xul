@@ -106,6 +106,10 @@ THE SOFTWARE.
 		     key="D"
 		     command="cmd_showDebugger"
 		     modifiers="accel"/>
+		<key id="key_openPost"
+			 command="cmd_speech"
+			 keycode="&openPostCmd.keyCode;"
+			 modifiers="accel"/>
 	</keyset>
 
 
