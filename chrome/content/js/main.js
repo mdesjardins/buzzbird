@@ -464,6 +464,7 @@ function speech(val) {
 		getChromeElement('openSpeechId').image = normalIcon('comment-add');
 	} else {
 		getChromeElement('openSpeechId').image = clickedIcon('comment-add');
+		getChromeElement('textboxid').focus();
 	}
 }
 
