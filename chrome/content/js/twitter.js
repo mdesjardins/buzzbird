@@ -145,6 +145,85 @@ var Base64 = {
 	}
 }
 
+function Aja() {
+	this.waitFor = 10000;  
+	var _that = this;
+	var _http = false;
+	var _timer = null;
+	
+	function callInProgress(http) {
+		switch (http.readyState) {
+			case 1,2,3:
+				return true;
+				break;
+			default:
+				jsdump('Call in progress.');
+				return false;
+				break;
+		}
+	}
+	
+	function timeout() {
+		if (callInProgress(_http)) {
+			jsdump("Timeout.");
+			_http.abort();
+		}
+	}
+	
+	function exec(username,password,url,callback,error,method) {
+		if (!_http) {
+			try {
+				_http = new XMLHttpRequest();
+			} catch (e) {
+				_http = false;
+			}
+		}
+		if (_http && !callInProgress(_http)) {
+			_that._timer = window.setTimeout(function() { _that.timeout(); }, _that.waitFor)
+			_http.overrideMimeType('application/json');
+			_http.open(method,url,true);	
+			if (username != null && username != undefined && 
+				password != null && password != undefined) {
+				var tok = username + ':' + password;
+			  	var hash = Base64.encode(tok);
+				_http.setRequestHeader('Authorization', 'Basic ' + hash);
+			}
+			_http.onreadystatechange = function() {
+				if (_http.readyState == 4) {
+					window.clearTimeout(_that._timer)
+					if (_http.status == 200) {
+						var result = "";
+						if (_http.responseText) {
+							result = _http.responseText;
+							//jsdump('_ajax result ===>'+result+'<===');
+							result = result.replace(/[\n\r]/g,"");
+							result = eval('('+result+')');
+						}
+						if (callback) {
+							callback(result);
+						}
+					} else {
+						if (error) {
+							result = { error: _http.status };
+							callback(result);
+							error(_http.status); 
+						}
+					}
+				}
+			}
+			_http.send(null);
+		}
+	}
+
+	this.get = function(username,password,url,callback,error) {
+		return exec(username,password,url,callback,error,"GET");
+	}
+
+	this.post = function(username,password,url,callback,error) {
+		return exec(username,password,url,callback,error,"POST");
+	}
+}
+
 
 var BzTwitter = {
 	support : {
@@ -189,60 +268,66 @@ var BzTwitter = {
 	
 	_source : "buzzbird",
 	
+	_ajax : new Aja(),
+	
 	// A lot of this AJAXery was inspired by the jx.js library.
 	// http://www.openjs.com/scripts/jx/
 	//
-	_ajax : function(username,password,url,callback,error,method) {
-		//jsdump("=== " + method + " ===> " + url);
-		var http = false;
-		try {
-			http = new XMLHttpRequest();
-		} catch (e) {
-			http = false;
-		}
-		if (http) {
-			http.overrideMimeType('application/json');
-			http.open(method,url,true);	
-			if (username != null && username != undefined && 
-				password != null && password != undefined) {
-				var tok = username + ':' + password;
-			  	var hash = Base64.encode(tok);
-				http.setRequestHeader('Authorization', 'Basic ' + hash);
-			}
-			http.onreadystatechange = function() {
-				if (http.readyState == 4) {
-					if (http.status == 200) {
-						var result = "";
-						if (http.responseText) {
-							result = http.responseText;
-							//jsdump('_ajax result ===>'+result+'<===');
-							result = result.replace(/[\n\r]/g,"");
-							result = eval('('+result+')');
-						}
-						if (callback) {
-							callback(result);
-						}
-					} else {
-						if (error) {
-							result = { error: http.status };
-							callback(result);
-							error(http.status); 
-						}
-					}
-				}
-			}
-			http.send(null);
-		}
-	},
-	
-	_ajaxGet : function(username,password,url,callback,error) {
-		return this._ajax(username,password,url,callback,error,"GET");
-	},
-	
-	_ajaxPost : function(username,password,url,callback,error) {
-		return this._ajax(username,password,url,callback,error,"POST");
-	},
-	
+	// _ajax : {
+	// 	_http : false
+	// },
+	// 
+	// _ajax.exec : function (username,password,url,callback,error,method) {
+	// 	if (!this._http) {
+	// 		try {
+	// 			_http = new XMLHttpRequest();
+	// 		} catch (e) {
+	// 			_http = false;
+	// 		}
+	// 	}
+	// 	if (this._http) {
+	// 		this._http.overrideMimeType('application/json');
+	// 		this._http.open(method,url,true);	
+	// 		if (username != null && username != undefined && 
+	// 			password != null && password != undefined) {
+	// 			var tok = username + ':' + password;
+	// 		  	var hash = Base64.encode(tok);
+	// 			this._http.setRequestHeader('Authorization', 'Basic ' + hash);
+	// 		}
+	// 		this._http.onreadystatechange = function() {
+	// 			if (this._http.readyState == 4) {
+	// 				if (this._http.status == 200) {
+	// 					var result = "";
+	// 					if (this._http.responseText) {
+	// 						result = this..http.responseText;
+	// 						//jsdump('_ajax result ===>'+result+'<===');
+	// 						result = result.replace(/[\n\r]/g,"");
+	// 						result = eval('('+result+')');
+	// 					}
+	// 					if (callback) {
+	// 						callback(result);
+	// 					}
+	// 				} else {
+	// 					if (error) {
+	// 						result = { error: _ajax.http.status };
+	// 						callback(result);
+	// 						error(this._http.status); 
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 		this._http.send(null);
+	// 	}
+	// },
+	// 
+	// _ajax.get : function(username,password,url,callback,error) {
+	// 	return this.exec(username,password,url,callback,error,"GET");
+	// },
+	// 
+	// _ajax.post : function(username,password,url,callback,error) {
+	// 	return this.exec(username,password,url,callback,error,"POST");
+	// },
+		
 	_initUrl : function(url,count,since,queriedUserId) {
 		if (url.match(/COUNT/)) {
 			if (count == undefined || count == null) {
@@ -274,7 +359,7 @@ var BzTwitter = {
 	fetchTimeline : function(options) {
 		var url = this.url.fetchTimeline;
 		url = this._initUrl(url, options.count, options.since, null);
-		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 	
 	// Fetches mentions of the user.
@@ -289,7 +374,7 @@ var BzTwitter = {
 	fetchMentions : function(options) {
 		var url = this.url.fetchMentions;
 		url = this._initUrl(url, options.count, options.since, null);
-		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 	
 	// Fetches direct messages to this user (i.e., received)
@@ -303,7 +388,7 @@ var BzTwitter = {
 	fetchDirectTo : function(options) {
 		var url = this.url.fetchDirectTo;
 		url = this._initUrl(url, options.count, options.since, null);
-		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 
 	// Fetches direct messages from this user (i.e., sent).
@@ -317,7 +402,7 @@ var BzTwitter = {
 	fetchDirectFrom : function(options) {
 		var url = this.url.fetchDirectFrom;
 		url = this._initUrl(url, options.count, options.since, null);
-		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 	
 	// Fetches another user's timeline (not the logged in user's)
@@ -332,7 +417,7 @@ var BzTwitter = {
 	fetchUserTimeline : function(options) {
 		var url = this.url.fetchUserTimeline;
 		url = this._initUrl(url, options.count, null, options.queriedUserId);
-		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 	
 	// Fetches a user's profile.
@@ -352,7 +437,7 @@ var BzTwitter = {
 		} else if (options.queriedScreenName != undefined) {
 			url = url + options.queriedScreenName + '.json';			
 		}
-		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
 	},	
 	
 	// Fetches a single tweet.
@@ -367,7 +452,7 @@ var BzTwitter = {
 		var url = this.url.fetchSingleUpdate;
 		url = this._initUrl(url, null, null, null);
 		url = url.replace('STATUS_ID',options.statusId);
-		return this._ajaxGet(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
 	},	
 	
 	// Posts a status update.
@@ -384,7 +469,7 @@ var BzTwitter = {
 		url = url.replace('STATUS', encodeURIComponent(options.text));
 		// Need to un-encode at signs or replies will not work.	
 		url = url.replace(/%40/g, '@');
-		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 	
 	// Posts a reply to an existing status update.
@@ -403,7 +488,7 @@ var BzTwitter = {
 		// Need to un-encode at signs or replies will not work.	
 		url = url.replace(/%40/g, '@');
 		url = url + '&in_reply_to_status_id=' + options.replyingToId;
-		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 	
 	// Posts an echo of an update (this corresponds to twitter's auto-retweet feature)
@@ -418,7 +503,7 @@ var BzTwitter = {
 		var url = this.url.postEcho;
 		url = this._initUrl(url,null,null,null);
 		url = url.replace('RETWEET_ID', options.echoId);
-		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);
 	},
 	
 	// Delete's a user's existing post.
@@ -432,7 +517,7 @@ var BzTwitter = {
 	deletePost: function(options) {
 		var url = this.url.deletePost;
 		url = url.replace('DELETE_ID', options.deleteId);
-		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);		
+		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);		
 	},
 	
 	// Posts an echo of an update (this corresponds to twitter's auto-retweet feature)
@@ -446,7 +531,7 @@ var BzTwitter = {
 	favorite : function(options) {
 		var url = this.url.favorite;
 		url = url.replace('UPDATE_ID', options.updateId);
-		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);		
+		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);		
 	},
 
 	// Starts following a user.
@@ -469,7 +554,7 @@ var BzTwitter = {
 		} else {
 			return null; // TODO THROW EXCEPTION
 		}
-		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);		
+		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);		
 	},
 	
 	// Stops following a user.
@@ -493,7 +578,7 @@ var BzTwitter = {
 			return null; // TODO THROW EXCEPTION
 		}
 		jsdump('unfollow URL=' + url);
-		return this._ajaxPost(options.username, options.password, url, options.onSuccess, options.onError);		
+		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);		
 	},
 
 	// Checks to see if two users are following each other.
@@ -530,12 +615,14 @@ var BzTwitter = {
 		}
 		
 		jsdump('isFollowing URL=' + url);
-		return this._ajaxGet(null, null, url, options.onSuccess, options.onError);		
+		return this._ajax.get(null, null, url, options.onSuccess, options.onError);		
 	},
 	
 	
 	// Verifies the credentials of a user.  On failure, returns null,
 	// otherwise returns a user object.
+	//
+	// TODO: We're putting the username and password right in the URL here. Ick.
 	//
 	verifyCredentials : function(username,password) {
 		var req = new XMLHttpRequest();
