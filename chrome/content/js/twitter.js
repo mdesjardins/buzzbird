@@ -154,10 +154,10 @@ function Aja() {
 	function callInProgress(http) {
 		switch (http.readyState) {
 			case 1,2,3:
+				jsdump('>>>> Call in progress.');
 				return true;
 				break;
 			default:
-				jsdump('Call in progress.');
 				return false;
 				break;
 		}
@@ -179,7 +179,13 @@ function Aja() {
 			}
 		}
 		if (_http && !callInProgress(_http)) {
-			_that._timer = window.setTimeout(function() { _that.timeout(); }, _that.waitFor)
+			_that._timer = window.setTimeout(function() { 
+				if (callInProgress(_http)) {
+					jsdump(">>>> Timeout.");
+					_http.abort();
+					jsdump(">>>> Aborted.")
+				} 
+			}, _that.waitFor)
 			_http.overrideMimeType('application/json');
 			_http.open(method,url,true);	
 			if (username != null && username != undefined && 
@@ -204,9 +210,15 @@ function Aja() {
 						}
 					} else {
 						if (error) {
-							result = { error: _http.status };
-							callback(result);
-							error(_http.status); 
+							var status = 100;
+							if (_http.status != null && _http.status != undefined) {
+								status = _http.status;
+							}
+							result = { 'error': status };
+							if (callback) {
+								callback(result);	
+							}
+							error(status); 
 						}
 					}
 				}
