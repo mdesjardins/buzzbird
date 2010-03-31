@@ -263,9 +263,15 @@ function renderNewTweets(newTweets,doNotifications) {
 function keyPressed(e) {
 	if (e.which == 13) {
 		if (getBoolPref('buzzbird.post.return',false)) {
-			var textbox = getChromeElement('textboxid');
-			textbox.disabled = true;
-			postUpdate();
+			var content = getChromeElement('textboxid').value;
+			if (content.length > 0) {
+				var textbox = getChromeElement('textboxid');
+				textbox.disabled = true;
+				postUpdate();
+			} else {
+				e.preventDefault();
+				return false;
+			}
 		}
 	}
 }
@@ -274,12 +280,20 @@ function keyPressed(e) {
 //
 function keyUp(e) {
 	var content = getChromeElement('textboxid').value;
+	getChromeElement('postbuttonid').disabled = (content.length <= 0);
 	if (content.length <= 0 || content.substring(0,1) != "@") {
 		getChromeElement('replyTweetId').value = "0";
 		getChromeElement('replycheckboxid').hidden = true;
 		getChromeElement('replycheckboxid').checked = false;		
 	}
 	updateLengthDisplay();
+}
+
+// Called from onblur on tweet textfield
+//
+function postTextChanged() {
+	updateLengthDisplay(); 
+	getChromeElement('postbuttonid').disabled = (getChromeElement('textboxid').value.length <= 0);
 }
 
 // This one is written funkily because it could take a while, and
@@ -451,10 +465,50 @@ function removeTweetFromDom(id) {
 }
 
 function speech(val) {
-	getChromeElement('textboxid').collapsed=val;		
-	getChromeElement('speechheaderid').collapsed=val;		
-	getChromeElement('shortenUrlId').collapsed=val;		
-	getChromeElement('symbolButtonId').collapsed=val;
+	var currentState = getChromeElement('textboxid').collapsed;
+	if (val) {
+		if (!currentState) {
+			// collapse
+			var h = 60;
+			function doWork() {
+				var hh = h + 'px'
+				getChromeElement('textboxid').style.height=hh;
+				h -= 10;
+				if (h > 0) {
+					setTimeout(doWork,3);
+				} else {
+					getChromeElement('textboxid').collapsed=true;		
+					getChromeElement('speechheaderid').collapsed=true;		
+					getChromeElement('shortenUrlId').collapsed=true;		
+					getChromeElement('symbolButtonId').collapsed=true;
+				}
+			}
+			setTimeout(doWork,2);
+		}
+	} else {
+		if (currentState) {
+			// expand
+			getChromeElement('textboxid').style.height='0px';
+			getChromeElement('textboxid').collapsed=false;
+			var h = 0
+			function doWork() {
+				var hh = h + 'px'
+				getChromeElement('textboxid').style.height=hh;
+				h += 10;
+				if (h < 50) {
+					setTimeout(doWork,2);
+				} else {
+					getChromeElement('textboxid').collapsed=false;		
+					getChromeElement('speechheaderid').collapsed=false;		
+					getChromeElement('shortenUrlId').collapsed=false;		
+					getChromeElement('symbolButtonId').collapsed=false;
+					getChromeElement('textboxid').focus();
+				}
+			}
+			setTimeout(doWork,2);
+		}
+	}
+	
 	var replyTweetId = getChromeElement('replyTweetId').value;
 	jsdump('replyTweetId is ' + replyTweetId);
 	if (replyTweetId > 0) {
@@ -470,7 +524,6 @@ function speech(val) {
 		getChromeElement('openSpeechId').image = normalIcon('comment-add');
 	} else {
 		getChromeElement('openSpeechId').image = clickedIcon('comment-add');
-		getChromeElement('textboxid').focus();
 	}
 }
 
@@ -1072,7 +1125,7 @@ function postUpdateSuccess(tweet) {
 	getChromeElement('statusid').label = updateLengthDisplay();
 	getChromeElement('replyTweetId').value = "0";
 	getChromeElement('replycheckboxid').hidden = true;
-	getChromeElement('replycheckboxid').checked = false;		
+	getChromeElement('replycheckboxid').checked = false;
 	var closeIt = getBoolPref('buzzbird.autoclose.post');
 	if (closeIt) {
 		closeSpeech();
@@ -1085,6 +1138,7 @@ function postUpdateSuccess(tweet) {
 function postUpdateError(errorCode) {
 	var textbox = getChromeElement('textboxid');
 	textbox.disabled = false;
+	getChromeElement('postbuttonid').disabled = false;
 	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 	                        .getService(Components.interfaces.nsIPromptService);
 	prompts.alert(window, "Sorry.", "There was an error posting that status update.");
@@ -1120,6 +1174,7 @@ function postDirectSuccess(tweet) {
 // Called by postUpdateSuccess and postUpdateError
 //
 function postUpdateComplete(transport) {
+	getChromeElement('postbuttonid').style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';
 	forceFetch();	
 }
 
@@ -1127,38 +1182,42 @@ function postUpdateComplete(transport) {
 //
 function postUpdate() {
 	var tweet = getChromeElement('textboxid').value;
-	var replyTweetId = getChromeElement('replyTweetId').value;
-	var replyCheckHidden = getChromeElement('replycheckboxid').hidden;
-	var replyChecked = getChromeElement('replycheckboxid').checked;
-	var isDirect = tweet.match(/^d(\s){1}(\w+?)(\s+)(\w+)/);	
-	if (!replyCheckHidden && replyChecked && replyTweetId > 0) {
-		jsdump("Replying");
-		BzTwitter.postReply({
-			username: getUsername(),
-			password: getPassword(),
-			onSuccess: postUpdateSuccess,
-			onError: postUpdateError,	
-			text: tweet,
-			replyingToId: replyTweetId
-		});
-	} else if (isDirect) {
-		jsdump("Posting (direct)");
-		BzTwitter.postUpdate({
-			username: getUsername(),
-			password: getPassword(),
-			onSuccess: function(response) { postDirectSuccess(tweet); postUpdateSuccess(response); },
-			onError: postUpdateError,	
-			text: tweet		
-		});				
-	} else {
-		jsdump("Posting (no reply not direct)");
-		BzTwitter.postUpdate({
-			username: getUsername(),
-			password: getPassword(),
-			onSuccess: postUpdateSuccess,
-			onError: postUpdateError,	
-			text: tweet		
-		});		
+	if (tweet.length > 0) {
+		getChromeElement('postbuttonid').style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-inverse.png)';
+		getChromeElement('postbuttonid').disabled = true;
+		var replyTweetId = getChromeElement('replyTweetId').value;
+		var replyCheckHidden = getChromeElement('replycheckboxid').hidden;
+		var replyChecked = getChromeElement('replycheckboxid').checked;
+		var isDirect = tweet.match(/^d(\s){1}(\w+?)(\s+)(\w+)/);	
+		if (!replyCheckHidden && replyChecked && replyTweetId > 0) {
+			jsdump("Replying");
+			BzTwitter.postReply({
+				username: getUsername(),
+				password: getPassword(),
+				onSuccess: postUpdateSuccess,
+				onError: postUpdateError,	
+				text: tweet,
+				replyingToId: replyTweetId
+			});
+		} else if (isDirect) {
+			jsdump("Posting (direct)");
+			BzTwitter.postUpdate({
+				username: getUsername(),
+				password: getPassword(),
+				onSuccess: function(response) { postDirectSuccess(tweet); postUpdateSuccess(response); },
+				onError: postUpdateError,	
+				text: tweet		
+			});				
+		} else {
+			jsdump("Posting (no reply not direct)");
+			BzTwitter.postUpdate({
+				username: getUsername(),
+				password: getPassword(),
+				onSuccess: postUpdateSuccess,
+				onError: postUpdateError,	
+				text: tweet		
+			});		
+		}
 	}
 }
 

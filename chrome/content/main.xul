@@ -248,7 +248,7 @@ THE SOFTWARE.
 	</menupopup>
     
     <!-- =================== -->
-	<!-- Actual Window Stuff -->
+		<!-- Actual Window Stuff -->
     <!-- =================== -->
 
     <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true" style="border:0;" context="toolbar-context-menu">
@@ -370,10 +370,7 @@ THE SOFTWARE.
 					<checkbox id="replycheckboxid" style="margin-left:14px;" label="Reply?" hidden="true" />
 					<box flex="50"/>
 					<toolbarbutton id="postbuttonid"
-					               onmousedown="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-inverse.png)';"
-					               onmouseup="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';"
-					               onmouseover="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-hover.png)';"
-					               onmouseout="this.style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';"
+												 disabled="true"
 					               oncommand="postUpdate();"
 					               label="Post"/>
 				</box>
@@ -381,11 +378,11 @@ THE SOFTWARE.
 				          multiline="true" 
 				          rows="2"
 				          flex="2" 
-			              onkeypress="keyPressed(event);" 
-			              onkeyup="keyUp(event);" 
-			              onblur="updateLengthDisplay();"
-			              spellcheck="true"
-			              collapsed="true"
+		              onkeypress="keyPressed(event);" 
+		              onkeyup="keyUp(event);" 
+		              onblur="postTextChanged();"
+	              	spellcheck="true"
+			            collapsed="true"
 			 		  	  width="100%" />
 			</vbox>
 		</vbox>

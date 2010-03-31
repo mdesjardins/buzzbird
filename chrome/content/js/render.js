@@ -222,7 +222,7 @@ function formatTweet(tweet,username,password) {
      + "  <div class=\"" + c.bottomRow + "\">"
  	 + "   <img class=\"" + c.mark + "\" "
 	 + "        id=\"mark-" + tweet.id + "\" "
-	 + "        name=\"" + tt + "\""
+//	 + "        name=\"" + tt + "\""
 	 + "        src=\"chrome://buzzbird/skin/images/actions/unread.png\" "
 	 + "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" "
 	 + "        onmouseover=\"this.style.cursor='pointer';\" />"
