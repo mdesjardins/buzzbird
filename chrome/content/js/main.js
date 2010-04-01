@@ -372,9 +372,9 @@ function countUnread() {
 			if (markers !== undefined && markers[i] !== undefined) {
 				if (markers[i].src == 'chrome://buzzbird/skin/images/actions/unread.png') {
 					unread.tweet = unread.tweet + 1;
-					if (markers[i].name == "direct-from") {
+					if (markers[i].getAttribute('tweetType') == "direct-from") {
 						unread.directFrom++;
-					} else if (markers[i].name == "reply") {
+					} else if (markers[i].getAttribute('tweetType') == "reply") {
 						unread.mentions++;
 					}
 				}
@@ -469,13 +469,13 @@ function speech(val) {
 	if (val) {
 		if (!currentState) {
 			// collapse
-			var h = 60;
+			var h = 45;
 			function doWork() {
 				var hh = h + 'px'
 				getChromeElement('textboxid').style.height=hh;
-				h -= 10;
+				h -= 5;
 				if (h > 0) {
-					setTimeout(doWork,3);
+					setTimeout(doWork,1);
 				} else {
 					getChromeElement('textboxid').collapsed=true;		
 					getChromeElement('speechheaderid').collapsed=true;		
@@ -483,7 +483,7 @@ function speech(val) {
 					getChromeElement('symbolButtonId').collapsed=true;
 				}
 			}
-			setTimeout(doWork,2);
+			setTimeout(doWork,1);
 		}
 	} else {
 		if (currentState) {
@@ -494,9 +494,9 @@ function speech(val) {
 			function doWork() {
 				var hh = h + 'px'
 				getChromeElement('textboxid').style.height=hh;
-				h += 10;
+				h += 5;
 				if (h < 50) {
-					setTimeout(doWork,2);
+					setTimeout(doWork,1);
 				} else {
 					getChromeElement('textboxid').collapsed=false;		
 					getChromeElement('speechheaderid').collapsed=false;		
@@ -505,7 +505,7 @@ function speech(val) {
 					getChromeElement('textboxid').focus();
 				}
 			}
-			setTimeout(doWork,2);
+			setTimeout(doWork,1);
 		}
 	}
 	
