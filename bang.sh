@@ -6,7 +6,7 @@ if [ "`uname`" = "Linux" ] ; then
 	cp -fr ./chrome/content/platform/linux/* ./chrome/content/
 	cp ./chrome/content/notifications/notify-linux.sh	./chrome/content/notifications/notify.sh
 	cp ./chrome/content/js/notify/notify-linux.js chrome/content/js/notify/notify.js
-	/opt/xulrunner/xulrunner ./application.ini -jsconsole -console & 
+	`which xulrunner` ./application.ini -jsconsole -console & 
 else
 	sudo rm -fr /Applications/Buzzbird.app 
 	sudo /Library/Frameworks/XUL.framework/xulrunner-bin --install-app "${LOCALDIR}/buzzbird" 
