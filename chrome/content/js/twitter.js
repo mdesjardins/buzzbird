@@ -145,11 +145,47 @@ var Base64 = {
 	}
 }
 
+// First based on jx.js
+// Pooling based on http://drakware.com/?e=3
 function Aja() {
 	this.waitFor = 10000;  
 	var _that = this;
 	var _http = false;
 	var _timer = null;
+	var _reqPool = new Array();
+	
+	function XmlReqWrapper(freed) {
+		this.freed = freed; 
+		this.http = false; 
+		if (window.XMLHttpRequest) { 
+			this.http = new XMLHttpRequest(); 
+		} else if (window.ActiveXObject) { 
+			this.http = new ActiveXObject("Microsoft.XMLHTTP"); 
+		} 
+	}
+	
+	function getXmlReqIndex() {
+		var pos = -1; 
+		for (var i=0; i<_reqPool.length; i++) { 
+			if (_reqPool[i].freed == 1) { 
+				// Reuse one from the pool
+				pos = i; 
+				break; 
+			} 
+		} 
+		if (pos == -1) { 
+			// Gotta make a new one.
+			pos = _reqPool.length; 
+			_reqPool[pos] = new XmlReqWrapper(1); 
+		} 
+		_reqPool[pos].freed = 0;
+		jsdump("XMLReq Pool Depth " + _reqPool.length + ", using index " + pos + ".");
+		return pos;
+	}
+	
+	function freeXmlReq(pos) {
+		_reqPool[pos].freed = 1
+	}
 	
 	function callInProgress(http) {
 		switch (http.readyState) {
@@ -171,6 +207,9 @@ function Aja() {
 	}
 	
 	function exec(username,password,url,callback,error,method) {
+		var _reqPoolIndex = getXmlReqIndex()
+		var _httpReq = _reqPool[_reqPoolIndex];
+		var _http = _httpReq.http;
 		if (!_http) {
 			try {
 				_http = new XMLHttpRequest();
@@ -179,10 +218,11 @@ function Aja() {
 			}
 		}
 		if (_http && !callInProgress(_http)) {
-			_that._timer = window.setTimeout(function() { 
+			_that._timer = window.setTimeout(function(_reqPoolIndex) { 
 				if (callInProgress(_http)) {
 					jsdump(">>>> Timeout.");
 					_http.abort();
+					_reqPool[_reqPoolIndex].freed = 1;
 					jsdump(">>>> Aborted.")
 				} 
 			}, _that.waitFor)
@@ -221,6 +261,8 @@ function Aja() {
 							error(status); 
 						}
 					}
+					jsdump("Freeing " + _reqPoolIndex);
+					_reqPool[_reqPoolIndex].freed = 1;
 				}
 			}
 			_http.send(null);
