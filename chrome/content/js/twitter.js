@@ -237,7 +237,7 @@ function Aja() {
 			_http.onreadystatechange = function() {
 				if (_http.readyState == 4) {
 					window.clearTimeout(_that._timer)
-					if (_http.status == 200) {
+					if (_http.status == 200 || _http.status == 304) {
 						var result = "";
 						if (_http.responseText) {
 							result = _http.responseText;
@@ -318,70 +318,13 @@ var BzTwitter = {
 		unfollow: 'http://twitter.com/friendships/destroy.json',
 		isFollowing: 'http://twitter.com/friendships/show.json',
 		verifyCredentials: 'https://twitter.com/account/verify_credentials.json',
+		fetchLists: 'http://api.twitter.com/1/QUERIED_SCREEN_NAME/lists.format'
 	},
 	
 	_source : "buzzbird",
 	
 	_ajax : new Aja(),
-	
-	// A lot of this AJAXery was inspired by the jx.js library.
-	// http://www.openjs.com/scripts/jx/
-	//
-	// _ajax : {
-	// 	_http : false
-	// },
-	// 
-	// _ajax.exec : function (username,password,url,callback,error,method) {
-	// 	if (!this._http) {
-	// 		try {
-	// 			_http = new XMLHttpRequest();
-	// 		} catch (e) {
-	// 			_http = false;
-	// 		}
-	// 	}
-	// 	if (this._http) {
-	// 		this._http.overrideMimeType('application/json');
-	// 		this._http.open(method,url,true);	
-	// 		if (username != null && username != undefined && 
-	// 			password != null && password != undefined) {
-	// 			var tok = username + ':' + password;
-	// 		  	var hash = Base64.encode(tok);
-	// 			this._http.setRequestHeader('Authorization', 'Basic ' + hash);
-	// 		}
-	// 		this._http.onreadystatechange = function() {
-	// 			if (this._http.readyState == 4) {
-	// 				if (this._http.status == 200) {
-	// 					var result = "";
-	// 					if (this._http.responseText) {
-	// 						result = this..http.responseText;
-	// 						//jsdump('_ajax result ===>'+result+'<===');
-	// 						result = result.replace(/[\n\r]/g,"");
-	// 						result = eval('('+result+')');
-	// 					}
-	// 					if (callback) {
-	// 						callback(result);
-	// 					}
-	// 				} else {
-	// 					if (error) {
-	// 						result = { error: _ajax.http.status };
-	// 						callback(result);
-	// 						error(this._http.status); 
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 		this._http.send(null);
-	// 	}
-	// },
-	// 
-	// _ajax.get : function(username,password,url,callback,error) {
-	// 	return this.exec(username,password,url,callback,error,"GET");
-	// },
-	// 
-	// _ajax.post : function(username,password,url,callback,error) {
-	// 	return this.exec(username,password,url,callback,error,"POST");
-	// },
-		
+			
 	_initUrl : function(url,count,since,queriedUserId) {
 		if (url.match(/COUNT/)) {
 			if (count == undefined || count == null) {
@@ -672,6 +615,19 @@ var BzTwitter = {
 		return this._ajax.get(null, null, url, options.onSuccess, options.onError);		
 	},
 	
+	// Fetches the user's timeline.
+	// Options:
+	//  username = username
+	//  password = password
+	//  onSuccess = called on each update
+	//  onError = called if there's an error.
+	//
+	fetchLists : function(options) {
+		var url = this.url.fetchTimeline;
+		url = this._initUrl(url, options.count, options.since, null);
+		url = url.replace('QUERIED_USER_NAME',options.username);
+		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
+	},
 	
 	// Verifies the credentials of a user.  On failure, returns null,
 	// otherwise returns a user object.

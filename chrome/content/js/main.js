@@ -675,7 +675,6 @@ function zoomReset() {
 function appendText(symbol) {
 	var caret = getChromeElement('textboxid').selectionStart;
 	var t = getChromeElement('textboxid').value;
-	jsdump('caret=' + caret);
 	if (caret == null || caret == undefined) {
 		getChromeElement('textboxid').value = t + symbol;
 	} else {
@@ -722,6 +721,19 @@ function updateLoginList() {
 		menuitem.setAttribute("id","accountmenu-" + logins[i].username);
 		menuitem.setAttribute("class","accountmenu-account");  
 		getChromeElement('accountbuttonmenuid').appendChild(menuitem);
+		
+		var lists = new Array();
+		BzTwitter.fetchLists({
+			'username': logins[i].username,
+			'password': logins[i].password,
+			'onSuccess': function(result) { jsdump("Adding list."); lists.concat(result.lists); },
+			'onError': function() { jsdump("Error fetching lists."); }
+		});		
+		
+		for (var j=0, len=lists.length; j++; j<len) {
+			jsdump("List.");
+		}
+		
    }
 
 	var separator = document.createElementNS(XUL_NS, "menuseparator")
