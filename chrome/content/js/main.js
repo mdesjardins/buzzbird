@@ -30,10 +30,10 @@ parser = new DOMParser();
 //
 function authenticate(u, p, save) {
 	message("Authenticating");
-	$('loginThrobber').style.display = 'inline';
-	$('username').disabled = true;
-	$('password').disabled = true;
-	$('loginOkButton').disabled = true;
+	getBrowser().contentDocument.getElementById('loginThrobber').style.display = 'inline';
+	getBrowser().contentDocument.getElementById('username').disabled = true;
+	getBrowser().contentDocument.getElementById('password').disabled = true;
+	getBrowser().contentDocument.getElementById('loginOkButton').disabled = true;
 	
 	username = u;
 	password = p;
@@ -51,13 +51,13 @@ function authenticate(u, p, save) {
 		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 	} else {
 		message("");
-		$('badAuth').style.display = 'inline';
-		$('loginThrobber').style.display = 'none';
-		$('username').disabled = false;
-		$('password').disabled = false;
-		$('loginOkButton').disabled = false;
-		//$('password').select(); // this not working as well as I had hoped.  :(
-		$('password').focus(); 
+		getBrowser().contentDocument.getElementById('badAuth').style.display = 'inline';
+		getBrowser().contentDocument.getElementById('loginThrobber').style.display = 'none';
+		getBrowser().contentDocument.getElementById('username').disabled = false;
+		getBrowser().contentDocument.getElementById('password').disabled = false;
+		getBrowser().contentDocument.getElementById('loginOkButton').disabled = false;
+		//getBrowser().contentDocument.getElementById('password').select(); // this not working as well as I had hoped.  :(
+		getBrowser().contentDocument.getElementById('password').focus(); 
 	}
 }
 
@@ -473,7 +473,7 @@ function speech(val) {
 			function doWork() {
 				var hh = h + 'px'
 				getChromeElement('textboxid').style.height=hh;
-				h -= 5;
+				h -= 10;
 				if (h > 0) {
 					setTimeout(doWork,1);
 				} else {
@@ -494,7 +494,7 @@ function speech(val) {
 			function doWork() {
 				var hh = h + 'px'
 				getChromeElement('textboxid').style.height=hh;
-				h += 5;
+				h += 10;
 				if (h < 50) {
 					setTimeout(doWork,1);
 				} else {
@@ -687,19 +687,46 @@ function appendText(symbol) {
 	getChromeElement('statusid').label = len + '/140';
 }
 
-function updateLoginList() {
-	jsdump('updating the login list!');
-	
-	// Get Login Manager 
-   var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+function updateLists() {
+	jsdump("+++++++++ Updating lists.");
+	var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
 		                         .getService(Components.interfaces.nsILoginManager);
 
-   var hostname = 'localhost';
-   var formSubmitURL = 'localhost';  
-   var httprealm = null;
+	var hostname = 'localhost';
+	var formSubmitURL = 'localhost';  
+	var httprealm = null;
 
-   // Find users for the given parameters
-   var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
+	// Find users for the given parameters
+	var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
+	for (var i=0; i<logins.length; i++) {
+		var lists = new Array();
+		BzTwitter.fetchLists({
+			'username': logins[i].username,
+			'password': logins[i].password,
+			onSuccess: function(result) { 
+				jsdump("Content of this list is below:");
+				for (var j=0, len=result.lists.length; j++; j<len) {
+					jsdump(result.lists[j].full_name);
+				}		
+			},
+			onError: function(status) { jsdump("Error fetching lists: " + status); }
+		});		
+	}
+}
+
+function updateLoginList() {
+	jsdump('Updating the login list.');
+	
+	// Get Login Manager 
+	var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+		                         .getService(Components.interfaces.nsILoginManager);
+
+	var hostname = 'localhost';
+	var formSubmitURL = 'localhost';  
+	var httprealm = null;
+
+	// Find users for the given parameters
+	var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
    
 	var loginButton = getChromeElement('accountbuttonid');
 	loginButton.label = logins[0].username;
@@ -721,20 +748,7 @@ function updateLoginList() {
 		menuitem.setAttribute("id","accountmenu-" + logins[i].username);
 		menuitem.setAttribute("class","accountmenu-account");  
 		getChromeElement('accountbuttonmenuid').appendChild(menuitem);
-		
-		var lists = new Array();
-		BzTwitter.fetchLists({
-			'username': logins[i].username,
-			'password': logins[i].password,
-			'onSuccess': function(result) { jsdump("Adding list."); lists.concat(result.lists); },
-			'onError': function() { jsdump("Error fetching lists."); }
-		});		
-		
-		for (var j=0, len=lists.length; j++; j<len) {
-			jsdump("List.");
-		}
-		
-   }
+	}
 
 	var separator = document.createElementNS(XUL_NS, "menuseparator")
 	getChromeElement('accountbuttonmenuid').appendChild(separator);
@@ -992,6 +1006,7 @@ function start() {
 	var zoom = getIntPref("buzzbird.zoom",100);
 	var docViewer = getBrowser().markupDocumentViewer;
 	docViewer.fullZoom = zoom/100.0;
+	updateLists();
 	firstCycleFetch();
 }
 
