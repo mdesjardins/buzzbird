@@ -38,121 +38,55 @@
 #
 # ***** END LICENSE BLOCK *****
 */
-#BrowserPreferences {
-  -moz-binding: url("chrome://global/skin/globalBindings.xml#unifiedPrefwindow");
+
+prefwindow {
+  padding: 0;
+  font: -moz-dialog !important;
 }
 
-#BrowserPreferences:not([active="true"]) > .paneSelector {
-  background-image: url("chrome://global/skin/toolbar/toolbar-background-tall-inactive.png");
-  background-color: #cfcfcf;
-  border-bottom: 1px solid rgba(0,0,0,0.35);
+prefpane {
+  padding: 12px 12px 0 12px;
 }
 
-#BrowserPreferences:not([active="true"]) > .paneSelector > radio {
-  opacity: 0.7;
+prefwindow[type="child"] > prefpane {
+  padding: 0;
 }
 
 .prefWindow-dlgbuttons {
-  margin: 0 12px 8px 12px;
-}
-
-#BrowserPreferences .prefWindow-dlgbuttons {
+  margin: 0 12px 8px;
   padding-top: 0 !important;
 }
 
-.windowDialog {
-  padding: 12px;
-  font: -moz-dialog;
-}
-
 .paneSelector {
-  padding: 0 5px 2px 5px;
-  background-color: #999;
-  border-bottom: 1px solid #404040;
-  background-image: url("chrome://global/skin/toolbar/toolbar-background-tall.png");
-  background-repeat: repeat-x;
-  background-position: top right;
+  font: message-box;
+  padding: 1px 4px;
+  -moz-appearance: -moz-mac-unified-toolbar;
   margin: 0;
 }
 
-.paneSelector radio {
-  border-right: 2px solid transparent;
-  border-left: 2px solid transparent;
-  padding: 5px 0 3px 0;
+radio[pane] {
+  border: solid transparent;
+  border-width: 0 2px;
+  padding: 5px 4px 3px;
   margin: 0;
-  -moz-appearance: none !important;
+  -moz-appearance: none;
+  text-shadow: rgba(255, 255, 255, 0.4) 0 1px;
 }
 
-.paneButtonLabel-shadow,
-.paneButtonLabel {
-  margin: 0;
-  padding: 1px 6px 0 6px;
-}
-
-.paneButtonLabel-shadow {
-  padding-top: 2px;
+radio[pane]:active:hover {
+  text-shadow: none;
 }
 
 radio[pane][selected="true"] {
-    background: url("chrome://buzzbird/skin/images/radio-selected-bg.png") repeat-x center center;
-    -moz-border-left-colors: #6a6a6a #868686;
-    -moz-border-right-colors: #6a6a6a #868686;    
+  /*-moz-border-image: url("chrome://global/skin/icons/panebutton-active.png") 0 2 repeat stretch;*/
+  background: url("chrome://buzzbird/skin/images/radio-selected-bg.png") repeat-x center center;
+
 }
 
-description {
-  font: small-caption;
-  font-weight: normal;
-  line-height: 1.3em;
-  margin-bottom: 4px !important;
+prefwindow:not([active]) radio[pane][selected="true"] {
+  -moz-border-image: url("chrome://global/skin/icons/panebutton-inactive.png") 0 2 repeat stretch;
 }
 
-prefpane .groupbox-body {
-  -moz-appearance: none;
-  padding: 8px 4px 4px 4px;
-}
-
-#paneTabs > groupbox {
-  margin: 0;
-}
-
-#paneTabs > vbox {
-  margin: 12px 4px;
-}
-
-prefpane .groupbox-title {
-  background: url("chrome://global/skin/50pct_transparent_grey.png") repeat-x bottom left;
-  margin-bottom: 4px;
-}
-
-caption {
-  border-bottom: 1px solid #ECECEC;
-  padding: 4px 4px 0px 0px !important;
-}
-
-#paneGeneral description,
-#paneMultiAccounts description {
-  font: -moz-dialog;
-}
-
-#paneContent {
-  padding-top: 8px;
-}
-
-#paneContent row {
-  padding: 2px 4px;
-  -moz-box-align: center;
-}
-
-#popupPolicyRow, #enableSoftwareInstallRow, #enableImagesRow {
-  margin-bottom: 4px !important;
-  padding-bottom: 4px !important;
-  border-bottom: 1px solid #ccc;
-}
-
-#enableImagesRow {
-  -moz-box-align: start !important;
-}
-
-#paneAlerts {
-	height:350px;
+.paneButtonLabel {
+  margin: 0 !important;
 }

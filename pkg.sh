@@ -31,7 +31,7 @@ else
 	sudo rm -fr /Applications/Buzzbird.app 
 	sudo /Library/Frameworks/XUL.framework/xulrunner-bin --install-app "${LOCALDIR}/buzzbird" 
 	sudo cp ${LOCALDIR}/buzzbird/Info.plist /Applications/Buzzbird.app/Contents
-	sudo cp /Applications/Buzzbird.app/Contents/Resources/chrome/content/platform/* /Applications/Buzzbird.app/Contents/Resources/chrome/content
+	sudo cp /Applications/Buzzbird.app/Contents/Resources/chrome/content/platform/mac/* /Applications/Buzzbird.app/Contents/Resources/chrome/content
 	
  	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic-mac /Applications/Buzzbird.app/Contents/Resources/chrome/skin/classic
 	sudo mv /Applications/Buzzbird.app/Contents/Resources/chrome/content/notifications/notify-mac.sh /Applications/Buzzbird.app/Contents/Resources/chrome/content/notifications/notify.sh
