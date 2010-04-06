@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://buzzbird/skin/user.css" type="text/css"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
 <!--
 Copyright (c) 2010 Mike Desjardins
@@ -31,8 +31,8 @@ THE SOFTWARE.
 		title="User"
 		buttons="accept"
 		buttonlabelaccept="Close"
-	  	ondialogaccept="onOk();"
-  	    onload="userOnLoad();">
+	  ondialogaccept="onOk();"
+  	onload="userOnLoad();">
 	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
