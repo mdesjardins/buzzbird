@@ -1,0 +1,54 @@
+<!DOCTYPE prefwindow SYSTEM "chrome://buzzbird/locale/prefs.dtd">
+
+<overlay id="prefs-platform-overlay" xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<prefwindow id="BrowserPreferences">
+	<prefpane id="paneAlerts" label="&prefPaneAlerts.label;" image="chrome://buzzbird/skin/images/prefs/prefs-alerts.png">
+		<box style="margin-left:15px;">
+			<label value="&libnotifyExplain.label;"/>
+		</box>
+		<vbox>
+			<groupbox>
+				<caption label="Every Update"/>
+				<hbox>
+					<checkbox id="checkbox_generalVisualAlert" preference="generalVisualAlert" onclick="Prefs.setSticky('generalVisualAlert',true);"/>
+					<label control="checkbox_generalVisualAlert" value="&generalVisualAlert.label;" /> 
+				</hbox>
+				<hbox style="padding-left:10px;">
+					<checkbox id="checkbox_generalVisualAlertSticky" preference="generalVisualAlertSticky" />
+					<label id="checkbox_generalVisualAlertStickyLabel" 
+					       control="checkbox_generalVisualAlertSticky" 
+					       value="&generalVisualAlertSticky.label;" /> 
+				</hbox>
+			</groupbox>
+			<groupbox>
+				<caption label="When Mentioned"/>
+				<hbox>
+					<checkbox id="checkbox_mentionVisualAlert" preference="mentionVisualAlert" onclick="Prefs.setSticky('mentionVisualAlert',true);"/>
+					<label control="checkbox_mentionVisualAlert" value="&mentionVisualAlert.label;" /> 
+				</hbox>
+				<hbox style="padding-left:10px;">
+					<checkbox id="checkbox_mentionVisualAlertSticky" preference="mentionVisualAlertSticky" />
+					<label id="checkbox_mentionVisualAlertStickyLabel" 
+					       control="checkbox_mentionVisualAlertSticky" 
+					       value="&mentionVisualAlertSticky.label;" /> 
+				</hbox>
+			</groupbox>
+			<groupbox>
+				<caption label="Direct Messages"/>
+				<hbox>
+					<checkbox id="checkbox_directVisualAlert" preference="directVisualAlert" onclick="Prefs.setSticky('directVisualAlert',true);"/>
+					<label control="checkbox_directVisualAlert" value="&directVisualAlert.label;" /> 
+				</hbox>
+				<hbox style="padding-left:10px;">
+					<checkbox id="checkbox_directVisualAlertSticky" preference="directVisualAlertSticky" />
+					<label id="checkbox_directVisualAlertStickyLabel" 
+					       control="checkbox_directVisualAlertSticky" 
+					       value="&directVisualAlertSticky.label;" /> 
+				</hbox>
+			</groupbox>
+		</vbox>
+	</prefpane>
+</prefwindow>
+</overlay>
