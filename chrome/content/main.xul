@@ -258,6 +258,7 @@ THE SOFTWARE.
 				<label id="realnameLabelId" value="Testy Tester" hidden="true"/>
 				<label id="usernameLabelId" value="" hidden="true" />
 				<label id="passwordLabelId" hidden="true" />
+				<label id="listLabelId" hidden="true" />
 				<label id="updateTimerId" hidden="true" />
 				<label id="avatarLabelId" hidden="true" />
 				<label id="showingAllTweetsId" hidden="true" value="&showingAllTweets.label;" />
@@ -295,6 +296,17 @@ THE SOFTWARE.
 					tooltiptext="&speechCmd.label;"
 					command="cmd_speech" />
 				<spacer flex="10" />
+				<vbox>
+					<spacer flex="10"/>
+					<toolbarbutton id="listbuttonid" 
+						       type="menu-button" 
+							   oncommand="showListMenu();">
+			    		<menupopup id="listbuttonmenuid" selectedIndex="0" style="padding:0px; margin:0px;">
+							<!-- Populated programatically -->
+			    		</menupopup>
+					</toolbarbutton>
+				</vbox>
+
 				<vbox>
 					<spacer flex="10"/>
 					<toolbarbutton id="accountbuttonid" 

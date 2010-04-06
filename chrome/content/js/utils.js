@@ -61,6 +61,16 @@ function setPassword(password) {
 	getChromeElement('passwordLabelId').value=password;
 }
 
+// Returns the list from the UI.
+//
+function getList() {
+	return getChromeElement('listLabelId').value;
+}
+function setList(list) {
+	getChromeElement('listLabelId').value=list;
+}
+
+
 // Returns the update timer ID from the UI.
 //
 function getUpdateTimer() {

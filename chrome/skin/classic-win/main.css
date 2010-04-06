@@ -39,6 +39,6 @@ statusbarpanel {
 	overflow:auto;
 }
 
-#accountbuttonid, #filterbuttonid {
+#accountbuttonid, #filterbuttonid, #listbuttonid {
  font-size:0.9em;
 }

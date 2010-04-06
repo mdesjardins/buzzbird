@@ -687,31 +687,34 @@ function appendText(symbol) {
 	getChromeElement('statusid').label = len + '/140';
 }
 
-function updateLists() {
-	jsdump("+++++++++ Updating lists.");
-	var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-		                         .getService(Components.interfaces.nsILoginManager);
+function updateLists(username,password) {
+	addToLists("timeline");
+	BzTwitter.fetchLists({
+		'username': username,
+		'password': password,
+		onSuccess: function(result) { 
+			jsdump("Content of this list is below. List length is " + result.lists.length);
+			for (var j=0, len=result.lists.length; j<len; j++) {
+				addToLists(result.lists[j].slug);
+			}		
+		},
+		onError: function(status) { jsdump("Error fetching lists: " + status); }
+	});		
+}
 
-	var hostname = 'localhost';
-	var formSubmitURL = 'localhost';  
-	var httprealm = null;
-
-	// Find users for the given parameters
-	var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
-	for (var i=0; i<logins.length; i++) {
-		var lists = new Array();
-		BzTwitter.fetchLists({
-			'username': logins[i].username,
-			'password': logins[i].password,
-			onSuccess: function(result) { 
-				jsdump("Content of this list is below:");
-				for (var j=0, len=result.lists.length; j++; j<len) {
-					jsdump(result.lists[j].full_name);
-				}		
-			},
-			onError: function(status) { jsdump("Error fetching lists: " + status); }
-		});		
-	}
+function addToLists(listname) {
+	const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+	var item = listname;
+	var menuitem = document.createElementNS(XUL_NS, "menuitem");
+	menuitem.setAttribute("label", listname);
+	menuitem.setAttribute("value", item);
+	var f = "switchList('" + listname + "');";
+	menuitem.setAttribute("oncommand", f);
+	menuitem.setAttribute("checked","false");
+	menuitem.setAttribute("type","checkbox");
+	menuitem.setAttribute("id","listmenu-" + listname);
+	menuitem.setAttribute("class","accountmenu-account");  
+	getChromeElement('listbuttonmenuid').appendChild(menuitem);
 }
 
 function updateLoginList() {
@@ -761,8 +764,6 @@ function updateLoginList() {
 
 function switchUser(u,p) {	
 	var oldusername = getUsername();
-	username = u;
-	password = p;
 	if (login()) {	
 		var loginButton = getChromeElement('accountbuttonid');
 		loginButton.label = username;
@@ -814,7 +815,6 @@ function openAccountPreferences() {
 //
 function showFilterMenu() {
 	var x = getChromeElement("filtermenupopupid");
-	jsdump('state=' + x.state);
 	if (x.state === 'closed') {
 		x.showPopup();
 	} else {
@@ -823,7 +823,14 @@ function showFilterMenu() {
 }
 function showAccountMenu() {
 	var x = getChromeElement("accountbuttonmenuid");
-	jsdump('state=' + x.state);
+	if (x.state === 'closed') {
+		x.showPopup();
+	} else {
+		x.hidePopup();
+	}
+}
+function showListMenu() {
+	var x = getChromeElement("listbuttonmenuid");
 	if (x.state === 'closed') {
 		x.showPopup();
 	} else {
@@ -1006,7 +1013,7 @@ function start() {
 	var zoom = getIntPref("buzzbird.zoom",100);
 	var docViewer = getBrowser().markupDocumentViewer;
 	docViewer.fullZoom = zoom/100.0;
-	updateLists();
+	updateLists(getUsername(),getPassword());	
 	firstCycleFetch();
 }
 
@@ -1027,7 +1034,7 @@ function fetch() {
 // First cycle... fetch direct, mentions, then timeline...
 //
 function firstCycleFetch() {
-	jsdump('firstCycleFetch');
+	jsdump('firstCycleFetch, list: ' + getList());
 	BzTwitter.fetchDirectTo({
 		username: getUsername(),
 		password: getPassword(),
@@ -1039,7 +1046,7 @@ function firstCycleFetch() {
 }
 
 function firstCycleFetchDirectCallback(tweets) {
-	jsdump('firstCycleFetchDirectCallback');
+	jsdump('firstCycleFetchDirectCallback, list: ' + getList());
 	renderNewTweets(tweets,false);
 	BzTwitter.fetchMentions({
 		username: getUsername(),
@@ -1052,7 +1059,7 @@ function firstCycleFetchDirectCallback(tweets) {
 }
 
 function firstCycleFetchMentionsCallback(tweets) {
-	jsdump('firstCycleFetchMentionsCallback');
+	jsdump('firstCycleFetchMentionsCallback, list: ' + getList());
 	renderNewTweets(tweets,false);
 	BzTwitter.fetchTimeline({
 		username: getUsername(),
@@ -1065,7 +1072,7 @@ function firstCycleFetchMentionsCallback(tweets) {
 }
 
 function firstCycleFetchTimelineCallback(tweets) {
-	jsdump('firstCycleFetchTimelineCallback');
+	jsdump('firstCycleFetchTimelineCallback, list: ' + getList());
 	renderNewTweets(tweets,false);
 	fetchFinished();
 }
@@ -1073,7 +1080,7 @@ function firstCycleFetchTimelineCallback(tweets) {
 // Regular cycle... direct, then timeline...
 //
 function cycleFetch() {
-	jsdump('cycleFetch');
+	jsdump('cycleFetch, list: ' + getList());
 	getChromeElement('accountbuttonid').disable=true;
 	BzTwitter.fetchDirectTo({
 		username: getUsername(),
@@ -1087,7 +1094,7 @@ function cycleFetch() {
 }
 
 function cycleFetchDirectToCallback(tweets) {
-	jsdump('cycleFetchDirectCallback');
+	jsdump('cycleFetchDirectCallback, list: ' + getList());
 	renderNewTweets(tweets,true);
 	BzTwitter.fetchTimeline({
 		username: getUsername(),
@@ -1100,7 +1107,7 @@ function cycleFetchDirectToCallback(tweets) {
 }
 
 function cycleFetchTimelineCallback(tweets) {
-	jsdump('cycleFetchTimelineCallback');
+	jsdump('cycleFetchTimelineCallback, list: ' + getList());
 	renderNewTweets(tweets,true);
 	fetchFinished();
 }
