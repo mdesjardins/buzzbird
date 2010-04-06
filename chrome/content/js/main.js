@@ -603,7 +603,7 @@ function onShortenLoad() {
 function goToUser() {
 	var params = {};
 	window.openDialog("chrome://buzzbird/content/gotouser.xul", "",
-	    "chrome, dialog, modal, resizable=no",params).focus();
+	    "chrome, dialog, modal, resizable=no, width=480, height=500",params).focus();
 	if (params.out) {
 	  var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
 	  if (params.out.handle.match(/^@.*?/)) {
