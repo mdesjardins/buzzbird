@@ -69,6 +69,7 @@
 <!ENTITY directVisualAlert.label "Visual Notification of Direct Messages">
 <!ENTITY directVisualAlertSticky.label "Stay on Screen">
 <!ENTITY growlExplain.label "Visual notifications require Growl. You can get Growl from http://growl.info.">
+<!ENTITY libnotifyExplain.label "Visual notifications require libnotify and notify-send.">
 
 
 
