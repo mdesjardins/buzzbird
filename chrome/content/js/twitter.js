@@ -155,7 +155,7 @@ function Aja() {
 	
 	function reqTimeout(httpReq) {
 		if (callInProgress(httpReq.http)) {
-			jsdump("Timeout.");
+			jsdump(">>> Timeout.");
 			httpReq.http.abort();
 			window.clearTimeout(httpReq.timer);
 			httpReq.freed = 1
@@ -165,7 +165,6 @@ function Aja() {
 	function callInProgress(http) {
 		switch (http.readyState) {
 			case 1,2,3:
-				jsdump('>>>> Call in progress.');
 				return true;
 				break;
 			default:
@@ -258,7 +257,12 @@ function Aja() {
 					freeXmlReq(_reqPoolIndex);
 				}
 			}
-			_http.send(null);
+			try {
+				_http.send(null);
+			} catch(e) {
+				jsdump('Problem calling send: ' + e);
+				reqTimeout(_http);
+			}
 		}
 	}
 

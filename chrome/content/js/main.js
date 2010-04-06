@@ -763,10 +763,13 @@ function updateLoginList() {
 }
 
 function switchUser(u,p) {	
+	jsdump('switchuser');
 	var oldusername = getUsername();
-	if (login()) {	
+	if (login(u,p)) {	
+		jsdump('loggedin');
 		var loginButton = getChromeElement('accountbuttonid');
-		loginButton.label = username;
+		loginButton.label = u;
+		jsdump('set label to ' + u);
 		setUsername(u);
 		setPassword(p);
 		if (oldusername != null && oldusername != undefined && oldusername != "") {
@@ -1013,7 +1016,7 @@ function start() {
 	var zoom = getIntPref("buzzbird.zoom",100);
 	var docViewer = getBrowser().markupDocumentViewer;
 	docViewer.fullZoom = zoom/100.0;
-	updateLists(getUsername(),getPassword());	
+	//updateLists(getUsername(),getPassword());	
 	firstCycleFetch();
 }
 
