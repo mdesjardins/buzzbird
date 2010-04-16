@@ -35,10 +35,9 @@ THE SOFTWARE.
         title="Buzzbird">
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/prototype-1.6.0.3-patched.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/timeout.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/base64.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/twitter.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/notify/base64.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/notify/notify.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>

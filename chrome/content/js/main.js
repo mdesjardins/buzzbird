@@ -28,67 +28,6 @@ mostRecentTweet = null;
 mostRecentDirect = null;
 parser = new DOMParser();
 
-// Gets the login params and calls login to attempt authenticating
-// with the twitter API.  Calls start() if successful.
-//
-function authenticate(u, p, save) {
-	message("Authenticating");
-	getBrowser().contentDocument.getElementById('loginThrobber').style.display = 'inline';
-	getBrowser().contentDocument.getElementById('username').disabled = true;
-	getBrowser().contentDocument.getElementById('password').disabled = true;
-	getBrowser().contentDocument.getElementById('loginOkButton').disabled = true;
-	
-	username = u;
-	password = p;
-	
-	if (login(username,password)) {
-		getChromeElement('usernameLabelId').value = username;
-		getChromeElement('passwordLabelId').value = password;
-		Context.user = username;
-		Context.password = password;
-		Context.service = "twitter";
-		if (save) {
-			saveCredentials(username,password);
-		}
-		var interval = getIntPref('buzzbird.update.interval',180000);
-		jsdump('interval=' + interval);
-		var updateTimer = getMainWindow().setInterval( function(that) { that.cycleFetch(); }, interval, getMainWindow());
-		getChromeElement('updateTimerId').value = updateTimer;
-		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
-	} else {
-		message("");
-		getBrowser().contentDocument.getElementById('badAuth').style.display = 'inline';
-		getBrowser().contentDocument.getElementById('loginThrobber').style.display = 'none';
-		getBrowser().contentDocument.getElementById('username').disabled = false;
-		getBrowser().contentDocument.getElementById('password').disabled = false;
-		getBrowser().contentDocument.getElementById('loginOkButton').disabled = false;
-		//getBrowser().contentDocument.getElementById('password').select(); // this not working as well as I had hoped.  :(
-		getBrowser().contentDocument.getElementById('password').focus(); 
-	}
-}
-
-// Save these credentials as the new default if it does not already exist.
-//
-function saveCredentials(username,password) {
-   var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-		                         .getService(Components.interfaces.nsILoginManager);
-   var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
-	                                             Components.interfaces.nsILoginInfo,
-	                                             "init");
-   var loginInfo = new nsLoginInfo('localhost', 'localhost', null, username, password,
-	                                'username', 'password');
-   
-   // Make sure to delete old entries when trying to add the new details
-   var logins = myLoginManager.findLogins({}, 'localhost', 'localhost', null);
-   for (var i = 0; i < logins.length; i++) {
-      if (logins[i].username == username) {
-    	  myLoginManager.removeLogin(logins[i]);
-         break;
-      }
-   }    
-   myLoginManager.addLogin(loginInfo);
-}
-
 // This function does the actual authentication request to the twitter API.  Called
 // by the login function.
 //
@@ -479,7 +418,7 @@ function speech(val) {
 			function doWork() {
 				var hh = h + 'px'
 				getChromeElement('textboxid').style.height=hh;
-				h -= 10;
+				h = h - 10;
 				if (h > 0) {
 					setTimeout(doWork,1);
 				} else {
@@ -500,7 +439,7 @@ function speech(val) {
 			function doWork() {
 				var hh = h + 'px'
 				getChromeElement('textboxid').style.height=hh;
-				h += 10;
+				h = h + 10;
 				if (h < 50) {
 					setTimeout(doWork,1);
 				} else {
@@ -1217,6 +1156,7 @@ function postDirectSuccess(tweet) {
 // Called by postUpdateSuccess and postUpdateError
 //
 function postUpdateComplete(transport) {
+	getChromeElement('textboxid').disabled = false;
 	getChromeElement('postbuttonid').style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background.png)';
 	forceFetch();	
 }
@@ -1228,6 +1168,7 @@ function postUpdate() {
 	if (tweet.length > 0) {
 		getChromeElement('postbuttonid').style.backgroundImage='url(chrome://buzzbird/skin/images/post-button-background-inverse.png)';
 		getChromeElement('postbuttonid').disabled = true;
+		getChromeElement('textboxid').disabled = true;
 		var replyTweetId = getChromeElement('replyTweetId').value;
 		var replyCheckHidden = getChromeElement('replycheckboxid').hidden;
 		var replyChecked = getChromeElement('replycheckboxid').checked;

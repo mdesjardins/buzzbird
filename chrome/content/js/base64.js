@@ -4,7 +4,6 @@
 *  http://www.webtoolkit.info/
 *
 **/
- 
 var Base64 = {
  
 	// private property
@@ -19,7 +18,6 @@ var Base64 = {
 		input = Base64._utf8_encode(input);
  
 		while (i < input.length) {
- 
 			chr1 = input.charCodeAt(i++);
 			chr2 = input.charCodeAt(i++);
 			chr3 = input.charCodeAt(i++);
@@ -38,9 +36,7 @@ var Base64 = {
 			output = output +
 			this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
 			this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
- 
 		}
- 
 		return output;
 	},
  
@@ -54,7 +50,6 @@ var Base64 = {
 		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
  
 		while (i < input.length) {
- 
 			enc1 = this._keyStr.indexOf(input.charAt(i++));
 			enc2 = this._keyStr.indexOf(input.charAt(i++));
 			enc3 = this._keyStr.indexOf(input.charAt(i++));
@@ -72,11 +67,9 @@ var Base64 = {
 			if (enc4 != 64) {
 				output = output + String.fromCharCode(chr3);
 			}
- 
 		}
  
 		output = Base64._utf8_decode(output);
- 
 		return output;
  
 	},
@@ -87,9 +80,7 @@ var Base64 = {
 		var utftext = "";
  
 		for (var n = 0; n < string.length; n++) {
- 
 			var c = string.charCodeAt(n);
- 
 			if (c < 128) {
 				utftext += String.fromCharCode(c);
 			}
@@ -102,9 +93,7 @@ var Base64 = {
 				utftext += String.fromCharCode(((c >> 6) & 63) | 128);
 				utftext += String.fromCharCode((c & 63) | 128);
 			}
- 
 		}
- 
 		return utftext;
 	},
  
@@ -115,7 +104,6 @@ var Base64 = {
 		var c = c1 = c2 = 0;
  
 		while ( i < utftext.length ) {
- 
 			c = utftext.charCodeAt(i);
  
 			if (c < 128) {
@@ -133,10 +121,7 @@ var Base64 = {
 				string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
 				i += 3;
 			}
- 
 		}
- 
 		return string;
 	}
- 
 }
