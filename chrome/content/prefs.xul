@@ -36,6 +36,8 @@ THE SOFTWARE.
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/utils.js"></script>
+ <script type="application/x-javascript" src="chrome://buzzbird/content/js/base64.js"></script>
+ <script type="application/x-javascript" src="chrome://buzzbird/content/js/aja.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/twitter.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
 
