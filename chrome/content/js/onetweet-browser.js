@@ -20,6 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+Components.utils.import("resource://app/chrome/content/js/global.js");  
+
 // Displays one tweet in a separate dialog.
 //
 function viewOneTweet(tweetId) {

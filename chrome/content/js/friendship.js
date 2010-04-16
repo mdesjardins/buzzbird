@@ -20,6 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+Components.utils.import("resource://app/chrome/content/js/global.js");  
+
 // really need to fix this.
 var hostname = 'localhost';
 var formSubmitURL = 'localhost';  

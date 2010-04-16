@@ -19,6 +19,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
+Components.utils.import("resource://app/chrome/content/js/global.js");  
+
 var Prefs = {
 	hostname : 'localhost',
 	formSubmitURL : 'localhost',

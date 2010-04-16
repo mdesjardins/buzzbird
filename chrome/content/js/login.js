@@ -19,6 +19,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
+
+Components.utils.import("resource://app/chrome/content/js/global.js");  
+
+
 var passwordManager = Components.classes["@mozilla.org/login-manager;1"]
                                 .getService(Components.interfaces.nsILoginManager);
 
@@ -31,27 +36,29 @@ var user = '';
 var password = '';
 
 try {
-   // Get Login Manager 
-   var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+	// Get Login Manager 
+	var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
 		                         .getService(Components.interfaces.nsILoginManager);
 
-   // Find users for the given parameters
-   var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
+	// Find users for the given parameters
+	var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);		
+	for (var i=0, len=logins.length; i<len; i++) {
+		jsdump("LOGIN... username: " + logins[i].username + ", password: " + logins[i].password + ", hostname: " + logins[i].hostname + ", httpRealm: " + logins[i].httpRealm + ", formSubmitURL:" + logins[i].formSubmitURL);
+	}
 
-   // Find user from returned array of nsILoginInfo objects
-   // Will be modified when support for multiple accounts is added.  For now,
-   // just use the first one we find.
-   if (logins != null && logins.length > 0) {
-   	 user = logins[0].username;
-   	 password = logins[0].password;
-     authenticate(user,password,false);
-   } else {
-     jsdump('No saved logins found.');	
-   }
+	// Find user from returned array of nsILoginInfo objects
+	// Will be modified when support for multiple accounts is added.  For now,
+	// just use the first one we find.
+	if (logins != null && logins.length > 0) {
+		user = logins[0].username;
+		password = logins[0].password;
+		authenticate(user,password,false);
+	} else {
+		jsdump('No saved logins found.');	
+	}
 
-   updateLoginList();
-   getChromeElement('accountmenu-' + user).setAttribute("checked","true");
-
+	updateLoginList();
+	getChromeElement('accountmenu-' + user).setAttribute("checked","true");
 } catch (e) {
   // This will only happen if there is no nsILoginManager component class
   jsdump('Oops - failed at autologin: ' + e);

@@ -20,6 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+Components.utils.import("resource://app/chrome/content/js/global.js");  
+
 function toggleFollow(myUsername,myPassword,hisUserId) {
 	var check = document.getElementById('check-' + myUsername);
 	if (check.checked) {

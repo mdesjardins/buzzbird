@@ -19,6 +19,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
+Components.utils.import("resource://app/chrome/content/js/global.js");  
+
 username = "";
 password = "";
 mostRecentTweet = null;
@@ -41,6 +44,9 @@ function authenticate(u, p, save) {
 	if (login(username,password)) {
 		getChromeElement('usernameLabelId').value = username;
 		getChromeElement('passwordLabelId').value = password;
+		Context.user = username;
+		Context.password = password;
+		Context.service = "twitter";
 		if (save) {
 			saveCredentials(username,password);
 		}

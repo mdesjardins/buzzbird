@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2009 Mike Desjardins
+Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,6 +19,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
+Components.utils.import("resource://app/chrome/content/js/global.js");  
+
 // Utility method to return the window object.
 //
 function getMainWindow() {
