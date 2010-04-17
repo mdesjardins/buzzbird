@@ -32,13 +32,13 @@ function viewOneTweet(tweetId) {
 
 // Shows the retweet/love/reply/direct icons for an individual tweet.
 function showIcons(id) {
-	$('tweetInfo-' + id).style.display = 'none';
-	$('tweetIcons-' + id).style.display = 'inline';
+	document.getElementById('tweetInfo-' + id).style.display = 'none';
+	document.getElementById('tweetIcons-' + id).style.display = 'inline';
 }
 
 function showInfo(id) {
-	$('tweetInfo-' + id).style.display = 'inline';
-	$('tweetIcons-' + id).style.display = 'none';
+	document.getElementById('tweetInfo-' + id).style.display = 'inline';
+	document.getElementById('tweetIcons-' + id).style.display = 'none';
 }
 
 // Reply

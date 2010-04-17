@@ -80,14 +80,14 @@ function showUser(userId) {
 
 // Shows the retweet/love/reply/direct icons for an individual tweet.
 function showIcons(id) {
-	$('tweetInfo-' + id).style.display = 'none';
-	$('tweetIcons-' + id).style.display = 'inline';
+	document.getElementById('tweetInfo-' + id).style.display = 'none';
+	document.getElementById('tweetIcons-' + id).style.display = 'inline';
 }
 
 // Same thing.  WTF?
 function showInfo(id) {
-	$('tweetInfo-' + id).style.display = 'inline';
-	$('tweetIcons-' + id).style.display = 'none';
+	document.getElementById('tweetInfo-' + id).style.display = 'inline';
+	document.getElementById('tweetIcons-' + id).style.display = 'none';
 }
 
 // Called onload of hte browser.  Dispatches up to the main window for now.
@@ -274,7 +274,7 @@ function stopFollowingTweeterCallback(transport) {
 //
 function toggleMarkAsRead(id) {
 	var mark = 'mark-' + id;
-	var f = $(mark);
+	var f = document.getElementById(mark);
 	if (f.src=='chrome://buzzbird/skin/images/actions/unread.png') {
 		f.src='chrome://buzzbird/skin/images/actions/read.png'; 
 		f.className='marked';
@@ -302,7 +302,7 @@ function deleteTweetCallback(id,transport) {
 	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 	                        .getService(Components.interfaces.nsIPromptService);
 	prompts.alert(window, "Presto!", "Your tweet has been deleted.");
-	var x = $('tweet-'+id);
+	var x = document.getElementById('tweet-'+id);
 	if (id != undefined && x != null) {
 		x.style.display = 'none';
 
