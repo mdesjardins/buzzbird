@@ -38,7 +38,8 @@ THE SOFTWARE.
 	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/base64.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/twitter.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/social.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/onetweet.js"></script>
 	
 	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />

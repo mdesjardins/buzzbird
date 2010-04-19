@@ -20,9 +20,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+/**
+ * This is my very own, home-grown AJAX framework that was created for Buzzbird.
+ * If you ever think to yourself "hey, I think I'll build my own AJAX framework,"
+ * then do yourself a favor... use one of the tons of other ones already available
+ * to you.  This was a stupid waste of time.  It still is.
+ *
+ * It is named for Steely Dan's awesome album, Aja... partly because Steely Dan
+ * is cool, and partly because I hate XML and have no problem denying the X a
+ * spot in the acronym.
+ *
+ * The basic code was first based on jx.js, plus some pooling stuff based on 
+ * http://drakware.com/?e=3, as well as some Base64 encoding for authorization 
+ * from http://www.webtoolkit.info/ (even though the XHR open method has a username
+ * and pasword parameter, I thought I was having problems with it, and in a fit
+ * on insanity, rolled my own solution)
+ */
 
-// First based on jx.js
-// Pooling based on http://drakware.com/?e=3
 function Aja() {
 	this.waitFor = 5000;  
 	var _that = this;
@@ -76,7 +90,7 @@ function Aja() {
 			_reqPool[pos] = new XmlReqWrapper(0); 
 		} 
 		_reqPool[pos].freed = 0;
-		_reqPool[pos].timer = window.setTimeout(function() { reqTimeout(_reqPool[pos]); }, _that.waitFor);
+		_reqPool[pos].timer = window.setTimeout(function() { _that.reqTimeout(_reqPool[pos]); }, _that.waitFor);
 		jsdump("XMLReq Pool Depth " + _reqPool.length + ", using index " + pos + ".");
 		return pos;
 	}
@@ -86,7 +100,6 @@ function Aja() {
 		window.clearTimeout(_reqPool[pos].timer);
 		_reqPool[pos].freed = 1
 	}
-	
 	
 	function exec(username,password,url,callback,error,method) {
 		var _reqPoolIndex = getXmlReqIndex()

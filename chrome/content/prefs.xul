@@ -38,7 +38,8 @@ THE SOFTWARE.
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/utils.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/base64.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/aja.js"></script>
- <script type="application/x-javascript" src="chrome://buzzbird/content/js/twitter.js"></script>
+ <script type="application/x-javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
+ <script type="application/x-javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
  <script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
 
  <prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/skin/images/prefs/prefs-general.png" 

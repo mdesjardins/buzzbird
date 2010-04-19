@@ -20,12 +20,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-var EXPORTED_SYMBOLS = ["Context"];  
+var EXPORTED_SYMBOLS = ["Ctx"];  
 
-var Context = {
+// Current Context
+var Ctx = {
 	user:"",
 	password:"",
 	service:"",
-	list:"",
+	list:""
 };
 

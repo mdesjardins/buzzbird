@@ -34,7 +34,7 @@ function onOk() {
 }
 
 function populateUserInfo(myUsername, myPassword, hisUserId) {
-	BzTwitter.fetchUserProfile({
+	Social.service("twitter").fetchUserProfile({
 		"username":myUsername,
 		"password":myPassword,
 		"queriedUserId":hisUserId,
@@ -125,7 +125,7 @@ function friendshipOnLoad() {
 
 function getStatus(hisUserId,myUsername,myPassword) {
 	jsdump('Getting friendship status for ' + hisUserId + ' and ' + myUsername);
-	BzTwitter.isFollowing({
+	Social.service("twitter").isFollowing({
 		"username":myUsername,
 		"password":myPassword,
 		"sourceScreenName":myUsername,

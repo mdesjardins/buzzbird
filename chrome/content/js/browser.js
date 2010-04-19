@@ -90,41 +90,41 @@ function showInfo(id) {
 	document.getElementById('tweetIcons-' + id).style.display = 'none';
 }
 
-// Called onload of hte browser.  Dispatches up to the main window for now.
+// Called onload of the browser.  Dispatches up to the main window for now.
 //
 function start() {
 	try {
-        var ev = document.createEvent("Events");
-        ev.initEvent("start", true, false);
-        getMainWindow().document.dispatchEvent(ev);
-    } catch (e) {
-        jsdump("Exception sending start event: "+ e);
-    }
+		var ev = document.createEvent("Events");
+		ev.initEvent("start", true, false);
+		getMainWindow().document.dispatchEvent(ev);
+	} catch (e) {
+		jsdump("Exception sending start event: "+ e);
+	}
 }
 
 // Just dispatches for now.
 //
 function firstCycleFetch() {
-    jsdump('sending event up.');
+	jsdump('sending event up.');
 	try {
-        var ev = document.createEvent("Events");
-        ev.initEvent("firstCycleFetch", true, false);
-        getMainWindow().document.dispatchEvent(ev);
-    } catch (e) {
-        jsdump("Exception sending firstCycleFetch event: "+ e);
-    }
+		var ev = document.createEvent("Events");
+		ev.initEvent("firstCycleFetch", true, false);
+		getMainWindow().document.dispatchEvent(ev);
+	} catch (e) {
+		jsdump("Exception sending firstCycleFetch event: "+ e);
+	}
 }
 
 // General Event Dispatcher
 //
 function dispatch(eventName) {
 	try {
-        var ev = document.createEvent("Events");
-        ev.initEvent(eventName, true, false);
-        getMainWindow().document.dispatchEvent(ev);
-    } catch (e) {
-        jsdump("Exception sending '" + eventName + "' event: " + e);
-    }		
+		var ev = document.createEvent("Events");
+		ev.initEvent(eventName, true, false);
+		getMainWindow().document.dispatchEvent(ev);
+	} catch (e) {
+		jsdump("Exception sending '" + eventName + "' event: " + e);
+	}		
 }
 
 // Reply
@@ -189,11 +189,14 @@ function retweet(id) {
 	
 	if (configMethod == 'A') {
 		jsdump("Posting Echo (auto retweet)");
-		BzTwitter.postEcho({
+		Social.service("twitter").postEcho({
 			username: getUsername(),
 			password: getPassword(),
 			echoId: id,
 			onSuccess: function() {
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Done!", "Retweet accomplished.");
 				dispatch('cycleFetch');
 			},
 			onError: function(status) {
@@ -214,7 +217,7 @@ function retweet(id) {
 // Favorite
 //
 function favorite(id) {
-	BzTwitter.favorite({
+	Social.service("twitter").favorite({
 		username: getUsername(),
 		password: getPassword(),
 		updateId: id,
@@ -245,7 +248,7 @@ function stopFollowingTweeter(id) {
 	var result = prompts.confirm(window, "Confirm", 'Do you want to stop following ' + user + '?');
 	if (result) {
 		jsdump('Unfollowing ' + user);
-		BzTwitter.unfollow({
+		Social.service("twitter").unfollow({
 			username: getUsername(),
 			password: getPassword(),
 			screenName: user,
@@ -317,7 +320,7 @@ function deleteTweet(id) {
 	                        .getService(Components.interfaces.nsIPromptService);
 	var result = prompts.confirm(window, "Confirm", 'Do you want to delete this tweet?  There is no Undo!');
 	if (result) {
-		BzTwitter.deletePost({
+		Social.service("twitter").deletePost({
 			username: getUsername(),
 			password: getPassword(),
 			deleteId: id,

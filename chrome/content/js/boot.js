@@ -51,7 +51,7 @@ try {
 	if (logins != null && logins.length > 0) {
 		user = logins[0].username;
 		password = logins[0].password;
-		firstLogin(user,password,false);
+		firstLogin(user,password,"twitter",false);
 	} else {
 		jsdump('No saved logins found.');	
 	}
@@ -72,12 +72,12 @@ function manualFirstLogin() {
 	u = getBrowser().contentDocument.getElementById('username').value;
 	p = getBrowser().contentDocument.getElementById('password').value;
 	save = getBrowser().contentDocument.getElementById('saveCredentials').checked;
-	firstLogin(u,p,save);	
+	firstLogin(u,p,"twitter",save);	
 }
 
 // Called if either the user enters login info, or we find a usable login in
 // the password manager.
-function firstLogin(u, p, save) {
+function firstLogin(u,p,service,save) {
 	message("Authenticating");
 	getBrowser().contentDocument.getElementById('loginThrobber').style.display = 'inline';
 	getBrowser().contentDocument.getElementById('username').disabled = true;
@@ -87,7 +87,7 @@ function firstLogin(u, p, save) {
 	username = u;
 	password = p;
 	
-	if (login(username,password)) {
+	if (login(username,password,service)) {
 		getChromeElement('usernameLabelId').value = username;
 		getChromeElement('passwordLabelId').value = password;
 		if (save) {

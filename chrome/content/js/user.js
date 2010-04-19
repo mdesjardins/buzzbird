@@ -42,7 +42,7 @@ function userOnLoad() {
 }
 
 function fetchProfile(userid,username,password) {
-	BzTwitter.fetchUserProfile({
+	Social.service("twitter").fetchUserProfile({
 		"username": username,
 		"password": password,
 		"queriedUserId": userid,
@@ -81,7 +81,7 @@ function fetchProfile(userid,username,password) {
 }
 
 function fetchUpdates(userid,username,password) {
-	BzTwitter.fetchUserTimeline({
+	Social.service("twitter").fetchUserTimeline({
 		"username": username,
 		"password": password,
 		"queriedUserId": userid,

@@ -201,7 +201,7 @@ var Prefs = {
 			xulAccount.getElementsByAttribute('field','screen_name')[0].setAttribute('value',username);
 			xulAccount.getElementsByAttribute('field','real_name')[0].setAttribute('screen_name',username);
 			xulAccount.setAttribute('value',value);
-			BzTwitter.fetchUserProfile({
+			Social.service("twitter").fetchUserProfile({
 				"username":username,
 				"password":password,
 				"queriedScreenName":username,

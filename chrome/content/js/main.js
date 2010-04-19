@@ -31,11 +31,15 @@ parser = new DOMParser();
 // This function does the actual authentication request to the twitter API.  Called
 // by the login function.
 //
-function login(username,password) {
-	var user = BzTwitter.verifyCredentials(username,password);
+function login(username,password,service) {
+	var user = Social.service(service).verifyCredentials(username,password);
 	if (user == null) {
 		return false;
 	} else {
+		Ctx.user = username;
+		Ctx.password = password;
+		Ctx.list = null;
+		Ctx.service = service;
 		var img = user.profile_image_url;
 		getChromeElement('avatarLabelId').value = img;
 		getChromeElement('realnameLabelId').value = user.name;
@@ -634,7 +638,7 @@ function appendText(symbol) {
 
 function updateLists(username,password) {
 	addToLists("timeline");
-	BzTwitter.fetchLists({
+	Social.service("twitter").fetchLists({
 		'username': username,
 		'password': password,
 		onSuccess: function(result) { 
@@ -689,7 +693,7 @@ function updateLoginList() {
 		var menuitem = document.createElementNS(XUL_NS, "menuitem");
 		menuitem.setAttribute("label", logins[i].username);
 		menuitem.setAttribute("value", item);
-		var f = "switchUser('" + logins[i].username + "','" + logins[i].password + "');";
+		var f = "switchUser('" + logins[i].username + "','" + logins[i].password + "', 'twitter');";
 		menuitem.setAttribute("oncommand", f);
 		menuitem.setAttribute("checked","false");
 		menuitem.setAttribute("type","checkbox");
@@ -707,10 +711,10 @@ function updateLoginList() {
 	getChromeElement('accountbuttonmenuid').appendChild(menuitem);
 }
 
-function switchUser(u,p) {	
+function switchUser(u,p,s) {	
 	jsdump('switchuser');
 	var oldusername = getUsername();
-	if (login(u,p)) {	
+	if (login(u,p,s)) {	
 		jsdump('loggedin');
 		var loginButton = getChromeElement('accountbuttonid');
 		loginButton.label = u;
@@ -983,7 +987,7 @@ function fetch() {
 //
 function firstCycleFetch() {
 	jsdump('firstCycleFetch, list: ' + getList());
-	BzTwitter.fetchDirectTo({
+	Social.service("twitter").fetchDirectTo({
 		username: getUsername(),
 		password: getPassword(),
 		onSuccess: firstCycleFetchDirectCallback,
@@ -996,7 +1000,7 @@ function firstCycleFetch() {
 function firstCycleFetchDirectCallback(tweets) {
 	jsdump('firstCycleFetchDirectCallback, list: ' + getList());
 	renderNewTweets(tweets,false);
-	BzTwitter.fetchMentions({
+	Social.service("twitter").fetchMentions({
 		username: getUsername(),
 		password: getPassword(),
 		onSuccess: firstCycleFetchMentionsCallback,
@@ -1009,7 +1013,7 @@ function firstCycleFetchDirectCallback(tweets) {
 function firstCycleFetchMentionsCallback(tweets) {
 	jsdump('firstCycleFetchMentionsCallback, list: ' + getList());
 	renderNewTweets(tweets,false);
-	BzTwitter.fetchTimeline({
+	Social.service("twitter").fetchTimeline({
 		username: getUsername(),
 		password: getPassword(),
 		onSuccess: firstCycleFetchTimelineCallback,
@@ -1030,7 +1034,7 @@ function firstCycleFetchTimelineCallback(tweets) {
 function cycleFetch() {
 	jsdump('cycleFetch, list: ' + getList());
 	getChromeElement('accountbuttonid').disable=true;
-	BzTwitter.fetchDirectTo({
+	Social.service("twitter").fetchDirectTo({
 		username: getUsername(),
 		password: getPassword(),
 		onSuccess: cycleFetchDirectToCallback,
@@ -1044,7 +1048,7 @@ function cycleFetch() {
 function cycleFetchDirectToCallback(tweets) {
 	jsdump('cycleFetchDirectCallback, list: ' + getList());
 	renderNewTweets(tweets,true);
-	BzTwitter.fetchTimeline({
+	Social.service("twitter").fetchTimeline({
 		username: getUsername(),
 		password: getPassword(),
 		onSuccess: cycleFetchTimelineCallback,
@@ -1175,7 +1179,7 @@ function postUpdate() {
 		var isDirect = tweet.match(/^d(\s){1}(\w+?)(\s+)(\w+)/);	
 		if (!replyCheckHidden && replyChecked && replyTweetId > 0) {
 			jsdump("Replying");
-			BzTwitter.postReply({
+			Social.service("twitter").postReply({
 				username: getUsername(),
 				password: getPassword(),
 				onSuccess: postUpdateSuccess,
@@ -1185,7 +1189,7 @@ function postUpdate() {
 			});
 		} else if (isDirect) {
 			jsdump("Posting (direct)");
-			BzTwitter.postUpdate({
+			Social.service("twitter").postUpdate({
 				username: getUsername(),
 				password: getPassword(),
 				onSuccess: function(response) { postDirectSuccess(tweet); postUpdateSuccess(response); },
@@ -1194,7 +1198,7 @@ function postUpdate() {
 			});				
 		} else {
 			jsdump("Posting (no reply not direct)");
-			BzTwitter.postUpdate({
+			Social.service("twitter").postUpdate({
 				username: getUsername(),
 				password: getPassword(),
 				onSuccess: postUpdateSuccess,

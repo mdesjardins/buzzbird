@@ -84,7 +84,7 @@ function retweet(id) {
 // Favorite
 //
 function favorite(id) {
-	BzTwitter.favorite({
+	Social.service("twitter").favorite({
 		username: getUsername(),
 		password: getPassword(),
 		updateId: id,

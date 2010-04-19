@@ -1,7 +1,6 @@
 //@line 37 "/builds/tinderbox/Fx-Mozilla1.9-Release/Darwin_8.8.4_Depend/mozilla/toolkit/content/macWindowMenu.js"
 
-function checkFocusedWindow()
-{
+function checkFocusedWindow() {
   var windowManagerDS =
     Components.classes['@mozilla.org/rdf/datasource;1?name=window-mediator']
               .getService(Components.interfaces.nsIWindowDataSource);
@@ -18,13 +17,13 @@ function checkFocusedWindow()
   }
 }
 
-function toOpenWindow( aWindow )
-{
-  aWindow.document.commandDispatcher.focusedWindow.focus();
+function toOpenWindow( aWindow ) {
+	if (aWindow.document.commandDispatcher.focusedWindow != null) {
+  	aWindow.document.commandDispatcher.focusedWindow.focus();
+	}
 }
 
-function ShowWindowFromResource( node )
-{
+function ShowWindowFromResource( node ) {
   var windowManagerDS =
     Components.classes['@mozilla.org/rdf/datasource;1?name=window-mediator']
               .getService(Components.interfaces.nsIWindowDataSource);
@@ -36,8 +35,7 @@ function ShowWindowFromResource( node )
     toOpenWindow(desiredWindow);
 }
 
-function zoomWindow()
-{
+function zoomWindow() {
   if (window.windowState == STATE_NORMAL)
     window.maximize();
   else

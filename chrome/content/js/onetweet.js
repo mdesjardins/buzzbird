@@ -41,7 +41,7 @@ function oneTweetOnLoad() {
 
 function renderStatusUpdate(statusId,username,password) {
 	jsdump('Getting tweet ' + statusId);
-	BzTwitter.fetchSingleUpdate({
+	Social.service("twitter").fetchSingleUpdate({
 		"username": username,
 		"password": password,
 		"statusId": statusId,
