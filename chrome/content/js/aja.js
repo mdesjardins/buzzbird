@@ -38,21 +38,11 @@ THE SOFTWARE.
  */
 
 function Aja() {
-	this.waitFor = 5000;  
 	var _that = this;
 	var _http = false;
 	var _timer = null;
 	var _reqPool = new Array();
 	
-	function reqTimeout(httpReq) {
-		if (callInProgress(httpReq.http)) {
-			jsdump(">>> Timeout.");
-			httpReq.http.abort();
-			window.clearTimeout(httpReq.timer);
-			httpReq.freed = 1
-		}
-	}
-
 	function callInProgress(http) {
 		switch (http.readyState) {
 			case 1,2,3:
@@ -90,7 +80,7 @@ function Aja() {
 			_reqPool[pos] = new XmlReqWrapper(0); 
 		} 
 		_reqPool[pos].freed = 0;
-		_reqPool[pos].timer = window.setTimeout(function() { _that.reqTimeout(_reqPool[pos]); }, _that.waitFor);
+		_reqPool[pos].timer = window.setTimeout(function() { Aja.reqTimeout(_reqPool[pos]); }, Aja.waitFor);
 		jsdump("XMLReq Pool Depth " + _reqPool.length + ", using index " + pos + ".");
 		return pos;
 	}
@@ -175,3 +165,18 @@ function Aja() {
 		return exec("DELETE",url,options);
 	}
 }
+
+Aja.reqTimeout = function(httpReq) {
+	var state = httpReq.http.readyState;
+	if (state == 1 || state == 2 || state == 3) {
+		jsdump(">>> Timeout.");
+		httpReq.http.abort();
+		window.clearTimeout(httpReq.timer);
+		httpReq.freed = 1
+	}
+}
+
+Aja.waitFor = 5000;  
+
+
+
