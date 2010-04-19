@@ -84,7 +84,7 @@ function retweet(id) {
 // Favorite
 //
 function favorite(id) {
-	Social.service("twitter").favorite({
+	Social.service(Ctx.service).favorite({
 		username: getUsername(),
 		password: getPassword(),
 		updateId: id,

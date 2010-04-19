@@ -189,7 +189,7 @@ function retweet(id) {
 	
 	if (configMethod == 'A') {
 		jsdump("Posting Echo (auto retweet)");
-		Social.service("twitter").postEcho({
+		Social.service(Ctx.service).postEcho({
 			username: getUsername(),
 			password: getPassword(),
 			echoId: id,
@@ -217,7 +217,7 @@ function retweet(id) {
 // Favorite
 //
 function favorite(id) {
-	Social.service("twitter").favorite({
+	Social.service(Ctx.service).favorite({
 		username: getUsername(),
 		password: getPassword(),
 		updateId: id,
@@ -248,7 +248,7 @@ function stopFollowingTweeter(id) {
 	var result = prompts.confirm(window, "Confirm", 'Do you want to stop following ' + user + '?');
 	if (result) {
 		jsdump('Unfollowing ' + user);
-		Social.service("twitter").unfollow({
+		Social.service(Ctx.service).unfollow({
 			username: getUsername(),
 			password: getPassword(),
 			screenName: user,
@@ -320,7 +320,7 @@ function deleteTweet(id) {
 	                        .getService(Components.interfaces.nsIPromptService);
 	var result = prompts.confirm(window, "Confirm", 'Do you want to delete this tweet?  There is no Undo!');
 	if (result) {
-		Social.service("twitter").deletePost({
+		Social.service(Ctx.service).deletePost({
 			username: getUsername(),
 			password: getPassword(),
 			deleteId: id,

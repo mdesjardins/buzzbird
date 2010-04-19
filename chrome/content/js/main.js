@@ -386,23 +386,6 @@ function markAllAsRead() {
 	}
 }
 
-// Deletes all the previously marked-as-read tweets.  This is astoundingly inefficient.  It's
-// so bad that I don't use it anymore.
-//
-function deleteAllRead() {
-	var xx = getBrowser().contentDocument.getElementsByName('mark');
-	var len = xx.length
-	while (len--) {
-		x = xx[len];
-		// Yes, this is a hack, too.
-		if (x.src == 'chrome://buzzbird/skin/images/actions/unread.png') {
-			id = x.id.substring(x.id.indexOf('-')+1);
-			//jsdump( 'x.id ' + x.id + ' became ' + id);
-			removeTweetFromDom(id);
-		}
-	}
-}
-
 function removeTweetFromDom(id) {
 	//jsdump('delete ' + id);
 	el = getBrowser().contentDocument.getElementById('tweet-' + id);
@@ -494,6 +477,7 @@ function openSpeech() {
 function closeSpeech() {
 	speech(true);
 }
+
 function shortenUrl() {
 	var shortUrlProvider = getStringPref('buzzbird.shorturl.destination', 'is.gd');
 	var params = {inn:{shortUrlProvider:shortUrlProvider},out:null};
@@ -515,39 +499,21 @@ function shortenUrl() {
 			return;
 		}
 		
-		new Ajax.Request(url,
-			{
-				method:'post',
-			    onSuccess: shortenCallback,
-			    onFailure: function() { 
+		var ajax = new Aja();
+		ajax.post(url, {
+				format: 'raw',
+				onSuccess: function(shortenedUrl) {
+					appendText(shortenedUrl);
+				},
+				onError: function() { 
 					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
+				                        .getService(Components.interfaces.nsIPromptService);
 					prompts.alert(window, "Sorry.", "There was an error shortning your URL.");
 				}
-			});
+			}
+		);
 	}
 }
-function shortenCallback(transport) {
-	var shortenedUrl = transport.responseText;
-	appendText(shortenedUrl);
-}
-
-function onShortenOk() {
-	window.arguments[0].out = {urlid:document.getElementById("urlid").value};
-	return true;
-}
-
-function onShortenCancel() {
-	return true;
-}
-
-//Alter the dialog to display correct contents
-function onShortenLoad() {
-	var shortUrlProvider = window.arguments[0].inn.shortUrlProvider;
-	var dialogHeader = document.getElementsByTagName("dialogheader")[0];
-	dialogHeader.setAttribute('description','Using the ' + shortUrlProvider +' URL shortening service');
-}
-
 
 function goToUser() {
 	var params = {};
@@ -638,7 +604,7 @@ function appendText(symbol) {
 
 function updateLists(username,password) {
 	addToLists("timeline");
-	Social.service("twitter").fetchLists({
+	Social.service(Ctx.service).fetchLists({
 		'username': username,
 		'password': password,
 		onSuccess: function(result) { 
@@ -987,7 +953,7 @@ function fetch() {
 //
 function firstCycleFetch() {
 	jsdump('firstCycleFetch, list: ' + getList());
-	Social.service("twitter").fetchDirectTo({
+	Social.service(Ctx.service).fetchDirectTo({
 		username: getUsername(),
 		password: getPassword(),
 		onSuccess: firstCycleFetchDirectCallback,
@@ -1000,7 +966,7 @@ function firstCycleFetch() {
 function firstCycleFetchDirectCallback(tweets) {
 	jsdump('firstCycleFetchDirectCallback, list: ' + getList());
 	renderNewTweets(tweets,false);
-	Social.service("twitter").fetchMentions({
+	Social.service(Ctx.service).fetchMentions({
 		username: getUsername(),
 		password: getPassword(),
 		onSuccess: firstCycleFetchMentionsCallback,
@@ -1013,7 +979,7 @@ function firstCycleFetchDirectCallback(tweets) {
 function firstCycleFetchMentionsCallback(tweets) {
 	jsdump('firstCycleFetchMentionsCallback, list: ' + getList());
 	renderNewTweets(tweets,false);
-	Social.service("twitter").fetchTimeline({
+	Social.service(Ctx.service).fetchTimeline({
 		username: getUsername(),
 		password: getPassword(),
 		onSuccess: firstCycleFetchTimelineCallback,
@@ -1034,7 +1000,7 @@ function firstCycleFetchTimelineCallback(tweets) {
 function cycleFetch() {
 	jsdump('cycleFetch, list: ' + getList());
 	getChromeElement('accountbuttonid').disable=true;
-	Social.service("twitter").fetchDirectTo({
+	Social.service(Ctx.service).fetchDirectTo({
 		username: getUsername(),
 		password: getPassword(),
 		onSuccess: cycleFetchDirectToCallback,
@@ -1048,7 +1014,7 @@ function cycleFetch() {
 function cycleFetchDirectToCallback(tweets) {
 	jsdump('cycleFetchDirectCallback, list: ' + getList());
 	renderNewTweets(tweets,true);
-	Social.service("twitter").fetchTimeline({
+	Social.service(Ctx.service).fetchTimeline({
 		username: getUsername(),
 		password: getPassword(),
 		onSuccess: cycleFetchTimelineCallback,
@@ -1179,7 +1145,7 @@ function postUpdate() {
 		var isDirect = tweet.match(/^d(\s){1}(\w+?)(\s+)(\w+)/);	
 		if (!replyCheckHidden && replyChecked && replyTweetId > 0) {
 			jsdump("Replying");
-			Social.service("twitter").postReply({
+			Social.service(Ctx.service).postReply({
 				username: getUsername(),
 				password: getPassword(),
 				onSuccess: postUpdateSuccess,
@@ -1189,7 +1155,7 @@ function postUpdate() {
 			});
 		} else if (isDirect) {
 			jsdump("Posting (direct)");
-			Social.service("twitter").postUpdate({
+			Social.service(Ctx.service).postUpdate({
 				username: getUsername(),
 				password: getPassword(),
 				onSuccess: function(response) { postDirectSuccess(tweet); postUpdateSuccess(response); },
@@ -1198,7 +1164,7 @@ function postUpdate() {
 			});				
 		} else {
 			jsdump("Posting (no reply not direct)");
-			Social.service("twitter").postUpdate({
+			Social.service(Ctx.service).postUpdate({
 				username: getUsername(),
 				password: getPassword(),
 				onSuccess: postUpdateSuccess,

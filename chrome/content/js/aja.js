@@ -101,24 +101,25 @@ function Aja() {
 		_reqPool[pos].freed = 1
 	}
 	
-	function exec(username,password,url,callback,error,method) {
+	function exec(method,url,options) {
+		if (options === undefined) {
+			options = {};
+		}	
 		var _reqPoolIndex = getXmlReqIndex()
 		var _httpReq = _reqPool[_reqPoolIndex];
 		var _http = _httpReq.http;
+		var _json = (options.format === undefined || options.format.match(/^[Jj].*/)) ;
 		if (_http) {
-			_http.overrideMimeType('application/json');
-			jsdump('_ajax opening ===> ' + url);
+			if (_json) {
+				_http.overrideMimeType('application/json');
+			}
 			_http.open(method,url,true);	
-			
-			if (username != null && username != undefined && username != "" &&
-				  password != null && password != undefined && password != "") {
-				//_http.open(method,url,true,username,password);	
-				var tok = username + ':' + password;
+			if (options.username != undefined && options.username != null && options.username != "" &&
+				  options.password != undefined && options.password != null && options.password != "") {
+				var tok = options.username + ':' + options.password;
 				var hash = Base64.encode(tok);
 				_http.setRequestHeader('Authorization', 'Basic ' + hash);
-			} //else {
-				//_http.open(method,url,true);	
-			//}
+			}
 			_http.onreadystatechange = function() {
 				if (_http.readyState == 4) {
 					if (_http.status == 200 || _http.status == 304) {
@@ -126,23 +127,25 @@ function Aja() {
 						if (_http.responseText) {
 							result = _http.responseText;
 							result = result.replace(/[\n\r]/g,"");
-							result = eval('('+result+')');
+							if (_json) {
+								result = eval('('+result+')');
+							}
 						}
-						if (callback) {
-							callback(result);
+						if (options.onSuccess) {
+							options.onSuccess(result);
 						}
 					} else {
-						if (error) {
+						if (options.onError) {
 							var status = 100;
 							if (_http.status != null && _http.status != undefined) {
 								status = _http.status;
 							}
+							options.onError(status); 
 							result = { 'error': status };
-							if (callback) {
-								callback(result);	
-							}
-							error(status); 
 						}
+					}
+					if (options.onComplete) {
+						options.onComplete(result);	
 					}
 					freeXmlReq(_reqPoolIndex);
 				}
@@ -156,11 +159,19 @@ function Aja() {
 		}
 	}
 
-	this.get = function(username,password,url,callback,error) {
-		return exec(username,password,url,callback,error,"GET");
+	this.get = function(url,options) {
+		return exec("GET",url,options);
 	}
 
-	this.post = function(username,password,url,callback,error) {
-		return exec(username,password,url,callback,error,"POST");
+	this.post = function(url,options) {
+		return exec("POST",url,options);
+	}
+	
+	this.put = function(url,options) {
+		return exec("PUT",url,options);
+	}
+	
+	this.delete = function(url,options) {
+		return exec("DELETE",url,options);
 	}
 }

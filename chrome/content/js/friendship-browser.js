@@ -38,7 +38,7 @@ function unfollow(myUsername,myPassword,hisUserId) {
 	var check = document.getElementById('check-' + myUsername);
 	check.style.display='none';
 
-	Social.service("twitter").unfollow({
+	Social.service(Ctx.service).unfollow({
 		"username":myUsername,
 		"password":myPassword,
 		"userId":hisUserId,
@@ -64,7 +64,7 @@ function follow(myUsername,myPassword,hisUserId) {
 	check.style.display='none';
 	var hisUsername = document.getElementById('hisUsername').value;
 
-	Social.service("twitter").follow({
+	Social.service(Ctx.service).follow({
 		"username":myUsername,
 		"password":myPassword,
 		"screenName":hisUserId,

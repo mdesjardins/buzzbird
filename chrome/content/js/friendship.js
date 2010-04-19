@@ -34,7 +34,7 @@ function onOk() {
 }
 
 function populateUserInfo(myUsername, myPassword, hisUserId) {
-	Social.service("twitter").fetchUserProfile({
+	Social.service(Ctx.service).fetchUserProfile({
 		"username":myUsername,
 		"password":myPassword,
 		"queriedUserId":hisUserId,
@@ -125,7 +125,7 @@ function friendshipOnLoad() {
 
 function getStatus(hisUserId,myUsername,myPassword) {
 	jsdump('Getting friendship status for ' + hisUserId + ' and ' + myUsername);
-	Social.service("twitter").isFollowing({
+	Social.service(Ctx.service).isFollowing({
 		"username":myUsername,
 		"password":myPassword,
 		"sourceScreenName":myUsername,

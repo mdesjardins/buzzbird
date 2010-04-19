@@ -95,7 +95,7 @@ var Twitter = {
 	fetchTimeline : function(options) {
 		var url = this.url.fetchTimeline;
 		url = this._initUrl(url, options.count, options.since, null);
-		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(url,options);
 	},
 	
 	// Fetches mentions of the user.
@@ -110,7 +110,7 @@ var Twitter = {
 	fetchMentions : function(options) {
 		var url = this.url.fetchMentions;
 		url = this._initUrl(url, options.count, options.since, null);
-		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(url,options);
 	},
 	
 	// Fetches direct messages to this user (i.e., received)
@@ -124,7 +124,7 @@ var Twitter = {
 	fetchDirectTo : function(options) {
 		var url = this.url.fetchDirectTo;
 		url = this._initUrl(url, options.count, options.since, null);
-		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(url,options);
 	},
 
 	// Fetches direct messages from this user (i.e., sent).
@@ -138,7 +138,7 @@ var Twitter = {
 	fetchDirectFrom : function(options) {
 		var url = this.url.fetchDirectFrom;
 		url = this._initUrl(url, options.count, options.since, null);
-		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(url,options);
 	},
 	
 	// Fetches another user's timeline (not the logged in user's)
@@ -153,7 +153,7 @@ var Twitter = {
 	fetchUserTimeline : function(options) {
 		var url = this.url.fetchUserTimeline;
 		url = this._initUrl(url, options.count, null, options.queriedUserId);
-		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(url,options);
 	},
 	
 	// Fetches a user's profile.
@@ -173,7 +173,7 @@ var Twitter = {
 		} else if (options.queriedScreenName != undefined) {
 			url = url + options.queriedScreenName + '.json';			
 		}
-		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(url,options);
 	},	
 	
 	// Fetches a single tweet.
@@ -188,7 +188,7 @@ var Twitter = {
 		var url = this.url.fetchSingleUpdate;
 		url = this._initUrl(url, null, null, null);
 		url = url.replace('STATUS_ID',options.statusId);
-		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(url,options);
 	},	
 	
 	// Posts a status update.
@@ -205,7 +205,7 @@ var Twitter = {
 		url = url.replace('STATUS', encodeURIComponent(options.text));
 		// Need to un-encode at signs or replies will not work.	
 		url = url.replace(/%40/g, '@');
-		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.post(url,options);
 	},
 	
 	// Posts a reply to an existing status update.
@@ -224,7 +224,7 @@ var Twitter = {
 		// Need to un-encode at signs or replies will not work.	
 		url = url.replace(/%40/g, '@');
 		url = url + '&in_reply_to_status_id=' + options.replyingToId;
-		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.post(url,options);
 	},
 	
 	// Posts an echo of an update (this corresponds to twitter's auto-retweet feature)
@@ -239,7 +239,7 @@ var Twitter = {
 		var url = this.url.postEcho;
 		url = this._initUrl(url,null,null,null);
 		url = url.replace('RETWEET_ID', options.echoId);
-		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.post(url,options);
 	},
 	
 	// Delete's a user's existing post.
@@ -253,7 +253,7 @@ var Twitter = {
 	deletePost: function(options) {
 		var url = this.url.deletePost;
 		url = url.replace('DELETE_ID', options.deleteId);
-		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);		
+		return this._ajax.post(url,options);		
 	},
 	
 	// Posts an echo of an update (this corresponds to twitter's auto-retweet feature)
@@ -267,7 +267,7 @@ var Twitter = {
 	favorite : function(options) {
 		var url = this.url.favorite;
 		url = url.replace('UPDATE_ID', options.updateId);
-		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);		
+		return this._ajax.post(url,options);		
 	},
 
 	// Starts following a user.
@@ -288,9 +288,9 @@ var Twitter = {
 		} else if (options.screenName != undefined) {
 			url = url + '?screen_name=' + options.screenName;
 		} else {
-			return null; // TODO THROW EXCEPTION
+			throw "Screen Name or User ID required.";
 		}
-		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);		
+		return this._ajax.post(url,options);		
 	},
 	
 	// Stops following a user.
@@ -311,10 +311,10 @@ var Twitter = {
 		} else if (options.screenName != undefined) {
 			url = url + '?screen_name=' + options.screenName;
 		} else {
-			return null; // TODO THROW EXCEPTION
+			throw "Screen Name or User ID required."
 		}
 		jsdump('unfollow URL=' + url);
-		return this._ajax.post(options.username, options.password, url, options.onSuccess, options.onError);		
+		return this._ajax.post(url,options);
 	},
 
 	// Checks to see if two users are following each other.
@@ -339,7 +339,7 @@ var Twitter = {
 		} else if (options.sourceScreenName != undefined) {
 			url = url + '?source_screen_name=' + options.sourceScreenName;
 		} else {
-			return null; // TODO THROW EXCEPTION
+			throw "Source Screen Name or User ID required.";
 		}
 
 		if (options.targetUserId != undefined) {
@@ -347,11 +347,11 @@ var Twitter = {
 		} else if (options.targetScreenName != undefined) {
 			url = url + '&target_screen_name=' + options.targetScreenName;
 		} else {
-			return null; // TODO THROW EXCEPTION
+			throw "Target Screen Name or User ID required.";
 		}
 		
 		jsdump('isFollowing URL=' + url);
-		return this._ajax.get(null, null, url, options.onSuccess, options.onError);		
+		return this._ajax.get(url,options);	
 	},
 	
 	// Fetches the user's timeline.
@@ -365,7 +365,7 @@ var Twitter = {
 		var url = this.url.fetchLists;
 		url = this._initUrl(url, options.count, options.since, null);
 		url = url.replace('QUERIED_SCREEN_NAME',options.username);
-		return this._ajax.get(options.username, options.password, url, options.onSuccess, options.onError);
+		return this._ajax.get(url,options);
 	},
 	
 	// Verifies the credentials of a user.  On failure, returns null,
@@ -374,7 +374,9 @@ var Twitter = {
 	//
 	verifyCredentials : function(username,password) {
 		var req = new XMLHttpRequest();
-		req.mozBackgroundRequest = true;
+		if (req.mozBackgroundRequest !== undefined) {
+			req.mozBackgroundRequest = true;
+		}
 		req.open('GET',this.url.verifyCredentials,false,username,password);
 		req.send(null);
 

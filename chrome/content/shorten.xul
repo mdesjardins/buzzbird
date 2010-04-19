@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
 <!--
-Copyright (c) 2009 Mike Desjardins
+Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +27,28 @@ THE SOFTWARE.
 		title="Shorten URL"
 		buttons="accept,cancel"
 		onload="onShortenLoad();"
-	  	ondialogaccept="onShortenOk();"
+	  ondialogaccept="onShortenOk();"
 		ondialogcancel="onShortenCancel();"
 		buttonlabelaccept="Shorten URL"
 		buttonaccesskeyaccept="S">
+	
+	<script type="application/javascript">
+		//Alter the dialog to display correct contents
+		function onShortenLoad() {
+			var shortUrlProvider = window.arguments[0].inn.shortUrlProvider;
+			var dialogHeader = document.getElementsByTagName("dialogheader")[0];
+			dialogHeader.setAttribute('description','Using the ' + shortUrlProvider +' URL shortening service');
+		}
+
+		function onShortenOk() {
+			window.arguments[0].out = {urlid:document.getElementById("urlid").value};
+			return true;
+		}
+
+		function onShortenCancel() {
+			return true;
+		}
+	</script>
 	
 	<script type="application/javascript" src="chrome://buzzbird/content/js/main.js" />
 	<vbox align="center">
