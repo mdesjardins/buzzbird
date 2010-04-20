@@ -182,6 +182,14 @@ function renderNewTweets(newTweets,doNotifications) {
 						Notify.notify("Direct Message", sticky, tweet.sender.profile_image_url, "Direct Message from @" + tweet.sender.screen_name, tweet.text);
 					}
 				}
+
+				Global.unread = Global.unread + 1;
+				if (type == "direct-from") {
+					Global.unreadDirectFrom++;
+				} else if (type == "reply") {
+					Global.unreadMentions++;
+				}
+
 				newCount++;
 				newText = formatTweet(tweet,Ctx.user,Ctx.password) + newText;
 			}
@@ -205,6 +213,8 @@ function renderNewTweets(newTweets,doNotifications) {
 			var difference = new_max_y - max_y;
 			getBrowser().contentWindow.scrollTo(x,y + difference);
 		}
+		
+		updateWindowTitle();
 	}
 }
 
@@ -321,49 +331,52 @@ function countUnread() {
 		function doWork() {
 			if (markers !== undefined && markers[i] !== undefined) {
 				if (markers[i].src == 'chrome://buzzbird/skin/images/actions/unread.png') {
-					unread.tweet = unread.tweet + 1;
+					Global.unread = Global.unread + 1;
 					if (markers[i].getAttribute('tweetType') == "direct-from") {
-						unread.directFrom++;
+						Global.unreadDirectFrom++;
 					} else if (markers[i].getAttribute('tweetType') == "reply") {
-						unread.mentions++;
+						Global.unreadMentions++;
 					}
 				}
 				i++;
 				if (i < len) {
-					setTimeout(doWork,5);
+					setTimeout(doWork,10);
 				} else {
-					jsdump("Unread: " + unread.tweet + ", Unread mentions: " + unread.mentions + ", Unread direct: " + unread.directFrom);				
-					updateWindowTitle(unread);
+					updateWindowTitle();
 				}
 			}
 		}
-		setTimeout(doWork,5);
+		setTimeout(doWork,10);
 	} else {
 		jsdump('None unread?');
-		updateWindowTitle(unread);
+		Global.unread = 0;
+		Global.unreadMentions = 0;
+		Global.unreadDirectFrom = 0;
+		updateWindowTitle();
 	}
 }
 
 // Puts unread counters in the titlebar.
 //
-function updateWindowTitle(unread) {
+function updateWindowTitle() {
+	jsdump("Updating the window title... unread is " + Global.unread + ", direct " + Global.unreadDirectFrom + ", mentions " + Global.unreadMentions);
 	var windowTitlePref = getStringPref('buzzbird.window.title','both');
 	var windowTitle = "Buzzbird";
 	if (windowTitlePref == 'all') {
-		if (unread.tweet > 0) {
-			windowTitle = windowTitle + " (" + unread.tweet + " unread)"
+		if (Global.unread > 0) {
+			windowTitle = windowTitle + " (" + Global.unread + " unread)"
 		}
 	} else if (windowTitlePref == 'both') {
-		if (unread.directFrom > 0 && unread.mentions > 0) {
-			windowTitle = windowTitle + " (" + unread.directFrom + " unread direct, " + unread.mentions + " unread mentions)"
-		} else if (unread.directFrom > 0 && unread.mentions == 0) {
-			windowTitle = windowTitle + " (" + unread.directFrom + " unread direct)"
-		} else if (unread.directFrom == 0 && unread.mentions > 0) {
-			windowTitle = windowTitle + " (" + unread.mentions + " unread mentions)"
+		if (Global.unreadDirectFrom > 0 && Global.unreadMentions > 0) {
+			windowTitle = windowTitle + " (" + Global.unreadDirectFrom + " unread direct, " + Global.unreadMentions + " unread mentions)"
+		} else if (Global.unreadDirectFrom > 0 && Global.unreadMentions == 0) {
+			windowTitle = windowTitle + " (" + Global.unreadDirectFrom + " unread direct)"
+		} else if (Global.unreadDirectFrom == 0 && Global.unreadMentions > 0) {
+			windowTitle = windowTitle + " (" + Global.unreadMentions + " unread mentions)"
 		}
 	} else if (windowTitlePref == 'direct') {
-		if (unread.directFrom > 0) {
-			windowTitle = windowTitle + " (" + unread.directFrom + " unread direct)"
+		if (Global.unreadDirectFrom > 0) {
+			windowTitle = windowTitle + " (" + Global.unreadDirectFrom + " unread direct)"
 		}
 	} 
 	document.title = windowTitle;	
@@ -372,8 +385,10 @@ function updateWindowTitle(unread) {
 // Marks all as read.
 //
 function markAllAsRead() {
-	unread = {'tweet':0, 'mentions':0, 'directFrom':0};
-	updateWindowTitle(unread);
+	Global.unread = 0;
+	Global.unreadMentions = 0;
+	Global.unreadDirectFrom = 0;
+	updateWindowTitle();
 	var markers = getBrowser().contentDocument.getElementsByClassName('mark');
 	var ids = new Array();
 	var len = markers.length;
@@ -1032,7 +1047,7 @@ function fetchFinished() {
 	}
 	updateLengthDisplay();		
 	refreshAllowed(true);
-	countUnread();
+	//countUnread();  moved into the renderTweets loop to try to save some CPU.
 	getChromeElement('accountbuttonid').disable=false;
 	setTimeout("function proxy(that) {that.updateTimestamps()}; proxy(getMainWindow());",1000);
 }

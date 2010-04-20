@@ -33,4 +33,7 @@ var Ctx = {
 // Other Global junk
 var Global = {
 	updateTimer:null,
+	unread:0,
+	unreadDirectFrom:0,
+	unreadMentions:0
 }
