@@ -59,7 +59,7 @@ function reopen(params) {
 //
 function viewOneTweet(tweetId) {
   var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
-  var params = {'tweetId':tweetId, 'username':getUsername(), 'password':getPassword()};
+  var params = {'tweetId':tweetId, 'username':Ctx.user, 'password':Ctx.password};
   window.openDialog("chrome://buzzbird/content/onetweet.xul", "", features, params);	
   if (params.out) {
 	reopen(params);
@@ -71,7 +71,7 @@ function viewOneTweet(tweetId) {
 function showUser(userId) {
   jsdump('in showUser for userId ' + userId);
   var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
-  var params = {'userId':userId, 'username':getUsername(), 'password':getPassword()}
+  var params = {'userId':userId, 'username':Ctx.user, 'password':Ctx.password}
   window.openDialog("chrome://buzzbird/content/user.xul", "", features, params);
   if (params.out) {
 	reopen(params);
@@ -190,8 +190,8 @@ function retweet(id) {
 	if (configMethod == 'A') {
 		jsdump("Posting Echo (auto retweet)");
 		Social.service(Ctx.service).postEcho({
-			username: getUsername(),
-			password: getPassword(),
+			username: Ctx.user,
+			password: Ctx.password,
 			echoId: id,
 			onSuccess: function() {
 				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
@@ -218,8 +218,8 @@ function retweet(id) {
 //
 function favorite(id) {
 	Social.service(Ctx.service).favorite({
-		username: getUsername(),
-		password: getPassword(),
+		username: Ctx.user,
+		password: Ctx.password,
 		updateId: id,
 		onSuccess: favoriteCallback,
 		onError: function(status) {
@@ -249,8 +249,8 @@ function stopFollowingTweeter(id) {
 	if (result) {
 		jsdump('Unfollowing ' + user);
 		Social.service(Ctx.service).unfollow({
-			username: getUsername(),
-			password: getPassword(),
+			username: Ctx.user,
+			password: Ctx.password,
 			screenName: user,
 			onSuccess: stopFollowingTweeterCallback,
 			onError: function(status) {
@@ -321,8 +321,8 @@ function deleteTweet(id) {
 	var result = prompts.confirm(window, "Confirm", 'Do you want to delete this tweet?  There is no Undo!');
 	if (result) {
 		Social.service(Ctx.service).deletePost({
-			username: getUsername(),
-			password: getPassword(),
+			username: Ctx.user,
+			password: Ctx.password,
 			deleteId: id,
 			onSuccess: function(transport) { deleteTweetCallback(id,transport); },
 			onError: function(status) {

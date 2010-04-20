@@ -46,40 +46,6 @@ function getChromeElement(id) {
 	return getMainWindow().document.getElementById(id);
 }
 
-// Returns the username from the UI.
-//
-function getUsername() {
-	return getChromeElement('usernameLabelId').value;
-}
-function setUsername(username) {
-	getChromeElement('usernameLabelId').value=username;
-}
-
-// Returns the password from the UI.
-//
-function getPassword() {
-	return getChromeElement('passwordLabelId').value;
-}
-function setPassword(password) {
-	getChromeElement('passwordLabelId').value=password;
-}
-
-// Returns the list from the UI.
-//
-function getList() {
-	return getChromeElement('listLabelId').value;
-}
-function setList(list) {
-	getChromeElement('listLabelId').value=list;
-}
-
-
-// Returns the update timer ID from the UI.
-//
-function getUpdateTimer() {
-	return getChromeElement('updateTimerId').value;
-}
-
 // Wrappers for fetching/setting a boolean preference.
 //
 function getBoolPref(prefname,def) {
@@ -186,14 +152,6 @@ function jsdump(str) {
 	Components.classes['@mozilla.org/consoleservice;1']
     		.getService(Components.interfaces.nsIConsoleService)
             .logStringMessage(str);
-}
-
-// Requires base64
-//
-function makeBaseAuth(user, password) {
-  var tok = user + ':' + password;
-  var hash = Base64.encode(tok);
-  return "Basic " + hash;
 }
 
 // Returns 'tweet','reply','direct', or 'mine'

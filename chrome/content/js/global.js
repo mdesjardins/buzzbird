@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-var EXPORTED_SYMBOLS = ["Ctx"];  
+var EXPORTED_SYMBOLS = ["Ctx","Global"];  
 
 // Current Context
 var Ctx = {
@@ -30,3 +30,7 @@ var Ctx = {
 	list:""
 };
 
+// Other Global junk
+var Global = {
+	updateTimer:null,
+}
