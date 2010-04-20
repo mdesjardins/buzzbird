@@ -156,6 +156,7 @@ function renderNewTweets(newTweets,doNotifications) {
 		var max_y = getBrowser().contentWindow.scrollMaxY;
 		var newCount = 0;
 		var newText = '';
+		var unread = {'tweet': 0, 'mentions': 0, 'directFrom': 0};
 		
 		for (var i=0; i<newTweets.length; i++) {
 			var tweet = newTweets[i]
@@ -308,7 +309,7 @@ function showOrHide(tweetType,disp) {
 	getChromeElement('filterbuttonid').disabled=false;
 }
 
-// Counts unread tweets by category.
+// Counts unread tweets by category.  This uses way too much CPU.  :(
 //
 function countUnread() {
 	var markers = getBrowser().contentDocument.getElementsByClassName('mark');
