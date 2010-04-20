@@ -35,7 +35,6 @@ THE SOFTWARE.
         title="Buzzbird">
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/base64.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
@@ -256,10 +255,6 @@ THE SOFTWARE.
 			<hbox pack="5">
 				<!-- Hidden thingies -->
 				<label id="realnameLabelId" value="Testy Tester" hidden="true"/>
-				<label id="usernameLabelId" value="" hidden="true" />
-				<label id="passwordLabelId" hidden="true" />
-				<label id="listLabelId" hidden="true" />
-				<label id="updateTimerId" hidden="true" />
 				<label id="avatarLabelId" hidden="true" />
 				<label id="showingAllTweetsId" hidden="true" value="&showingAllTweets.label;" />
 				<label id="showingRepliesId" hidden="true" value="&showingReplies.label;" />

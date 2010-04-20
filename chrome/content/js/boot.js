@@ -88,15 +88,11 @@ function firstLogin(u,p,service,save) {
 	password = p;
 	
 	if (login(username,password,service)) {
-		getChromeElement('usernameLabelId').value = username;
-		getChromeElement('passwordLabelId').value = password;
 		if (save) {
 			saveCredentials(username,password);
 		}
 		var interval = getIntPref('buzzbird.update.interval',180000);
-		jsdump('interval=' + interval);
-		var updateTimer = getMainWindow().setInterval( function(that) { that.cycleFetch(); }, interval, getMainWindow());
-		getChromeElement('updateTimerId').value = updateTimer;
+		Global.updateTimer = getMainWindow().setInterval( function(that) { that.cycleFetch(); }, interval, getMainWindow());
 		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 	} else {
 		message("");

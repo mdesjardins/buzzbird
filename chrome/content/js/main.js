@@ -159,7 +159,7 @@ function renderNewTweets(newTweets,doNotifications) {
 		
 		for (var i=0; i<newTweets.length; i++) {
 			var tweet = newTweets[i]
-			var type = tweetType(tweet,getUsername(),getPassword());
+			var type = tweetType(tweet,Ctx.user,Ctx.password);
 			if ((type == 'tweet' || type == 'reply' || type == 'mine') &&
 			    (mostRecentTweet == null || mostRecentTweet < tweet.id)) {
 				mostRecentTweet = tweet.id;
@@ -182,7 +182,7 @@ function renderNewTweets(newTweets,doNotifications) {
 					}
 				}
 				newCount++;
-				newText = formatTweet(tweet,getUsername(),getPassword()) + newText;
+				newText = formatTweet(tweet,Ctx.user,Ctx.password) + newText;
 			}
 		}
 		insertAtTop(newText);
@@ -524,8 +524,7 @@ function goToUser() {
 	  if (params.out.handle.match(/^@.*?/)) {
 		params.out.handle = params.out.handle.substring(1);
 	  }
-	  jsdump("Going to user. userId:" + params.out.handle + ", username:" + getUsername() + ", password:" + getPassword());
-	  var params = {'userId':params.out.handle, 'username':getUsername(), 'password':getPassword()}
+	  var params = {'userId':params.out.handle, 'username':Ctx.user, 'password':Ctx.password}
 	  window.openDialog("chrome://buzzbird/content/user.xul", "", features, params);
 	  if (params.out) {
 		if (params.out.action == 'friend') {
@@ -679,14 +678,11 @@ function updateLoginList() {
 
 function switchUser(u,p,s) {	
 	jsdump('switchuser');
-	var oldusername = getUsername();
+	var oldusername = Ctx.username;
 	if (login(u,p,s)) {	
 		jsdump('loggedin');
 		var loginButton = getChromeElement('accountbuttonid');
 		loginButton.label = u;
-		jsdump('set label to ' + u);
-		setUsername(u);
-		setPassword(p);
 		if (oldusername != null && oldusername != undefined && oldusername != "") {
 			getChromeElement('accountmenu-' + oldusername).setAttribute("checked","false");
 		}
@@ -694,9 +690,6 @@ function switchUser(u,p,s) {
 		mostRecentTweet = null;
 		mostRecentDirect = null;
 		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
-	} else {
-		username = getUsername();
-		password = getPassword();
 	}
 }
 
@@ -931,7 +924,7 @@ function start() {
 	var zoom = getIntPref("buzzbird.zoom",100);
 	var docViewer = getBrowser().markupDocumentViewer;
 	docViewer.fullZoom = zoom/100.0;
-	//updateLists(getUsername(),getPassword());	
+	//updateLists(Ctx.user,Ctx.password);	
 	firstCycleFetch();
 }
 
@@ -952,10 +945,10 @@ function fetch() {
 // First cycle... fetch direct, mentions, then timeline...
 //
 function firstCycleFetch() {
-	jsdump('firstCycleFetch, list: ' + getList());
+	jsdump('firstCycleFetch, list: ' + Ctx.list);
 	Social.service(Ctx.service).fetchDirectTo({
-		username: getUsername(),
-		password: getPassword(),
+		username: Ctx.user,
+		password: Ctx.password,
 		onSuccess: firstCycleFetchDirectCallback,
 		onError: fetchError,
 		count: 50,
@@ -964,11 +957,11 @@ function firstCycleFetch() {
 }
 
 function firstCycleFetchDirectCallback(tweets) {
-	jsdump('firstCycleFetchDirectCallback, list: ' + getList());
+	jsdump('firstCycleFetchDirectCallback, list: ' + Ctx.list);
 	renderNewTweets(tweets,false);
 	Social.service(Ctx.service).fetchMentions({
-		username: getUsername(),
-		password: getPassword(),
+		username: Ctx.user,
+		password: Ctx.password,
 		onSuccess: firstCycleFetchMentionsCallback,
 		onError: fetchError,
 		count: 50,
@@ -977,11 +970,11 @@ function firstCycleFetchDirectCallback(tweets) {
 }
 
 function firstCycleFetchMentionsCallback(tweets) {
-	jsdump('firstCycleFetchMentionsCallback, list: ' + getList());
+	jsdump('firstCycleFetchMentionsCallback, list: ' + Ctx.list);
 	renderNewTweets(tweets,false);
 	Social.service(Ctx.service).fetchTimeline({
-		username: getUsername(),
-		password: getPassword(),
+		username: Ctx.user,
+		password: Ctx.password,
 		onSuccess: firstCycleFetchTimelineCallback,
 		onError: fetchError,
 		count: 50,
@@ -990,7 +983,7 @@ function firstCycleFetchMentionsCallback(tweets) {
 }
 
 function firstCycleFetchTimelineCallback(tweets) {
-	jsdump('firstCycleFetchTimelineCallback, list: ' + getList());
+	jsdump('firstCycleFetchTimelineCallback, list: ' + Ctx.list);
 	renderNewTweets(tweets,false);
 	fetchFinished();
 }
@@ -998,11 +991,11 @@ function firstCycleFetchTimelineCallback(tweets) {
 // Regular cycle... direct, then timeline...
 //
 function cycleFetch() {
-	jsdump('cycleFetch, list: ' + getList());
+	jsdump('cycleFetch, list: ' + Ctx.list);
 	getChromeElement('accountbuttonid').disable=true;
 	Social.service(Ctx.service).fetchDirectTo({
-		username: getUsername(),
-		password: getPassword(),
+		username: Ctx.user,
+		password: Ctx.password,
 		onSuccess: cycleFetchDirectToCallback,
 		onError: fetchError,
 		count: 50,
@@ -1012,11 +1005,11 @@ function cycleFetch() {
 }
 
 function cycleFetchDirectToCallback(tweets) {
-	jsdump('cycleFetchDirectCallback, list: ' + getList());
+	jsdump('cycleFetchDirectCallback, list: ' + Ctx.list);
 	renderNewTweets(tweets,true);
 	Social.service(Ctx.service).fetchTimeline({
-		username: getUsername(),
-		password: getPassword(),
+		username: Ctx.user,
+		password: Ctx.password,
 		onSuccess: cycleFetchTimelineCallback,
 		onError: fetchError,
 		count: 50,
@@ -1025,7 +1018,7 @@ function cycleFetchDirectToCallback(tweets) {
 }
 
 function cycleFetchTimelineCallback(tweets) {
-	jsdump('cycleFetchTimelineCallback, list: ' + getList());
+	jsdump('cycleFetchTimelineCallback, list: ' + Ctx.list);
 	renderNewTweets(tweets,true);
 	fetchFinished();
 }
@@ -1114,13 +1107,13 @@ function postDirectSuccess(tweet) {
 		source : ""
 	};
 	fakeTweet.text = "Directly to " + tweet.substring(2);
-	fakeTweet.sender = getUsername();
-	fakeTweet.user.screen_name = getUsername();
+	fakeTweet.sender = Ctx.user;
+	fakeTweet.user.screen_name = Ctx.user;
 	fakeTweet.user.profile_image_url = getChromeElement("avatarLabelId").value;
 	fakeTweet.user.name = getChromeElement("realnameLabelId").value;
 	fakeTweet.in_reply_to_screen_name = "";
 	fakeTweet.sender = undefined;
-	insertAtTop(formatTweet(fakeTweet,getUsername(),getPassword()));
+	insertAtTop(formatTweet(fakeTweet,Ctx.user,Ctx.password));
 }
 
 // Called by postUpdateSuccess and postUpdateError
@@ -1146,8 +1139,8 @@ function postUpdate() {
 		if (!replyCheckHidden && replyChecked && replyTweetId > 0) {
 			jsdump("Replying");
 			Social.service(Ctx.service).postReply({
-				username: getUsername(),
-				password: getPassword(),
+				username: Ctx.user,
+				password: Ctx.password,
 				onSuccess: postUpdateSuccess,
 				onError: postUpdateError,	
 				text: tweet,
@@ -1156,8 +1149,8 @@ function postUpdate() {
 		} else if (isDirect) {
 			jsdump("Posting (direct)");
 			Social.service(Ctx.service).postUpdate({
-				username: getUsername(),
-				password: getPassword(),
+				username: Ctx.user,
+				password: Ctx.password,
 				onSuccess: function(response) { postDirectSuccess(tweet); postUpdateSuccess(response); },
 				onError: postUpdateError,	
 				text: tweet		
@@ -1165,8 +1158,8 @@ function postUpdate() {
 		} else {
 			jsdump("Posting (no reply not direct)");
 			Social.service(Ctx.service).postUpdate({
-				username: getUsername(),
-				password: getPassword(),
+				username: Ctx.user,
+				password: Ctx.password,
 				onSuccess: postUpdateSuccess,
 				onError: postUpdateError,	
 				text: tweet		
