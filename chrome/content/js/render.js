@@ -175,7 +175,7 @@ function formatTweet(tweet,username,password) {
 		if (src != undefined && src != null && src.length == 3) {
 			href = src[1]
 			href = href.replace(/&/g, '%26');
-			via = " <span class=\"" + c.via + "\"> posted from <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('" + href + "')\">" + src[2] + "</a></span>";
+			via = " <span class=\"" + c.via + "\"> posted from <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('" + href + "')\">" + sanitize(src[2]) + "</a></span>";
 		}
 	} 
 

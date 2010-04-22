@@ -11,6 +11,10 @@ pref("network.protocol-handler.warn-external.ftp", false);
 pref("browser.chrome.tooltips.attrlist.enabled", true);
 pref("browser.chrome.tooltips.attrlist", "alt|src|data|title|href|cite|action|onclick|onmouseover|onsubmit");
 
+pref("browser.cache.disk.enable", true);
+pref("nglayout.debug.disable_xul_cache", false);
+pref("nglayout.debug.disable_xul_fastload", false);
+
 // Needed for preferences window (see https://developer.mozilla.org/en/Preferences_System, or mozilla bug 302509)
 //pref("browser.preferences.animateFadeIn", false);
 //pref("browser.preferences.instantApply", true);
