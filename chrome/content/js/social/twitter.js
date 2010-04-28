@@ -39,7 +39,8 @@ var Twitter = {
 		follow: true,
 		unfollow: true,
 		isFollowing: true,
-		verifyCredentials: true
+		verifyCredentials: true,
+		xAuth: true;
 	},
 	
 	url : {

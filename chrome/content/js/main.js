@@ -32,18 +32,19 @@ parser = new DOMParser();
 // by the login function.
 //
 function login(username,password,service) {
-	var user = Social.service(service).verifyCredentials(username,password);
-	if (user == null) {
+	var token = Social.service(service).verifyCredentials(username,password);
+	if (token == null) {
 		return false;
 	} else {
 		Ctx.user = username;
 		Ctx.password = password;
 		Ctx.list = null;
 		Ctx.service = service;
-		var img = user.profile_image_url;
-		getChromeElement('avatarLabelId').value = img;
-		getChromeElement('realnameLabelId').value = user.name;
-		return true;	
+		Ctx.token = token;
+		// var img = user.profile_image_url;
+		// getChromeElement('avatarLabelId').value = img;
+		// getChromeElement('realnameLabelId').value = user.name;
+		return token;	
 	}
 }
 

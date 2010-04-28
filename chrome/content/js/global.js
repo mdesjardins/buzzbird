@@ -27,6 +27,7 @@ var Ctx = {
 	user:"",
 	password:"",
 	service:"",
+	token:"",
 	list:""
 };
 

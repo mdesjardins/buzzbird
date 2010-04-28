@@ -27,36 +27,68 @@ THE SOFTWARE.
  * login info.
  */
 
-var passwordManager = Components.classes["@mozilla.org/login-manager;1"]
-                                .getService(Components.interfaces.nsILoginManager);
+//var passwordManager = Components.classes["@mozilla.org/login-manager;1"]
+//                                .getService(Components.interfaces.nsILoginManager);
 
-var hostname = 'localhost';
-var formSubmitURL = 'localhost';  
+//var hostname = 'localhost';
+//var formSubmitURL = 'localhost';  
 // twitter.com
 // realm = Twitter API
-var httprealm = null;
-var user = '';
-var password = '';
+//var httprealm = null;
+//var user = '';
+//var password = '';
 
 try {
 	// Get Login Manager 
-	var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+	var loginManager = Components.classes["@mozilla.org/login-manager;1"]
 		                         .getService(Components.interfaces.nsILoginManager);
 
-	// Find users for the given parameters
-	var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
-
-	// Find user from returned array of nsILoginInfo objects.  Just use the first
-	// one that we find for now.
+	// Cleanup old 'localhost' logins.  In an OAuth-only multi service world, these are no longer needed.
+	var logins = myLoginManager.findLogins({}, 'localhost', 'localhost', httprealm);
+	if (logins != null && logins.length > 0) {
+		for (var i=0, len=logins.length; i<len; i++) {
+			loginManager.removeLogin(logins[i]);
+		}
+	}
+	
+	// Look for Twitter logins. Grab the first usable one.
+	var logins = myLoginManager.findLogins({}, 'twitter.com', null, httprealm);
+	var user = null;
+	var password = null;
+	var service = null;
 	if (logins != null && logins.length > 0) {
 		user = logins[0].username;
 		password = logins[0].password;
-		firstLogin(user,password,"twitter",false);
+		service = 'twitter';
+	} 
+	if (user == null || password == null) {
+		// No twitter logins.  Try identi.ca
+		var logins = myLoginManager.findLogins({}, 'identi.ca', null, httprealm);
+		if (logins != null && logins.length > 0) {
+			user = logins[0].username;
+			password = logins[0].password;
+			service = 'identi.ca';
+		} 
+	}
+	if (user != null && password != null && service != null) {
+		firstLogin(user,password,service,false);		
+		updateLoginList();
+		getChromeElement('accountmenu-' + user).setAttribute("checked","true");
 	} else {
 		jsdump('No saved logins found.');	
 	}
-	updateLoginList();
-	getChromeElement('accountmenu-' + user).setAttribute("checked","true");
+	
+	// Find user from returned array of nsILoginInfo objects.  Just use the first
+	// one that we find for now.
+	// if (logins != null && logins.length > 0) {
+	// 	user = logins[0].username;
+	// 	password = logins[0].password;
+	// 	firstLogin(user,password,"twitter",false);
+	// } else {
+	// 	jsdump('No saved logins found.');	
+	// }
+	// updateLoginList();
+	// getChromeElement('accountmenu-' + user).setAttribute("checked","true");
 } catch (e) {
   // This will only happen if there is no nsILoginManager component class
   jsdump('Oops - failed at autologin: ' + e);
@@ -71,25 +103,25 @@ function checkEnter(e) {
 function manualFirstLogin() {
 	u = getBrowser().contentDocument.getElementById('username').value;
 	p = getBrowser().contentDocument.getElementById('password').value;
+	s = getBrowser().contentDocument.getElementById('service').value;
+	jsdump('service = ' + s);
 	save = getBrowser().contentDocument.getElementById('saveCredentials').checked;
-	firstLogin(u,p,"twitter",save);	
+	firstLogin(u,p,s,save);	
 }
 
 // Called if either the user enters login info, or we find a usable login in
 // the password manager.
-function firstLogin(u,p,service,save) {
+function firstLogin(username,password,service,save) {
 	message("Authenticating");
 	getBrowser().contentDocument.getElementById('loginThrobber').style.display = 'inline';
 	getBrowser().contentDocument.getElementById('username').disabled = true;
 	getBrowser().contentDocument.getElementById('password').disabled = true;
 	getBrowser().contentDocument.getElementById('loginOkButton').disabled = true;
 	
-	username = u;
-	password = p;
-	
-	if (login(username,password,service)) {
+	token = login(username,password,service)
+	if (token) {
 		if (save) {
-			saveCredentials(username,password);
+			saveCredentials(username,password,service,token);
 		}
 		var interval = getIntPref('buzzbird.update.interval',180000);
 		Global.updateTimer = getMainWindow().setInterval( function(that) { that.cycleFetch(); }, interval, getMainWindow());
@@ -107,23 +139,29 @@ function firstLogin(u,p,service,save) {
 
 // Save these credentials as the new default if it does not already exist.
 //
-function saveCredentials(username,password) {
-   var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+function saveCredentials(username,password,service,token) {
+	var loginManager = Components.classes["@mozilla.org/login-manager;1"]
 		                         .getService(Components.interfaces.nsILoginManager);
-   var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
+	var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
 	                                             Components.interfaces.nsILoginInfo,
 	                                             "init");
-   var loginInfo = new nsLoginInfo('localhost', 'localhost', null, username, password,
-	                                'username', 'password');
-   
-   // Make sure to delete old entries when trying to add the new details
-   var logins = myLoginManager.findLogins({}, 'localhost', 'localhost', null);
-   for (var i = 0; i < logins.length; i++) {
-      if (logins[i].username == username) {
-    	  myLoginManager.removeLogin(logins[i]);
-         break;
-      }
-   }    
-   myLoginManager.addLogin(loginInfo);
+
+	// Make sure to delete old entries when trying to add the new details
+	var logins = loginManager.findLogins({}, service, null, null);
+	for (var i=0, len=logins.length; i<len; i++) {
+		if (logins[i].username == username) {
+			loginManager.removeLogin(logins[i]);
+			break;
+		}
+	}    
+
+	var loginInfo = null;
+	if (Social.service(service).support.xAuth) {
+		loginInfo = new nsLoginInfo(service, null, null, username, token, '', '');
+	} else {
+		loginInfo = new nsLoginInfo(service, null, null, username, password, '', '');	
+  }
+
+  loginManager.addLogin(loginInfo);
 }
 
