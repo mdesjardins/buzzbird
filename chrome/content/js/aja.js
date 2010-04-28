@@ -225,6 +225,12 @@ function Aja() {
 				var hash = encode(tok);
 				_http.setRequestHeader('Authorization', 'Basic ' + hash);
 			}
+			for (var i=0, len=options.parameters.length; i<len; i+=2) {
+				var key = options.parameters[i];
+				var value = options.parameters[i+1];
+				jsdump('SETTING ' + key + ' TO ' + value);
+				_http.setRequestHeader(key,value);
+			}
 			_http.onreadystatechange = function() {
 				if (_http.readyState == 4) {
 					if (_http.status == 200 || _http.status == 304) {

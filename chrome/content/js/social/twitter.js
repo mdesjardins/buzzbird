@@ -94,6 +94,34 @@ var Twitter = {
 		return url;
 	},
 	
+	_addAuthHeader : function(url,method,options) {
+		jsdump('_addAuthHeader')
+		var opts = {
+			consumerKey: this.oauth.consumerKey,
+			consumerSecret: this.oauth.consumerSecret,
+			token: options.token,
+			tokenSecret: options.tokenSecret
+		};
+		var message = {
+			'method':method,
+			action:url,
+			parameters: []
+		}
+
+		OAuth.completeRequest(message,opts);
+		var authHeader = OAuth.getAuthorizationHeader('',message.parameters);
+		jsdump('authHeader='+authHeader);
+		
+		if (options.parameters === undefined) {
+			jsdump('NO PARAMETERS.')
+			options.parameters = [];
+		}
+
+		options.parameters.push('Authorization',authHeader)
+		jsdump("OPTIONS.PARAMETERS=" + options.parameters);
+		return options;
+	},
+	
 	// Fetches the user's timeline.
 	// Options:
 	//  username = username
@@ -106,6 +134,7 @@ var Twitter = {
 	fetchTimeline : function(options) {
 		var url = this.url.fetchTimeline;
 		url = this._initUrl(url, options.count, options.since, null);
+		options = this._addAuthHeader(url,'GET',options);
 		return this._ajax.get(url,options);
 	},
 	
@@ -121,6 +150,7 @@ var Twitter = {
 	fetchMentions : function(options) {
 		var url = this.url.fetchMentions;
 		url = this._initUrl(url, options.count, options.since, null);
+		options = this._addAuthHeader(url,'GET',options);
 		return this._ajax.get(url,options);
 	},
 	
@@ -135,6 +165,7 @@ var Twitter = {
 	fetchDirectTo : function(options) {
 		var url = this.url.fetchDirectTo;
 		url = this._initUrl(url, options.count, options.since, null);
+		options = this._addAuthHeader(url,'GET',options);
 		return this._ajax.get(url,options);
 	},
 
@@ -149,6 +180,7 @@ var Twitter = {
 	fetchDirectFrom : function(options) {
 		var url = this.url.fetchDirectFrom;
 		url = this._initUrl(url, options.count, options.since, null);
+		options = this._addAuthHeader(url,'GET',options);
 		return this._ajax.get(url,options);
 	},
 	
@@ -164,6 +196,7 @@ var Twitter = {
 	fetchUserTimeline : function(options) {
 		var url = this.url.fetchUserTimeline;
 		url = this._initUrl(url, options.count, null, options.queriedUserId);
+		options = this._addAuthHeader(url,'GET',options);
 		return this._ajax.get(url,options);
 	},
 	
@@ -184,6 +217,7 @@ var Twitter = {
 		} else if (options.queriedScreenName != undefined) {
 			url = url + options.queriedScreenName + '.json';			
 		}
+		options = this._addAuthHeader(url,'GET',options);
 		return this._ajax.get(url,options);
 	},	
 	
@@ -199,6 +233,7 @@ var Twitter = {
 		var url = this.url.fetchSingleUpdate;
 		url = this._initUrl(url, null, null, null);
 		url = url.replace('STATUS_ID',options.statusId);
+		options = this._addAuthHeader(url,'GET',options);
 		return this._ajax.get(url,options);
 	},	
 	
@@ -216,6 +251,7 @@ var Twitter = {
 		url = url.replace('STATUS', encodeURIComponent(options.text));
 		// Need to un-encode at signs or replies will not work.	
 		url = url.replace(/%40/g, '@');
+		options = this._addAuthHeader(url,'POST',options);
 		return this._ajax.post(url,options);
 	},
 	
@@ -235,6 +271,7 @@ var Twitter = {
 		// Need to un-encode at signs or replies will not work.	
 		url = url.replace(/%40/g, '@');
 		url = url + '&in_reply_to_status_id=' + options.replyingToId;
+		options = this._addAuthHeader(url,'POST',options);
 		return this._ajax.post(url,options);
 	},
 	
@@ -250,6 +287,7 @@ var Twitter = {
 		var url = this.url.postEcho;
 		url = this._initUrl(url,null,null,null);
 		url = url.replace('RETWEET_ID', options.echoId);
+		options = this._addAuthHeader(url,'POST',options);
 		return this._ajax.post(url,options);
 	},
 	
@@ -264,6 +302,7 @@ var Twitter = {
 	deletePost: function(options) {
 		var url = this.url.deletePost;
 		url = url.replace('DELETE_ID', options.deleteId);
+		options = this._addAuthHeader(url,'POST',options);
 		return this._ajax.post(url,options);		
 	},
 	
@@ -278,6 +317,7 @@ var Twitter = {
 	favorite : function(options) {
 		var url = this.url.favorite;
 		url = url.replace('UPDATE_ID', options.updateId);
+		options = this._addAuthHeader(url,'POST',options);
 		return this._ajax.post(url,options);		
 	},
 
@@ -301,6 +341,7 @@ var Twitter = {
 		} else {
 			throw "Screen Name or User ID required.";
 		}
+		options = this._addAuthHeader(url,'POST',options);
 		return this._ajax.post(url,options);		
 	},
 	
@@ -324,7 +365,7 @@ var Twitter = {
 		} else {
 			throw "Screen Name or User ID required."
 		}
-		jsdump('unfollow URL=' + url);
+		options = this._addAuthHeader(url,'POST',options);
 		return this._ajax.post(url,options);
 	},
 
@@ -361,7 +402,7 @@ var Twitter = {
 			throw "Target Screen Name or User ID required.";
 		}
 		
-		jsdump('isFollowing URL=' + url);
+		options = this._addAuthHeader(url,'GET',options);
 		return this._ajax.get(url,options);	
 	},
 	
@@ -376,6 +417,7 @@ var Twitter = {
 		var url = this.url.fetchLists;
 		url = this._initUrl(url, options.count, options.since, null);
 		url = url.replace('QUERIED_SCREEN_NAME',options.username);
+		options = this._addAuthHeader(url,'GET',options);
 		return this._ajax.get(url,options);
 	},
 	
@@ -384,67 +426,45 @@ var Twitter = {
 	// we want it to be synchronous.
 	//
 	verifyCredentials : function(username,password) {
-		// var req = new XMLHttpRequest();
-		// if (req.mozBackgroundRequest !== undefined) {
-		// 	req.mozBackgroundRequest = true;
-		// }
-		// req.open('GET',this.url.verifyCredentials,false,username,password);
-		// req.send(null);
-		// var re = /\{"request":NULL.*?/;
-		// if (re.match(req.responseText)) {
-		// 	jsdump ("Badness in twitter response.  Perhaps down for maintenance?");
-		// 	jsdump(req.responseText);
-		// 	return null;
-		// }
 		var result = null;
-
 		var opts = {
-			'consumerKey': this.oauth.consumerKey,
-			'consumerSecret': this.oauth.consumerSecret,
+			consumerKey: this.oauth.consumerKey,
+			consumerSecret: this.oauth.consumerSecret,
 		};
 
-		jsdump('username = ' + username + ', password = ' + password);
 		var message = {
-			'method':'POST',
-			'action':this.url.accessToken,
-			'parameters': [
+			method:'POST',
+			action:this.url.accessToken,
+			parameters: [
 				['x_auth_username', username],
 				['x_auth_password', password],
 				['x_auth_mode', 'client_auth']
 			]
 		}
 		
-		jsdump('verifyCredentials: 1.');
 		OAuth.completeRequest(message,opts);
-		var authHeader = OAuth.getAuthorizationHeader(
-			'',
-			message.parameters
-		);
+		var authHeader = OAuth.getAuthorizationHeader('',message.parameters);
 		jsdump('authHeader='+authHeader);
 		
 		// Aja doesn't suppose synchronous calls yet. :(
 		// Do this the old fashioned way...
-		jsdump('verifyCredentials: 2.');
 		var req = new XMLHttpRequest();
 		if (req.mozBackgroundRequest !== undefined) {
 			req.mozBackgroundRequest = true;
 		}
-		req.open('GET',this.url.accessToken,false);
+		var postBody = "x_auth_username=" + encodeURIComponent(username) + "&x_auth_password=" + encodeURIComponent(password) + "&x_auth_mode=client_auth";
+		req.open('POST',this.url.accessToken,false);
 		req.setRequestHeader('Authorization', authHeader);
+		req.setRequestHeader('Content-length', postBody.length);
 		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		req.send(null);
+		req.send(postBody);
 
-		jsdump('verifyCredentials: 3.');
-		jsdump('req.status=' + req.status + ', req.responseText=' + req.responseText);
 		if (req.status == 200 && req.responseText != null) {
-			jsdump('verifyCredentials: 4.')
 			var result = '';
 			try {
-				jsdump('verifyCredentials: 5.')
 				data = OAuth.decodeForm(req.responseText);
 				token = OAuth.getParameter(data, 'oauth_token');
 				tokenSecret = OAuth.getParameter(data, 'oauth_token_secret');
-				jsdump('verifyCredentials: 6: ' + token + ', ' + tokenSecret);
 				result = {
 					'accessToken':token,
 					'accessTokenSecret':tokenSecret
@@ -457,6 +477,6 @@ var Twitter = {
 				return null;
 			}
 		}
-		return 		
+		return result;	
 	}
 }

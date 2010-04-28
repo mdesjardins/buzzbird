@@ -87,6 +87,8 @@ function favorite(id) {
 	Social.service(Ctx.service).favorite({
 		username: Ctx.user,
 		password: Ctx.password,
+		token: Ctx.token,
+		tokenSecret: Ctx.tokenSecret,
 		updateId: id,
 		onSuccess: favoriteCallback,
 		onError: function(status) {

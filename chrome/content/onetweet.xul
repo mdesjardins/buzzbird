@@ -36,7 +36,9 @@ THE SOFTWARE.
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/social/social.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>	
 	<script type="text/javascript" src="chrome://buzzbird/content/js/onetweet.js"></script>
@@ -47,13 +49,13 @@ THE SOFTWARE.
 	<label id="passwordLabelId" value="" hidden="true" />
 	<vbox flex="1">
 		<browser height="140" 
-	                type="content-primary" 
-	                src="chrome://buzzbird/content/onetweet.html" 
-	                id="onetweet-browser" 
-	                flex="3"
-				 	autoscroll="true"
-	                contextmenu="contentAreaContextMenu"
-				 	style="padding:0px; margin:0px;"
-	                tooltip="aHTMLTooltip" />
+						 type="content-primary" 
+						 src="chrome://buzzbird/content/onetweet.html" 
+						 id="onetweet-browser" 
+						 flex="3"
+						 autoscroll="true"
+						 contextmenu="contentAreaContextMenu"
+						 style="padding:0px; margin:0px;"
+						 tooltip="aHTMLTooltip" />
 	</vbox>
 </dialog>

@@ -41,9 +41,15 @@ function oneTweetOnLoad() {
 
 function renderStatusUpdate(statusId,username,password) {
 	jsdump('Getting tweet ' + statusId);
+	jsdump('username=' + username);
+	jsdump('password=' + password);	
+	jsdump('token=' + Ctx.token);
+	jsdump('tokenSecret=' + Ctx.tokenSecret);
 	Social.service(Ctx.service).fetchSingleUpdate({
 		"username": username,
 		"password": password,
+		"token": Ctx.token,
+		"tokenSecret": Ctx.tokenSecret,
 		"statusId": statusId,
 		"onSuccess": function(updates) { fetchSingleUpdateCallback(updates,username,password); },
 		"onError": function(status) {
@@ -68,9 +74,12 @@ function fetchSingleUpdateCallback(update,username,password) {
 	var parser = new DOMParser();
 	var doc = parser.parseFromString('<div id="onetweet" xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
 	if (doc.documentElement.nodeName != "parsererror" ) {
+		jsdump('got doc. ' + doc);
 		var root = doc.documentElement;
-		for (var j=0; j<root.childNodes.length; ++j) {
-			window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.lastChild);
+		jsdump('got root, root.childNotes.length=' + root.childNodes.length)
+		for (var i=0; i<root.childNodes.length; ++i) {
+			jdump('inserting');
+			window.content.document.body.insertBefore(document.importNode(root.childNodes[i], true),window.content.document.body.lastChild);
 		}
 	} else {
 		jsdump("Couldn't render the tweet.");

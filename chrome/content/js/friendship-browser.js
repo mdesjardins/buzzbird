@@ -41,6 +41,8 @@ function unfollow(myUsername,myPassword,hisUserId) {
 	Social.service(Ctx.service).unfollow({
 		"username":myUsername,
 		"password":myPassword,
+		"token": Ctx.token,
+		"tokenSecret": Ctx.tokenSecret,
 		"userId":hisUserId,
 		"onSuccess": function(result) { friendshipCallback(result,myUsername); },
 		"onError": function(status) {
@@ -67,6 +69,8 @@ function follow(myUsername,myPassword,hisUserId) {
 	Social.service(Ctx.service).follow({
 		"username":myUsername,
 		"password":myPassword,
+		"token": Ctx.token,
+		"tokenSecret": Ctx.tokenSecret,
 		"screenName":hisUserId,
 		"onSuccess": function(result) { friendshipCallback(result,myUsername); },
 		"onError": function(status) {

@@ -192,6 +192,8 @@ function retweet(id) {
 		Social.service(Ctx.service).postEcho({
 			username: Ctx.user,
 			password: Ctx.password,
+			token: Ctx.token,
+			tokenSecret: Ctx.tokenSecret,
 			echoId: id,
 			onSuccess: function() {
 				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
@@ -220,6 +222,8 @@ function favorite(id) {
 	Social.service(Ctx.service).favorite({
 		username: Ctx.user,
 		password: Ctx.password,
+		token: Ctx.token,
+		tokenSecret: Ctx.tokenSecret,
 		updateId: id,
 		onSuccess: favoriteCallback,
 		onError: function(status) {
@@ -251,6 +255,8 @@ function stopFollowingTweeter(id) {
 		Social.service(Ctx.service).unfollow({
 			username: Ctx.user,
 			password: Ctx.password,
+			token: Ctx.token,
+			tokenSecret: Ctx.tokenSecret,
 			screenName: user,
 			onSuccess: stopFollowingTweeterCallback,
 			onError: function(status) {
@@ -323,6 +329,8 @@ function deleteTweet(id) {
 		Social.service(Ctx.service).deletePost({
 			username: Ctx.user,
 			password: Ctx.password,
+			token: Ctx.token,
+			tokenSecret: Ctx.tokenSecret,
 			deleteId: id,
 			onSuccess: function(transport) { deleteTweetCallback(id,transport); },
 			onError: function(status) {

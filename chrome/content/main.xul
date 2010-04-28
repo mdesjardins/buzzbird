@@ -307,8 +307,9 @@ THE SOFTWARE.
 				<vbox>
 					<spacer flex="10"/>
 					<toolbarbutton id="accountbuttonid" 
-						       type="menu-button" 
-							   oncommand="showAccountMenu();">
+						       			 type="menu-button" 
+												 collapsed="true"
+							   				 oncommand="showAccountMenu();">
 			    		<menupopup id="accountbuttonmenuid" selectedIndex="0" style="padding:0px; margin:0px;">
 			    		</menupopup>
 					</toolbarbutton>

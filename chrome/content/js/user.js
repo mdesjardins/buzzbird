@@ -45,6 +45,8 @@ function fetchProfile(userid,username,password) {
 	Social.service(Ctx.service).fetchUserProfile({
 		"username": username,
 		"password": password,
+		"token": Ctx.token,
+		"tokenSecret": Ctx.tokenSecret,
 		"queriedUserId": userid,
 		"onSuccess": function(profile) {
 			jsdump("profile=" + profile);
@@ -84,6 +86,8 @@ function fetchUpdates(userid,username,password) {
 	Social.service(Ctx.service).fetchUserTimeline({
 		"username": username,
 		"password": password,
+		"token": Ctx.token,
+		"tokenSecret": Ctx.tokenSecret,
 		"queriedUserId": userid,
 		"onSuccess": function(updates) { fetchUpdatesCallback(updates,username,password); },
 		"onError": function(status) {

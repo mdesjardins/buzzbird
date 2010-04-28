@@ -37,6 +37,8 @@ function populateUserInfo(myUsername, myPassword, hisUserId) {
 	Social.service(Ctx.service).fetchUserProfile({
 		"username":myUsername,
 		"password":myPassword,
+		"token": Ctx.token,
+		"tokenSecret": Ctx.tokenSecret,
 		"queriedUserId":hisUserId,
 		"onSuccess": function(profile) { populateUserInfoCallback(profile,hisUserId,myUsername); },
 		"onError": function(status) {
@@ -128,6 +130,8 @@ function getStatus(hisUserId,myUsername,myPassword) {
 	Social.service(Ctx.service).isFollowing({
 		"username":myUsername,
 		"password":myPassword,
+		"token": Ctx.token,
+		"tokenSecret": Ctx.tokenSecret,
 		"sourceScreenName":myUsername,
 		"targetScreenName":hisUserId,
 		"onSuccess": function(result) { getStatusCallback(result,hisUserId,myUsername); },

@@ -628,6 +628,8 @@ function updateLists(username,password) {
 	Social.service(Ctx.service).fetchLists({
 		'username': username,
 		'password': password,
+		'token': Ctx.token,
+		'tokenSecret': Ctx.tokenSecret,
 		onSuccess: function(result) { 
 			jsdump("Content of this list is below. List length is " + result.lists.length);
 			for (var j=0, len=result.lists.length; j<len; j++) {
@@ -664,14 +666,17 @@ function updateLoginList() {
 	var formSubmitURL = 'localhost';  
 	var httprealm = null;
 
-	// Find users for the given parameters
-	var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
-   
+	// Find users for the given parameters - TODO, identica, too. Make general
+	var logins = myLoginManager.findLogins({}, 'twitter.com', null, null);
 	var loginButton = getChromeElement('accountbuttonid');
 	loginButton.label = logins[0].username;
 	var loginMenu = getChromeElement('accountbuttonmenuid'); 
 	while (loginMenu.hasChildNodes()) {
 		loginMenu.removeChild(loginMenu.lastChild);
+	}
+
+	if (logins.length > 0) {
+		loginButton.collapsed=false;
 	}
 	
 	const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
@@ -971,6 +976,8 @@ function firstCycleFetch() {
 	Social.service(Ctx.service).fetchDirectTo({
 		username: Ctx.user,
 		password: Ctx.password,
+		token: Ctx.token,
+		tokenSecret: Ctx.tokenSecret,
 		onSuccess: firstCycleFetchDirectCallback,
 		onError: fetchError,
 		count: 50,
@@ -984,6 +991,8 @@ function firstCycleFetchDirectCallback(tweets) {
 	Social.service(Ctx.service).fetchMentions({
 		username: Ctx.user,
 		password: Ctx.password,
+		token: Ctx.token,
+		tokenSecret: Ctx.tokenSecret,
 		onSuccess: firstCycleFetchMentionsCallback,
 		onError: fetchError,
 		count: 50,
@@ -997,6 +1006,8 @@ function firstCycleFetchMentionsCallback(tweets) {
 	Social.service(Ctx.service).fetchTimeline({
 		username: Ctx.user,
 		password: Ctx.password,
+		token: Ctx.token,
+		tokenSecret: Ctx.tokenSecret,
 		onSuccess: firstCycleFetchTimelineCallback,
 		onError: fetchError,
 		count: 50,
@@ -1018,6 +1029,8 @@ function cycleFetch() {
 	Social.service(Ctx.service).fetchDirectTo({
 		username: Ctx.user,
 		password: Ctx.password,
+		token: Ctx.token,
+		tokenSecret: Ctx.tokenSecret,
 		onSuccess: cycleFetchDirectToCallback,
 		onError: fetchError,
 		count: 50,
@@ -1032,6 +1045,8 @@ function cycleFetchDirectToCallback(tweets) {
 	Social.service(Ctx.service).fetchTimeline({
 		username: Ctx.user,
 		password: Ctx.password,
+		token: Ctx.token,
+		tokenSecret: Ctx.tokenSecret,
 		onSuccess: cycleFetchTimelineCallback,
 		onError: fetchError,
 		count: 50,
@@ -1163,6 +1178,8 @@ function postUpdate() {
 			Social.service(Ctx.service).postReply({
 				username: Ctx.user,
 				password: Ctx.password,
+				token: Ctx.token,
+				tokenSecret: Ctx.tokenSecret,
 				onSuccess: postUpdateSuccess,
 				onError: postUpdateError,	
 				text: tweet,
@@ -1173,6 +1190,8 @@ function postUpdate() {
 			Social.service(Ctx.service).postUpdate({
 				username: Ctx.user,
 				password: Ctx.password,
+				token: Ctx.token,
+				tokenSecret: Ctx.tokenSecret,
 				onSuccess: function(response) { postDirectSuccess(tweet); postUpdateSuccess(response); },
 				onError: postUpdateError,	
 				text: tweet		
@@ -1182,6 +1201,8 @@ function postUpdate() {
 			Social.service(Ctx.service).postUpdate({
 				username: Ctx.user,
 				password: Ctx.password,
+				token: Ctx.token,
+				tokenSecret: Ctx.tokenSecret,
 				onSuccess: postUpdateSuccess,
 				onError: postUpdateError,	
 				text: tweet		
