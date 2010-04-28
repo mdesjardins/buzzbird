@@ -44,7 +44,7 @@ try {
 		                         .getService(Components.interfaces.nsILoginManager);
 
 	// Cleanup old 'localhost' logins.  In an OAuth-only multi service world, these are no longer needed.
-	var logins = myLoginManager.findLogins({}, 'localhost', 'localhost', httprealm);
+	var logins = loginManager.findLogins({}, 'localhost', 'localhost', null);
 	if (logins != null && logins.length > 0) {
 		for (var i=0, len=logins.length; i<len; i++) {
 			loginManager.removeLogin(logins[i]);
@@ -52,7 +52,7 @@ try {
 	}
 	
 	// Look for Twitter logins. Grab the first usable one.
-	var logins = myLoginManager.findLogins({}, 'twitter.com', null, httprealm);
+	var logins = loginManager.findLogins({}, 'twitter.com', null, null);
 	var user = null;
 	var password = null;
 	var service = null;
@@ -63,7 +63,7 @@ try {
 	} 
 	if (user == null || password == null) {
 		// No twitter logins.  Try identi.ca
-		var logins = myLoginManager.findLogins({}, 'identi.ca', null, httprealm);
+		var logins = loginManager.findLogins({}, 'identi.ca', null, null);
 		if (logins != null && logins.length > 0) {
 			user = logins[0].username;
 			password = logins[0].password;
@@ -157,7 +157,7 @@ function saveCredentials(username,password,service,token) {
 
 	var loginInfo = null;
 	if (Social.service(service).support.xAuth) {
-		loginInfo = new nsLoginInfo(service, null, null, username, token, '', '');
+		loginInfo = new nsLoginInfo(service, null, null, username, '', token.accessToken, token.accessTokenSecret);
 	} else {
 		loginInfo = new nsLoginInfo(service, null, null, username, password, '', '');	
   }

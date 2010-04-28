@@ -40,7 +40,12 @@ function login(username,password,service) {
 		Ctx.password = password;
 		Ctx.list = null;
 		Ctx.service = service;
-		Ctx.token = token;
+		if (token.accessToken !== undefined) {
+			Ctx.token = token.accessToken;
+		}
+		if (token.accessTokenSecret !== undefined) {
+			Ctx.tokenSecret = token.accessTokenSecret;
+		}
 		// var img = user.profile_image_url;
 		// getChromeElement('avatarLabelId').value = img;
 		// getChromeElement('realnameLabelId').value = user.name;

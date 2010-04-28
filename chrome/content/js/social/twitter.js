@@ -40,7 +40,7 @@ var Twitter = {
 		unfollow: true,
 		isFollowing: true,
 		verifyCredentials: true,
-		xAuth: true;
+		xAuth: true
 	},
 	
 	url : {
@@ -60,7 +60,17 @@ var Twitter = {
 		unfollow: 'http://api.twitter.com/1/friendships/destroy.json',
 		isFollowing: 'http://api.twitter.com/1/friendships/show.json',
 		verifyCredentials: 'https://api.twitter.com/1/account/verify_credentials.json',
+		accessToken: 'https://api.twitter.com/oauth/access_token',
 		fetchLists: 'http://api.twitter.com/1/QUERIED_SCREEN_NAME/lists.json'
+	},
+	
+	// I really don't understand how this is supposed to work for an opensource
+	// application.  So, what, now any application can spoof being buzzbird?
+	// How is that a good thing?
+	//
+	oauth : {
+		consumerKey: '7tKJTFfI0MeSO8EUSZslkg',
+		consumerSecret: 'XOYOcB76ZtgSOicqCEOKZEIGxBN7itETYPRpVjlo'
 	},
 	
 	_ajax : new Aja(),
@@ -374,35 +384,79 @@ var Twitter = {
 	// we want it to be synchronous.
 	//
 	verifyCredentials : function(username,password) {
-		var req = new XMLHttpRequest();
-		if (req.mozBackgroundRequest !== undefined) {
-			req.mozBackgroundRequest = true;
-		}
-		req.open('GET',this.url.verifyCredentials,false,username,password);
-		req.send(null);
-
+		// var req = new XMLHttpRequest();
+		// if (req.mozBackgroundRequest !== undefined) {
+		// 	req.mozBackgroundRequest = true;
+		// }
+		// req.open('GET',this.url.verifyCredentials,false,username,password);
+		// req.send(null);
 		// var re = /\{"request":NULL.*?/;
 		// if (re.match(req.responseText)) {
 		// 	jsdump ("Badness in twitter response.  Perhaps down for maintenance?");
 		// 	jsdump(req.responseText);
 		// 	return null;
 		// }
+		var result = null;
 
-		if (req.status == 200 && req.responseText != 'NULL') {
-			var user = '';
+		var opts = {
+			'consumerKey': this.oauth.consumerKey,
+			'consumerSecret': this.oauth.consumerSecret,
+		};
+
+		jsdump('username = ' + username + ', password = ' + password);
+		var message = {
+			'method':'POST',
+			'action':this.url.accessToken,
+			'parameters': [
+				['x_auth_username', username],
+				['x_auth_password', password],
+				['x_auth_mode', 'client_auth']
+			]
+		}
+		
+		jsdump('verifyCredentials: 1.');
+		OAuth.completeRequest(message,opts);
+		var authHeader = OAuth.getAuthorizationHeader(
+			'',
+			message.parameters
+		);
+		jsdump('authHeader='+authHeader);
+		
+		// Aja doesn't suppose synchronous calls yet. :(
+		// Do this the old fashioned way...
+		jsdump('verifyCredentials: 2.');
+		var req = new XMLHttpRequest();
+		if (req.mozBackgroundRequest !== undefined) {
+			req.mozBackgroundRequest = true;
+		}
+		req.open('GET',this.url.accessToken,false);
+		req.setRequestHeader('Authorization', authHeader);
+		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		req.send(null);
+
+		jsdump('verifyCredentials: 3.');
+		jsdump('req.status=' + req.status + ', req.responseText=' + req.responseText);
+		if (req.status == 200 && req.responseText != null) {
+			jsdump('verifyCredentials: 4.')
+			var result = '';
 			try {
-				user = eval('(' + req.responseText + ')');
+				jsdump('verifyCredentials: 5.')
+				data = OAuth.decodeForm(req.responseText);
+				token = OAuth.getParameter(data, 'oauth_token');
+				tokenSecret = OAuth.getParameter(data, 'oauth_token_secret');
+				jsdump('verifyCredentials: 6: ' + token + ', ' + tokenSecret);
+				result = {
+					'accessToken':token,
+					'accessTokenSecret':tokenSecret
+				};
 			} catch(e) {
 				jsdump('Caught an exception trying to login.');
+			}
+			if (result == '') {
+				jsdump('OAuth parse must have borked?');
 				return null;
 			}
-			if (user == '') {
-				jsdump('JSON parse must have borked?');
-				return null;
-			}
-			return user;
-		} else {
-			return null;
-		}		
+		}
+		return 		
 	}
 }

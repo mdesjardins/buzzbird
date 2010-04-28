@@ -28,6 +28,7 @@ var Ctx = {
 	password:"",
 	service:"",
 	token:"",
+	tokenSecret:"",
 	list:""
 };
 
