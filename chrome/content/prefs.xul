@@ -32,17 +32,6 @@ THE SOFTWARE.
 			type="prefwindow"
 			onload="sizeToContent();"
 			windowtype="Browser:Preferences">
-			   
-	<script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
-	<script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
-	<script type="application/x-javascript" src="chrome://buzzbird/content/js/utils.js"></script>
-	<script type="application/x-javascript" src="chrome://buzzbird/content/js/aja.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>	
-	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
-	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
-	<script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
-
 	<prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/skin/images/prefs/prefs-general.png" 
   		onLoad="sizeToContent();">
     	<preferences>
@@ -210,5 +199,15 @@ THE SOFTWARE.
 			<preference id="directVisualAlertSticky" name="buzzbird.alert.visual.direct.sticky" type="bool"></preference>
 		</preferences>
 	</prefpane>
+
+	<script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/utils.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/aja.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>	
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
 </prefwindow>
 

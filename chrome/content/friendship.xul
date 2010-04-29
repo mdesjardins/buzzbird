@@ -31,17 +31,8 @@ THE SOFTWARE.
 		title="User"
 		buttons="accept"
 		buttonlabelaccept="Close"
-	  	ondialogaccept="onOk();"
-  	    onload="friendshipOnLoad();">
-	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/social/social.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/friendship.js"></script>
+  	ondialogaccept="onOk();"
+    onload="friendshipOnLoad();">
 	
 	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
 	
@@ -90,4 +81,13 @@ THE SOFTWARE.
 				 	style="padding:0px; margin:0px; overflow:auto;"
 	                tooltip="aHTMLTooltip"/>
 	</vbox>
+
+	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/social.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/friendship.js"></script>
 </dialog>

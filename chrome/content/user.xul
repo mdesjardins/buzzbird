@@ -34,16 +34,6 @@ THE SOFTWARE.
 	  ondialogaccept="onOk();"
   	onload="userOnLoad();">
 	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/social/social.js"></script>	
-	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/user.js"></script>
-	
 	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
 	
 	<label id="usernameLabelId" value="" hidden="true" />
@@ -92,4 +82,14 @@ THE SOFTWARE.
 				 	style="padding:0px; margin:0px; overflow:auto;"
 	                tooltip="aHTMLTooltip"/>
 	</vbox>
+
+	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/social.js"></script>	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/user.js"></script>
 </dialog>
