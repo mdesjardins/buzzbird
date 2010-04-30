@@ -33,6 +33,7 @@ THE SOFTWARE.
         width="500" 
         height="600" 
         title="Buzzbird">
+	<script type="text/javascript" src="chrome://buzzbird/content/js/account-manager.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
