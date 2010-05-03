@@ -37,5 +37,6 @@ var Global = {
 	updateTimer:null,
 	unread:0,
 	unreadDirectFrom:0,
-	unreadMentions:0
+	unreadMentions:0,
+	supportedServices: ['twitter','identi.ca']
 }

@@ -32,12 +32,12 @@ var Prefs = {
 	dispatch : function(eventName) {
 		jsdump('prefs is dispatching ' + eventName);
 		try {
-	        var ev = document.createEvent("Events");
-	        ev.initEvent(eventName, true, false);
-	        getMainWindow().opener.document.dispatchEvent(ev);
-	    } catch (e) {
-	        jsdump("Exception sending '" + eventName + "' event: " + e);
-	    }		
+			var ev = document.createEvent("Events");
+			ev.initEvent(eventName, true, false);
+			getMainWindow().opener.document.dispatchEvent(ev);
+		} catch (e) {
+			jsdump("Exception sending '" + eventName + "' event: " + e);
+		}		
 	},
 
 	loginListClicked : function() {
@@ -50,42 +50,6 @@ var Prefs = {
 		}
 	},
 
-	checkCredentials : function(aUsername,aPassword) {
-		var req = new XMLHttpRequest();
-		req.mozBackgroundRequest = true;
-		req.open('GET','https://twitter.com/account/verify_credentials.json',false,aUsername,aPassword);
-		req.send(null);
-	
-		// This crap should totally work.  Why is it bitching that match isn't a valid method?
-		//
-		//var re = /\{"request":NULL.*?/;
-		// var re = new RegExp('\{"request":NULL.*?/');
-		// jsdump("RE:" + re);
-		// jsdump("RE.match" + re.match(req.responseText))
-		// if (re.match(req.responseText)) {
-		// 	jsdump("Badness in twitter response.  Perhaps down for maintenance?");
-		// 	jsdump(req.responseText);
-		// 	return false;
-		// }
-	
-		if (req.status == 200 && req.responseText != 'NULL') {
-			var user = '';
-			try {
-				user = eval('(' + req.responseText + ')');
-			} catch(e) {
-				jsdump('Caught an exception trying to login.');
-				return false;
-			}
-			if (user == '') {
-				jsdump('JSON parse must have borked?');
-				return false;
-			}
-			return true;
-		} else {
-			return false;
-		}
-	},
-
 	addAccount : function() {
 		var params = {};
 		window.openDialog("chrome://buzzbird/content/add-account.xul", "",
@@ -93,63 +57,61 @@ var Prefs = {
 		if (params.out) {
 			var success = params.out.success;
 			if (success) {
-				var login = params.out.login;
+				var username = params.out.username;
 				var password = params.out.password;
-
-				var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
-				                                             Components.interfaces.nsILoginInfo,
-				                                             "init");
-			   	var loginInfo = new nsLoginInfo('localhost', 'localhost', null, login, password,
-				                                'username', 'password');
-
-				var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-					                         .getService(Components.interfaces.nsILoginManager);
-
-			    myLoginManager.addLogin(loginInfo);
-				var newItem = login + '|' + password + '|' + 'localhost' + '|' + 'localhost';
+				var service = params.out.service;
+				var accessToken = params.out.accessToken;
+				var accessTokenSecret = params.out.accessTokenSecret;
+				var am = new AccountManager();
+				am.addAccount({
+					'username': username,
+					'password': password,
+					'service': service,
+					'token': accessToken,
+					'tokenSecret': accessTokenSecret
+				});
+				var newItem = username + '|' + password + '|' + 'localhost' + '|' + 'localhost';
 				var listbox = document.getElementById('richlistbox_accounts');
-				Prefs.addAccountToList(listbox,login,password,'localhost','localhost');
-				//document.getElementById('richlistbox_accounts').appendItem(login,newItem);
-				//Prefs.dispatch('updateLoginList');
-			}
+				Prefs.addAccountToList(listbox,username,password,'localhost','localhost');
+				Prefs.dispatch('updateLoginList');
+			}			
 		}
 	},
 
 	onAddAccountOk : function() {
 		var success = true;
 
-		var login = document.getElementById("login").value;
+		var username = document.getElementById("login").value;
 		var password = document.getElementById("password").value;
+		var service = 'twitter';
 
 		document.documentElement.getButton('accept').disabled=true;
 		document.documentElement.getButton('cancel').disabled=true;
 		document.getElementById("authenticating").collapsed=false;
 
-		// Get Login Manager 
-		var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-			                         .getService(Components.interfaces.nsILoginManager);
-
-		// Make sure the login doesn't already exist.
-		var logins = myLoginManager.findLogins({}, this.hostname, this.formSubmitURL, this.httprealm);
-		for (i=0; i<logins.length; i++) {
-			if (logins[i].username == login) {
-				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-				                        .getService(Components.interfaces.nsIPromptService);
-				prompts.alert(window, "Oops!", "That login has already been configured.");
-				success = false;
-			} 
-		}		
-	
-		// We ran the gauntlet, let's try to authenticate it and add it if we're successful.
-		jsdump('Checking credentials... login ' + login + ' password ' + password);
-		if (!Prefs.checkCredentials(login,password)) {
+		token = Social.service(service).verifyCredentials(username,password);
+		if (token) {
+			var accessToken = null;
+			var accessTokenSecret = null;
+			if (Social.service(service).support.xAuth) {
+				accessToken = token.accessToken;
+				accessTokenSecret = token.accessTokenSecret;
+			}
+			window.arguments[0].out = {
+				 'username': username, 
+				 'password': password, 
+				 'service': service, 
+				 'accessToken': accessToken,
+				 'accessTokenSecret': accessTokenSecret,
+				 'success': success
+			};			
+		} else {
+			jsdump('failed');
 			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 			                        .getService(Components.interfaces.nsIPromptService);
 			prompts.alert(window, "Oops!", "That username/password combination didn't match.");
 			success = false;
 		}
-		jsdump('leaving!');
-		window.arguments[0].out = {'login':document.getElementById("login").value, 'password':document.getElementById("password").value, 'success':success};
 		return true;
 	},
 

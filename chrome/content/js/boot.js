@@ -103,7 +103,6 @@ function manualFirstLogin() {
 				'token':accessToken,
 				'tokenSecret':accessTokenSecret
 			});
-//			saveCredentials(username,password,service,token);
 		}
 		var interval = getIntPref('buzzbird.update.interval',180000);
 		Global.updateTimer = getMainWindow().setInterval( function(that) { that.cycleFetch(); }, interval, getMainWindow());

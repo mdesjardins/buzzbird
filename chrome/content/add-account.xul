@@ -30,8 +30,6 @@ THE SOFTWARE.
 		ondialogcancel="Prefs.onAddAccountCancel();">
 	<vbox align="center">
 		<dialogheader title="Enter Account Credentials" description="Enter the new account credentials below"/>
-		<script src="chrome://buzzbird/content/js/utils.js"></script>
-		<script src="chrome://buzzbird/content/js/prefs.js"></script>
 		<grid flex="1">
 			<columns>
 				<column flex="2"/>
@@ -50,4 +48,11 @@ THE SOFTWARE.
 		</grid>
 		<label id="authenticating" collapsed="true">Authenticating...</label>
 	</vbox>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/aja.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>	
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>	
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/utils.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
 </dialog>

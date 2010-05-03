@@ -426,6 +426,7 @@ var Twitter = {
 	// we want it to be synchronous.
 	//
 	verifyCredentials : function(username,password) {
+		jsdump('in verifyCredentials.');
 		var result = null;
 		var opts = {
 			consumerKey: this.oauth.consumerKey,
@@ -457,6 +458,7 @@ var Twitter = {
 		req.setRequestHeader('Authorization', authHeader);
 		req.setRequestHeader('Content-length', postBody.length);
 		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		jsdump('here we go...');
 		req.send(postBody);
 
 		if (req.status == 200 && req.responseText != null) {

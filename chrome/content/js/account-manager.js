@@ -19,10 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-
-//var AccountManager; if (AccountManager == null) AccountManager = {};
-
-function AccountManager(args) {
+function AccountManager() {
 	var _loginMgr = Components.classes["@mozilla.org/login-manager;1"]
 		                         .getService(Components.interfaces.nsILoginManager);
 
@@ -35,75 +32,61 @@ function AccountManager(args) {
 			}
 		}
 	
-		// Look for Twitter logins.
 		var results = new Array();
-	
-		jsdump('1');
-	
-		// Look for Twitter logins.
-		logins = _loginMgr.findLogins({}, 'twitter', '', null);
-		for (var i=0, len=logins.len; i<len; i++) {
-			login = logins[i];
-			jsdump('adding ' + login.username);
-			results.push({
-				'username':login.username,
-				'password':null,
-				'service':'twitter',
-				'token':login.usernameField,          // shudder
-				'tokenSecret':login.password
-			});
+		for (var i=0,len=Global.supportedServices.length; i<len; i++) {
+			service = Global.supportedServices[i];
+			logins = _loginMgr.findLogins({}, service, '', null);
+			for (var j=0, len=logins.length; j<len; j++) {
+				login = logins[j];
+				if (Social.service(service).support.xAuth) {
+					results.push({
+						'username':login.username,
+						'password':null,
+						'service':service,
+						'token':login.usernameField,          // shudder
+						'tokenSecret':login.password
+					});
+				} else {
+					results.push({
+						'username':login.username,
+						'password':login.password,
+						'service':service,
+						'token':null,
+						'tokenSecret':null
+					});
+				}
+			}
 		}
-
-		jsdump('2');
-		
-		// Look for indenti.ca logins.
-		logins = 	_loginMgr.findLogins({}, 'identi.ca', '', null);
-		for (var i=0, len=logins.len; i<len; i++) {
-			login = logins[i];
-			results.push({
-				'username':login.username,
-				'password':login.password,
-				'service':'twitter',
-				'token':null,
-				'tokenSecret':null
-			});
-		}
-
 		return results;
 	}
 
 	this.getAccount = function(username,service) {
 		var result = null;
-		if (service === "twitter") {
-			// Look for Twitter logins.
-			logins = _loginMgr.findLogins({}, 'twitter', '', null);
-			for (var i=0, len=logins.len; i<len; i++) {
-				login = logins[i];
-				if (login.username == username) {
-					result = {
-						'username':login.username,
-						'password':null,
-						'service':'twitter',
-						'token':login.usernameField,          // shudder
-						'tokenSecret':login.password
+		for (var i=0,len=Global.supportedServices.length; i<len; i++) {
+			aService = Global.supportedServices[i];
+			if (aService == service) {
+				logins = _loginMgr.findLogins({}, service, '', null);
+				for (var j=0, len=logins.length; j<len; j++) {
+					login = logins[j];
+					if (Social.service(service).support.xAuth) {
+						result = {
+							'username':login.username,
+							'password':null,
+							'service':'twitter',
+							'token':login.usernameField,          // shudder
+							'tokenSecret':login.password
+						};
+						break;
+					} else {
+						result = {
+							'username':login.username,
+							'password':login.password,
+							'service':'twitter',
+							'token':null,
+							'tokenSecret':null
+						};
+						break;
 					}
-					break;
-				}
-			}
-		} else if (service === "identi.ca") {
-			// Look for indenti.ca logins.
-			logins = 	_loginMgr.findLogins({}, 'identi.ca', '', null);
-			for (var i=0, len=logins.len; i<len; i++) {
-				login = logins[i];
-				if (login.username == username) {
-					result = {
-						'username':login.username,
-						'password':login.password,
-						'service':'twitter',
-						'token':null,
-						'tokenSecret':null
-					};
-					break;
 				}
 			}
 		}
@@ -130,7 +113,6 @@ function AccountManager(args) {
 			loginInfo = new nsLoginInfo(login.service, '', null, login.username, login.password, '', '');	
 	  }
 
-		jsdump('adding ' + login.service + ',' + login.username + ',' + login.tokenSecret + ',' + login.token);
 		try {
 	  	_loginMgr.addLogin(loginInfo);
 		} catch(e) {
