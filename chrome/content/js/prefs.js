@@ -62,17 +62,18 @@ var Prefs = {
 				var service = params.out.service;
 				var accessToken = params.out.accessToken;
 				var accessTokenSecret = params.out.accessTokenSecret;
-				var am = new AccountManager();
-				am.addAccount({
+				var account = {
 					'username': username,
 					'password': password,
 					'service': service,
 					'token': accessToken,
 					'tokenSecret': accessTokenSecret
-				});
-				var newItem = username + '|' + password + '|' + 'localhost' + '|' + 'localhost';
+				};
+				var am = new AccountManager();
+				am.addAccount(account);
+				var newItem = username + '|' + password + '|' + accessToken + '|' + accessTokenSecret + '|' + service;
 				var listbox = document.getElementById('richlistbox_accounts');
-				Prefs.addAccountToList(listbox,username,password,'localhost','localhost');
+				Prefs.addAccountToList(listbox,account);
 				Prefs.dispatch('updateLoginList');
 			}			
 		}
@@ -120,38 +121,26 @@ var Prefs = {
 	},
 
 	initLogins : function() {
-		try {
-			// Get Login Manager 
-			var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-				                         .getService(Components.interfaces.nsILoginManager);
-
-			// Find users for the given parameters
-			var logins = myLoginManager.findLogins({}, this.hostname, this.formSubmitURL, this.httprealm);
-
-			// Find user from returned array of nsILoginInfo objects
-			// Will be modified when support for multiple accounts is added.  For now,
-			// just use the first one we find.
-			var listbox = document.getElementById('richlistbox_accounts');
-			if (listbox == null || listbox == undefined) {
-		    	jsdump("Where's the listbox?");
-			} else {
-				var len = logins.length;
-			   	if (logins != null && len > 0) {
-					for (i=0; i<len; i++) {
-						Prefs.addAccountToList(listbox,logins[i].username,logins[i].password,logins[i].hostname,logins[i].formSubmitURL);
-					}
-				} else {
-			     	jsdump('No saved logins found.');	
+		var am = new AccountManager();
+		var logins = am.getAccounts();
+		
+		var listbox = document.getElementById('richlistbox_accounts');
+		if (listbox == null || listbox == undefined) {
+	    	jsdump("Where's the listbox?");
+		} else {
+			var len = logins.length;
+	   	if (logins != null && len > 0) {
+				for (i=0; i<len; i++) {
+					Prefs.addAccountToList(listbox,logins[i]);
 				}
+			} else {
+		     	jsdump('No saved logins found.');	
 			}
-		} catch (e) {
-		  // This will only happen if there is no nsILoginManager component class
-		  jsdump('Oops - failed at autologin: ' + e);
 		}
 	},
 
-	addAccountToList : function(listbox,username,password,hostname,url) {
-		var value = username + "|" + password + "|" + hostname + "|" + url;
+	addAccountToList : function(listbox,account) {
+		var value = account.username + "|" + account.password + "|" + account.token + "|" + account.tokenSecret + '|' + account.service;
 		var template = document.getElementById('account_template');
 		if (template == null || template == undefined) {
 			jsdump('Where is the template?');
@@ -159,14 +148,16 @@ var Prefs = {
 			var xulAccount = template.cloneNode(true);
 			xulAccount.setAttribute('hidden','false');
 			xulAccount.getElementsByAttribute('field','image')[0].setAttribute('src','http://a1.twimg.com/profile_images/687800820/Buzzbird.png');
-			xulAccount.getElementsByAttribute('field','image')[0].setAttribute('img_screen_name',username);
-			xulAccount.getElementsByAttribute('field','screen_name')[0].setAttribute('value',username);
-			xulAccount.getElementsByAttribute('field','real_name')[0].setAttribute('screen_name',username);
+			xulAccount.getElementsByAttribute('field','image')[0].setAttribute('img_screen_name',account.username);
+			xulAccount.getElementsByAttribute('field','screen_name')[0].setAttribute('value',account.username);
+			xulAccount.getElementsByAttribute('field','real_name')[0].setAttribute('screen_name',account.username);
 			xulAccount.setAttribute('value',value);
 			Social.service("twitter").fetchUserProfile({
-				"username":username,
-				"password":password,
-				"queriedScreenName":username,
+				"username":account.username,
+				"password":account.password,
+				"token":account.token,
+				"tokenSecret":account.tokenSecret,
+				"queriedScreenName":account.username,
 				"onSuccess": function(result) { Prefs.getProfileCallback(result); },
 			});		
 			listbox.appendChild(xulAccount);	
@@ -183,17 +174,16 @@ var Prefs = {
 		var selection = document.getElementById('richlistbox_accounts').getSelectedItem(0).value;
 		var selIndex = document.getElementById('richlistbox_accounts').selectedIndex;
 		var xx = selection.split('|')
-		var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
-			                                          Components.interfaces.nsILoginInfo,
-			                                          "init");
-		var loginInfo = new nsLoginInfo(xx[3], xx[2], null, xx[0], xx[1],
-			                            'username', 'password');
-	
-		var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-	                                   .getService(Components.interfaces.nsILoginManager);
-	    myLoginManager.removeLogin(loginInfo);
+		var am = new AccountManager();
+		am.removeAccount({
+			'username':xx[0],
+			'password':xx[1],
+			'token':xx[2],
+			'tokenSecret':xx[3],
+			'service':xx[4]
+		});
 		document.getElementById('richlistbox_accounts').removeItemAt(selIndex);
-		dispatch('updateLoginList');
+		Prefs.dispatch('updateLoginList');
 	},
 
 	setSticky : function(name,newState) {

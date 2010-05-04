@@ -657,35 +657,27 @@ function addToLists(listname) {
 
 function updateLoginList() {
 	jsdump('Updating the login list.');
+	var am = new AccountManager();
+	var logins = am.getAccounts();
 	
-	// Get Login Manager 
-	var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-		                         .getService(Components.interfaces.nsILoginManager);
-
-	var hostname = 'localhost';
-	var formSubmitURL = 'localhost';  
-	var httprealm = null;
-
-	// Find users for the given parameters - TODO, identica, too. Make general
-	var logins = myLoginManager.findLogins({}, 'twitter.com', null, null);
 	var loginButton = getChromeElement('accountbuttonid');
 	loginButton.label = logins[0].username;
 	var loginMenu = getChromeElement('accountbuttonmenuid'); 
 	while (loginMenu.hasChildNodes()) {
 		loginMenu.removeChild(loginMenu.lastChild);
 	}
-
+	
 	if (logins.length > 0) {
 		loginButton.collapsed=false;
 	}
 	
 	const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 	for (var i=0; i<logins.length; i++) {
-		var item = logins[i].username + '|' + logins[i].password + '|' + 'localhost' + '|' + 'localhost';
+		var item = logins[i].username + '|' + logins[i].password + '|' + logins[i].token + '|' + logins[i].tokenSecret + '|' + logins[i].service;
 		var menuitem = document.createElementNS(XUL_NS, "menuitem");
 		menuitem.setAttribute("label", logins[i].username);
 		menuitem.setAttribute("value", item);
-		var f = "switchUser('" + logins[i].username + "','" + logins[i].password + "', 'twitter');";
+		var f = "switchUser('" + logins[i].username + "','" + logins[i].password + "', '" + logins[i].service + "');";
 		menuitem.setAttribute("oncommand", f);
 		menuitem.setAttribute("checked","false");
 		menuitem.setAttribute("type","checkbox");
@@ -693,7 +685,7 @@ function updateLoginList() {
 		menuitem.setAttribute("class","accountmenu-account");  
 		getChromeElement('accountbuttonmenuid').appendChild(menuitem);
 	}
-
+	
 	var separator = document.createElementNS(XUL_NS, "menuseparator")
 	getChromeElement('accountbuttonmenuid').appendChild(separator);
 	var menuitem = document.createElementNS(XUL_NS, "menuitem");

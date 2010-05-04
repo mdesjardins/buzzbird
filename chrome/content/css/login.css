@@ -90,7 +90,9 @@ table {
 }
 
 .login-input {
-	height:20px;
+	margin-bottom:5px;
+	margin-top:5px;
+	height:24px;
 }
 
 .footer {
