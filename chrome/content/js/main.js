@@ -31,27 +31,6 @@ parser = new DOMParser();
 // This function does the actual authentication request to the twitter API.  Called
 // by the login function.
 //
-function login(username,password,service) {
-	var token = Social.service(service).verifyCredentials(username,password);
-	if (token == null) {
-		return false;
-	} else {
-		Ctx.user = username;
-		Ctx.password = password;
-		Ctx.list = null;
-		Ctx.service = service;
-		if (token.accessToken !== undefined) {
-			Ctx.token = token.accessToken;
-		}
-		if (token.accessTokenSecret !== undefined) {
-			Ctx.tokenSecret = token.accessTokenSecret;
-		}
-		// var img = user.profile_image_url;
-		// getChromeElement('avatarLabelId').value = img;
-		// getChromeElement('realnameLabelId').value = user.name;
-		return token;	
-	}
-}
 
 // Registers the events for this window
 //
@@ -677,7 +656,7 @@ function updateLoginList() {
 		var menuitem = document.createElementNS(XUL_NS, "menuitem");
 		menuitem.setAttribute("label", logins[i].username);
 		menuitem.setAttribute("value", item);
-		var f = "switchUser('" + logins[i].username + "','" + logins[i].password + "', '" + logins[i].service + "');";
+		var f = "Account.switch('" + logins[i].username + "','" + logins[i].password + "', '" + logins[i].service + "');";
 		menuitem.setAttribute("oncommand", f);
 		menuitem.setAttribute("checked","false");
 		menuitem.setAttribute("type","checkbox");
@@ -693,23 +672,6 @@ function updateLoginList() {
 	menuitem.setAttribute("value", "");
 	menuitem.setAttribute("oncommand", "openAccountPreferences();");
 	getChromeElement('accountbuttonmenuid').appendChild(menuitem);
-}
-
-function switchUser(u,p,s) {	
-	jsdump('switchuser');
-	var oldusername = Ctx.username;
-	if (login(u,p,s)) {	
-		jsdump('loggedin');
-		var loginButton = getChromeElement('accountbuttonid');
-		loginButton.label = u;
-		if (oldusername != null && oldusername != undefined && oldusername != "") {
-			getChromeElement('accountmenu-' + oldusername).setAttribute("checked","false");
-		}
-		getChromeElement('accountmenu-' + u).setAttribute("checked","true");
-		mostRecentTweet = null;
-		mostRecentDirect = null;
-		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
-	}
 }
 
 function quitApplication(aForceQuit) {
@@ -781,6 +743,104 @@ function browserScrolled(e) {
 	} else if (y!=0 && a=='true'){
 		getBrowser().setAttribute('autoscroll',false);
 		jsdump('autoscroll deactivated.');
+	}
+}
+
+var Account = {
+	login : function(username,password,service) {
+		jsdump('in login.');
+		var token = Social.service(service).verifyCredentials(username,password);
+		if (token == null) {
+			return false;
+		} else {
+			Ctx.user = username;
+			Ctx.password = password;
+			Ctx.list = null;
+			Ctx.service = service;
+			if (token.accessToken !== undefined) {
+				Ctx.token = token.accessToken;
+			}
+			if (token.accessTokenSecret !== undefined) {
+				Ctx.tokenSecret = token.accessTokenSecret;
+			}
+			return token;	
+		}
+	},
+	
+	reauth : function() {
+		var params = {inn:{'username':Ctx.user}, out:{}};
+		window.openDialog("chrome://buzzbird/content/reauth-account.xul", "",
+		    "chrome, dialog, modal, resizable=no, width=450, height=180",params).focus();
+		if (params.out) {
+		  var features = "chrome,titlebar,toolbar,centerscreen,modal,scrollbars=yes";
+			var am = new AccountManager();
+			var token = Account.login(Ctx.user, params.out.password, Ctx.service);
+			if (token) {
+				var accessToken = null;
+				var accessTokenSecret = null;
+				if (Social.service(Ctx.service).support.xAuth) {
+					accessToken = token.accessToken;
+					accessTokenSecret = token.accessTokenSecret;
+				}
+				var am = new AccountManager();
+				am.addAccount({
+					'username':Ctx.user,
+					'password':params.out.password,
+					'service':Ctx.service,
+					'token':accessToken,
+					'tokenSecret':accessTokenSecret
+				});
+				mostRecentTweet = null;
+				mostRecentDirect = null;
+				getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
+			} else {
+				jsdump('No token returned.');
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Sorry.", "Unable to re-authorize your account.");
+			}
+		}
+	},
+	
+	onReauthAccountOk : function() {
+		window.arguments[0].out = {
+			'password':document.getElementById("password").value,
+		};
+	},
+	
+	onReauthAccountCancel : function() {
+		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+		                        .getService(Components.interfaces.nsIPromptService);
+		prompts.alert(window, "Sorry.", "Unable to re-authorize your account.");
+	},
+	
+	switch : function(username,password,service) {	
+		jsdump('switch(' + username + ',' + password + ',' + service + ')');
+		var oldusername = Ctx.user;
+		if (Social.service(service).support.xAuth) {
+			var am = new AccountManager();
+			var account = am.getAccount(username,service);
+			Ctx.user = account.username;
+			Ctx.password = account.password;
+			Ctx.list = null;
+			Ctx.service = account.service;
+			Ctx.token = account.token;
+			Ctx.tokenSecret = account.tokenSecret;
+			Global.unread = 0;
+			Global.unreadDirectFrom = 0;
+			Global.unreadMentions = 0;
+		} else if (!Account.login(username,password,service)) {	
+			return;
+		}
+		var loginButton = getChromeElement('accountbuttonid');
+		loginButton.label = username;
+		if (oldusername != null && oldusername != undefined && oldusername != "") {
+			getChromeElement('accountmenu-' + oldusername).setAttribute("checked","false");
+		}
+		getChromeElement('accountmenu-' + username).setAttribute("checked","true");
+		mostRecentTweet = null;
+		mostRecentDirect = null;
+		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 	}
 }
 
@@ -1069,6 +1129,7 @@ function fetchError(errorCode) {
 	var msg = "Fetch Error: " + errorCode;
 	if (errorCode == 401) {
 		msg = "Fetch Error: Bad Credentials";
+		Account.reauth();
 	} else if (errorCode == 403 || errorCode == 420) {
 		msg = "Fetch Error: API Rate Limit Exceeded";
 	} else if (errorCode == 500 || errorCode == 502) {

@@ -68,24 +68,26 @@ function AccountManager() {
 				logins = _loginMgr.findLogins({}, service, '', null);
 				for (var j=0, len=logins.length; j<len; j++) {
 					login = logins[j];
-					if (Social.service(service).support.xAuth) {
-						result = {
-							'username':login.username,
-							'password':null,
-							'service':'twitter',
-							'token':login.usernameField,          // shudder
-							'tokenSecret':login.password
-						};
-						break;
-					} else {
-						result = {
-							'username':login.username,
-							'password':login.password,
-							'service':'twitter',
-							'token':null,
-							'tokenSecret':null
-						};
-						break;
+					if (login.username == username) {
+						if (Social.service(service).support.xAuth) {
+							result = {
+								'username':login.username,
+								'password':null,
+								'service':'twitter',
+								'token':login.usernameField,          // shudder
+								'tokenSecret':login.password
+							};
+							break;
+						} else {
+							result = {
+								'username':login.username,
+								'password':login.password,
+								'service':'twitter',
+								'token':null,
+								'tokenSecret':null
+							};
+							break;
+						}
 					}
 				}
 			}

@@ -64,12 +64,17 @@ function Aja() {
 		} else if (window.ActiveXObject) { 
 			this.http = new ActiveXObject("Microsoft.XMLHTTP"); 
 		} 
+		if (this.http) {
+			if (this.http.mozBackgroundRequest !== undefined) {
+				this.http.mozBackgroundRequest = true;
+			}
+		}
 	}
 	
 	function getXmlReqIndex() {
 		var pos = -1; 
 		for (var i=0; i<_reqPool.length; i++) { 
-			if (_reqPool[i].freed == 1) { 
+			if (_reqPool[i].freed == 1 && !callInProgress(_reqPool[i].http)) { 
 				// Reuse one from the pool
 				pos = i; 
 				break; 
@@ -218,7 +223,7 @@ function Aja() {
 			if (_json) {
 				_http.overrideMimeType('application/json');
 			}
-			_http.open(method,url,true);	
+			_http.open(method,url,true);
 			if (options.username != undefined && options.username != null && options.username != "" &&
 				  options.password != undefined && options.password != null && options.password != "") {
 				var tok = options.username + ':' + options.password;

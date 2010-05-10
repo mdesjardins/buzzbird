@@ -46,7 +46,7 @@ try {
 		var login = logins[0]; // autologin with the first account.
 		jsdump('First login is ' + login.username);
 		jsdump('First service is ' + login.service);
-		if (Social.service(login.service).support.xAuth || login(login.username,login.password,login.service)) {
+		if (Social.service(login.service).support.xAuth || Account.login(login.username,login.password,login.service)) {
 			Ctx.user = login.username;
 			Ctx.password = login.password;
 			Ctx.list = null;
@@ -57,7 +57,7 @@ try {
 			Global.updateTimer = getMainWindow().setInterval( function(that) { that.cycleFetch(); }, interval, getMainWindow());
 			getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 			updateLoginList();
-			getChromeElement('accountmenu-' + user).setAttribute("checked","true");
+			getChromeElement('accountmenu-' + login.username).setAttribute("checked","true");
 		}
 	} else {
 		jsdump('No saved logins found.');	
@@ -78,7 +78,6 @@ function manualFirstLogin() {
 	var password = getBrowser().contentDocument.getElementById('password').value;
 	var service = getBrowser().contentDocument.getElementById('service').value;
 	var save = getBrowser().contentDocument.getElementById('saveCredentials').checked;
-//	firstLogin(u,p,s,save);	
 
 	message("Authenticating");
 	getBrowser().contentDocument.getElementById('loginThrobber').style.display = 'inline';
@@ -86,7 +85,7 @@ function manualFirstLogin() {
 	getBrowser().contentDocument.getElementById('password').disabled = true;
 	getBrowser().contentDocument.getElementById('loginOkButton').disabled = true;
 
-	var token = login(username,password,service)
+	var token = Account.login(username,password,service)
 	if (token) {
 		if (save) {
 			var accessToken = null;
@@ -117,37 +116,4 @@ function manualFirstLogin() {
 		getBrowser().contentDocument.getElementById('password').focus(); 
 	}
 }
-
-// // Called if either the user enters login info, or we find a usable login in
-// // the password manager.
-// function firstLogin(username,password,service,save) {
-// }
-// 
-// // Save these credentials as the new default if it does not already exist.
-// //
-// function saveCredentials(username,password,service,token) {
-// 	var loginManager = Components.classes["@mozilla.org/login-manager;1"]
-// 		                         .getService(Components.interfaces.nsILoginManager);
-// 	var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
-// 	                                             Components.interfaces.nsILoginInfo,
-// 	                                             "init");
-// 
-// 	// Make sure to delete old entries when trying to add the new details
-// 	var logins = loginManager.findLogins({}, service, null, null);
-// 	for (var i=0, len=logins.length; i<len; i++) {
-// 		if (logins[i].username == username) {
-// 			loginManager.removeLogin(logins[i]);
-// 			break;
-// 		}
-// 	}    
-// 
-// 	var loginInfo = null;
-// 	if (Social.service(service).support.xAuth) {
-// 		loginInfo = new nsLoginInfo(service, null, null, username, '', token.accessToken, token.accessTokenSecret);
-// 	} else {
-// 		loginInfo = new nsLoginInfo(service, null, null, username, password, '', '');	
-//   }
-// 
-//   loginManager.addLogin(loginInfo);
-// }
 
