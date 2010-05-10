@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<!--
+Copyright (c) 2010 Mike Desjardins
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<dialog id="reauthaccount-dialog" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" width="450" height="180"
+		title="Reauthorize Account"
+		buttons="accept,cancel"
+  	ondialogaccept="Account.onReauthAccountOk();"
+		ondialogcancel="Account.onReauthAccountCancel();"
+		onload="document.getElementById('username-label').value = window.arguments[0].inn.username;">
+	<vbox align="center">
+		<dialogheader title="Enter Account Credentials" description="Enter the new account credentials below"/>
+		<grid flex="1">
+			<columns>
+				<column flex="2"/>
+				<column flex="1"/>
+			</columns>
+			<rows>
+				<row>
+					<label style="vertical-align:bottom;" control="login" value="Username"/>
+					<label id="username-label" style="vertical-align:bottom;" control="login"/>
+				</row>
+				<row>
+					<label style="vertical-align:bottom;" control="password" value="Password"/>
+					<textbox id="password" type="password" size="20" />
+				</row>
+			</rows>
+		</grid>
+		<label id="authenticating" collapsed="true">Authenticating...</label>
+	</vbox>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/aja.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>	
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>	
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/utils.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/main.js"></script>
+</dialog>
