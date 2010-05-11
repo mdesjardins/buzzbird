@@ -223,6 +223,7 @@ function Aja() {
 			if (_json) {
 				_http.overrideMimeType('application/json');
 			}
+			jsdump(".......URL>>> " + url);
 			_http.open(method,url,true);
 			if (options.username != undefined && options.username != null && options.username != "" &&
 				  options.password != undefined && options.password != null && options.password != "") {
@@ -272,7 +273,7 @@ function Aja() {
 				_http.send(null);
 			} catch(e) {
 				jsdump('Problem calling send: ' + e);
-				reqTimeout(_http);
+				Aja.reqTimeout(_http);
 			}
 		}
 	}
@@ -295,12 +296,14 @@ function Aja() {
 }
 
 Aja.reqTimeout = function(httpReq) {
-	var state = httpReq.http.readyState;
-	if (state == 1 || state == 2 || state == 3) {
-		jsdump(">>> Timeout.");
-		httpReq.http.abort();
-		window.clearTimeout(httpReq.timer);
-		httpReq.freed = 1
+	if (httpReq.http) {
+		var state = httpReq.http.readyState;
+		if (state == 1 || state == 2 || state == 3) {
+			jsdump(">>> Timeout.");
+			httpReq.http.abort();
+			window.clearTimeout(httpReq.timer);
+			httpReq.freed = 1
+		}
 	}
 }
 

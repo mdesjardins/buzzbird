@@ -26,7 +26,7 @@ var Social = {
 		var result = null;
 		switch(servicename) {
 			case "twitter":
-				result = Twitter;
+				result = new Twitter();
 				break;
 			default:
 				throw "Unsupported service."
