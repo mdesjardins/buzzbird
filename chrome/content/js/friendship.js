@@ -22,13 +22,6 @@ THE SOFTWARE.
 
 Components.utils.import("resource://app/chrome/content/js/global.js");  
 
-// really need to fix this.
-var hostname = 'localhost';
-var formSubmitURL = 'localhost';  
-// twitter.com
-// realm = Twitter API
-var httprealm = null;
-
 function onOk() {
 	return true;
 }
@@ -72,29 +65,31 @@ function friendshipOnLoad() {
 	browser.contentDocument.getElementById('hisUserId').value = hisUserId;
 	browser.contentDocument.getElementById('hisUsername').value = hisUsername;
 
-   // Get Login Manager 
-   var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-		                         .getService(Components.interfaces.nsILoginManager);
-
-   // Find users for the given parameters
-   var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
-
-   // Find user from returned array of nsILoginInfo objects
-   // Will be modified when support for multiple accounts is added.  For now,
-   // just use the first one we find.
-   if (logins != null && logins.length > 0) {
+	var am = new AccountManager();
+	var logins = am.getAccounts();
+	
+	// Get Login Manager 
+	// var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
+	// 	                         .getService(Components.interfaces.nsILoginManager);
+  // Find users for the given parameters
+	//    var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
+	// 
+	//    // Find user from returned array of nsILoginInfo objects
+	//    // Will be modified when support for multiple accounts is added.  For now,
+	//    // just use the first one we find.
+	//    if (logins != null && logins.length > 0) {
 	for (var i=0; i<logins.length; i++) {
 		var myUsername = logins[i].username;
 		var myPassword = logins[i].password;
 		jsdump("myUsername=" + myUsername + ", hisUsername=" + hisUsername);
 		if (myUsername != hisUsername) {
 			// couldn't get this to work.
-			jsdump("window.height=" + window.height);
-			jsdump("window.content.document.height=" + window.content.document.height);
-			if (window.content.document.height < 600) {
-				jsdump('resizing');
-				window.resizeBy(0,250);
-			}
+			//jsdump("window.height=" + window.height);
+			//jsdump("window.content.document.height=" + window.content.document.height);
+			//if (window.content.document.height < 600) {
+			//	jsdump('resizing');
+			//	window.resizeBy(0,250);
+			//}
 			var newText = '<div class="account">' +
 						  ' <table style="width:99%;">' +
 						  '  <tr>' +
@@ -120,13 +115,10 @@ function friendshipOnLoad() {
 			getStatus(hisUserId,myUsername,myPassword)
 		}
 	}
-   } else {
-     jsdump('No saved logins found??');	
-   }
 }
 
 function getStatus(hisUserId,myUsername,myPassword) {
-	jsdump('Getting friendship status for ' + hisUserId + ' and ' + myUsername);
+	jsdump('Getting friendship status for ' + hisUserId + ' and ' + myUsername + ' on service ' + Ctx.service);
 	Social.service(Ctx.service).isFollowing({
 		"username":myUsername,
 		"password":myPassword,

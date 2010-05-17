@@ -298,6 +298,7 @@ var Twitteresque = {
 		var url = this.url.deletePost;
 		url = url.replace('DELETE_ID', options.deleteId);
 		options = this._addAuthHeader(url,'POST',options);
+		url = this._initUrl(url,null,null,null);
 		return this._ajax.post(url,options);		
 	},
 	
@@ -313,6 +314,7 @@ var Twitteresque = {
 		var url = this.url.favorite;
 		url = url.replace('UPDATE_ID', options.updateId);
 		options = this._addAuthHeader(url,'POST',options);
+		url = this._initUrl(url,null,null,null);
 		return this._ajax.post(url,options);		
 	},
 
@@ -336,6 +338,7 @@ var Twitteresque = {
 		} else {
 			throw "Screen Name or User ID required.";
 		}
+		url = this._initUrl(url,null,null,null);
 		options = this._addAuthHeader(url,'POST',options);
 		return this._ajax.post(url,options);		
 	},
@@ -360,6 +363,7 @@ var Twitteresque = {
 		} else {
 			throw "Screen Name or User ID required."
 		}
+		url = this._initUrl(url,null,null,null);
 		options = this._addAuthHeader(url,'POST',options);
 		return this._ajax.post(url,options);
 	},
@@ -397,6 +401,7 @@ var Twitteresque = {
 			throw "Target Screen Name or User ID required.";
 		}
 		
+		url = this._initUrl(url,null,null,null);
 		options = this._addAuthHeader(url,'GET',options);
 		return this._ajax.get(url,options);	
 	},

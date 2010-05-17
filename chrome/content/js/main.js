@@ -22,15 +22,24 @@ THE SOFTWARE.
 
 Components.utils.import("resource://app/chrome/content/js/global.js");  
 
-username = "";
-password = "";
-mostRecentTweet = null;
-mostRecentDirect = null;
-parser = new DOMParser();
-
-// This function does the actual authentication request to the twitter API.  Called
-// by the login function.
+// Called to initialize the main window from the browser's onload method.
 //
+function start() {
+	registerEvents();
+	showingAllTweets = getChromeElement('showingAllTweetsId').value;
+	showingReplies = getChromeElement('showingRepliesId').value;
+	showingDirect = getChromeElement('showingDirectId').value;
+	updateToolbar();
+	getChromeElement('toolbarid').collapsed=false;
+	getChromeElement('refreshButtonId').collapsed=false;
+	getChromeElement('markAllAsReadId').collapsed=false;
+	getChromeElement('openSpeechId').collapsed=false;
+	var zoom = getIntPref("buzzbird.zoom",100);
+	var docViewer = getBrowser().markupDocumentViewer;
+	docViewer.fullZoom = zoom/100.0;
+	//updateLists(Ctx.user,Ctx.password);	
+	firstCycleFetch();
+}
 
 // Registers the events for this window
 //
@@ -147,13 +156,13 @@ function renderNewTweets(newTweets,doNotifications) {
 			var tweet = newTweets[i]
 			var type = tweetType(tweet,Ctx.user,Ctx.password);
 			if ((type == 'tweet' || type == 'reply' || type == 'mine') &&
-			    (mostRecentTweet == null || mostRecentTweet < tweet.id)) {
-				mostRecentTweet = tweet.id;
-				jsdump('mostRecentTweet:' + mostRecentTweet);
+			    (Global.mostRecentUpdate == null || Global.mostRecentUpdate < tweet.id)) {
+				Global.mostRecentUpdate = tweet.id;
+				jsdump('mostRecentTweet:' + Global.mostRecentUpdate);
 			} else if ((type == 'direct-from' || type == 'direct-to') && 
-			           (mostRecentDirect == null || mostRecentDirect < tweet.id)) {
-				mostRecentDirect = newTweets[i].id;
-				jsdump('mostRecentDirect:' + mostRecentDirect);
+			           (Global.mostRecentDirect == null || Global.mostRecentDirect < tweet.id)) {
+				Global.mostRecentDirect = newTweets[i].id;
+				jsdump('mostRecentDirect:' + Global.mostRecentDirect);
 			}
 
 			var chk = window.content.document.getElementById('tweet-' + tweet.id);
@@ -672,6 +681,7 @@ function updateLoginList() {
 	menuitem.setAttribute("value", "");
 	menuitem.setAttribute("oncommand", "openAccountPreferences();");
 	getChromeElement('accountbuttonmenuid').appendChild(menuitem);
+	getChromeElement('accountmenu-' + Ctx.user).setAttribute("checked","true");
 }
 
 function quitApplication(aForceQuit) {
@@ -790,8 +800,8 @@ var Account = {
 					'token':accessToken,
 					'tokenSecret':accessTokenSecret
 				});
-				mostRecentTweet = null;
-				mostRecentDirect = null;
+				Global.mostRecentUpdate = null;
+				Global.mostRecentDirect = null;
 				getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 			} else {
 				jsdump('No token returned.');
@@ -820,15 +830,14 @@ var Account = {
 		if (Social.service(service).support.xAuth) {
 			var am = new AccountManager();
 			var account = am.getAccount(username,service);
-			Ctx.user = account.username;
-			Ctx.password = account.password;
-			Ctx.list = null;
-			Ctx.service = account.service;
-			Ctx.token = account.token;
-			Ctx.tokenSecret = account.tokenSecret;
-			Global.unread = 0;
-			Global.unreadDirectFrom = 0;
-			Global.unreadMentions = 0;
+			// Ctx.user = account.username;
+			// Ctx.password = account.password;
+			// Ctx.list = null;
+			// Ctx.service = account.service;
+			// Ctx.token = account.token;
+			// Ctx.tokenSecret = account.tokenSecret;
+			Ctx.setAccount(account);
+			Global.resetCounters();
 		} else if (!Account.login(username,password,service)) {	
 			return;
 		}
@@ -838,8 +847,6 @@ var Account = {
 			getChromeElement('accountmenu-' + oldusername).setAttribute("checked","false");
 		}
 		getChromeElement('accountmenu-' + username).setAttribute("checked","true");
-		mostRecentTweet = null;
-		mostRecentDirect = null;
 		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 	}
 }
@@ -988,38 +995,6 @@ function normalIcon(name) {
 	return show ? iconPath(name) + ".png" : null;
 }
 
-// Called to initialize the main window from the browser's onload method.
-//
-function start() {
-	registerEvents();
-	showingAllTweets = getChromeElement('showingAllTweetsId').value;
-	showingReplies = getChromeElement('showingRepliesId').value;
-	showingDirect = getChromeElement('showingDirectId').value;
-	updateToolbar();
-	getChromeElement('toolbarid').collapsed=false;
-	getChromeElement('refreshButtonId').collapsed=false;
-	getChromeElement('markAllAsReadId').collapsed=false;
-	getChromeElement('openSpeechId').collapsed=false;
-	var zoom = getIntPref("buzzbird.zoom",100);
-	var docViewer = getBrowser().markupDocumentViewer;
-	docViewer.fullZoom = zoom/100.0;
-	//updateLists(Ctx.user,Ctx.password);	
-	firstCycleFetch();
-}
-
-//
-// Twitter API calls here.
-//
-
-function fetchAll() {
-	jsdump('!!!! DEPRECATED CALL TO fetchAll()');
-	firstCycleFetch();
-}
-
-function fetch() {
-	jsdump('!!!! DEPRECATED CALL TO fetch()');	
-	cycleFetch();
-}
 
 // First cycle... fetch direct, mentions, then timeline...
 //
@@ -1033,7 +1008,7 @@ function firstCycleFetch() {
 		onSuccess: firstCycleFetchDirectCallback,
 		onError: fetchError,
 		count: 50,
-		since: mostRecentDirect,
+		since: Global.mostRecentDirect,
 	});	
 }
 
@@ -1048,7 +1023,7 @@ function firstCycleFetchDirectCallback(tweets) {
 		onSuccess: firstCycleFetchMentionsCallback,
 		onError: fetchError,
 		count: 50,
-		timelineSince: mostRecentTweet,
+		timelineSince: Global.mostRecentUpdate,
 	});		
 }
 
@@ -1063,7 +1038,7 @@ function firstCycleFetchMentionsCallback(tweets) {
 		onSuccess: firstCycleFetchTimelineCallback,
 		onError: fetchError,
 		count: 50,
-		timelineSince: mostRecentTweet,
+		timelineSince: Global.mostRecentUpdate,
 	});		
 }
 
@@ -1086,8 +1061,8 @@ function cycleFetch() {
 		onSuccess: cycleFetchDirectToCallback,
 		onError: fetchError,
 		count: 50,
-		timelineSince: mostRecentTweet,
-		directSince: mostRecentDirect,
+		timelineSince: Global.mostRecentUpdate,
+		directSince: Global.mostRecentDirect,
 	});	
 }
 
@@ -1102,7 +1077,7 @@ function cycleFetchDirectToCallback(tweets) {
 		onSuccess: cycleFetchTimelineCallback,
 		onError: fetchError,
 		count: 50,
-		timelineSince: mostRecentTweet,
+		timelineSince: Global.mostRecentUpdate,
 	});		
 }
 
@@ -1199,6 +1174,7 @@ function postDirectSuccess(tweet) {
 	fakeTweet.text = "Directly to " + tweet.substring(2);
 	fakeTweet.sender = Ctx.user;
 	fakeTweet.user.screen_name = Ctx.user;
+	// TODO: Fixme. :(
 	fakeTweet.user.profile_image_url = getChromeElement("avatarLabelId").value;
 	fakeTweet.user.name = getChromeElement("realnameLabelId").value;
 	fakeTweet.in_reply_to_screen_name = "";

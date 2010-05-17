@@ -27,17 +27,6 @@ THE SOFTWARE.
  * login info.
  */
 
-//var passwordManager = Components.classes["@mozilla.org/login-manager;1"]
-//                                .getService(Components.interfaces.nsILoginManager);
-
-//var hostname = 'localhost';
-//var formSubmitURL = 'localhost';  
-// twitter.com
-// realm = Twitter API
-//var httprealm = null;
-//var user = '';
-//var password = '';
-
 try {
 	var am = new AccountManager();
 	var logins = am.getAccounts();
@@ -57,7 +46,6 @@ try {
 			Global.updateTimer = getMainWindow().setInterval( function(that) { that.cycleFetch(); }, interval, getMainWindow());
 			getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 			updateLoginList();
-			getChromeElement('accountmenu-' + login.username).setAttribute("checked","true");
 		}
 	} else {
 		jsdump('No saved logins found.');	

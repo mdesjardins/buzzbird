@@ -282,6 +282,7 @@ function formatTweet(tweet,username,password) {
 // Writes to the top of the page.
 //
 function insertAtTop(newText) {
+	var parser = new DOMParser();
 	var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml">' + newText + '</div>', 'application/xhtml+xml');
 	if (doc.documentElement.nodeName != "parsererror" ) {
 		var root = doc.documentElement;

@@ -29,7 +29,15 @@ var Ctx = {
 	service:"",
 	token:"",
 	tokenSecret:"",
-	list:""
+	list:"",
+	setAccount : function(account) {
+		Ctx.user = account.username;
+		Ctx.password = account.password;
+		Ctx.list = null;
+		Ctx.service = account.service;
+		Ctx.token = account.token;
+		Ctx.tokenSecret = account.tokenSecret;
+	}
 };
 
 // Other Global junk
@@ -38,5 +46,17 @@ var Global = {
 	unread:0,
 	unreadDirectFrom:0,
 	unreadMentions:0,
-	supportedServices: ['twitter','identi.ca']
+	mostRecentDirect:null,
+	mostRecentUpdate:null,
+	mostRecentMention:null,
+	supportedServices: ['twitter','identi.ca'],
+	resetCounters : function() {
+		Global.updateTimer = null;
+		Global.unread = 0;
+		Global.unreadDirectFrom = 0;
+		Global.unreadMentions = 0;
+		Global.mostRecentDirect = null;
+		Global.mostRecentUpdate = null;
+		Global.mostRecentMention = null;
+	}
 }
