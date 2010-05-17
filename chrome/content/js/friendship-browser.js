@@ -31,19 +31,22 @@ function toggleFollow(myUsername,myPassword,hisUserId) {
 	}
 }
 
-function unfollow(myUsername,myPassword,hisUserId) {
+function unfollow(myUsername,myPassword,hisScreenName) {
 	jsdump(myUsername + ' is unfollowing ' + hisUserId);
 	var throb = document.getElementById('throb-' + myUsername);
 	throb.style.display='inline';
 	var check = document.getElementById('check-' + myUsername);
 	check.style.display='none';
 
+	var am = new AccountManager();
+	account = am.getAccount(myUsername,Ctx.service);
+
 	Social.service(Ctx.service).unfollow({
-		"username":myUsername,
-		"password":myPassword,
-		"token": Ctx.token,
-		"tokenSecret": Ctx.tokenSecret,
-		"userId":hisUserId,
+		"username": account.username,
+		"password": account.password,
+		"token": account.token,
+		"tokenSecret": account.tokenSecret,
+		"screenName": hisScreenName,
 		"onSuccess": function(result) { friendshipCallback(result,myUsername); },
 		"onError": function(status) {
 			jsdump("Error w/ unfollow, HTTP Status: " + status);
@@ -66,12 +69,15 @@ function follow(myUsername,myPassword,hisUserId) {
 	check.style.display='none';
 	var hisUsername = document.getElementById('hisUsername').value;
 
+	var am = new AccountManager();
+	account = am.getAccount(myUsername,Ctx.service);
+
 	Social.service(Ctx.service).follow({
-		"username":myUsername,
-		"password":myPassword,
-		"token": Ctx.token,
-		"tokenSecret": Ctx.tokenSecret,
-		"screenName":hisUserId,
+		"username": account.username,
+		"password": account.password,
+		"token": account.token,
+		"tokenSecret": account.tokenSecret,
+		"screenName": hisUserId,
 		"onSuccess": function(result) { friendshipCallback(result,myUsername); },
 		"onError": function(status) {
 			jsdump('Error w/ follow: HTTP status: ' + status)

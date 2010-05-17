@@ -235,7 +235,7 @@ function Aja() {
 				for (var i=0, len=options.parameters.length; i<len; i+=2) {
 					var key = options.parameters[i];
 					var value = options.parameters[i+1];
-					jsdump('SETTING ' + key + ' TO ' + value);
+					//jsdump('SETTING ' + key + ' TO ' + value);
 					_http.setRequestHeader(key,value);
 				}
 			}
@@ -259,6 +259,7 @@ function Aja() {
 							if (_http.status != null && _http.status != undefined) {
 								status = _http.status;
 							}
+							jsdump('>>> ERROR ' + status + ', ' + _http.responseText);
 							options.onError(status); 
 							result = { 'error': status };
 						}
