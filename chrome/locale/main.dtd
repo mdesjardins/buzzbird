@@ -100,8 +100,8 @@
 <!ENTITY visitSiteCmd.label           "Visit Buzzbird Homepage">
 <!ENTITY showDebuggerCmd.label           "Show Debugger">
 
-<!ENTITY showAllTweets.label           "Show all tweets">
-<!ENTITY showingAllTweets.label           "Showing all tweets">
+<!ENTITY showAllTweets.label           "Show timeline">
+<!ENTITY showingAllTweets.label           "Showing timeline">
 <!ENTITY showReplies.label           "Show mentions">
 <!ENTITY showingReplies.label           "Showing mentions">
 <!ENTITY showDirect.label           "Show direct messages">

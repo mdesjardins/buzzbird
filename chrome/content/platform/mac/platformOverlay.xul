@@ -24,7 +24,7 @@
 
 	<menubar id="menubarid">
 		<menupopup id="menu_ToolsPopup">
-			<menuitem id="menu_preferences" label="&preferencesCmdMac.label;" key="key_preferencesCmdMac" oncommand="openPreferences();"/>
+			<menuitem id="menu_preferences" label="&preferencesCmdMac.label;" key="key_preferencesCmdMac" oncommand="UI.openPreferences();"/>
 	        <menuitem id="menu_mac_services" label="&servicesMenuMac.label;"/>
 	        <menuitem id="menu_mac_hide_app" label="&hideThisAppCmdMac.label;" key="key_hideThisAppCmdMac"/>
 	        <menuitem id="menu_mac_hide_others" label="&hideOtherAppsCmdMac.label;" key="key_hideOtherAppsCmdMac"/>

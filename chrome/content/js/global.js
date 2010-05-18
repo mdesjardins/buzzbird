@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-var EXPORTED_SYMBOLS = ["Ctx","Global"];  
+var EXPORTED_SYMBOLS = ["Ctx","Global","strings"];  
 
 // Current Context
 var Ctx = {
@@ -30,6 +30,7 @@ var Ctx = {
 	token:"",
 	tokenSecret:"",
 	list:"",
+	profile:null,
 	setAccount : function(account) {
 		Ctx.user = account.username;
 		Ctx.password = account.password;
@@ -37,6 +38,7 @@ var Ctx = {
 		Ctx.service = account.service;
 		Ctx.token = account.token;
 		Ctx.tokenSecret = account.tokenSecret;
+		Ctx.profile = null;
 	}
 };
 
@@ -60,3 +62,23 @@ var Global = {
 		Global.mostRecentMention = null;
 	}
 }
+
+function Strings() { 
+	var stringBundleService =
+	    Components.classes["@mozilla.org/intl/stringbundle;1"]
+	    .getService(Components.interfaces.nsIStringBundleService);
+	var stringProps = stringBundleService.createBundle("chrome://buzzbird/locale/strings.properties");
+
+  this.get = function(name) {
+		var result = name.replace(/_/g," ");
+		try {
+			x = stringProps.GetStringFromName(name);
+			if (x != null && x != "") {
+				result = x;
+			}
+		} catch (e) {	}
+		return result;
+	}
+}
+
+var strings = new Strings();

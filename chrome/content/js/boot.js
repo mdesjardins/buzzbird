@@ -43,9 +43,9 @@ try {
 			Ctx.token = login.token;
 			Ctx.tokenSecret = login.tokenSecret;
 			var interval = getIntPref('buzzbird.update.interval',180000);
-			Global.updateTimer = getMainWindow().setInterval( function(that) { that.cycleFetch(); }, interval, getMainWindow());
+			Global.updateTimer = getMainWindow().setInterval( function(that) { that.Fetch.go(); }, interval, getMainWindow());
 			getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
-			updateLoginList();
+			Toolbar.updateAccountList();
 		}
 	} else {
 		jsdump('No saved logins found.');	
@@ -67,7 +67,7 @@ function manualFirstLogin() {
 	var service = getBrowser().contentDocument.getElementById('service').value;
 	var save = getBrowser().contentDocument.getElementById('saveCredentials').checked;
 
-	message("Authenticating");
+	Statusbar.message("Authenticating");
 	getBrowser().contentDocument.getElementById('loginThrobber').style.display = 'inline';
 	getBrowser().contentDocument.getElementById('username').disabled = true;
 	getBrowser().contentDocument.getElementById('password').disabled = true;
@@ -92,10 +92,10 @@ function manualFirstLogin() {
 			});
 		}
 		var interval = getIntPref('buzzbird.update.interval',180000);
-		Global.updateTimer = getMainWindow().setInterval( function(that) { that.cycleFetch(); }, interval, getMainWindow());
+		Global.updateTimer = getMainWindow().setInterval( function(that) { that.Fetch.go(); }, interval, getMainWindow());
 		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 	} else {
-		message("");
+		Statusbar.message("");
 		getBrowser().contentDocument.getElementById('badAuth').style.display = 'inline';
 		getBrowser().contentDocument.getElementById('loginThrobber').style.display = 'none';
 		getBrowser().contentDocument.getElementById('username').disabled = false;

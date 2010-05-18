@@ -207,8 +207,8 @@ THE SOFTWARE.
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>	
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>	
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
-	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/twitteresque.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/account-manager.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
 </prefwindow>

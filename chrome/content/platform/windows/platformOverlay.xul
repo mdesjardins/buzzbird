@@ -7,7 +7,7 @@
 	<menubar id="menubarid">
 	  <menu id="tools-menu">
 	    <menupopup id="menu_toolsPopup">
-	      <menuitem id="menu_preferences" label="&preferencesCmd.label;" key="key_preferencesCmd" oncommand="openPreferences();"/>
+	      <menuitem id="menu_preferences" label="&preferencesCmd.label;" key="key_preferencesCmd" oncommand="UI.openPreferences();"/>
 	    </menupopup>
 	  </menu>
 	</menubar>

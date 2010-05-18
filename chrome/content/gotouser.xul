@@ -26,8 +26,8 @@ THE SOFTWARE.
 <dialog id="gotouser-dialog" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" width="450" height="150"
 		title="Go To User"
 		buttons="accept,cancel"
-	  	ondialogaccept="onGoToUserOk();"
-		ondialogcancel="onGoToUserCancel();"
+	  	ondialogaccept="UI.onGoToUserOk();"
+		ondialogcancel="UI.onGoToUserCancel();"
 		buttonlabelaccept="Go To User"
 		buttonaccesskeyaccept="G">
 	<vbox align="center">

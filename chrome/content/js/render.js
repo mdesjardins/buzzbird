@@ -290,6 +290,6 @@ function insertAtTop(newText) {
 			window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.firstChild);
 		}
 	} else {
-		message('An error was encountered while parsing tweets.');
+		Statusbar.message('An error was encountered while parsing tweets.');
 	}	
 }

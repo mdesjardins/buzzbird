@@ -47,45 +47,39 @@ THE SOFTWARE.
 	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
-    <script src="chrome://venkman/content/venkman-overlay.js" />
+	<script src="chrome://venkman/content/venkman-overlay.js" />
 
 	<commandset id="baseMenuCommandSet">
-        <command id="minimizeWindow"
-                 label="&minimizeWindow.label;"
-                 oncommand="window.minimize();" />
-        <command id="zoomWindow"
-                 label="&zoomWindow.label;"
-                 oncommand="zoomWindow();" />
-    </commandset>
+		<command id="minimizeWindow" label="&minimizeWindow.label;" oncommand="window.minimize();" />
+		<command id="zoomWindow" label="&zoomWindow.label;" oncommand="zoomWindow();" />
+	</commandset>
 
-
-    <!-- ======== -->
-    <!-- Commands -->
-    <!-- ======== -->
+	<!-- ======== -->
+	<!-- Commands -->
+	<!-- ======== -->
 	<commandset id="mainCommandSet">
 		<command id="cmd_quitApplication" oncommand="quitApplication();"/>
-		<command id="cmd_goToUser" oncommand="goToUser();" />
-		<command id="cmd_markAllAsRead" oncommand="markAllAsRead();" />
+		<command id="cmd_goToUser" oncommand="UI.goToUser();" />
+		<command id="cmd_markAllAsRead" oncommand="UI.markAllAsRead();" />
 		<command id="cmd_deleteAllRead" oncommand="deleteAllRead();" />
-		<command id="cmd_refreshNow" oncommand="forceFetch();" />
-		<command id="cmd_shortenUrl" oncommand="shortenUrl();" />
-		<command id="cmd_speech" oncommand="toggleSpeech();" />
-		<command id="cmd_zoomBigger" oncommand="zoomBigger();" />
-		<command id="cmd_zoomSmaller" oncommand="zoomSmaller();" />
-		<command id="cmd_zoomReset" oncommand="zoomReset();" />
+		<command id="cmd_refreshNow" oncommand="Fetch.force();" />
+		<command id="cmd_shortenUrl" oncommand="UI.shortenUrl();" />
+		<command id="cmd_speech" oncommand="Entry.toggleVisible();" />
+		<command id="cmd_zoomBigger" oncommand="Zoom.bigger();" />
+		<command id="cmd_zoomSmaller" oncommand="Zoom.smaller();" />
+		<command id="cmd_zoomReset" oncommand="Zoom.reset();" />
 		<command id="cmd_showDebugger" oncommand="showDebugger();" />
-		<command id="cmd_toolbarIconsAndText" oncommand="toolbarMode('icons-and-text');" />
-		<command id="cmd_toolbarIconsOnly" oncommand="toolbarMode('icons-only');" />
-		<command id="cmd_toolbarTextOnly" oncommand="toolbarMode('text-only');" />
-		<command id="cmd_toolbarToggleSmallIcons" oncommand="toggleSmallIcons();" />
+		<command id="cmd_toolbarIconsAndText" oncommand="Toolbar.setMode('icons-and-text');" />
+		<command id="cmd_toolbarIconsOnly" oncommand="Toolbar.setMode('icons-only');" />
+		<command id="cmd_toolbarTextOnly" oncommand="Toolbar.setMode('text-only');" />
+		<command id="cmd_toolbarToggleSmallIcons" oncommand="Toolbar.toggleIconSize();" />
 	</commandset>
 
 	<commandset id="editMenuCommands"/>
 
-
-    <!-- ======== -->
-    <!-- Key Sets -->
-    <!-- ======== -->
+	<!-- ======== -->
+	<!-- Key Sets -->
+	<!-- ======== -->
 	<keyset id="editMenuKeys" />
 
 	<keyset id="baseMenuKeyset">
@@ -115,10 +109,9 @@ THE SOFTWARE.
 			 modifiers="accel"/>
 	</keyset>
 
-
-    <!-- ======== -->
-    <!-- Menu Bar -->
-    <!-- ======== -->
+	<!-- ======== -->
+	<!-- Menu Bar -->
+	<!-- ======== -->
 	<menubar id="menubarid">
 		<!-- Menu item IDs were chosen quite intentionally... see https://developer.mozilla.org/en/XULRunner/MacFAQ -->
 		<menu id="filemenuid" label="File">
@@ -141,120 +134,114 @@ THE SOFTWARE.
 		                  accesskey="&redoCmd.accesskey;"
 		                  command="cmd_redo"/>
 				<menuseparator/>
-		        <menuitem label="&cutCmd.label;"
-		                  key="key_cut"
-		                  accesskey="&cutCmd.accesskey;"
-		                  command="cmd_cut"/>
-		        <menuitem label="&copyCmd.label;"
-		                  key="key_copy"
-	                      accesskey="&copyCmd.accesskey;"
-	                      command="cmd_copy" />
-		        <menuitem label="&pasteCmd.label;"
-		                  key="key_paste"
-		                  accesskey="&pasteCmd.accesskey;"
-		                  command="cmd_paste"/>
-		        <menuitem label="&deleteCmd.label;"
-		                  key="key_delete"
-		                  accesskey="&deleteCmd.accesskey;"
-		                  command="cmd_delete"/>
-		        <menuseparator/>
-		        <menuitem id="menu_selectAll"
-		                  label="&selectAllCmd.label;"
-		                  key="key_selectAll"
-		                  accesskey="&selectAllCmd.accesskey;"
-		                  command="cmd_selectAll"/>
+				<menuitem label="&cutCmd.label;"
+									key="key_cut"
+									accesskey="&cutCmd.accesskey;"
+									command="cmd_cut"/>
+				<menuitem label="&copyCmd.label;"
+					  			key="key_copy"
+									accesskey="&copyCmd.accesskey;"
+									command="cmd_copy" />
+				<menuitem label="&pasteCmd.label;"
+									key="key_paste"
+									accesskey="&pasteCmd.accesskey;"
+									command="cmd_paste"/>
+				<menuitem label="&deleteCmd.label;"
+									key="key_delete"
+									accesskey="&deleteCmd.accesskey;"
+									command="cmd_delete"/>
+				<menuseparator/>
+				<menuitem id="menu_selectAll"
+									label="&selectAllCmd.label;"
+									key="key_selectAll"
+									accesskey="&selectAllCmd.accesskey;"
+									command="cmd_selectAll"/>
 			</menupopup>
 		</menu>
 
 
 		<menu id="tools-menu" label="&toolsMenu.label;" accesskey="&toolsMenu.accesskey;">
 			<menupopup id="menu_toolsPopup">
-        	<menuitem label="&goToUserCmd.label;"
-                  	  key="key_goToUser"
-                  	  accesskey="&goToUserCmd.accesskey;"
-                  	  command="cmd_goToUser"/>
-	        	<menuitem label="&markAllAsReadCmd.label;"
-	                  	  key="key_markAllAsRead"
-	                  	  accesskey="&markAllAsReadCmd.accesskey;"
-	                  	  command="cmd_markAllAsRead"/>
-			    <menuitem label="&refreshNowCmd.label;"
-	              	  	  key="key_refreshNow"
-	                  	  accesskey="&refreshNowCmd.accesskey;"
-	                  	  command="cmd_refreshNow"/>
-			    <menuitem label="&shortenUrlCmd.label;"
-	              	  	  key="key_shortenUrl"
-	                  	  accesskey="&shortenUrlCmd.accesskey;"
-	                  	  command="cmd_shortenUrl"/>
+				<menuitem label="&goToUserCmd.label;"
+									key="key_goToUser"
+									accesskey="&goToUserCmd.accesskey;"
+									command="cmd_goToUser"/>
+				<menuitem label="&markAllAsReadCmd.label;"
+									key="key_markAllAsRead"
+									accesskey="&markAllAsReadCmd.accesskey;"
+									command="cmd_markAllAsRead"/>
+				<menuitem label="&refreshNowCmd.label;"
+									key="key_refreshNow"
+									accesskey="&refreshNowCmd.accesskey;"
+									command="cmd_refreshNow"/>
+				<menuitem label="&shortenUrlCmd.label;"
+									key="key_shortenUrl"
+									accesskey="&shortenUrlCmd.accesskey;"
+									command="cmd_shortenUrl"/>
 				<menuseparator />
 				<menuitem label="&zoomBiggerCmd.label;"
 				          accesskey="&zoomBiggerCmd.accesskey;"
 				          command="cmd_zoomBigger" />
 				<menuitem label="&zoomSmallerCmd.label;"
-		                  accesskey="&zoomSmallerCmd.accesskey;"
-		                  command="cmd_zoomSmaller" />
+									accesskey="&zoomSmallerCmd.accesskey;"
+									command="cmd_zoomSmaller" />
 				<menuitem label="&zoomResetCmd.label;"
-                          command="cmd_zoomReset" />
+									command="cmd_zoomReset" />
 			</menupopup>
 		</menu>
 
 		<menu id="helpmenuid" label="Help">
 		  <menupopup id="menu_HelpPopup">
-			<menuitem id="aboutName"
-	                  accesskey="&aboutCmd.accesskey;"
-	                  label="&aboutCmd.label;"
-	                  oncommand="openAboutDialog();"/>
-			<menuitem id="visitSite"
-					  label="&visitSiteCmd.label;"
-					  oncommand="linkTo('http://getbuzzbird.com');"/>
-			<!-- XXX: Should properly only be enabled when using the debug mode.
-			<menuitem id="showDebugger"
-					  label="&showDebuggerCmd.label;"
-                      oncommand="showDebugger()" />
-            -->
+				<menuitem id="aboutName"
+		                  accesskey="&aboutCmd.accesskey;"
+		                  label="&aboutCmd.label;"
+		                  oncommand="openAboutDialog();"/>
+				<menuitem id="visitSite"
+									label="&visitSiteCmd.label;"
+										oncommand="linkTo('http://getbuzzbird.com');"/>
 		  </menupopup>
 		</menu>
 	</menubar>
 	
 	<popup id="contentAreaContextMenu"
-           onpopupshowing="if (event.target != this) return true; updateEditUIVisibility(); gContextMenu = new nsContextMenu(this, window.getBrowser()); return gContextMenu.shouldDisplay;"
-           onpopuphiding="if (event.target == this) { gContextMenu = null; updateEditUIVisibility(); }">
+				onpopupshowing="if (event.target != this) return true; updateEditUIVisibility(); gContextMenu = new nsContextMenu(this, window.getBrowser()); return gContextMenu.shouldDisplay;"
+				onpopuphiding="if (event.target == this) { gContextMenu = null; updateEditUIVisibility(); }">
+		<menuitem id="context-cut"
+							label="&cutCmd.label;"
+							accesskey="&cutCmd.accesskey;"
+							command="cmd_cut"/>
+		<menuitem id="context-copy"
+							label="&copyCmd.label;"
+							accesskey="&copyCmd.accesskey;"
+							command="cmd_copy"/>
+		<menuitem id="context-paste"
+							label="&pasteCmd.label;"
+							accesskey="&pasteCmd.accesskey;"
+							command="cmd_paste"/>
+		<menuitem id="context-delete"
+							label="&deleteCmd.label;"
+							accesskey="&deleteCmd.accesskey;"
+							command="cmd_delete"/>
+		<menuseparator id="context-sep-paste"/>
+		<menuitem id="context-selectall"
+							label="&selectAllCmd.label;"
+							accesskey="&selectAllCmd.accesskey;"
+							command="cmd_selectAll"/>      
+	</popup>
 
-      <menuitem id="context-cut"
-                label="&cutCmd.label;"
-                accesskey="&cutCmd.accesskey;"
-                command="cmd_cut"/>
-      <menuitem id="context-copy"
-                label="&copyCmd.label;"
-                accesskey="&copyCmd.accesskey;"
-                command="cmd_copy"/>
-      <menuitem id="context-paste"
-                label="&pasteCmd.label;"
-                accesskey="&pasteCmd.accesskey;"
-                command="cmd_paste"/>
-      <menuitem id="context-delete"
-                label="&deleteCmd.label;"
-                accesskey="&deleteCmd.accesskey;"
-                command="cmd_delete"/>
-      <menuseparator id="context-sep-paste"/>
-      <menuitem id="context-selectall"
-                label="&selectAllCmd.label;"
-                accesskey="&selectAllCmd.accesskey;"
-                command="cmd_selectAll"/>      
-    </popup>
-
-	<menupopup id="toolbar-context-menu" onpopupshowing="onToolbarContextMenuOpen();">
+	<menupopup id="toolbar-context-menu" onpopupshowing="Toolbar.onContextMenuOpen();">
 	  <menuitem id="toolbar-context-menu-icon-and-text" type="checkbox" label="Icon and Text" command="cmd_toolbarIconsAndText"/>
 	  <menuitem id="toolbar-context-menu-icon-only" type="checkbox" label="Icon Only" command="cmd_toolbarIconsOnly"/>
 	  <menuitem id="toolbar-context-menu-text-only" type="checkbox" label="Text Only" command="cmd_toolbarTextOnly"/>
 	  <menuseparator/>
-  	  <menuitem id="toolbar-context-menu-use-small-size" type="checkbox" persist="false" label="Use Small Size" command="cmd_toolbarToggleSmallIcons"/>
+		<menuitem id="toolbar-context-menu-use-small-size" type="checkbox" persist="false" label="Use Small Size" command="cmd_toolbarToggleSmallIcons"/>
 	</menupopup>
     
-    <!-- =================== -->
-		<!-- Actual Window Stuff -->
-    <!-- =================== -->
+	<!-- =================== -->
+	<!-- Actual Window Stuff -->
+	<!-- =================== -->
 
-    <toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true" style="border:0;" context="toolbar-context-menu">
+	<toolbar id="toolbarid" class="chromeclass-toolbar" collapsed="true" style="border:0;" context="toolbar-context-menu">
 		<vbox flex="5">
 			<hbox pack="5">
 				<!-- Hidden thingies -->
@@ -270,8 +257,8 @@ THE SOFTWARE.
 					orient="vertical"
 					style="width:60px;"
 					image="chrome://buzzbird/skin/images/buttons/large/refresh.png" 
-					onmousedown="this.image=clickedIcon('refresh');"
-					onmouseup="this.image=normalIcon('refresh');"
+					onmousedown="this.image=Toolbar.clickedIcon('refresh');"
+					onmouseup="this.image=Toolbar.normalIcon('refresh');"
 					tooltiptext="&refreshNowCmd.label;"
 					command="cmd_refreshNow" />
 				<toolbarbutton id="markAllAsReadId"
@@ -280,8 +267,8 @@ THE SOFTWARE.
 					orient="vertical"
 					style="width:60px;"
 					image="chrome://buzzbird/skin/images/buttons/large/mark-all.png" 
-					onmousedown="this.image=clickedIcon('mark-all');"
-					onmouseup="this.image=normalIcon('mark-all');"
+					onmousedown="this.image=Toolbar.clickedIcon('mark-all');"
+					onmouseup="this.image=Toolbar.normalIcon('mark-all');"
 					tooltiptext="&markAllAsReadCmd.label;"
 					command="cmd_markAllAsRead" />
 				<toolbarbutton id="openSpeechId"
@@ -290,8 +277,8 @@ THE SOFTWARE.
 					orient="vertical"
 					image="chrome://buzzbird/skin/images/buttons/large/comment-add.png" 
 					style="width:60px;"
-					onmousedown="this.image=clickedIcon('comment-add');"
-					onmouseup="this.image=normalIcon('comment-add');"
+					onmousedown="this.image=Toolbar.clickedIcon('comment-add');"
+					onmouseup="this.image=Toolbar.normalIcon('comment-add');"
 					tooltiptext="&speechCmd.label;"
 					command="cmd_speech" />
 				<spacer flex="10" />
@@ -300,7 +287,7 @@ THE SOFTWARE.
 					<spacer flex="10"/>
 					<toolbarbutton id="listbuttonid" 
 						       type="menu-button" 
-							   oncommand="showListMenu();">
+							   oncommand="Toolbar.showListMenu();">
 			    		<menupopup id="listbuttonmenuid" selectedIndex="0" style="padding:0px; margin:0px;">
 			    		</menupopup>
 					</toolbarbutton>
@@ -311,7 +298,7 @@ THE SOFTWARE.
 					<toolbarbutton id="accountbuttonid" 
 						       			 type="menu-button" 
 												 collapsed="true"
-							   				 oncommand="showAccountMenu();">
+							   				 oncommand="Toolbar.showAccountMenu();">
 			    		<menupopup id="accountbuttonmenuid" selectedIndex="0" style="padding:0px; margin:0px;">
 			    		</menupopup>
 					</toolbarbutton>
@@ -321,17 +308,17 @@ THE SOFTWARE.
 					<toolbarbutton id="filterbuttonid" 
 						       type="menu-button" 
 						       label="&showingAllTweets.label;" 
-							   oncommand="showFilterMenu();">
+							   oncommand="Toolbar.showFilterMenu();">
 			    		<menupopup id="filtermenupopupid" selectedIndex="0" style="padding:0px; margin:0px;">
-			        		<menuitem id="filter-alltweets" type="checkbox" label="&showAllTweets.label;" value="1" oncommand="showAllTweets();" checked="true"/>
-			        		<menuitem id="filter-responses" type="checkbox" label="&showReplies.label;" value="2" oncommand="showResponses();" checked="false"/>
-			        		<menuitem id="filter-direct" type="checkbox" label="&showDirect.label;" value="3" oncommand="showDirect();" checked="false"/>
+			        		<menuitem id="filter-alltweets" type="checkbox" label="&showAllTweets.label;" value="1" oncommand="Show.all();" checked="true"/>
+			        		<menuitem id="filter-responses" type="checkbox" label="&showReplies.label;" value="2" oncommand="Show.mentions();" checked="false"/>
+			        		<menuitem id="filter-direct" type="checkbox" label="&showDirect.label;" value="3" oncommand="Show.direct();" checked="false"/>
 			    		</menupopup>
 					</toolbarbutton>
 				</vbox>
 			</hbox>
 			
-			<!-- Speech Area  -->
+			<!-- Entry Area  -->
 			
 			<vbox flex="5" width="100%">
 				<box id="speechheaderid"
@@ -357,64 +344,64 @@ THE SOFTWARE.
 						type="menu"
 						tooltiptext="&insertSymbolCmd.label;">
 							<menupopup>
-								<menuitem label="&#x2764;" oncommand="appendText('&#x2764;');" /> <!-- Heart -->
-								<menuitem label="&#x266C;" oncommand="appendText('&#x266C;');" /> <!-- Beamed Sixteenth Notes -->
-								<menuitem label="&#x263A;" oncommand="appendText('&#x263A;');" /> <!-- Smiley -->
-								<menuitem label="&#x2639;" oncommand="appendText('&#x2639;');" /> <!-- Sad -->
-								<menuitem label="&#x2708;" oncommand="appendText('&#x2708;');" /> <!-- Airplane -->
-								<menuitem label="&#x2709;" oncommand="appendText('&#x2709;');" /> <!-- Envelope -->
-								<menuitem label="&#x270E;" oncommand="appendText('&#x270E;');" /> <!-- Pencil -->
-								<menuitem label="&#x271D;" oncommand="appendText('&#x271D;');" /> <!-- Cross -->
-								<menuitem label="&#x273F;" oncommand="appendText('&#x273F;');" /> <!-- Flower -->
-								<menuitem label="&#x2704;" oncommand="appendText('&#x2704;');" /> <!-- Scissors -->
-								<menuitem label="&#x261E;" oncommand="appendText('&#x261E;');" /> <!-- Pointing Finger -->
-								<menuitem label="&#x2620;" oncommand="appendText('&#x2620;');" /> <!-- Skull and Crossbones -->
-								<menuitem label="&#x262E;" oncommand="appendText('&#x262E;');" /> <!-- Peace -->
-								<menuitem label="&#x262F;" oncommand="appendText('&#x262F;');" /> <!-- Yin Yang -->
-								<menuitem label="&#x2600;" oncommand="appendText('&#x2600;');" /> <!-- Sun -->
-								<menuitem label="&#x2601;" oncommand="appendText('&#x2601;');" /> <!-- Cloud -->
-								<menuitem label="&#x2602;" oncommand="appendText('&#x2602;');" /> <!-- Umbrella -->
-								<menuitem label="&#x2744;" oncommand="appendText('&#x2744;');" /> <!-- Snowflake -->
-								<menuitem label="&#x2603;" oncommand="appendText('&#x2603;');" /> <!-- Snowman -->
+								<menuitem label="&#x2764;" oncommand="Entry.appendText('&#x2764;');" /> <!-- Heart -->
+								<menuitem label="&#x266C;" oncommand="Entry.appendText('&#x266C;');" /> <!-- Beamed Sixteenth Notes -->
+								<menuitem label="&#x263A;" oncommand="Entry.appendText('&#x263A;');" /> <!-- Smiley -->
+								<menuitem label="&#x2639;" oncommand="Entry.appendText('&#x2639;');" /> <!-- Sad -->
+								<menuitem label="&#x2603;" oncommand="Entry.appendText('&#x203D;');" /> <!-- Interrobang -->
+								<menuitem label="&#x2708;" oncommand="Entry.appendText('&#x2708;');" /> <!-- Airplane -->
+								<menuitem label="&#x2709;" oncommand="Entry.appendText('&#x2709;');" /> <!-- Envelope -->
+								<menuitem label="&#x270E;" oncommand="Entry.appendText('&#x270E;');" /> <!-- Pencil -->
+								<menuitem label="&#x271D;" oncommand="Entry.appendText('&#x271D;');" /> <!-- Cross -->
+								<menuitem label="&#x273F;" oncommand="Entry.appendText('&#x273F;');" /> <!-- Flower -->
+								<menuitem label="&#x2704;" oncommand="Entry.appendText('&#x2704;');" /> <!-- Scissors -->
+								<menuitem label="&#x261E;" oncommand="Entry.appendText('&#x261E;');" /> <!-- Pointing Finger -->
+								<menuitem label="&#x2620;" oncommand="Entry.appendText('&#x2620;');" /> <!-- Skull and Crossbones -->
+								<menuitem label="&#x262E;" oncommand="Entry.appendText('&#x262E;');" /> <!-- Peace -->
+								<menuitem label="&#x262F;" oncommand="Entry.appendText('&#x262F;');" /> <!-- Yin Yang -->
+								<menuitem label="&#x2600;" oncommand="Entry.appendText('&#x2600;');" /> <!-- Sun -->
+								<menuitem label="&#x2601;" oncommand="Entry.appendText('&#x2601;');" /> <!-- Cloud -->
+								<menuitem label="&#x2602;" oncommand="Entry.appendText('&#x2602;');" /> <!-- Umbrella -->
+								<menuitem label="&#x2744;" oncommand="Entry.appendText('&#x2744;');" /> <!-- Snowflake -->
+								<menuitem label="&#x2603;" oncommand="Entry.appendText('&#x2603;');" /> <!-- Snowman -->
 							</menupopup>
 					</toolbarbutton>
 					<checkbox id="replycheckboxid" style="margin-left:14px;" label="Reply?" hidden="true" />
 					<box flex="50"/>
 					<toolbarbutton id="postbuttonid"
 												 disabled="true"
-					               oncommand="postUpdate();"
+					               oncommand="Post.go();"
 					               label="Post"/>
 				</box>
 				<textbox id="textboxid" 
 				          multiline="true" 
 				          rows="2"
 				          flex="2" 
-		              onkeypress="keyPressed(event);" 
-		              onkeyup="keyUp(event);" 
-		              onblur="postTextChanged();"
+		              onkeypress="Entry.keyPressed(event);" 
+		              onkeyup="Entry.keyUp(event);" 
+		              onblur="Entry.postTextChanged();"
 	              	spellcheck="true"
 			            collapsed="true"
-			 		  	  width="100%" />
+			 		  	  	width="100%" />
 			</vbox>
 		</vbox>
     </toolbar>
 
-	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
+		<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
 
     <vbox flex="1">
       	<browser height="450" 
-                   type="content-primary" 
-                   src="chrome://buzzbird/content/login.html" 
-                   id="browserid" 
-                   flex="3"
-				   autoscroll="true"
-				   onscroll="browserScrolled(event);" 
-                   contextmenu="contentAreaContextMenu"
-				   style="padding:0px; margin:0px;"
-                   tooltip="aHTMLTooltip" />
+									type="content-primary" 
+									src="chrome://buzzbird/content/login.html" 
+									id="browserid" 
+									flex="3"
+									autoscroll="true"
+									onscroll="UI.browserScrolled(event);" 
+									contextmenu="contentAreaContextMenu"
+									style="padding:0px; margin:0px;"
+									tooltip="aHTMLTooltip" />
     </vbox>
     <statusbar id="statusbarid" height="5">
-<!-- toolbarbuttons used to be here -->
 		<spacer flex="1"/>
 		<label value="" id="statusid" />
 	</statusbar>

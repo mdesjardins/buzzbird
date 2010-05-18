@@ -56,7 +56,7 @@ THE SOFTWARE.
 	<commandset id="mainCommandSet">
 		<command id="cmd_quitApplication" oncommand="quitApplication();"/>
 		<command id="cmd_markAllAsRead" oncommand="markAllAsRead();" />
-		<command id="cmd_refreshNow" oncommand="forceFetch();" />
+		<command id="cmd_refreshNow" oncommand="Fetch.force();" />
 		<command id="cmd_shortenUrl" oncommand="shortenUrl();" />
 	</commandset>
 	
