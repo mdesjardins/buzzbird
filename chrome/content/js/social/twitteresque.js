@@ -312,9 +312,9 @@ var Twitteresque = {
 	//	
 	favorite : function(options) {
 		var url = this.url.favorite;
+		url = this._initUrl(url,null,null,null);		
 		url = url.replace('UPDATE_ID', options.updateId);
 		options = this._addAuthHeader(url,'POST',options);
-		url = this._initUrl(url,null,null,null);
 		return this._ajax.post(url,options);		
 	},
 

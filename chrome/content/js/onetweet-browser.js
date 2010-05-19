@@ -24,26 +24,18 @@ Components.utils.import("resource://app/chrome/content/js/global.js");
 
 // Displays one tweet in a separate dialog.
 //
-function viewOneTweet(tweetId) {
+function Browser() { }
+Browser.prototype = BrowserBase;
+
+Browser.prototype.viewConversation = function(tweetId) {
 	jsdump('viewing conversation ' + tweetId);
 	getMainWindow().arguments[0].out = {'action':'oneTweet', 'tweetId':tweetId};
 	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
 }
 
-// Shows the retweet/love/reply/direct icons for an individual tweet.
-function showIcons(id) {
-	document.getElementById('tweetInfo-' + id).style.display = 'none';
-	document.getElementById('tweetIcons-' + id).style.display = 'inline';
-}
-
-function showInfo(id) {
-	document.getElementById('tweetInfo-' + id).style.display = 'inline';
-	document.getElementById('tweetIcons-' + id).style.display = 'none';
-}
-
 // Reply
 //
-function replyTo(id) {
+Browser.prototype.replyTo = function(id) {
 	jsdump('replying to ' + id);
 	var replyTo = document.getElementById("screenname-" + id).innerHTML;
 	getMainWindow().arguments[0].out = {'action':'reply', 'tweetId':id, 'replyTo':replyTo};
@@ -52,58 +44,71 @@ function replyTo(id) {
 
 // Show User
 //
-function showUser(userId) {
+Browser.prototype.showUser = function(userId) {
 	getMainWindow().arguments[0].out = {'action':'user', 'userId':userId};
 	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
 }
 
 // Send DM
 //
-function sendDirect(id) {
+Browser.prototype.sendDirect = function(id) {
 	jsdump('direct to ' + id);
 	var directTo = document.getElementById("screenname-" + id).innerHTML;
 	getMainWindow().arguments[0].out = {'action':'directTo', 'tweetId':id, 'directTo':directTo};
 	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
 }
 
-// Re-tweet
+// Retweet
 //
-function retweet(id) {
-	var raw = document.getElementById("raw-" + id).innerHTML;
-	var user = document.getElementById("screenname-" + id).innerHTML;
-	var f = getStringPref('buzzbird.retweet.format');
-	jsdump('buzzbird.retweet.format=' + f);
-	var text = 'RT @' + desanitize(user) + ': ' + desanitize(raw);
-	if (f == 'via') {
-		text = desanitize(raw) + ' (via @' + desanitize(user) + ')';
-	} 
-	getMainWindow().arguments[0].out = {'action':'retweet', 'tweetId':id, 'user':user, 'text':text};
+Browser.prototype.retweet = function(id) {
+	jsdump('retweet ' + id);
+	getMainWindow().arguments[0].out = {'action':'retweet', 'tweetId':id};
 	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
 }
- 
-// Favorite
+
+// Stop Following
 //
-function favorite(id) {
-	Social.service(Ctx.service).favorite({
-		username: Ctx.user,
-		password: Ctx.password,
-		token: Ctx.token,
-		tokenSecret: Ctx.tokenSecret,
-		updateId: id,
-		onSuccess: favoriteCallback,
-		onError: function(status) {
-			jsdump('Error favoriting, HTTP status ' + status)
-			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-			                        .getService(Components.interfaces.nsIPromptService);
-			prompts.alert(window, "Sorry.", "There was an error favoriting.");
-		}
-	});
+Browser.prototype.stopFollowing = function(id) {
+	jsdump('unfollow ' + id);
+	getMainWindow().arguments[0].out = {'action':'unfollow', 'userId':id};
+	getMainWindow().document.getElementById('ontweet-dialog').acceptDialog();
 }
 
-// Favorite callback
+// Called onload of the browser.  Dispatches up to the main window for now.
 //
-function favoriteCallback(transport) {
-	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-	                        .getService(Components.interfaces.nsIPromptService);
-	prompts.alert(window, "Sweet...", "Favorited!");
+function start() {
+	try {
+		var ev = document.createEvent("Events");
+		ev.initEvent("start", true, false);
+		getMainWindow().document.dispatchEvent(ev);
+	} catch (e) {
+		jsdump("Exception sending start event: "+ e);
+	}
 }
+
+// Just dispatches.
+//
+function firstCycleFetch() {
+	jsdump('sending event up.');
+	try {
+		var ev = document.createEvent("Events");
+		ev.initEvent("firstCycleFetch", true, false);
+		getMainWindow().document.dispatchEvent(ev);
+	} catch (e) {
+		jsdump("Exception sending firstCycleFetch event: "+ e);
+	}
+}
+
+// General Event Dispatcher
+//
+function dispatch(eventName) {
+	try {
+		var ev = document.createEvent("Events");
+		ev.initEvent(eventName, true, false);
+		getMainWindow().document.dispatchEvent(ev);
+	} catch (e) {
+		jsdump("Exception sending '" + eventName + "' event: " + e);
+	}		
+}
+
+var browser = new Browser();

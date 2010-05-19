@@ -133,7 +133,7 @@ function formatTweet(tweet,username,password) {
 	
 	// Next, replace the twitter handles
 	re = new RegExp("(^|\\s|^\\.)@(\\w*)", "g");
-	text = text.replace(re, "$1@<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"showUser('$2');\">$2</a>");
+	text = text.replace(re, "$1@<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"browser.showUser('$2');\">$2</a>");
 		
 	// Finally, replace the hashtags
 	re = new RegExp("(^|\\s)#(\\w*)", "g");
@@ -180,7 +180,7 @@ function formatTweet(tweet,username,password) {
 	} 
 
 	if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
-		text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"viewOneTweet(" + tweet.in_reply_to_status_id + ");\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
+		text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"browser.viewConversation(" + tweet.id + ");\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
 	}
 	
 	var altText = "Click to see " + sanitize(user.screen_name) + "'s profile";
@@ -194,14 +194,14 @@ function formatTweet(tweet,username,password) {
 	 + "<div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
      + "<div id=\"tweet-" + tweet.id + "\" class=\"tweetBox\" name=\"" + tweetType(tweet,username,password) + "\" "
      + "     style=\"display:" + display + "\" " 
-     + "     onmouseover=\"showIcons("+ tweet.id + ")\" "
-     + "     onmouseout=\"showInfo(" + tweet.id + ")\">"
+     + "     onmouseover=\"browser.showIcons("+ tweet.id + ")\" "
+     + "     onmouseout=\"browser.showInfo(" + tweet.id + ")\">"
 	 + " <div class=\"" + c.message + "\">"
 	 + "  <table class=\"" + c.table + "\">"
 	 + "   <tr>"
 	 + "    <td valign=\"top\" class=\"" + c.avatarColumn + "\">"
 	 + "     <a onmouseover=\"this.style.cursor='pointer';\" style=\"margin:0px;padding:0px\" "  // old way: onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" "
-	 + "        onclick=\"showUser('" + user.screen_name + "');\" "
+	 + "        onclick=\"browser.showUser('" + user.screen_name + "');\" "
 	 + "        title=\"" + altText + "\">"
 	 + "      <img src=\"" + user.profile_image_url + "\" class=\"" + c.avatar +"\" />"
      + "     </a>"
@@ -226,7 +226,7 @@ function formatTweet(tweet,username,password) {
 	 + "        id=\"mark-" + tweet.id + "\" "
 	 + "        tweetType=\"" + tt + "\""
 	 + "        src=\"chrome://buzzbird/skin/images/actions/unread.png\" "
-	 + "        onclick=\"toggleMarkAsRead(" + tweet.id + ");\" "
+	 + "        onclick=\"browser.toggleMarkAsRead(" + tweet.id + ");\" "
 	 + "        onmouseover=\"this.style.cursor='pointer';\" />"
      + "   <span id=\"tweetInfo-" + tweet.id + "\">"
 	 if (emphasis == 'realname') {
@@ -243,10 +243,10 @@ function formatTweet(tweet,username,password) {
 
 	 var t = tweetType(tweet,username,password);
 	 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		result = result + " <a class=\"" + c.info + "\" title=\"Repost This\" onclick=\"browser.retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 }
 	 if (t == 'tweet' || t == 'reply') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"browser.replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 }
 	
 	 // the user.following check does not work, per Issue 474.
@@ -255,19 +255,19 @@ function formatTweet(tweet,username,password) {
 	 // anyway, so I probably shouldn't use it.
 	 //if (user.following == true) {
 		 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-			result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+			result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"browser.sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 		 }
 	 //}
 
  	 if (t != 'mine') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"stopFollowingTweeter(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"browser.stopFollowing(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
  	 }
 	 if (t == 'mine') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Tweet\" onclick=\"deleteTweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
+		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Update\" onclick=\"browser.deletePost(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
 	 }
 	
      result = result 
-     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"browser.favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
 	 + via
 	 + "   </span>"
      + "  </div>"

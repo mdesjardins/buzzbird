@@ -58,34 +58,6 @@ function Twitter() {
 	}
 }
 Twitter.prototype = Twitteresque;
-
-// Twitter.prototype._addAuthHeader : function(url,method,options) {
-// 	jsdump('_addAuthHeader')
-// 	var opts = {
-// 		consumerKey: this.oauth.consumerKey,
-// 		consumerSecret: this.oauth.consumerSecret,
-// 		token: options.token,
-// 		tokenSecret: options.tokenSecret
-// 	};
-// 	var message = {
-// 		'method':method,
-// 		action:url,
-// 		parameters: []
-// 	}
-// 
-// 	OAuth.completeRequest(message,opts);
-// 	var authHeader = OAuth.getAuthorizationHeader('',message.parameters);
-// 	jsdump('authHeader='+authHeader);
-// 	
-// 	if (options.parameters === undefined) {
-// 		jsdump('NO PARAMETERS.')
-// 		options.parameters = [];
-// 	}
-// 
-// 	options.parameters.push('Authorization',authHeader)
-// 	jsdump("OPTIONS.PARAMETERS=" + options.parameters);
-// 	return options;
-// };
 	
 // Fetches the user's timeline.
 // Options:
