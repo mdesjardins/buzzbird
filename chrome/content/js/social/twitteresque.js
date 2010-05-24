@@ -203,6 +203,8 @@ var Twitteresque = {
 	//  onError = called if there's an error.
 	//  count = number of tweets to ask for.
 	//  queriedUserId = the ID of the user to look up.
+	//  queriedUserScreenName = the screen name of the user to look up.
+	//  one of queriedUserId or queriedUserScreenName are required.
 	//
 	fetchUserProfile : function(options) {
 		var url = this.url.fetchUserProfile;

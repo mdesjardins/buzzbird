@@ -46,6 +46,7 @@ function start() {
 	var docViewer = getBrowser().markupDocumentViewer;
 	docViewer.fullZoom = zoom/100.0;
 	//Lists.update(Ctx.user,Ctx.password);	
+	Fetch.setProfile();
 	Fetch.firstFetch();
 }
 
@@ -583,14 +584,9 @@ var Account = {
 		if (Social.service(service).support.xAuth) {
 			var am = new AccountManager();
 			var account = am.getAccount(username,service);
-			// Ctx.user = account.username;
-			// Ctx.password = account.password;
-			// Ctx.list = null;
-			// Ctx.service = account.service;
-			// Ctx.token = account.token;
-			// Ctx.tokenSecret = account.tokenSecret;
 			Ctx.setAccount(account);
 			Global.resetCounters();
+			Fetch.setProfile();
 		} else if (!Account.login(username,password,service)) {	
 			return;
 		}
@@ -869,6 +865,24 @@ var Toolbar = {
 //
 //
 var Fetch = {
+	setProfile : function() {
+		jsdump('Fetch.setProfile, user ' + Ctx.user);
+		Social.service(Ctx.service).fetchUserProfile({
+			username: Ctx.user,
+			password: Ctx.password,
+			token: Ctx.token,
+			tokenSecret: Ctx.tokenSecret,
+			onSuccess: Fetch.setProfileCallback,
+			onError: Fetch.error,
+			queriedScreenName: Ctx.user
+		});	
+	},
+	
+	setProfileCallback : function(profile) {
+		jsdump('Fetch.setProfileCallback, user ' + Ctx.user);
+		Ctx.profile = profile;
+	},
+	
 	firstFetch : function() {
 		jsdump('Fetch.firstFetch, list: ' + Ctx.list);
 		Social.service(Ctx.service).fetchDirectTo({
@@ -1188,13 +1202,13 @@ var Post = {
 			source : ""
 		};
 		
-		// TODO: This is a cheesy way to do this. Just sayin'
+		// TODO: This is an incredibly cheesy way to do this. Just sayin'
 		fakeTweet.text = "Directly to " + tweet.substring(2);
 		fakeTweet.sender = Ctx.user;
 		fakeTweet.user.screen_name = Ctx.user;
 		// TODO: Fixme. :(
-		fakeTweet.user.profile_image_url = getChromeElement("avatarLabelId").value;
-		fakeTweet.user.name = getChromeElement("realnameLabelId").value;
+		fakeTweet.user.profile_image_url = Ctx.profile.profile_image_url;
+		fakeTweet.user.name = Ctx.profile.name
 		fakeTweet.in_reply_to_screen_name = "";
 		fakeTweet.sender = undefined;
 		insertAtTop(formatTweet(fakeTweet,Ctx.user,Ctx.password));
