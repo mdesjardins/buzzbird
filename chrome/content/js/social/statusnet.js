@@ -44,7 +44,6 @@ function StatusNet() {
 	};
 	
 	this.urlBase = "";
-	
 }
 StatusNet.prototype = Twitteresque;
 
@@ -53,6 +52,7 @@ StatusNet.prototype = Twitteresque;
 // we want it to be synchronous.
 //
 StatusNet.prototype.verifyCredentials = function(username,password) {
+	jsdump("Verifying statusnet credentials, using " + this.url.verifyCredentials + " - " + username + "," + password);
 	var req = new XMLHttpRequest();
 	req.mozBackgroundRequest = true;
 	req.open('GET',this.url.verifyCredentials,false,username,password);

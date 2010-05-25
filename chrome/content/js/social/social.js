@@ -28,6 +28,9 @@ var Social = {
 			case "twitter":
 				result = new Twitter();
 				break;
+			case "identi.ca":
+				result = new Identica();
+				break;
 			default:
 				throw "Unsupported service."
 		}

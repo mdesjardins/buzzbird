@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<dialog id="addaccount-dialog" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" width="450" height="180"
+<dialog id="addaccount-dialog" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" width="450" height="220"
 		title="Add Account"
 		buttons="accept,cancel"
 	  	ondialogaccept="Prefs.onAddAccountOk();"
@@ -37,12 +37,21 @@ THE SOFTWARE.
 			</columns>
 			<rows>
 				<row>
-					<label style="vertical-align:bottom;" control="login" value="Login"/>
+					<label style="vertical-align:middle; height:24px;" control="login" value="Login"/>
 					<textbox id="login" size="20" />
 				</row>
 				<row>
-					<label style="vertical-align:bottom;" control="password" value="Password"/>
+					<label style="vertical-align:middle; height:24px;" control="password" value="Password"/>
 					<textbox id="password" type="password" size="20" />
+				</row>
+				<row>
+					<label style="vertical-align:middle; height:24px;" control="service" value="Service"/>
+					<menulist id="service">
+						<menupopup>
+							<menuitem class="menuitem-iconic" image="chrome://buzzbird/content/images/services/twitter-19x19.png" label="Twitter" value="twitter"/>
+							<menuitem class="menuitem-iconic" image="chrome://buzzbird/content/images/services/identica-18x18.png" label="Identi.ca" value="identi.ca"/>
+						</menupopup>
+					</menulist>
 				</row>
 			</rows>
 		</grid>
@@ -54,6 +63,8 @@ THE SOFTWARE.
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/twitteresque.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/statusnet.js"></script>
+	<script type="application/x-javascript" src="chrome://buzzbird/content/js/social/identica.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="application/x-javascript" src="chrome://buzzbird/content/js/prefs.js"></script>
 </dialog>

@@ -84,13 +84,20 @@ var Prefs = {
 
 		var username = document.getElementById("login").value;
 		var password = document.getElementById("password").value;
-		var service = 'twitter';
+		var service = document.getElementById("service").value;;
 
 		document.documentElement.getButton('accept').disabled=true;
 		document.documentElement.getButton('cancel').disabled=true;
 		document.getElementById("authenticating").collapsed=false;
 
-		token = Social.service(service).verifyCredentials(username,password);
+		jsdump("Authenticating " + username + "," + password + "," + service);
+		
+		token = false;
+		try {
+			token = Social.service(service).verifyCredentials(username,password);
+		} catch (e) {
+			jsdump("Caught exception: " + e);
+		}
 		if (token) {
 			var accessToken = null;
 			var accessTokenSecret = null;
