@@ -20,7 +20,7 @@
 	THE SOFTWARE.
 -->
 <html>
-<head>
+<head id="head">
 	<title>Buzzbird</title>
 	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/skin/browser.css" />
 	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/skin/tweet.css" />
@@ -30,6 +30,7 @@
 	<link rel="stylesheet" type="text/css" href="chrome://buzzbird/skin/direct-from.css" />
 </head>
 <body onload="function proxy(that) { that.start(); }; proxy(getMainWindow());">
+<!--
 	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>	
@@ -37,11 +38,13 @@
 	<script type="text/javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitteresque.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
+-->
 	<script type="text/javascript" src="chrome://buzzbird/content/js/browser.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/main-browser.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
-	
+	<script type="text/javascript" src="chrome://buzzbird/content/js/include.js"></script>
 	<script type="text/javascript">
+		Include.all("head");
 	</script>
 </body>
 </html>

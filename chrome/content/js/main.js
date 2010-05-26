@@ -581,6 +581,7 @@ var Account = {
 	switch : function(username,password,service) {	
 		jsdump('switch(' + username + ',' + password + ',' + service + ')');
 		var oldusername = Ctx.user;
+		var oldservice = Ctx.service;
 		if (Social.service(service).support.xAuth) {
 			var am = new AccountManager();
 			var account = am.getAccount(username,service);
@@ -591,11 +592,11 @@ var Account = {
 			return;
 		}
 		var loginButton = getChromeElement('accountbuttonid');
-		loginButton.label = username;
+		loginButton.label = username + '@' + service;
 		if (oldusername != null && oldusername != undefined && oldusername != "") {
-			getChromeElement('accountmenu-' + oldusername).setAttribute("checked","false");
+			getChromeElement('accountmenu-' + oldusername + '@' + oldservice).setAttribute("checked","false");
 		}
-		getChromeElement('accountmenu-' + username).setAttribute("checked","true");
+		getChromeElement('accountmenu-' + username + '@' + service).setAttribute("checked","true");
 		getBrowser().loadURI("chrome://buzzbird/content/main.html",null,"UTF-8");
 	}
 }
@@ -786,7 +787,7 @@ var Toolbar = {
 		var logins = am.getAccounts();
 
 		var loginButton = getChromeElement('accountbuttonid');
-		loginButton.label = logins[0].username;
+		loginButton.label = logins[0].username + '@' + logins[0].service;
 		var loginMenu = getChromeElement('accountbuttonmenuid'); 
 		while (loginMenu.hasChildNodes()) {
 			loginMenu.removeChild(loginMenu.lastChild);
@@ -800,13 +801,13 @@ var Toolbar = {
 		for (var i=0; i<logins.length; i++) {
 			var item = logins[i].username + '|' + logins[i].password + '|' + logins[i].token + '|' + logins[i].tokenSecret + '|' + logins[i].service;
 			var menuitem = document.createElementNS(XUL_NS, "menuitem");
-			menuitem.setAttribute("label", logins[i].username);
+			menuitem.setAttribute("label", logins[i].username + '@' + logins[i].service);
 			menuitem.setAttribute("value", item);
 			var f = "Account.switch('" + logins[i].username + "','" + logins[i].password + "', '" + logins[i].service + "');";
 			menuitem.setAttribute("oncommand", f);
 			menuitem.setAttribute("checked","false");
 			menuitem.setAttribute("type","checkbox");
-			menuitem.setAttribute("id","accountmenu-" + logins[i].username);
+			menuitem.setAttribute("id","accountmenu-" + logins[i].username + '@' + logins[i].service);
 			menuitem.setAttribute("class","accountmenu-account");  
 			getChromeElement('accountbuttonmenuid').appendChild(menuitem);
 		}
@@ -818,7 +819,7 @@ var Toolbar = {
 		menuitem.setAttribute("value", "");
 		menuitem.setAttribute("oncommand", "UI.openAccountPreferences();");
 		getChromeElement('accountbuttonmenuid').appendChild(menuitem);
-		getChromeElement('accountmenu-' + Ctx.user).setAttribute("checked","true");
+		getChromeElement('accountmenu-' + Ctx.user + '@' + Ctx.service).setAttribute("checked","true");
 	},
 	
 	// Enables/disables the refresh button.

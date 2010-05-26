@@ -33,21 +33,11 @@ THE SOFTWARE.
         width="500" 
         height="600" 
         title="Buzzbird">
-	<script type="text/javascript" src="chrome://buzzbird/content/js/account-manager.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitteresque.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/notify/notify.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
-	<script type="application/x-javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
-	<script type="application/x-javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
-	<script src="chrome://venkman/content/venkman-overlay.js" />
+	<script type="text/javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
+	<script type="text/javascript" src="chrome://venkman/content/venkman-overlay.js" />
 
 	<commandset id="baseMenuCommandSet">
 		<command id="minimizeWindow" label="&minimizeWindow.label;" oncommand="window.minimize();" />

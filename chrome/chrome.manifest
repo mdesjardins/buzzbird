@@ -3,6 +3,13 @@ locale buzzbird en-US locale/
 locale branding en-US chrome/locale/branding/
 content branding chrome/branding/
 skin buzzbird classic skin/classic/
+overlay chrome://buzzbird/content/main.xul chrome://buzzbird/content/common-javascript.xul
+overlay chrome://buzzbird/content/add-account.xul chrome://buzzbird/content/common-javascript.xul
+overlay chrome://buzzbird/content/friendship.xul chrome://buzzbird/content/common-javascript.xul
+overlay chrome://buzzbird/content/onetweet.xul chrome://buzzbird/content/common-javascript.xul
+overlay chrome://buzzbird/content/prefs.xul chrome://buzzbird/content/common-javascript.xul
+overlay chrome://buzzbird/content/reauth-account.xul chrome://buzzbird/content/common-javascript.xul
+overlay chrome://buzzbird/content/user.xul chrome://buzzbird/content/common-javascript.xul
 overlay chrome://buzzbird/content/main.xul chrome://buzzbird/content/platformOverlay.xul
 overlay chrome://buzzbird/content/prefs.xul chrome://buzzbird/content/prefsPlatformOverlay.xul
 

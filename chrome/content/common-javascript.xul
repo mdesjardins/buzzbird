@@ -1,0 +1,15 @@
+<overlay id="editMenuOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="text/javascript" src="chrome://buzzbird/content/js/account-manager.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/utils.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/aja.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/oauth.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/oauth/sha1.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/social.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitteresque.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/twitter.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/statusnet.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/social/identica.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/render.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/tooltip.js"></script>
+</overlay>

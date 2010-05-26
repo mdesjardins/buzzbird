@@ -89,30 +89,32 @@ var Twitteresque = {
 	},
 	
 	_addAuthHeader : function(url,method,options) {
-		jsdump('_addAuthHeader')
-		var opts = {
-			consumerKey: this.oauth.consumerKey,
-			consumerSecret: this.oauth.consumerSecret,
-			token: options.token,
-			tokenSecret: options.tokenSecret
-		};
-		var message = {
-			'method':method,
-			action:url,
-			parameters: []
-		}
+		if (this.support.xAuth) {
+			jsdump('_addAuthHeader')
+			var opts = {
+				consumerKey: this.oauth.consumerKey,
+				consumerSecret: this.oauth.consumerSecret,
+				token: options.token,
+				tokenSecret: options.tokenSecret
+			};
+			var message = {
+				'method':method,
+				action:url,
+				parameters: []
+			}
 	
-		OAuth.completeRequest(message,opts);
-		var authHeader = OAuth.getAuthorizationHeader('',message.parameters);
-		jsdump('authHeader='+authHeader);
+			OAuth.completeRequest(message,opts);
+			var authHeader = OAuth.getAuthorizationHeader('',message.parameters);
+			jsdump('authHeader='+authHeader);
 		
-		if (options.parameters === undefined) {
-			jsdump('NO PARAMETERS.')
-			options.parameters = [];
-		}
+			if (options.parameters === undefined) {
+				jsdump('NO PARAMETERS.')
+				options.parameters = [];
+			}
 	
-		options.parameters.push('Authorization',authHeader)
-		jsdump("OPTIONS.PARAMETERS=" + options.parameters);
+			options.parameters.push('Authorization',authHeader)
+			jsdump("OPTIONS.PARAMETERS=" + options.parameters);
+		}
 		return options;
 	},
 	

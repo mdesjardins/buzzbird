@@ -1,7 +1,4 @@
-<?xml version="1.0"?>
-<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-
-<!--
+/*
 Copyright (c) 2010 Mike Desjardins
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,32 +18,47 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
--->
+*/
 
-<dialog id="onetweet-dialog" 
-		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
-		width="450" 
-		height="180"
-		title="Conversation"
-		buttons="accept"
-		buttonlabelaccept="Close"
-  	ondialogaccept="onOk();"
-    onload="oneTweetOnLoad();">
+function debug(str) {
+	var d = new Date();
+	str = d + ': ' + str;
+	Components.classes['@mozilla.org/consoleservice;1']
+    		.getService(Components.interfaces.nsIConsoleService)
+            .logStringMessage(str);
+}
+
+var Include = {
 	
-	<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
+	files : 	 ["account-manager.js",
+							"utils.js",
+							"aja.js",
+							"oauth/oauth.js",
+							"oauth/sha1.js",
+							"social/social.js",
+							"social/twitteresque.js",
+							"social/twitter.js",
+							"social/statusnet.js",
+							"social/identica.js",
+							"render.js"
+	],
 	
-	<label id="usernameLabelId" value="" hidden="true" />
-	<label id="passwordLabelId" value="" hidden="true" />
-	<vbox flex="1">
-		<browser height="140" 
-						 type="content-primary" 
-						 src="chrome://buzzbird/content/onetweet.html" 
-						 id="onetweet-browser" 
-						 flex="3"
-						 autoscroll="true"
-						 contextmenu="contentAreaContextMenu"
-						 style="padding:0px; margin:0px;"
-						 tooltip="aHTMLTooltip" />
-	</vbox>
-	<script type="text/javascript" src="chrome://buzzbird/content/js/onetweet.js"></script>
-</dialog>
+	addOne : function(element,filename) {
+		script = document.createElement('script');
+		script.src = filename;
+		script.type = 'text/javascript';
+		debug(">>> ADDING " + filename);
+		element.appendChild(script)
+	},	
+	
+	all : function(id) {
+		debug("In Include.all");
+		var element = document.getElementById(id);
+		if (element) {
+			debug("Got element " + id);
+			for (var i=0,len=Include.files.length; i<len; i++) {
+				Include.addOne(element,"chrome://buzzbird/content/js/" + Include.files[i]);
+			}
+		}
+	}
+}
