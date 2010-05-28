@@ -20,14 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-function debug(str) {
-	var d = new Date();
-	str = d + ': ' + str;
-	Components.classes['@mozilla.org/consoleservice;1']
-    		.getService(Components.interfaces.nsIConsoleService)
-            .logStringMessage(str);
-}
-
+// This is to simplify including the most common javascripts *in browsers*,
+// i.e., from an HTML file.  Don't use this to include javascripts in XUL,
+// use the common-javascript.xul overlay instead (this method doesn't seem
+// to work for XUL files).
+//
 var Include = {
 	
 	files : 	 ["account-manager.js",
@@ -47,15 +44,12 @@ var Include = {
 		script = document.createElement('script');
 		script.src = filename;
 		script.type = 'text/javascript';
-		debug(">>> ADDING " + filename);
 		element.appendChild(script)
 	},	
 	
 	all : function(id) {
-		debug("In Include.all");
 		var element = document.getElementById(id);
 		if (element) {
-			debug("Got element " + id);
 			for (var i=0,len=Include.files.length; i<len; i++) {
 				Include.addOne(element,"chrome://buzzbird/content/js/" + Include.files[i]);
 			}

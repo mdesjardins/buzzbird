@@ -66,7 +66,7 @@ function Identica() {
 	
 	this.urlBase = "https://identi.ca/api";
 }
-Identica.prototype = Twitteresque;
+Identica.prototype = new Twitteresque();
 
 // Verifies the credentials of a user.  On failure, returns null,
 // otherwise returns a user object.  We don't use Aja here because
@@ -76,7 +76,7 @@ Identica.prototype.verifyCredentials = function(username,password) {
 	var req = new XMLHttpRequest();
 	req.mozBackgroundRequest = true;
 	var url = this._initUrl(this.url.verifyCredentials, null, null, null);
-	jsdump("Verifying statusnet credentials, using " + url + " - " + username + "," + password);
+	jsdump("Verifying identica credentials, using " + url + " - " + username + "," + password);
 
 	req.open('GET',url,false,username,password);
 	req.send(null);

@@ -74,7 +74,8 @@ THE SOFTWARE.
 					</menupopup>
 				</menulist>
 		    </hbox>
-			
+
+<!--			
 			<hbox style="padding-bottom:10px;">
 				<box width="200" align="right">
 					<label control="menulist_retweetMethod" value="&retweetMethodPref.label;" /> 
@@ -88,7 +89,7 @@ THE SOFTWARE.
 					</menupopup>
 				</menulist>
 			</hbox>			
-			
+-->			
 			<hbox style="padding-bottom:10px;">
 				<box width="200" align="right">
 					<label control="menulist_hashtagDestination" value="&hashtagDestinationPref.label;" /> 

@@ -120,13 +120,7 @@ var classes = {
 function formatTweet(tweet,username,password) {
 	//jsdump('formatting tweet ' + tweet.id);
 	// Clean any junk out of the text.
-	var retweet = tweet.retweeted_status;
 	var text = sanitize(tweet.text);
-	if (retweet != null && retweet != undefined) {
-		// just to get all 140 characters...
-		text = "RT @" + retweet.user.screen_name + " " + sanitize(retweet.text);
-	} 
-	
 	// First, go through and replace links with real links.
 	var re = new RegExp("http://(\\S*)", "g");
 	var text = text.replace(re, "<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://$1');\">http://$1</a>");
@@ -139,13 +133,19 @@ function formatTweet(tweet,username,password) {
 	re = new RegExp("(^|\\s)#(\\w*)", "g");
 	text = text.replace(re, "$1#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"hashTag('$2');\">$2</a>");
 
+	var retweet = tweet.retweeted_status;
+
 	var when = new Date(tweet.created_at);
 	var prettyWhen = when.toLocaleTimeString() + ' on ' + when.toLocaleDateString().substring(0,5);
 	var user;
 	if (tweetType(tweet,username,password) == 'direct-from') {
 		user = tweet.sender;
 	} else {
-		user = tweet.user;
+		if (retweet != null && retweet != undefined) {
+			user = retweet.user;
+		} else {
+			user = tweet.user;
+		}
 	}
 	
 	var tt = tweetType(tweet,username,password)
@@ -180,9 +180,13 @@ function formatTweet(tweet,username,password) {
 	} 
 
 	if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
-		text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" onclick=\"browser.viewConversation(" + tweet.id + ");\">(a reply to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
+		text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" title=\"Click to view conversation\" onclick=\"browser.viewConversation(" + tweet.id + ");\">(Replying to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
 	}
 	
+	if (retweet != null && retweet != undefined) {
+		text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" title=\"Click to view " + tweet.user.screen_name + "'s profile\" onclick=\"browser.showUser('" + tweet.user.screen_name + "');\">(Retweeted by " + sanitize(tweet.user.screen_name) + ")</a></span>";
+	}
+
 	var altText = "Click to see " + sanitize(user.screen_name) + "'s profile";
 	if (user.location != undefined && user.location != null && user.description != undefined && user.location != null) {
 		var altText = sanitize(user.name) + ", '" + sanitize(user.description) + "' (" + sanitize(user.location) + "). " + altText;
@@ -191,7 +195,7 @@ function formatTweet(tweet,username,password) {
 	var result = 
 	   "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
      + "<div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
-	 + "<div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
+	   + "<div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
      + "<div id=\"tweet-" + tweet.id + "\" class=\"tweetBox\" name=\"" + tweetType(tweet,username,password) + "\" "
      + "     style=\"display:" + display + "\" " 
      + "     onmouseover=\"browser.showIcons("+ tweet.id + ")\" "
@@ -200,7 +204,7 @@ function formatTweet(tweet,username,password) {
 	 + "  <table class=\"" + c.table + "\">"
 	 + "   <tr>"
 	 + "    <td valign=\"top\" class=\"" + c.avatarColumn + "\">"
-	 + "     <a onmouseover=\"this.style.cursor='pointer';\" style=\"margin:0px;padding:0px\" "  // old way: onclick=\"linkTo('http://twitter.com/" + sanitize(user.screen_name) + "');\" "
+	 + "     <a onmouseover=\"this.style.cursor='pointer';\" style=\"margin:0px;padding:0px\" "  
 	 + "        onclick=\"browser.showUser('" + user.screen_name + "');\" "
 	 + "        title=\"" + altText + "\">"
 	 + "      <img src=\"" + user.profile_image_url + "\" class=\"" + c.avatar +"\" />"
@@ -242,11 +246,16 @@ function formatTweet(tweet,username,password) {
      + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">";	        
 
 	 var t = tweetType(tweet,username,password);
-	 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Repost This\" onclick=\"browser.retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/recycle-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+	 if (Ctx.service === "twitter") {
+		 if (t == 'tweet' || t == 'reply') {
+			result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"browser.retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/repost.png\" class=\"" + c.icon + "\" /></a>"
+		 }
 	 }
 	 if (t == 'tweet' || t == 'reply') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"browser.replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/reply-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		result = result + " <a class=\"" + c.info + "\" title=\"Quote This\" onclick=\"browser.quote(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/quote.png\" class=\"" + c.icon + "\" /></a>"
+	 }
+	 if (t == 'tweet' || t == 'reply') {
+		result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"browser.replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/reply.png\" class=\"" + c.icon + "\" /></a>"
 	 }
 	
 	 // the user.following check does not work, per Issue 474.
@@ -255,19 +264,19 @@ function formatTweet(tweet,username,password) {
 	 // anyway, so I probably shouldn't use it.
 	 //if (user.following == true) {
 		 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-			result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"browser.sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/phone-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+			result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"browser.sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/direct.png\" class=\"" + c.icon + "\" /></a>"
 		 }
 	 //}
 
  	 if (t != 'mine') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Stop following" + sanitize(user.screen_name) + "\" onclick=\"browser.stopFollowing(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/stop-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+		result = result + " <a class=\"" + c.info + "\" title=\"Stop following " + sanitize(user.screen_name) + "\" onclick=\"browser.stopFollowing(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/unfollow.png\" class=\"" + c.icon + "\" /></a>"
  	 }
 	 if (t == 'mine') {
-		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Update\" onclick=\"browser.deletePost(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/trash-grey-16x16.gif\" class=\"" + c.icon + "\" /></a>"		
+		result = result + " <a class=\"" + c.info + "\" title=\"Delete this Update\" onclick=\"browser.deletePost(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/delete.png\" class=\"" + c.icon + "\" /></a>"		
 	 }
 	
      result = result 
-     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"browser.favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/heart-grey-16x16.png\" class=\"" + c.icon + "\" /></a>"
+     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"browser.favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/favorite.png\" class=\"" + c.icon + "\" /></a>"
 	 + via
 	 + "   </span>"
      + "  </div>"

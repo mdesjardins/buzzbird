@@ -66,6 +66,15 @@ Browser.prototype.retweet = function(id) {
 	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
 }
 
+// Quote
+//
+Browser.prototype.quote = function(id) {
+	jsdump('quote ' + id);
+	getMainWindow().arguments[0].out = {'action':'quote', 'tweetId':id};
+	getMainWindow().document.getElementById('onetweet-dialog').acceptDialog();
+}
+
+
 // Stop Following
 //
 Browser.prototype.stopFollowing = function(id) {

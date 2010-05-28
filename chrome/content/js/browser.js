@@ -62,6 +62,8 @@ var BrowserBase = {
 			dispatch('openSpeech');
 		} else if (params.out.action == 'retweet') {
 			BrowserBase.doRetweet(params.out.tweetId);
+		} else if (params.out.action == 'quote') {
+			BrowserBase.doQuote(params.out.tweetId);
 		} else if (params.out.action == 'oneTweet') {
 			BrowserBase.viewConversation(params.out.tweetId);
 		} else if (params.out.action == 'user') {
@@ -210,29 +212,11 @@ var BrowserBase = {
 		BrowserBase.doRetweet(id);
 	},
 	
-	doRetweet : function(id) {
-		var configMethod = getStringPref('buzzbird.retweet.method','Q');
-
-		if (configMethod == 'Q') {
-			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-			                        .getService(Components.interfaces.nsIPromptService);
-			var check = {value:false};
-			var flags = prompts.BUTTON_TITLE_IS_STRING * prompts.BUTTON_POS_0 + 
-			            prompts.BUTTON_TITLE_IS_STRING * prompts.BUTTON_POS_1;
-			var button = prompts.confirmEx(window, "Retweet Method", "Which retweet method do you want to use?", flags, 
-			             "Manual Edit", "Automatic", "Button 2", "Do this for all retweets", check);
-
-			if (button == 0) {
-				configMethod = 'M'
-			} else {
-				configMethod = 'A'
-			}
-
-			if (check.value == true) {
-				setStringPref('buzzbird.retweet.method',configMethod);
-			}
-		}	
-
+	quote : function(id) {
+		BrowserBase.doQuote(id);
+	},
+	
+	doQuote : function(id) {
 		var raw = document.getElementById("raw-" + id).innerHTML;
 		var user = document.getElementById("screenname-" + id).innerHTML;
 		var f = getStringPref('buzzbird.retweet.format');
@@ -241,34 +225,33 @@ var BrowserBase = {
 		if (f == 'via') {
 			text = desanitize(raw) + ' (via @' + desanitize(user) + ')';
 		} 
-
-		if (configMethod == 'A') {
-			jsdump("Posting Echo (auto retweet)");
-			Social.service(Ctx.service).postEcho({
-				username: Ctx.user,
-				password: Ctx.password,
-				token: Ctx.token,
-				tokenSecret: Ctx.tokenSecret,
-				echoId: id,
-				onSuccess: function() {
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
-					prompts.alert(window, "Done!", "Retweet accomplished.");
-					dispatch('cycleFetch');
-				},
-				onError: function(status) {
-					jsdump('Error retweeting, HTTP status ' + status);
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-					                        .getService(Components.interfaces.nsIPromptService);
-					prompts.alert(window, "Sorry.", "There was an error retweeting that tweet.");				
-				}
-			});		
-		} else {
-			getChromeElement('textboxid').value = text;
-			getChromeElement('textboxid').focus();		
-			dispatch('openSpeech');
-			dispatch('updateTweetLength');
-		}
+		getChromeElement('textboxid').value = text;
+		getChromeElement('textboxid').focus();		
+		dispatch('openSpeech');
+		dispatch('updateTweetLength');
+	},
+	
+	doRetweet : function(id) {
+		jsdump("Posting Echo (auto retweet)");
+		Social.service(Ctx.service).postEcho({
+			username: Ctx.user,
+			password: Ctx.password,
+			token: Ctx.token,
+			tokenSecret: Ctx.tokenSecret,
+			echoId: id,
+			onSuccess: function() {
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Done!", "Retweet accomplished.");
+				dispatch('cycleFetch');
+			},
+			onError: function(status) {
+				jsdump('Error retweeting, HTTP status ' + status);
+				var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+				                        .getService(Components.interfaces.nsIPromptService);
+				prompts.alert(window, "Sorry.", "There was an error retweeting that tweet.");				
+			}
+		});		
 	}
 }
 

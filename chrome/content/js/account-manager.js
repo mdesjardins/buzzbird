@@ -24,6 +24,8 @@ function AccountManager() {
 		                         .getService(Components.interfaces.nsILoginManager);
 
 	this.getAccounts = function() {
+		jsdump('getAccounts');
+		
 		// Cleanup old 'localhost' logins.  In an OAuth-only multi service world, these are no longer needed.
 		var logins = _loginMgr.findLogins({}, 'localhost', 'localhost', null);
 		if (logins != null && logins.length > 0) {
@@ -35,9 +37,11 @@ function AccountManager() {
 		var results = new Array();
 		for (var i=0,len=Global.supportedServices.length; i<len; i++) {
 			service = Global.supportedServices[i];
+			jsdump('Service ' + service);
 			logins = _loginMgr.findLogins({}, service, '', null);
 			for (var j=0, len=logins.length; j<len; j++) {
 				login = logins[j];
+				jsdump('login: ' + login.username);
 				if (Social.service(service).support.xAuth) {
 					results.push({
 						'username':login.username,
@@ -115,6 +119,7 @@ function AccountManager() {
 			loginInfo = new nsLoginInfo(login.service, '', null, login.username, login.password, '', '');	
 	  }
 
+		jsdump("About to add login " + login.service + ", " + login.username + ", secret=" + login.tokenSecret + ", password=" + login.password);
 		try {
 	  	_loginMgr.addLogin(loginInfo);
 		} catch(e) {

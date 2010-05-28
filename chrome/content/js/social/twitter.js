@@ -57,23 +57,8 @@ function Twitter() {
 		consumerSecret: 'XOYOcB76ZtgSOicqCEOKZEIGxBN7itETYPRpVjlo'
 	}
 }
-Twitter.prototype = Twitteresque;
-	
-// Fetches the user's timeline.
-// Options:
-//  username = username
-//  password = password
-//  onSuccess = called on each update
-//  onError = called if there's an error.
-//
-Twitter.prototype.fetchLists = function(options) {
-	var url = this.url.fetchLists;
-	url = this._initUrl(url, options.count, options.since, null);
-	url = url.replace('QUERIED_SCREEN_NAME',options.username);
-//	options = this._addAuthHeader(url,'GET',options);
-	return this._ajax.get(url,options);
-};
-	
+Twitter.prototype = new Twitteresque();
+
 // Verifies the credentials of a user.  On failure, returns null,
 // otherwise returns a user object.  We don't use Aja here because
 // we want it to be synchronous.
@@ -133,4 +118,38 @@ Twitter.prototype.verifyCredentials = function(username,password) {
 		}
 	}
 	return result;	
-}
+};
+	
+// Fetches the user's timeline.
+// Options:
+//  username = username
+//  password = password
+//  onSuccess = called on each update
+//  onError = called if there's an error.
+//
+Twitter.prototype.fetchLists = function(options) {
+	var url = this.url.fetchLists;
+	url = this._initUrl(url, options.count, options.since, null);
+	url = url.replace('QUERIED_SCREEN_NAME',options.username);
+//	options = this._addAuthHeader(url,'GET',options);
+	return this._ajax.get(url,options);
+};
+
+// Fetches the user's timeline.
+// Options:
+//  username = username
+//  password = password
+//  onSuccess = called on each update
+//  onError = called if there's an error.
+//  count = number of tweets to ask for.
+//  since = fetch timeline tweets since this ID
+//
+Twitter.prototype.fetchTimeline = function(options) {
+	jsdump("=== twitter flavor of fetchTimeline");
+	var url = this.url.fetchTimeline;
+	url = this._initUrl(url, options.count, options.since, null);
+	url = url + "&include_rts=true";
+	options = this._addAuthHeader(url,'GET',options);
+	return this._ajax.get(url,options);
+};
+	

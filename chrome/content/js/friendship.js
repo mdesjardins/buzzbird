@@ -68,51 +68,43 @@ function friendshipOnLoad() {
 	var am = new AccountManager();
 	var logins = am.getAccounts();
 	
-	// Get Login Manager 
-	// var myLoginManager = Components.classes["@mozilla.org/login-manager;1"]
-	// 	                         .getService(Components.interfaces.nsILoginManager);
-  // Find users for the given parameters
-	//    var logins = myLoginManager.findLogins({}, hostname, formSubmitURL, httprealm);
-	// 
-	//    // Find user from returned array of nsILoginInfo objects
-	//    // Will be modified when support for multiple accounts is added.  For now,
-	//    // just use the first one we find.
-	//    if (logins != null && logins.length > 0) {
 	for (var i=0; i<logins.length; i++) {
-		var myUsername = logins[i].username;
-		var myPassword = logins[i].password;
-		jsdump("myUsername=" + myUsername + ", hisUsername=" + hisUsername);
-		if (myUsername != hisUsername) {
-			// couldn't get this to work.
-			//jsdump("window.height=" + window.height);
-			//jsdump("window.content.document.height=" + window.content.document.height);
-			//if (window.content.document.height < 600) {
-			//	jsdump('resizing');
-			//	window.resizeBy(0,250);
-			//}
-			var newText = '<div class="account">' +
-						  ' <table style="width:99%;">' +
-						  '  <tr>' +
-						  '   <td style="width:100px;">' + myUsername + '</td>' +
-						  '   <td><span id="followback-' + myUsername + '" class="followback"></span></td>' +
-						  '   <td  style="width:40px;">' +
-			              '    <img id="throb-' + myUsername + '" src="chrome://buzzbird/content/images/tiny-throbber.gif"/>' + 
-			              '    <input id="check-' + myUsername + '" type="checkbox" style="display:none;" onclick="toggleFollow(\'' + myUsername + '\',\'' + myPassword + '\',\'' + hisUserId + '\');"/>' +
-						  '   </td>' +
-						  '  </tr>' +
-						  ' </table>' +
-						  '</div>';
-			var parser = new DOMParser();
-			var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
-			if (doc.documentElement.nodeName != "parsererror" ) {
-				var root = doc.documentElement;
-				for (var j=0; j<root.childNodes.length; ++j) {
-					window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.lastChild);
+		if (logins[i].service == Ctx.service) {
+			var myUsername = logins[i].username;
+			var myPassword = logins[i].password;
+			jsdump("myUsername=" + myUsername + ", hisUsername=" + hisUsername);
+			if (myUsername != hisUsername) {
+				// couldn't get this to work.
+				//jsdump("window.height=" + window.height);
+				//jsdump("window.content.document.height=" + window.content.document.height);
+				//if (window.content.document.height < 600) {
+				//	jsdump('resizing');
+				//	window.resizeBy(0,250);
+				//}
+				var newText = '<div class="account">' +
+							  ' <table style="width:99%;">' +
+							  '  <tr>' +
+							  '   <td style="width:100px;">' + myUsername + '</td>' +
+							  '   <td><span id="followback-' + myUsername + '" class="followback"></span></td>' +
+							  '   <td  style="width:40px;">' +
+				              '    <img id="throb-' + myUsername + '" src="chrome://buzzbird/content/images/tiny-throbber.gif"/>' + 
+				              '    <input id="check-' + myUsername + '" type="checkbox" style="display:none;" onclick="toggleFollow(\'' + myUsername + '\',\'' + myPassword + '\',\'' + hisUserId + '\');"/>' +
+							  '   </td>' +
+							  '  </tr>' +
+							  ' </table>' +
+							  '</div>';
+				var parser = new DOMParser();
+				var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
+				if (doc.documentElement.nodeName != "parsererror" ) {
+					var root = doc.documentElement;
+					for (var j=0; j<root.childNodes.length; ++j) {
+						window.content.document.body.insertBefore(document.importNode(root.childNodes[j], true),window.content.document.body.lastChild);
+					}
+				} else {
+					jsdump("render error.");
 				}
-			} else {
-				jsdump("render error.");
+				getStatus(hisUserId,myUsername,myPassword)
 			}
-			getStatus(hisUserId,myUsername,myPassword)
 		}
 	}
 }

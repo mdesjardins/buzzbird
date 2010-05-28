@@ -45,7 +45,7 @@ function StatusNet() {
 	
 	this.urlBase = "";
 }
-StatusNet.prototype = Twitteresque;
+StatusNet.prototype = new Twitteresque();
 
 // Verifies the credentials of a user.  On failure, returns null,
 // otherwise returns a user object.  We don't use Aja here because
