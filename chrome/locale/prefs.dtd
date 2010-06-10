@@ -71,7 +71,36 @@
 <!ENTITY growlExplain.label "Visual notifications require Growl. You can get Growl from http://growl.info.">
 <!ENTITY libnotifyExplain.label "Visual notifications require libnotify and notify-send.">
 
+<!ENTITY prefPaneProxy.label "Proxies">
 
+<!ENTITY  manualTypeRadio.label         "Manual proxy configuration:">
+<!ENTITY  manualTypeRadio.accesskey     "m">
+<!ENTITY  autoTypeRadio.label           "Automatic proxy configuration URL:">
+<!ENTITY  autoTypeRadio.accesskey       "A">
+<!ENTITY  noProxyTypeRadio.label        "No proxy">
+<!ENTITY  noProxyTypeRadio.accesskey    "y">
+<!ENTITY  systemTypeRadio.label         "Use system proxy settings">
+<!ENTITY  systemTypeRadio.accesskey     "u">
+
+<!ENTITY  port.label                    "Port:">
+<!ENTITY  proxyTitle.label              "Configure Proxies to Access the Internet">
+<!ENTITY  http.label                    "HTTP Proxy:">
+<!ENTITY  http.accesskey                "H">
+<!ENTITY  HTTPport.accesskey            "P">
+<!ENTITY  ssl.label                     "SSL Proxy:">
+<!ENTITY  ssl.accesskey                 "S">
+<!ENTITY  SSLport.accesskey             "o">
+<!ENTITY  socks.label                   "SOCKS Host:">
+<!ENTITY  socks.accesskey               "C">
+<!ENTITY  SOCKSport.accesskey           "t">
+<!ENTITY  socks4.label                  "SOCKS v4">
+<!ENTITY  socks4.accesskey              "K">
+<!ENTITY  socks5.label                  "SOCKS v5">
+<!ENTITY  socks5.accesskey              "v">
+<!ENTITY  WPADTypeRadio.label           "Auto-detect proxy settings for this network">
+<!ENTITY  WPADTypeRadio.accesskey       "w">
+<!ENTITY  reload.label                  "Reload">
+<!ENTITY  reload.accesskey              "e">
 
 
  
