@@ -63,6 +63,8 @@
 <!ENTITY generalVisualAlert.label "Visual Notification on every update">
 <!ENTITY generalVisualAlertSticky.label "Stay on Screen">
 
+<!ENTITY prefPaneFilter.label "Filters">
+
 <!ENTITY mentionVisualAlert.label "Visual Notification whenever mentioned">
 <!ENTITY mentionVisualAlertSticky.label "Stay on Screen">
 

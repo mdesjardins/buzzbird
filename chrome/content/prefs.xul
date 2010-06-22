@@ -209,6 +209,81 @@ THE SOFTWARE.
 		</richlistbox>
 	</prefpane>
 	
+	<prefpane id="paneFilter" label="&prefPaneFilter.label;" image="chrome://buzzbird/skin/images/prefs/prefs-filter.png" onLoad="sizeToContent();">
+		<preferences>
+			<preference id="buzzbird.filters.foursquare" name="buzzbird.filters.foursquare" type="bool"/>
+			<preference id="buzzbird.filters.gowalla" name="buzzbird.filters.gowalla" type="bool"/>
+			<preference id="buzzbird.filters.brightkite" name="buzzbird.filters.brightkite" type="bool"/>
+			<preference id="buzzbird.filters.whrrl" name="buzzbird.filters.whrrl" type="bool"/>
+			<preference id="buzzbird.filters.fishies" name="buzzbird.filters.fishies" type="bool"/>
+			<preference id="buzzbird.filters.qrank" name="buzzbird.filters.qrank" type="bool"/>
+			<preference id="buzzbird.filters.dotsonline" name="buzzbird.filters.dotsonline" type="bool"/>
+			<preference id="buzzbird.filters.chessonline" name="buzzbird.filters.chessonline" type="bool"/>
+			<preference id="buzzbird.filters.rhythmbox" name="buzzbird.filters.rhythmbox" type="bool"/>
+			<preference id="buzzbird.filters.pandora" name="buzzbird.filters.pandora" type="bool"/>
+			<preference id="buzzbird.filters.tweekly" name="buzzbird.filters.tweekly" type="bool"/>
+			<preference id="buzzbird.filters.slackerradio" name="buzzbird.filters.slackerradio" type="bool"/>
+			<preference id="buzzbird.filters.blip" name="buzzbird.filters.blip" type="bool"/>
+			<preference id="buzzbird.filters.lastfmlovetweet" name="buzzbird.filters.lastfmlovetweet" type="bool"/>
+			<preference id="buzzbird.filters.lastfmtweets" name="buzzbird.filters.lastfmtweets" type="bool"/>
+			<preference id="buzzbird.filters.twunes" name="buzzbird.filters.twunes" type="bool"/>
+			<preference id="buzzbird.filters.wereward" name="buzzbird.filters.wereward" type="bool"/>
+			<preference id="buzzbird.filters.mylikes" name="buzzbird.filters.mylikes" type="bool"/>
+			<preference id="buzzbird.filters.adcause" name="buzzbird.filters.adcause" type="bool"/>
+			<preference id="buzzbird.filters.ratepoint" name="buzzbird.filters.ratepoint" type="bool"/>
+			<preference id="buzzbird.filters.assetize" name="buzzbird.filters.assetize" type="bool"/>
+			<preference id="buzzbird.filters.adly" name="buzzbird.filters.adly" type="bool"/>
+			<preference id="buzzbird.filters.sponsoredtweets" name="buzzbird.filters.sponsoredtweets" type="bool"/>
+		</preferences>
+		<hbox>
+			<vbox>
+				<groupbox>
+					<caption label="Location Services"/>
+					<vbox>
+						<hbox><checkbox id="checkbox_filterFourSquare" preference="buzzbird.filters.foursquare" />Foursquare</hbox>
+						<hbox><checkbox id="checkbox_filterGowalla" preference="buzzbird.filters.gowalla" />Gowalla</hbox>
+						<hbox><checkbox id="checkbox_filterBrightkite" preference="buzzbird.filters.brightkite" />Brightkite</hbox>
+						<hbox><checkbox id="checkbox_filterWhrrl" preference="buzzbird.filters.whrrl" />Whrrl</hbox>					
+					</vbox>
+				</groupbox>
+				<groupbox>
+					<caption label="Games"/>
+					<vbox>
+						<hbox><checkbox id="checkbox_filterFishies" preference="buzzbird.filters.fishies" />Fishies</hbox>
+						<hbox><checkbox id="checkbox_filterQrank" preference="buzzbird.filters.qrank" />QRANK</hbox>
+						<hbox><checkbox id="checkbox_filterDotsOnline" preference="buzzbird.filters.dotsonline" />Dots Online</hbox>
+						<hbox><checkbox id="checkbox_filterChessOnline" preference="buzzbird.filters.chessonline" />Chess Online</hbox>					
+					</vbox>
+				</groupbox>
+			</vbox>
+			<groupbox>
+				<caption label="Music Services"/>
+				<vbox>
+					<hbox><checkbox id="checkbox_filterRhythmbox" preference="buzzbird.filters.rhythmbox" />Rhythmbox</hbox>
+					<hbox><checkbox id="checkbox_filterPandora" preference="buzzbird.filters.pandora" />Pandora</hbox>
+					<hbox><checkbox id="checkbox_filterTweekly" preference="buzzbird.filters.tweekly" />Tweekly.fm</hbox>
+					<hbox><checkbox id="checkbox_filterSlackerRadio" preference="buzzbird.filters.slackerradio" />Slacker Radio</hbox>
+					<hbox><checkbox id="checkbox_filterBlip" preference="buzzbird.filters.blip" />Blip.fm</hbox>
+					<hbox><checkbox id="checkbox_filterLastFmLoveTweet" preference="buzzbird.filters.lastfmlovetweet" />Last.fm LoveTweet</hbox>
+					<hbox><checkbox id="checkbox_filterLastFmTweets" preference="buzzbird.filters.lastfmtweets" />Last.fm Tweets</hbox>
+					<hbox><checkbox id="checkbox_filterTwunes" preference="buzzbird.filters.twunes" />Twunes</hbox>
+				</vbox>
+			</groupbox>							
+			<groupbox>
+				<caption label="Ad Services"/>
+				<vbox>
+					<hbox><checkbox id="checkbox_filterWeReward" preference="buzzbird.filters.wereward" />WeReward</hbox>
+					<hbox><checkbox id="checkbox_filterMyLikes" preference="buzzbird.filters.mylikes" />MyLikes</hbox>
+					<hbox><checkbox id="checkbox_filterAdCause" preference="buzzbird.filters.adcause" />adCause</hbox>
+					<hbox><checkbox id="checkbox_filterRatePoint" preference="buzzbird.filters.ratepoint" />RatePoint</hbox>
+					<hbox><checkbox id="checkbox_filterAssetize" preference="buzzbird.filters.assetize" />Assetize</hbox>
+					<hbox><checkbox id="checkbox_filterAdly" preference="buzzbird.filters.adly" />Ad.ly</hbox>
+					<hbox><checkbox id="checkbox_filterSponsoredTweets" preference="buzzbird.filters.sponsoredtweets" />Sponsored Tweets</hbox>
+				</vbox>
+			</groupbox>							
+		</hbox>
+	</prefpane>
+	
 	<prefpane id="paneProxy" label="&prefPaneProxy.label;" image="chrome://buzzbird/skin/images/prefs/prefs-proxy.png" onLoad="sizeToContent();">
 		<preferences>
 			<preference id="network.proxy.type"         name="network.proxy.type"         type="int" onchange="Proxy.proxyTypeChanged();"/>
