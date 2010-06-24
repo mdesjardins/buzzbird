@@ -64,6 +64,7 @@
 <!ENTITY generalVisualAlertSticky.label "Stay on Screen">
 
 <!ENTITY prefPaneFilter.label "Filters">
+<!ENTITY filterExplain.label "Select which services you want hidden in your timeline.">
 
 <!ENTITY mentionVisualAlert.label "Visual Notification whenever mentioned">
 <!ENTITY mentionVisualAlertSticky.label "Stay on Screen">

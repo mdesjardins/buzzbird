@@ -73,3 +73,27 @@ pref("buzzbird.alert.visual.direct.sticky",false);
 pref("buzzbird.autoclose.post",true);
 pref("buzzbird.post.return",false);
 
+// default all filters off.
+pref("buzzbird.filters.foursquare",false);
+pref("buzzbird.filters.gowalla",false);
+pref("buzzbird.filters.brightkite",false);
+pref("buzzbird.filters.whrrl",false);
+pref("buzzbird.filters.fishies",false);
+pref("buzzbird.filters.qrank",false);
+pref("buzzbird.filters.dotsonline",false);
+pref("buzzbird.filters.chessonline",false);
+pref("buzzbird.filters.rhythmbox",false);
+pref("buzzbird.filters.pandora",false);
+pref("buzzbird.filters.tweekly",false);
+pref("buzzbird.filters.slackerradio",false);
+pref("buzzbird.filters.blip",false);
+pref("buzzbird.filters.lastfmlovetweet",false);
+pref("buzzbird.filters.lastfmtweets",false);
+pref("buzzbird.filters.twunes",false);
+pref("buzzbird.filters.wereward",false);
+pref("buzzbird.filters.mylikes",false);
+pref("buzzbird.filters.adcause",false);
+pref("buzzbird.filters.ratepoint",false);
+pref("buzzbird.filters.assetize",false);
+pref("buzzbird.filters.adly",false);
+pref("buzzbird.filters.sponsoredtweets",false);

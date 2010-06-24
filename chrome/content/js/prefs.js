@@ -338,6 +338,5 @@ var Proxy = {
   }
 };
 
-
 window.addEventListener("load", Prefs.initLogins, false);
 window.addEventListener("load", Prefs.initSticky, false);

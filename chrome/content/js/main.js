@@ -1089,10 +1089,10 @@ var Fetch = {
 					}
 
 					newCount++;
-					newText = formatTweet(tweet,Ctx.user,Ctx.password) + newText;
+					newText = Render.formatTweet(tweet,Ctx.user,Ctx.password) + newText;
 				}
 			}
-			insertAtTop(newText);
+			Render.insertAtTop(newText);
 
 			if (doNotifications && newCount > 0 && getBoolPref("buzzbird.alert.visual.general",true)) {
 				var sticky = getBoolPref("buzzbird.alert.visual.general.sticky",false)
@@ -1212,7 +1212,7 @@ var Post = {
 		fakeTweet.user.name = Ctx.profile.name
 		fakeTweet.in_reply_to_screen_name = "";
 		fakeTweet.sender = undefined;
-		insertAtTop(formatTweet(fakeTweet,Ctx.user,Ctx.password));
+		Render.insertAtTop(Render.formatTweet(fakeTweet,Ctx.user,Ctx.password));
 	},
 
 	// Called by success and error

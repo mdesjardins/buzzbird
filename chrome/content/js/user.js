@@ -115,7 +115,7 @@ function fetchUpdatesCallback(updates,username,password) {
 	} else {
 		var newText = '';
 		for (var i=updates.length-1; i>=0; i--) {
-			newText = formatTweet(updates[i],username,password) + newText;
+			newText = Render.formatTweet(updates[i],username,password) + newText;
 			if (i==0) {
 				jsdump('in THIS SEEMS WRONG part. user.screen_name=' + updates[i].user.screen_name);
 				browser = document.getElementById('user-browser');

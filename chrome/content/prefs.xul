@@ -29,13 +29,11 @@ THE SOFTWARE.
 
 <prefwindow id="BrowserPreferences"
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-			type="prefwindow"
-			onload="sizeToContent();"
-			windowtype="Browser:Preferences">
-	<prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/skin/images/prefs/prefs-general.png" 
-  		onLoad="sizeToContent();">
-    	<preferences>
-      		<preference id="updateInterval" name="buzzbird.update.interval" type="int"/>
+						type="prefwindow"
+						windowtype="Browser:Preferences">
+	<prefpane id="paneGeneral" label="&prefPaneGeneral.label;" image="chrome://buzzbird/skin/images/prefs/prefs-general.png" onLoad="window.sizeToContent();">
+   	<preferences>
+   		<preference id="updateInterval" name="buzzbird.update.interval" type="int"/>
 			<preference id="retweetFormat" name="buzzbird.retweet.format" type="string"/>
 			<preference id="retweetMethod" name="buzzbird.retweet.method" type="string"/>
 			<preference id="hashtagDestination" name="buzzbird.hashtag.destination" type="string"/>
@@ -45,7 +43,7 @@ THE SOFTWARE.
 			<preference id="boldfaceName" name="buzzbird.render.bold-name" type="string"/>
 			<preference id="autoClosePostArea" name="buzzbird.autoclose.post" type="bool"/>
 			<preference id="returnToPost" name="buzzbird.post.return" type="bool"/>
-    	</preferences>
+   	</preferences>
 		<vbox>
 			<hbox style="padding-bottom:10px;">
 				<box width="200" align="right">
@@ -151,15 +149,12 @@ THE SOFTWARE.
 		</vbox>
 	</prefpane>
 
-	<prefpane id="paneMultiAccounts" label="&prefPaneAccounts.label;" 
-	  image="chrome://buzzbird/skin/images/prefs/prefs-accounts.png"
-	  onLoad="sizeToContent();">
+	<prefpane id="paneMultiAccounts" label="&prefPaneAccounts.label;" image="chrome://buzzbird/skin/images/prefs/prefs-accounts.png" onLoad="window.sizeToContent();">
 		<preferences></preferences>
 		<hbox>
 			<button id="addAccount" label="Add" oncommand="Prefs.addAccount();" />
 			<button id="deleteAccount" label="Delete" oncommand="Prefs.deleteAccount();" disabled="true" />
 		</hbox>
-
 		<richlistitem id="account_template" hidden="true" style="border-bottom:1px solid #999;">
 			<hbox style="padding:5px; margin:5px;">
 				<image field="image" height="40" width="40" style="-moz-border-radius:3px;"></image>
@@ -169,13 +164,11 @@ THE SOFTWARE.
 				</vbox>
 			</hbox>
 		</richlistitem>
-		
 		<richlistbox id="richlistbox_accounts" onclick="Prefs.loginListClicked();" height="280">
 		</richlistbox>
 	</prefpane>
 	
-	<prefpane id="paneAlerts" label="&prefPaneAlerts.label;" image="chrome://buzzbird/skin/images/prefs/prefs-alerts.png"
-	 onLoad="sizeToContent();">
+	<prefpane id="paneAlerts" label="&prefPaneAlerts.label;" image="chrome://buzzbird/skin/images/prefs/prefs-alerts.png" onLoad="window.sizeToContent();">
 		<preferences>
 			<preference id="generalVisualAlert" name="buzzbird.alert.visual.general" type="bool"></preference>
 			<preference id="generalVisualAlertSticky" name="buzzbird.alert.visual.general.sticky" type="bool"></preference>
@@ -184,32 +177,52 @@ THE SOFTWARE.
 			<preference id="directVisualAlert" name="buzzbird.alert.visual.direct" type="bool"></preference>
 			<preference id="directVisualAlertSticky" name="buzzbird.alert.visual.direct.sticky" type="bool"></preference>
 		</preferences>
-	</prefpane>
-
-	<prefpane id="paneMultiAccounts" label="&prefPaneAccounts.label;" 
-	  image="chrome://buzzbird/skin/images/prefs/prefs-accounts.png"
-	  onLoad="sizeToContent();">
-		<preferences></preferences>
-		<hbox>
-			<button id="addAccount" label="Add" oncommand="Prefs.addAccount();" />
-			<button id="deleteAccount" label="Delete" oncommand="Prefs.deleteAccount();" disabled="true" />
-		</hbox>
-
-		<richlistitem id="account_template" hidden="true" style="border-bottom:1px solid #999;">
-			<hbox style="padding:5px; margin:5px;">
-				<image field="image" height="40" width="40" style="-moz-border-radius:3px;"></image>
-				<vbox>
-					<label field="screen_name" style="color:#444; font:18px sans-serif;"></label>
-					<label field="real_name" style="color:#444; font:12px sans-serif;"></label>
-				</vbox>
-			</hbox>
-		</richlistitem>
-		
-		<richlistbox id="richlistbox_accounts" onclick="Prefs.loginListClicked();" height="280">
-		</richlistbox>
+		<box id="notification-explanation" style="margin-left:15px;">
+		</box>
+		<vbox>
+			<groupbox>
+				<caption label="Every Update"/>
+				<hbox>
+					<checkbox id="checkbox_generalVisualAlert" preference="generalVisualAlert" onclick="Prefs.setSticky('generalVisualAlert',true);"/>
+					<label control="checkbox_generalVisualAlert" value="&generalVisualAlert.label;" /> 
+				</hbox>
+				<hbox style="padding-left:10px;">
+					<checkbox id="checkbox_generalVisualAlertSticky" preference="generalVisualAlertSticky" />
+					<label id="checkbox_generalVisualAlertStickyLabel" 
+					       control="checkbox_generalVisualAlertSticky" 
+					       value="&generalVisualAlertSticky.label;" /> 
+				</hbox>
+			</groupbox>
+			<groupbox>
+				<caption label="When Mentioned"/>
+				<hbox>
+					<checkbox id="checkbox_mentionVisualAlert" preference="mentionVisualAlert" onclick="Prefs.setSticky('mentionVisualAlert',true);"/>
+					<label control="checkbox_mentionVisualAlert" value="&mentionVisualAlert.label;" /> 
+				</hbox>
+				<hbox style="padding-left:10px;">
+					<checkbox id="checkbox_mentionVisualAlertSticky" preference="mentionVisualAlertSticky" />
+					<label id="checkbox_mentionVisualAlertStickyLabel" 
+					       control="checkbox_mentionVisualAlertSticky" 
+					       value="&mentionVisualAlertSticky.label;" /> 
+				</hbox>
+			</groupbox>
+			<groupbox>
+				<caption label="Direct Messages"/>
+				<hbox>
+					<checkbox id="checkbox_directVisualAlert" preference="directVisualAlert" onclick="Prefs.setSticky('directVisualAlert',true);"/>
+					<label control="checkbox_directVisualAlert" value="&directVisualAlert.label;" /> 
+				</hbox>
+				<hbox style="padding-left:10px;">
+					<checkbox id="checkbox_directVisualAlertSticky" preference="directVisualAlertSticky" />
+					<label id="checkbox_directVisualAlertStickyLabel" 
+					       control="checkbox_directVisualAlertSticky" 
+					       value="&directVisualAlertSticky.label;" /> 
+				</hbox>
+			</groupbox>
+		</vbox>
 	</prefpane>
 	
-	<prefpane id="paneFilter" label="&prefPaneFilter.label;" image="chrome://buzzbird/skin/images/prefs/prefs-filter.png" onLoad="sizeToContent();">
+	<prefpane id="paneFilter" label="&prefPaneFilter.label;" image="chrome://buzzbird/skin/images/prefs/prefs-filter.png" onLoad="window.sizeToContent();">
 		<preferences>
 			<preference id="buzzbird.filters.foursquare" name="buzzbird.filters.foursquare" type="bool"/>
 			<preference id="buzzbird.filters.gowalla" name="buzzbird.filters.gowalla" type="bool"/>
@@ -235,56 +248,59 @@ THE SOFTWARE.
 			<preference id="buzzbird.filters.adly" name="buzzbird.filters.adly" type="bool"/>
 			<preference id="buzzbird.filters.sponsoredtweets" name="buzzbird.filters.sponsoredtweets" type="bool"/>
 		</preferences>
-		<hbox>
-			<vbox>
-				<groupbox>
-					<caption label="Location Services"/>
-					<vbox>
-						<hbox><checkbox id="checkbox_filterFourSquare" preference="buzzbird.filters.foursquare" />Foursquare</hbox>
-						<hbox><checkbox id="checkbox_filterGowalla" preference="buzzbird.filters.gowalla" />Gowalla</hbox>
-						<hbox><checkbox id="checkbox_filterBrightkite" preference="buzzbird.filters.brightkite" />Brightkite</hbox>
-						<hbox><checkbox id="checkbox_filterWhrrl" preference="buzzbird.filters.whrrl" />Whrrl</hbox>					
-					</vbox>
-				</groupbox>
-				<groupbox>
-					<caption label="Games"/>
-					<vbox>
-						<hbox><checkbox id="checkbox_filterFishies" preference="buzzbird.filters.fishies" />Fishies</hbox>
-						<hbox><checkbox id="checkbox_filterQrank" preference="buzzbird.filters.qrank" />QRANK</hbox>
-						<hbox><checkbox id="checkbox_filterDotsOnline" preference="buzzbird.filters.dotsonline" />Dots Online</hbox>
-						<hbox><checkbox id="checkbox_filterChessOnline" preference="buzzbird.filters.chessonline" />Chess Online</hbox>					
-					</vbox>
-				</groupbox>
-			</vbox>
-			<groupbox>
-				<caption label="Music Services"/>
+		<vbox align="center">
+			<label value="&filterExplain.label;"></label>
+			<hbox>
 				<vbox>
-					<hbox><checkbox id="checkbox_filterRhythmbox" preference="buzzbird.filters.rhythmbox" />Rhythmbox</hbox>
-					<hbox><checkbox id="checkbox_filterPandora" preference="buzzbird.filters.pandora" />Pandora</hbox>
-					<hbox><checkbox id="checkbox_filterTweekly" preference="buzzbird.filters.tweekly" />Tweekly.fm</hbox>
-					<hbox><checkbox id="checkbox_filterSlackerRadio" preference="buzzbird.filters.slackerradio" />Slacker Radio</hbox>
-					<hbox><checkbox id="checkbox_filterBlip" preference="buzzbird.filters.blip" />Blip.fm</hbox>
-					<hbox><checkbox id="checkbox_filterLastFmLoveTweet" preference="buzzbird.filters.lastfmlovetweet" />Last.fm LoveTweet</hbox>
-					<hbox><checkbox id="checkbox_filterLastFmTweets" preference="buzzbird.filters.lastfmtweets" />Last.fm Tweets</hbox>
-					<hbox><checkbox id="checkbox_filterTwunes" preference="buzzbird.filters.twunes" />Twunes</hbox>
+					<groupbox>
+						<caption label="Location Services"/>
+						<vbox>
+							<hbox><checkbox id="checkbox_filterFourSquare" preference="buzzbird.filters.foursquare" /><label control="checkbox_filterFourSquare">Foursquare</label></hbox>
+							<hbox><checkbox id="checkbox_filterGowalla" preference="buzzbird.filters.gowalla" /><label control="checkbox_filterGowalla">Gowalla</label></hbox>
+							<hbox><checkbox id="checkbox_filterBrightkite" preference="buzzbird.filters.brightkite" /><label control="checkbox_filterBrightkite">Brightkite</label></hbox>
+							<hbox><checkbox id="checkbox_filterWhrrl" preference="buzzbird.filters.whrrl" /><label control="checkbox_filterWhrrl">Whrrl</label></hbox>					
+						</vbox>
+					</groupbox>
+					<groupbox>
+						<caption label="Games"/>
+						<vbox>
+							<hbox><checkbox id="checkbox_filterFishies" preference="buzzbird.filters.fishies" /><label control="checkbox_filterFishies">Fishies</label></hbox>
+							<hbox><checkbox id="checkbox_filterQrank" preference="buzzbird.filters.qrank" /><label control="checkbox_filterQrank">QRANK</label></hbox>
+							<hbox><checkbox id="checkbox_filterDotsOnline" preference="buzzbird.filters.dotsonline" /><label control="checkbox_filterDotsOnline">Dots Online</label></hbox>
+							<hbox><checkbox id="checkbox_filterChessOnline" preference="buzzbird.filters.chessonline" /><label control="checkbox_filterChessOnline">Chess Online</label></hbox>					
+						</vbox>
+					</groupbox>
 				</vbox>
-			</groupbox>							
-			<groupbox>
-				<caption label="Ad Services"/>
-				<vbox>
-					<hbox><checkbox id="checkbox_filterWeReward" preference="buzzbird.filters.wereward" />WeReward</hbox>
-					<hbox><checkbox id="checkbox_filterMyLikes" preference="buzzbird.filters.mylikes" />MyLikes</hbox>
-					<hbox><checkbox id="checkbox_filterAdCause" preference="buzzbird.filters.adcause" />adCause</hbox>
-					<hbox><checkbox id="checkbox_filterRatePoint" preference="buzzbird.filters.ratepoint" />RatePoint</hbox>
-					<hbox><checkbox id="checkbox_filterAssetize" preference="buzzbird.filters.assetize" />Assetize</hbox>
-					<hbox><checkbox id="checkbox_filterAdly" preference="buzzbird.filters.adly" />Ad.ly</hbox>
-					<hbox><checkbox id="checkbox_filterSponsoredTweets" preference="buzzbird.filters.sponsoredtweets" />Sponsored Tweets</hbox>
-				</vbox>
-			</groupbox>							
-		</hbox>
+				<groupbox>
+					<caption label="Music Services"/>
+					<vbox>
+						<hbox><checkbox id="checkbox_filterRhythmbox" preference="buzzbird.filters.rhythmbox" /><label control="checkbox_filterRhythmbox">Rhythmbox</label></hbox>
+						<hbox><checkbox id="checkbox_filterPandora" preference="buzzbird.filters.pandora" /><label control="checkbox_filterPandora">Pandora</label></hbox>
+						<hbox><checkbox id="checkbox_filterTweekly" preference="buzzbird.filters.tweekly" /><label control="checkbox_filterTweekly">Tweekly.fm</label></hbox>
+						<hbox><checkbox id="checkbox_filterSlackerRadio" preference="buzzbird.filters.slackerradio" /><label control="checkbox_filterSlackerRadio">Slacker Radio</label></hbox>
+						<hbox><checkbox id="checkbox_filterBlip" preference="buzzbird.filters.blip" /><label control="checkbox_filterBlip">Blip.fm</label></hbox>
+						<hbox><checkbox id="checkbox_filterLastFmLoveTweet" preference="buzzbird.filters.lastfmlovetweet" /><label control="checkbox_filterLastFmLoveTweet">Last.fm LoveTweet</label></hbox>
+						<hbox><checkbox id="checkbox_filterLastFmTweets" preference="buzzbird.filters.lastfmtweets" /><label control="checkbox_filterLastFmTweets">Last.fm Tweets</label></hbox>
+						<hbox><checkbox id="checkbox_filterTwunes" preference="buzzbird.filters.twunes" /><label control="checkbox_filterTwunes">Twunes</label></hbox>
+					</vbox>
+				</groupbox>							
+				<groupbox>
+					<caption label="Ad Services"/>
+					<vbox>
+						<hbox><checkbox id="checkbox_filterWeReward" preference="buzzbird.filters.wereward" /><label control="checkbox_filterWeReward">WeReward</label></hbox>
+						<hbox><checkbox id="checkbox_filterMyLikes" preference="buzzbird.filters.mylikes" /><label control="checkbox_filterMyLikes">MyLikes</label></hbox>
+						<hbox><checkbox id="checkbox_filterAdCause" preference="buzzbird.filters.adcause" /><label control="checkbox_filterAdCause">adCause</label></hbox>
+						<hbox><checkbox id="checkbox_filterRatePoint" preference="buzzbird.filters.ratepoint" /><label control="checkbox_filterRatePoint">RatePoint</label></hbox>
+						<hbox><checkbox id="checkbox_filterAssetize" preference="buzzbird.filters.assetize" /><label control="checkbox_filterAssetize">Assetize</label></hbox>
+						<hbox><checkbox id="checkbox_filterAdly" preference="buzzbird.filters.adly" /><label control="checkbox_filterAdly">Ad.ly</label></hbox>
+						<hbox><checkbox id="checkbox_filterSponsoredTweets" preference="buzzbird.filters.sponsoredtweets" /><label control="checkbox_filterSponsonredTweets">Sponsored Tweets</label></hbox>
+					</vbox>
+				</groupbox>							
+			</hbox>
+		</vbox>
 	</prefpane>
 	
-	<prefpane id="paneProxy" label="&prefPaneProxy.label;" image="chrome://buzzbird/skin/images/prefs/prefs-proxy.png" onLoad="sizeToContent();">
+	<prefpane id="paneProxy" label="&prefPaneProxy.label;" image="chrome://buzzbird/skin/images/prefs/prefs-proxy.png" onLoad="window.sizeToContent();">
 		<preferences>
 			<preference id="network.proxy.type"         name="network.proxy.type"         type="int" onchange="Proxy.proxyTypeChanged();"/>
       <preference id="network.proxy.http"         name="network.proxy.http"         type="string"/>
@@ -330,11 +346,9 @@ THE SOFTWARE.
                 <label value="&ssl.label;" accesskey="&ssl.accesskey;" control="networkProxySSL"/>
               </hbox>
               <hbox align="center">
-                <textbox id="networkProxySSL" flex="1" preference="network.proxy.ssl"
-                         onsyncfrompreference="return Proxy.readProxyProtocolPref('ssl', false);"/>
+                <textbox id="networkProxySSL" flex="1" preference="network.proxy.ssl"/>
                 <label value="&port.label;" accesskey="&SSLport.accesskey;" control="networkProxySSL_Port"/>
-                <textbox id="networkProxySSL_Port" type="number" max="65535" size="5" preference="network.proxy.ssl_port"
-                         onsyncfrompreference="return Proxy.readProxyProtocolPref('ssl', true);"/>
+                <textbox id="networkProxySSL_Port" type="number" max="65535" size="5" preference="network.proxy.ssl_port"/>
               </hbox>
             </row>
             <row align="center">
@@ -342,11 +356,9 @@ THE SOFTWARE.
                 <label value="&socks.label;" accesskey="&socks.accesskey;" control="networkProxySOCKS"/>
               </hbox>
               <hbox align="center">
-                <textbox id="networkProxySOCKS" flex="1" preference="network.proxy.socks"
-                         onsyncfrompreference="return Proxy.readProxyProtocolPref('socks', false);"/>
+                <textbox id="networkProxySOCKS" flex="1" preference="network.proxy.socks"/>
                 <label value="&port.label;" accesskey="&SOCKSport.accesskey;" control="networkProxySOCKS_Port"/>
-                <textbox id="networkProxySOCKS_Port" type="number" max="65535" size="5" preference="network.proxy.socks_port"
-                         onsyncfrompreference="return Proxy.readProxyProtocolPref('socks', true);"/>
+                <textbox id="networkProxySOCKS_Port" type="number" max="65535" size="5" preference="network.proxy.socks_port"/>
               </hbox>
             </row>
             <row>
