@@ -116,12 +116,49 @@ var Render = {
 		}
 	},
 
+	sourceFilters: [
+		{"source":'foursquare', "pref":'buzzbird.filters.foursquare'},
+		{"source":'Gowalla', "pref":'buzzbird.filters.gowalla'},
+		{"source":'Brightkite', "pref":'buzzbird.filters.brightkite'},
+		{"source":'Whrrl', "pref":'buzzbird.filters.whrrl'},
+		{"source":'Fishies', "pref":'buzzbird.filters.fishies'},
+		{"source":'QRANK', "pref":'buzzbird.filters.qrank'},
+		{"source":'Dots Online', "pref":'buzzbird.filters.dotsonline'},
+		{"source":'Chess Online', "pref":'buzzbird.filters.chessonline'},
+		{"source":'Pandora', "pref":'buzzbird.filters.pandora'},
+		{"source":'Tweekly.fm', "pref":'buzzbird.filters.tweekly'},
+		{"source":'Blip.fm', "pref":'buzzbird.filters.blip'},
+		{"source":'LastfmLoveTweet', "pref":'buzzbird.filters.lastfmlovetweet'},
+		{"source":'Last.fm Tweets', "pref":'buzzbird.filters.lastfmtweets'},
+		{"source":'Twunes', "pref":'buzzbird.filters.twunes'},
+	  {"source":'Rhythmbox plugin', "pref":'buzzbird.filters.rhythmbox'},
+		{"source":'WeReward', "pref":'buzzbird.filters.wereward'},
+		{"source":'MyLikes', "pref":'buzzbird.filters.mylikes'},
+		{"source":'adCause', "pref":'buzzbird.filters.adcause'},
+		{"source":'RatePoint', "pref":'buzzbird.filters.ratepoint'},
+		{"source":'RatePoint SocialFeed', "pref":'buzzbird.filters.ratepoint'},
+		{"source":'Assetize.', "pref":'buzzbird.filters.assetize'},
+		{"source":'Ad.ly Network', "pref":'buzzbird.filters.adly'},
+		{"source":'Sponsored Tweets', "pref":'buzzbird.filters.sponsoredtweets'}
+	],
+
+	contentFilters: [
+ 	  {"content":'(.*?)#SlackerRadio(.*?)', "pref":'buzzbird.filters.slackerradio'},
+	  {"content":'^Rhythmbox: (.*)', "pref":'buzzbird.filters.rhythmbox'}
+	],
+
 	// Formats a tweet for display.
 	//
 	formatTweet: function(tweet,username,password) {
 		//jsdump('formatting tweet ' + tweet.id);
 		// Clean any junk out of the text.
 		var text = sanitize(tweet.text);
+		
+		if (Render.filtered(tweet.source,text)) {
+			jsdump(">>> Filtering tweet... source: " + tweet.source + ", content: '" + text + "'");
+			return "";
+		}
+		
 		// First, go through and replace links with real links.
 		var re = new RegExp("http://(\\S*)", "g");
 		var text = text.replace(re, "<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://$1');\">http://$1</a>");
@@ -166,7 +203,7 @@ var Render = {
 		          ((currentFilter == showingDirect) && (tweetType(tweet,username,password) == 'direct')) ||
 		          ((currentFilter == showingReplies && (tweetType(tweet,username,password) == 'reply')) ) ) {
 			  display = 'inline';
-		    }
+		  }
 		}
 	
 		var via = ""
@@ -201,18 +238,18 @@ var Render = {
 	     + "     style=\"display:" + display + "\" " 
 	     + "     onmouseover=\"browser.showIcons("+ tweet.id + ")\" "
 	     + "     onmouseout=\"browser.showInfo(" + tweet.id + ")\">"
-		 + " <div class=\"" + c.message + "\">"
-		 + "  <table class=\"" + c.table + "\">"
-		 + "   <tr>"
-		 + "    <td valign=\"top\" class=\"" + c.avatarColumn + "\">"
-		 + "     <a onmouseover=\"this.style.cursor='pointer';\" style=\"margin:0px;padding:0px\" "  
-		 + "        onclick=\"browser.showUser('" + user.screen_name + "');\" "
-		 + "        title=\"" + altText + "\">"
-		 + "      <img src=\"" + user.profile_image_url + "\" class=\"" + c.avatar +"\" />"
+		   + " <div class=\"" + c.message + "\">"
+		   + "  <table class=\"" + c.table + "\">"
+		   + "   <tr>"
+		   + "    <td valign=\"top\" class=\"" + c.avatarColumn + "\">"
+		   + "     <a onmouseover=\"this.style.cursor='pointer';\" style=\"margin:0px;padding:0px\" "  
+		   + "        onclick=\"browser.showUser('" + user.screen_name + "');\" "
+		   + "        title=\"" + altText + "\">"
+		   + "      <img src=\"" + user.profile_image_url + "\" class=\"" + c.avatar +"\" />"
 	     + "     </a>"
 	     + "    </td>"
 	     + "    <td>"
-		 + "     <div class=\"" + c.text + "\">"
+		   + "     <div class=\"" + c.text + "\">"
 	 
 		 var emphasis = getStringPref('buzzbird.render.bold-name','handle');
 		 if (emphasis == 'realname') {
@@ -227,12 +264,12 @@ var Render = {
 	     + "   </tr>"
 	     + "  </table>"
 	     + "  <div class=\"" + c.bottomRow + "\">"
-	 	 + "   <img class=\"" + c.mark + "\" "
-		 + "        id=\"mark-" + tweet.id + "\" "
-		 + "        tweetType=\"" + tt + "\""
-		 + "        src=\"chrome://buzzbird/skin/images/actions/unread.png\" "
-		 + "        onclick=\"browser.toggleMarkAsRead(" + tweet.id + ");\" "
-		 + "        onmouseover=\"this.style.cursor='pointer';\" />"
+	 	   + "   <img class=\"" + c.mark + "\" "
+		   + "        id=\"mark-" + tweet.id + "\" "
+		   + "        tweetType=\"" + tt + "\""
+		   + "        src=\"chrome://buzzbird/skin/images/actions/unread.png\" "
+		   + "        onclick=\"browser.toggleMarkAsRead(" + tweet.id + ");\" "
+		   + "        onmouseover=\"this.style.cursor='pointer';\" />"
 	     + "   <span id=\"tweetInfo-" + tweet.id + "\">"
 		 if (emphasis == 'realname') {
 		   result += "<span class=\"" + c.info + "\">" + sanitize(user.screen_name) 
@@ -276,17 +313,39 @@ var Render = {
 			result = result + " <a class=\"" + c.info + "\" title=\"Delete this Update\" onclick=\"browser.deletePost(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/delete.png\" class=\"" + c.icon + "\" /></a>"		
 		 }
 	
-	     result = result 
+	   result = result 
 	     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"browser.favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/favorite.png\" class=\"" + c.icon + "\" /></a>"
-		 + via
-		 + "   </span>"
+		   + via
+		   + "   </span>"
 	     + "  </div>"
 	     + " </div>"
 	     + "</div>"
 	     + "\n";
 
-		//jsdump('tweet(' + tweet.id +'): ' + result);
-		return result;
+		 //jsdump('tweet(' + tweet.id +'): ' + result);
+		 return result.replace(/[ \t]+/g, ' ');
+	},
+
+	filtered: function(source,tweet) {
+		if (source != undefined && source != null && source != "") {
+			for (var i=0,len=Render.sourceFilters.length; i<len; i++) {
+				s = Render.sourceFilters[i]
+				if (s.source == source) {
+					if (getBoolPref(s.pref,false)) {
+						return true;
+					}
+				}
+			}
+		}
+		for (var i=0,len=Render.contentFilters.length; i<len; i++) {
+			s = Render.contentFilters[i]
+			if (tweet.match(s.content)) {
+				if (getBoolPref(s.pref,false)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	},
 
 	// Writes to the top of the page.

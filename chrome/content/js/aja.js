@@ -92,7 +92,7 @@ function Aja() {
 	}
 	
 	function freeXmlReq(pos) {
-		jsdump("Freeing " + pos);
+//		jsdump("Freeing " + pos);
 		window.clearTimeout(_reqPool[pos].timer);
 		_reqPool[pos].freed = 1
 	}

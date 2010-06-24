@@ -165,7 +165,7 @@ var Prefs = {
 				"token":account.token,
 				"tokenSecret":account.tokenSecret,
 				"queriedScreenName":account.username,
-				"onSuccess": function(result) { Prefs.getProfileCallback(result); },
+				"onSuccess": Prefs.getProfileCallback
 			});		
 			listbox.appendChild(xulAccount);	
 		}
