@@ -153,12 +153,7 @@ var Render = {
 		//jsdump('formatting tweet ' + tweet.id);
 		// Clean any junk out of the text.
 		var text = sanitize(tweet.text);
-		
-		if (Render.filtered(tweet.source,text)) {
-			jsdump(">>> Filtering tweet... source: " + tweet.source + ", content: '" + text + "'");
-			return "";
-		}
-		
+				
 		// First, go through and replace links with real links.
 		var re = new RegExp("http://(\\S*)", "g");
 		var text = text.replace(re, "<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('http://$1');\">http://$1</a>");
@@ -211,6 +206,10 @@ var Render = {
 			var re = new RegExp('<a href="(.*?)" rel="nofollow">(.*?)</a>');
 			var src = re.exec(tweet.source);
 			if (src != undefined && src != null && src.length == 3) {
+				if (Render.filtered(src[2],text)) {
+					jsdump("::::>>>>>>> Filtering tweet... source: " + tweet.source + ", content: '" + text + "'");
+					return "";
+				}
 				href = src[1]
 				href = href.replace(/&/g, '%26');
 				via = " <span class=\"" + c.via + "\"> posted from <a onmouseover=\"this.style.cursor='pointer';\" onclick=\"linkTo('" + href + "')\">" + sanitize(src[2]) + "</a></span>";
@@ -328,10 +327,14 @@ var Render = {
 
 	filtered: function(source,tweet) {
 		if (source != undefined && source != null && source != "") {
+			//jsdump(":::: Checking source filters.");
 			for (var i=0,len=Render.sourceFilters.length; i<len; i++) {
 				s = Render.sourceFilters[i]
+				//jsdump(":::: Checking source " + source + " against " + s.source);
 				if (s.source == source) {
+					jsdump(":::: match!");
 					if (getBoolPref(s.pref,false)) {
+						jsdump("::: Rejecting.")
 						return true;
 					}
 				}

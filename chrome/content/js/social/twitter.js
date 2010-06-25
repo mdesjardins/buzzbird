@@ -83,7 +83,6 @@ Twitter.prototype.verifyCredentials = function(username,password) {
 	
 	OAuth.completeRequest(message,opts);
 	var authHeader = OAuth.getAuthorizationHeader('',message.parameters);
-	jsdump('authHeader='+authHeader);
 	
 	// Aja doesn't suppose synchronous calls yet. :(
 	// Do this the old fashioned way...
@@ -96,7 +95,6 @@ Twitter.prototype.verifyCredentials = function(username,password) {
 	req.setRequestHeader('Authorization', authHeader);
 	req.setRequestHeader('Content-length', postBody.length);
 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	jsdump('here we go...');
 	req.send(postBody);
 
 	if (req.status == 200 && req.responseText != null) {
@@ -145,7 +143,6 @@ Twitter.prototype.fetchLists = function(options) {
 //  since = fetch timeline tweets since this ID
 //
 Twitter.prototype.fetchTimeline = function(options) {
-	jsdump("=== twitter flavor of fetchTimeline");
 	var url = this.url.fetchTimeline;
 	url = this._initUrl(url, options.count, options.since, null);
 	url = url + "&include_rts=true";

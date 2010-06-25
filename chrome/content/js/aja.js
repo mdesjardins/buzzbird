@@ -223,7 +223,6 @@ function Aja() {
 			if (_json) {
 				_http.overrideMimeType('application/json');
 			}
-			jsdump(".......URL>>> " + url);
 			_http.open(method,url,true);
 			if (options.username != undefined && options.username != null && options.username != "" &&
 				  options.password != undefined && options.password != null && options.password != "") {

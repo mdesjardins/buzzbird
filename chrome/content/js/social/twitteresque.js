@@ -92,7 +92,6 @@ function Twitteresque() {
 	// TODO: Needs to be private.
 	this._addAuthHeader = function(url,method,options) {
 		if (this.support.xAuth) {
-			jsdump('_addAuthHeader')
 			var opts = {
 				consumerKey: this.oauth.consumerKey,
 				consumerSecret: this.oauth.consumerSecret,
@@ -107,15 +106,12 @@ function Twitteresque() {
 	
 			OAuth.completeRequest(message,opts);
 			var authHeader = OAuth.getAuthorizationHeader('',message.parameters);
-			jsdump('authHeader='+authHeader);
 		
 			if (options.parameters === undefined) {
-				jsdump('NO PARAMETERS.')
 				options.parameters = [];
 			}
 	
 			options.parameters.push('Authorization',authHeader)
-			jsdump("OPTIONS.PARAMETERS=" + options.parameters);
 		}
 		return options;
 	};
