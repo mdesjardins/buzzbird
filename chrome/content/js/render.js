@@ -284,7 +284,7 @@ var Render = {
 
 		 var t = tweetType(tweet,username,password);
 		 if (Ctx.service === "twitter") {
-			 if (t == 'tweet' || t == 'reply') {
+			 if ((t == 'tweet' || t == 'reply') && !user.protected) {
 				result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"browser.retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/repost.png\" class=\"" + c.icon + "\" /></a>"
 			 }
 		 }
