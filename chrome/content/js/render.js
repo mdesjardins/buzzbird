@@ -295,15 +295,26 @@ var Render = {
 			result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"browser.replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/reply.png\" class=\"" + c.icon + "\" /></a>"
 		 }
 	
-		 // the user.following check does not work, per Issue 474.
-		 // http://code.google.com/p/twitter-api/issues/detail?id=474
-		 // The "following" member of the user object has been deprecated, 
-		 // anyway, so I probably shouldn't use it.
-		 //if (user.following == true) {
-			 if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-				result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"browser.sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/direct.png\" class=\"" + c.icon + "\" /></a>"
-			 }
-		 //}
+			var renderDirectButton = false;
+		 	if (Social.service(Ctx.service).support.fetchFollowerIds == true) {
+				// Go through the list of followers first and make sure the user follows
+				// us back before rendering the direct message button. This is slow as
+				// hell.  Needs a hashmap or something.
+				//
+				for (var i=0,len=Ctx.followers.length; i<len; i++) {
+					if (user.id == Ctx.followers[i]) {
+						renderDirectButton = true;
+						break;
+					}
+				}
+			} else {
+				renderDirectButton = true;
+			}
+			if (renderDirectButton) {
+				if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
+					result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"browser.sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/direct.png\" class=\"" + c.icon + "\" /></a>"
+				}
+			}
 
 	 	 if (t != 'mine') {
 			result = result + " <a class=\"" + c.info + "\" title=\"Stop following " + sanitize(user.screen_name) + "\" onclick=\"browser.stopFollowing(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/unfollow.png\" class=\"" + c.icon + "\" /></a>"

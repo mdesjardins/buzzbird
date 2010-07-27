@@ -29,6 +29,10 @@ function Twitter() {
 		fetchUserProfile: true,
 		fetchUserTimeline: true,
 		fetchLists: false,
+		fetchFollowerIds: true,
+		fetchFollowerTimelines: false,
+		fetchFriendIds: false,
+		fetchFriendTimelines: true,
 		post: true,
 		reply: true,
 		echo: true,
@@ -150,3 +154,32 @@ Twitter.prototype.fetchTimeline = function(options) {
 	return this._ajax.get(url,options);
 };
 	
+// Fetches the user's followers' IDs.
+//  username = username
+//  password = password
+//  onSuccess = called on each update
+//  onError = called if there's an error.
+//
+Twitter.prototype.fetchFollowerIds = function(options) {
+	var url = this.url.fetchFollowerIds;
+	url = this._initUrl(url, options.count, options.since, null);
+	url = url + "&screen_name=" + options.username;
+	options = this._addAuthHeader(url,'GET',options);
+	return this._ajax.get(url,options);
+}
+
+// Fetches the user's followers' IDs.
+//  username = username
+//  password = password
+//  cursor = cursor point, set to -1 on first call. 
+//  onSuccess = called on each update
+//  onError = called if there's an error.
+//
+Twitter.prototype.fetchFriendTimelines = function(options) {
+	var url = this.url.fetchFriendTimelines;
+	url = this._initUrl(url, options.count, options.since, null);
+	url = url + "?screen_name=" + options.username;
+	url = url + "&cursor=" + options.cursor
+	options = this._addAuthHeader(url,'GET',options);
+	return this._ajax.get(url,options);
+}

@@ -31,6 +31,8 @@ var Ctx = {
 	tokenSecret:"",
 	list:"",
 	profile:null,
+	followers:[],
+	friendScreenNames:null,
 	setAccount : function(account) {
 		Ctx.user = account.username;
 		Ctx.password = account.password;
@@ -51,12 +53,14 @@ var Global = {
 	mostRecentDirect:null,
 	mostRecentUpdate:null,
 	mostRecentMention:null,
+	previousMostRecentUpdate:null,
 	supportedServices: ['twitter','identi.ca'],
 	resetCounters : function() {
 		Global.updateTimer = null;
 		Global.unread = 0;
 		Global.unreadDirectFrom = 0;
 		Global.unreadMentions = 0;
+		Global.previousMostRecentMention = Global.mostRecentMention;
 		Global.mostRecentDirect = null;
 		Global.mostRecentUpdate = null;
 		Global.mostRecentMention = null;

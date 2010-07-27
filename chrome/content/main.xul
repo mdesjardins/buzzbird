@@ -37,7 +37,12 @@ THE SOFTWARE.
 	<script type="text/javascript" src="chrome://buzzbird/content/js/main.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/global/globalOverlay.js"></script>
 	<script type="text/javascript" src="chrome://buzzbird/content/global/editMenuOverlay.js"></script>
-	<script type="text/javascript" src="chrome://venkman/content/venkman-overlay.js" />
+	<!--
+	<script type="text/javascript" src="chrome://buzzbird/content/js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/jquery-ui-1.8.2.custom.min.js"></script>
+	<script type="text/javascript" src="chrome://buzzbird/content/js/jquery.autocomplete.js"></script>
+	-->
+	<script type="text/javascript" src="chrome://venkman/content/venkman-overlay.js"></script>
 
 	<commandset id="baseMenuCommandSet">
 		<command id="minimizeWindow" label="&minimizeWindow.label;" oncommand="window.minimize();" />
@@ -193,6 +198,11 @@ THE SOFTWARE.
 		</menu>
 	</menubar>
 	
+	<!--
+	<popup id="completionsMenu">
+	</popup>
+-->
+
 	<popup id="contentAreaContextMenu"
 				onpopupshowing="if (event.target != this) return true; updateEditUIVisibility(); gContextMenu = new nsContextMenu(this, window.getBrowser()); return gContextMenu.shouldDisplay;"
 				onpopuphiding="if (event.target == this) { gContextMenu = null; updateEditUIVisibility(); }">
@@ -218,7 +228,7 @@ THE SOFTWARE.
 							accesskey="&selectAllCmd.accesskey;"
 							command="cmd_selectAll"/>      
 	</popup>
-
+	
 	<menupopup id="toolbar-context-menu" onpopupshowing="Toolbar.onContextMenuOpen();">
 	  <menuitem id="toolbar-context-menu-icon-and-text" type="checkbox" label="Icon and Text" command="cmd_toolbarIconsAndText"/>
 	  <menuitem id="toolbar-context-menu-icon-only" type="checkbox" label="Icon Only" command="cmd_toolbarIconsOnly"/>
@@ -373,6 +383,13 @@ THE SOFTWARE.
 	              	spellcheck="true"
 			            collapsed="true"
 			 		  	  	width="100%" />
+<!--
+	type="autocomplete"
+	autocompletesearch="simple-autocomplete"
+	showcommentcolumn="false"
+	wrap="on"
+	autocompletesearchparam="[{'value':'@mdesjardins'},{'value':'@rodomontade'},{'value':'@cereslogic'}]"
+-->
 			</vbox>
 		</vbox>
     </toolbar>

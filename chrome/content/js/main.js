@@ -273,6 +273,31 @@ var Entry = {
 			getChromeElement('replycheckboxid').checked = false;		
 		}
 		Statusbar.updateLengthDisplay();
+
+		// if (e.which == 50 && e.shiftKey) {
+		// 	jsdump('it is an @!');
+		// 	var m = getChromeElement('completionsMenu');
+		// 	// var m = getMainWindow().document.createElement('popup');
+		// 	// m.setAttribute('id','popupid');
+		// 	// getMainWindow().document.appendChild(m);
+		// 	var x = getMainWindow().document.createElement('menuitem');
+		// 	x.setAttribute('id','number-1');
+		// 	x.setAttribute('label','@mdesjardins');
+		// 	m.appendChild(x);
+		// 
+		// 	var y = getMainWindow().document.createElement('menuitem');
+		// 	y.setAttribute('id','number-2');
+		// 	y.setAttribute('label','@cereslogic');
+		// 	m.appendChild(y);
+		// 	
+		// 	var z = getMainWindow().document.createElement('menuitem');
+		// 	z.setAttribute('id','number-3');
+		// 	z.setAttribute('label','@rodomontade');
+		// 	m.appendChild(z);
+		// 	
+		// 	jsdump('opening the popup, e.clientXY is ' + e.clientX + ', ' + e.clientY)
+		// 	m.openPopupAtScreen(0,140);
+		// }
 	},
 
 	// Called from onblur on tweet textfield
@@ -882,6 +907,53 @@ var Fetch = {
 	setProfileCallback : function(profile) {
 		jsdump('Fetch.setProfileCallback, user ' + Ctx.user);
 		Ctx.profile = profile;
+		if (Social.service(Ctx.service).support.fetchFollowerIds == true) {
+			Social.service(Ctx.service).fetchFollowerIds({
+				username: Ctx.user,
+				password: Ctx.password,
+				token: Ctx.token,
+				tokenSecret: Ctx.tokenSecret,
+				onSuccess: Fetch.fetchFollowerIdsCallback,
+				onError: Fetch.error,
+			});	
+		}
+	},
+
+	fetchFollowerIdsCallback : function(data) {
+		Ctx.followers=data.ids;
+		if (Social.service(Ctx.service).support.fetchFriendTimelines == true) {
+			Social.service(Ctx.service).fetchFriendTimelines({
+				username: Ctx.user,
+				password: Ctx.password,
+				cursor: -1,
+				token: Ctx.token,
+				tokenSecret: Ctx.tokenSecret,
+				onSuccess: Fetch.fetchFriendTimelinesCallback,
+				onError: Fetch.error,
+			});	
+		}
+	},
+	
+	fetchFriendTimelinesCallback : function(data) {
+		if (Ctx.friendScreenNames == null) {
+			Ctx.friendScreenNames = new Array();
+		}
+		for (var i=0,len=data.users.length; i<len; i++) {
+			Ctx.friendScreenNames.push(data.users[i].screen_name)
+		}
+		if (data.next_cursor !== undefined && data.next_cursor > 0) {
+			Social.service(Ctx.service).fetchFriendTimelines({
+				username: Ctx.user,
+				password: Ctx.password,
+				cursor: data.next_cursor,
+				token: Ctx.token,
+				tokenSecret: Ctx.tokenSecret,
+				onSuccess: Fetch.fetchFollowersCallback,
+				onError: Fetch.error,
+			});	
+		} else {
+			jsdump("Done fetching screen names of friends, size = " + Ctx.friendScreenNames.length);
+		}
 	},
 	
 	firstFetch : function() {
@@ -968,6 +1040,21 @@ var Fetch = {
 
 	timelineCallback : function(tweets) {
 		jsdump('Fetch.timelineCallback, list: ' + Ctx.list);
+		Fetch.renderNewTweets(tweets,true);
+		Social.service(Ctx.service).fetchMentions({
+			username: Ctx.user,
+			password: Ctx.password,
+			token: Ctx.token,
+			tokenSecret: Ctx.tokenSecret,
+			onSuccess: Fetch.mentionsCallback,
+			onError: Fetch.error,
+			count: 50,
+			timelineSince: Global.previousMostRecentUpdate,
+		});		
+	},
+
+	mentionsCallback : function(tweets) {
+		jsdump('Fetch.mentionsCallback, list: ' + Ctx.list);
 		Fetch.renderNewTweets(tweets,true);
 		Fetch.finished();
 	},
