@@ -648,12 +648,13 @@ var Statusbar = {
 			status.value = '';
 		}
 
+		// TODO:should be a class, not hard coded here.
 		if (length>140) {
 			textbox.style.color = '#D00';
 			status.style.color = '#F00'
 		} else {
 			textbox.style.color = '#000';
-			status.style.color = '#000'
+			status.style.color = '#EEE';
 		}
 	}
 }

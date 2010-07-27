@@ -368,6 +368,7 @@ THE SOFTWARE.
 					</toolbarbutton>
 					<checkbox id="replycheckboxid" style="margin-left:14px;" label="Reply?" hidden="true" />
 					<box flex="50"/>
+					<label value="" id="statusid" />					
 					<toolbarbutton id="postbuttonid"
 												 disabled="true"
 					               oncommand="Post.go();"
@@ -410,7 +411,7 @@ THE SOFTWARE.
     </vbox>
     <statusbar id="statusbarid" height="5">
 		<spacer flex="1"/>
-		<label value="" id="statusid" />
+		<label value="" id="statusid2" />
 	</statusbar>
 </window>
 

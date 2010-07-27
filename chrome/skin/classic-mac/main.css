@@ -30,7 +30,7 @@ toolbar {
 #postbuttonid {
 	border:1px solid #515151;
 	background-color:#ccc;
-    background-image:url(chrome://buzzbird/skin/images/post-button-background.png);
+  background-image:url(chrome://buzzbird/skin/images/post-button-background.png);
 	border-color:#111;
 	color:#eee;
 	margin:3px 4px 3px 4px;
@@ -40,6 +40,11 @@ toolbar {
 	font-family:"Lucida Grande";
 	font-size:11px;
 	font-weight:bold;
+}
+
+#statusid {
+ 	color:#eee;
+  margin-top:6px;	
 }
 
 .post-toolbar-button {
