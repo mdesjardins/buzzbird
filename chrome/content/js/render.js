@@ -224,14 +224,15 @@ var Render = {
 			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" title=\"Click to view " + tweet.user.screen_name + "'s profile\" onclick=\"browser.showUser('" + tweet.user.screen_name + "');\">(Retweeted by " + sanitize(tweet.user.screen_name) + ")</a></span>";
 		}
 
+		var altText = "";
 		var altText = "Click to see " + sanitize(user.screen_name) + "'s profile";
 		if (user.location != undefined && user.location != null && user.description != undefined && user.location != null) {
 			var altText = sanitize(user.name) + ", '" + sanitize(user.description) + "' (" + sanitize(user.location) + "). " + altText;
 		}
 
 		var result = 
-		   "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>"
-	     + "<div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
+//		   "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>" // stupid to store this in the DOM like this.
+	       "<div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
 		   + "<div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
 	     + "<div id=\"tweet-" + tweet.id + "\" class=\"tweetBox\" name=\"" + tweetType(tweet,username,password) + "\" "
 	     + "     style=\"display:" + display + "\" " 
@@ -279,7 +280,15 @@ var Render = {
 		 result = result
 		 + "     <span id=\"prettytime-" + tweet.id + "\">less than 1m ago</span> "
 	     + "    </span>"
+	
+		 if (user.protected !== undefined && user.protected == true) {
+			result = result + "<img src=\"chrome://buzzbird/skin/images/protected.png\" alt=\"This user has protected his/her tweets\" title=\"This user has protected his/her tweets\"/>";
+		 }
+	
+			result = result	 	
 	     + "   </span>"
+
+			result = result	 
 	     + "   <span id=\"tweetIcons-" + tweet.id + "\" style=\"display:none;\">";	        
 
 		 var t = tweetType(tweet,username,password);
@@ -294,8 +303,18 @@ var Render = {
 		 if (t == 'tweet' || t == 'reply') {
 			result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"browser.replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/reply.png\" class=\"" + c.icon + "\" /></a>"
 		 }
+		 if (tweet.geo !== undefined && tweet.geo != null) {
+			jsdump(user.screen_name + ' has geo info');
+			if (tweet.geo.type !== undefined && tweet.geo.type == "Point" && 
+			    tweet.geo.coordinates !== undefined && tweet.geo.coordinates != null) {
+				jsdump('coordinates.');
+				result = result + " <a class=\"" + c.info + "\" title=\"Current location of " + sanitize(user.screen_name) + "\" onclick=\"linkTo('";
+				result = result + "http://maps.google.com?q=" + tweet.geo.coordinates[0] + "," + tweet.geo.coordinates[1]
+				result = result + "');\"><img src=\"chrome://buzzbird/skin/images/actions/location.png\" class=\"" + c.icon + "\" /></a>"
+			}			
+		 }
 	
-			var renderDirectButton = false;
+			var renderDirectButton = (t == 'direct-from');
 		 	if (Social.service(Ctx.service).support.fetchFollowerIds == true) {
 				// Go through the list of followers first and make sure the user follows
 				// us back before rendering the direct message button. This is slow as

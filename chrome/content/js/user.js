@@ -117,11 +117,10 @@ function fetchUpdatesCallback(updates,username,password) {
 		for (var i=updates.length-1; i>=0; i--) {
 			newText = Render.formatTweet(updates[i],username,password) + newText;
 			if (i==0) {
-				jsdump('in THIS SEEMS WRONG part. user.screen_name=' + updates[i].user.screen_name);
 				browser = document.getElementById('user-browser');
-				//browser.contentDocument.getElementById('hisUsername').value = username; // TODO - This seems wrong?
 				browser.contentDocument.getElementById('hisUsername').value = updates[i].user.screen_name;
 			}
+			Global.rawTweets[updates[i].id] = updates[i].text;
 		}
 		var parser = new DOMParser();
 		var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');

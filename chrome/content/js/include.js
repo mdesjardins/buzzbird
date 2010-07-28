@@ -37,7 +37,9 @@ var Include = {
 							"social/twitter.js",
 							"social/statusnet.js",
 							"social/identica.js",
-							"render.js"
+							"render.js",
+							"jquery-1.4.2.js",
+							"jquery.lazyload.js"
 	],
 	
 	addOne : function(element,filename) {

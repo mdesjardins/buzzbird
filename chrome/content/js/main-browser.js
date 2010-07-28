@@ -64,7 +64,6 @@ Browser.prototype.replyTo = function(id) {
 // Send DM
 //
 Browser.prototype.sendDirect = function(id) {
-	var raw = getBrowser().contentDocument.getElementById("raw-" + id).innerHTML;
 	var user = getBrowser().contentDocument.getElementById("screenname-" + id).innerHTML;
 	var text = 'd ' + desanitize(user) + ' ';
 	getChromeElement('textboxid').value = text;

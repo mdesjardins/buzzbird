@@ -1151,11 +1151,15 @@ var Fetch = {
 				    (Global.mostRecentUpdate == null || Global.mostRecentUpdate < tweet.id)) {
 					Global.mostRecentUpdate = tweet.id;
 					jsdump('mostRecentTweet:' + Global.mostRecentUpdate);
+					if ((type == 'reply')) {
+						Global.previousMostRecentMention = Global.mostRecentMention;
+						Global.mostRecentMention = tweet.id;
+					}
 				} else if ((type == 'direct-from' || type == 'direct-to') && 
 				           (Global.mostRecentDirect == null || Global.mostRecentDirect < tweet.id)) {
 					Global.mostRecentDirect = newTweets[i].id;
 					jsdump('mostRecentDirect:' + Global.mostRecentDirect);
-				}
+				} 
 
 				var chk = window.content.document.getElementById('tweet-' + tweet.id);
 				if (chk == null) {
@@ -1176,6 +1180,8 @@ var Fetch = {
 						Global.unreadMentions++;
 					}
 
+					Global.rawTweets[tweet.id] = tweet.text;
+					
 					newCount++;
 					newText = Render.formatTweet(tweet,Ctx.user,Ctx.password) + newText;
 				}

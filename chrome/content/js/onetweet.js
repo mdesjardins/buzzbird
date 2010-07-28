@@ -83,6 +83,7 @@ function fetchSingleUpdateCallback(update,username,password) {
 		if (window.content.document.height < 400) {
 			window.resizeBy(0,85);
 		}
+		Global.rawTweets[update.id] = update.text;
 	} else {
 		browser = document.getElementById('onetweet-browser');
 		browser.contentDocument.getElementById('fetch-throb').style.display='none';

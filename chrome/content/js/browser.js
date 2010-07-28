@@ -64,7 +64,9 @@ var BrowserBase = {
 			BrowserBase.doRetweet(params.out.tweetId);
 		} else if (params.out.action == 'quote') {
 			BrowserBase.doQuote(params.out.tweetId);
-		} else if (params.out.action == 'oneTweet') {
+		} else if (params.out.action == 'quoteText') {
+			BrowserBase.doQuoteText(params.out.screenName,params.out.text);
+		}	else if (params.out.action == 'oneTweet') {
 			BrowserBase.viewConversation(params.out.tweetId);
 		} else if (params.out.action == 'user') {
 			BrowserBase.showUser(params.out.userId);
@@ -217,8 +219,24 @@ var BrowserBase = {
 	},
 	
 	doQuote : function(id) {
-		var raw = document.getElementById("raw-" + id).innerHTML;
+		jsdump('doQuote id: ' + id);
+		//var raw = document.getElementById("raw-" + id).innerHTML;
+		var raw = Global.rawTweets[id];
 		var user = document.getElementById("screenname-" + id).innerHTML;
+		var f = getStringPref('buzzbird.retweet.format');
+		jsdump('buzzbird.retweet.format=' + f);
+		var text = 'RT @' + desanitize(user) + ': ' + desanitize(raw);
+		if (f == 'via') {
+			text = desanitize(raw) + ' (via @' + desanitize(user) + ')';
+		} 
+		getChromeElement('textboxid').value = text;
+		getChromeElement('textboxid').focus();		
+		dispatch('openSpeech');
+		dispatch('updateTweetLength');
+	},
+
+	doQuoteText : function(user,raw) {
+		jsdump('doQuote text: ' + text);
 		var f = getStringPref('buzzbird.retweet.format');
 		jsdump('buzzbird.retweet.format=' + f);
 		var text = 'RT @' + desanitize(user) + ': ' + desanitize(raw);

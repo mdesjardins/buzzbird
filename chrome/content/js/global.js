@@ -55,15 +55,17 @@ var Global = {
 	mostRecentMention:null,
 	previousMostRecentUpdate:null,
 	supportedServices: ['twitter','identi.ca'],
+	rawTweets: {},
 	resetCounters : function() {
 		Global.updateTimer = null;
 		Global.unread = 0;
 		Global.unreadDirectFrom = 0;
 		Global.unreadMentions = 0;
-		Global.previousMostRecentMention = Global.mostRecentMention;
+		Global.previousMostRecentMention = null;
 		Global.mostRecentDirect = null;
 		Global.mostRecentUpdate = null;
 		Global.mostRecentMention = null;
+		Global.rawTweets = {};
 	}
 }
 

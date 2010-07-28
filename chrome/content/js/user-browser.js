@@ -73,7 +73,10 @@ Browser.prototype.retweet = function(id) {
 //
 Browser.prototype.quote = function(id) {
 	jsdump('quote ' + id);
-	getMainWindow().arguments[0].out = {'action':'quote', 'tweetId':id};
+	//var raw = document.getElementById("raw-" + id).innerHTML;
+	var raw = Global.rawTweets[id];
+	var screenName = document.getElementById("screenname-" + id).innerHTML;
+	getMainWindow().arguments[0].out = {'action':'quoteText', 'screenName':screenName, 'text':raw};
 	getMainWindow().document.getElementById('user-dialog').acceptDialog();
 }
 
