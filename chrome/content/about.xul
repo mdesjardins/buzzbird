@@ -35,7 +35,7 @@ THE SOFTWARE.
 				<image src="chrome://buzzbird/content/images/Buzzbird-Logo-48x48.png" height="48" width="48"/>
 			</box>
 			<label style="font-weight:bold;font-size:14px;">Buzzbird</label>
-			<label>Version 0.7</label>
+			<label>Version 0.8</label>
 			<label></label>
 			<label>Copyright 2010 Mike Desjardins</label>
 			<label>See http://getbuzzbird.com/bb/credits for other credits</label>

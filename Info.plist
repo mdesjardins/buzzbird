@@ -17,9 +17,9 @@
 		<key>CFBundleIdentifier</key>
         <string>org.buzzbird.buzzbird</string>
 		<key>CFBundleShortVersionString</key>
-		<string>0.7</string>
+		<string>0.8</string>
 		<key>CFBundleVersion</key>
-		<string>0.7.20100406</string>
+		<string>0.8.20100729</string>
 		<key>CFBundleIconFile</key>
 		<string>buzzbird.icns</string>
 		<key>CFBundlePackageType</key>
