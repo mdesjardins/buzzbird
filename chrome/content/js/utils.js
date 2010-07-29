@@ -106,11 +106,11 @@ function sanitize(text) {
 	clean = clean.replace(/&amp;lt;/g, '&lt;');
 	clean = clean.replace(/&amp;gt;/g, '&gt;');
 	clean = clean.replace(/&amp;quot;/g, '&quot;');
-	clean = clean.replace(/&amp;apos;/g, '&apos;');
+	clean = clean.replace(/&amp;apos;/g, '&#39;');
 	clean = clean.replace(/</g, '&lt;');
 	clean = clean.replace(/>/g, '&gt;');
 	clean = clean.replace(/"(?![^<>]*>)/g, '&quot;');
-	clean = clean.replace(/'(?![^<>]*>)/g, '&apos;');
+	clean = clean.replace(/'(?![^<>]*>)/g, '&#39;');
 	return clean;
 }
 
@@ -122,6 +122,7 @@ function desanitize(text) {
 	filthy = text.replace(/&rt;/g, '>');
 	filthy = text.replace(/&quot;/g, '"');
 	filthy = text.replace(/&apos;/g, "'");
+	filthy = text.replace(/&#39;/g, "'");
 	return filthy;
 }
 
