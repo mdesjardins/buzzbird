@@ -153,6 +153,11 @@ var Render = {
 		//jsdump('formatting tweet ' + tweet.id);
 		// Clean any junk out of the text.
 		var text = sanitize(tweet.text);
+
+		var retweet = tweet.retweeted_status;
+		if (retweet != null && retweet != undefined) {
+			text = sanitize(retweet.text);
+		}
 				
 		// First, go through and replace links with real links.
 		var re = new RegExp("http://(\\S*)", "g");
@@ -166,7 +171,6 @@ var Render = {
 		re = new RegExp("(^|\\s)#(\\w*)", "g");
 		text = text.replace(re, "$1#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"hashTag('$2');\">$2</a>");
 
-		var retweet = tweet.retweeted_status;
 
 		var when = new Date(tweet.created_at);
 		var prettyWhen = when.toLocaleTimeString() + ' on ' + when.toLocaleDateString().substring(0,5);
