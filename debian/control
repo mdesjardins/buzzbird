@@ -1,0 +1,12 @@
+Source: buzzbird
+Section: web
+Priority: extra
+Maintainer: Mike Desjardins <desjardinsmike@gmail.com>
+Build-Depends: xulrunner-1.9.2
+Standards-Version: 3.8.4
+Homepage: http://getbuzzbird.com
+
+Package: buzzbird
+Architecture: any
+Depends: xulrunner-1.9.2
+Description: Buzzbird, Live, Tweet, Breathe, Open Source.
