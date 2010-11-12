@@ -8,20 +8,6 @@ build-stamp:
 	#$(MAKE)
 	touch build-stamp
 
-	mkdir -p debian/tmp/buzzbird/chrome/skin/classic
-	cp -fr ./chrome/* debian/tmp/buzzbird/chrome
-	cp -fr debian/tmp/buzzbird/chrome/skin/classic-linux/* debian/tmp/buzzbird/chrome/skin/classic
-	cp debian/tmp/buzzbird/chrome/content/notifications/notify-linux.sh debian/tmp/buzzbird/chrome/content/notifications/notify.sh
-	cp debian/tmp/buzzbird/chrome/content/js/notify/notify-linux.js debian/tmp/buzzbird/chrome/content/js/notify/notify.js
-	rm -fr debian/tmp/buzzbird/chrome/skin/classic-*
-	cp debian/tmp/buzzbird/chrome/content/platform/linux/* debian/tmp/buzzbird/chrome/content
-	rm -fr debian/tmp/buzzbird/chrome/content/platform
-	cp -fr ./defaults debian/tmp/buzzbird/
-	cp application.ini debian/tmp/buzzbird/
-	cp ./graphics/Buzzbird.png debian/tmp/buzzbird/buzzbird.png
-	#sudo find ./debian/tmp/buzzbird/* -exec chgrp root {} \;
-	#sudo find ./debian/tmp/buzzbird/* -exec chown root {} \;
-
 clean:
 	dh_testdir
 	dh_testroot
@@ -39,12 +25,28 @@ install: build
 	dh_prep
 	dh_installdirs
 
-	# Add here commands to install the package into debian/tmp.
-	#$(MAKE) prefix=`pwd`/debian/tmp/usr install
+	# Add here commands to install the package into debian/buzzbird.
+	#$(MAKE) prefix=`pwd`/debian/usr install
+	mkdir -p debian/tmp/usr/share/buzzbird/chrome/skin/classic
+
+	cp -fr ./chrome/* debian/tmp/usr/share/buzzbird/chrome
+	cp -fr debian/tmp/usr/share/buzzbird/chrome/skin/classic-linux/* debian/tmp/usr/share/buzzbird/chrome/skin/classic
+	cp debian/tmp/usr/share/buzzbird/chrome/content/notifications/notify-linux.sh debian/tmp/usr/share/buzzbird/chrome/content/notifications/notify.sh
+	cp debian/tmp/usr/share/buzzbird/chrome/content/js/notify/notify-linux.js debian/tmp/usr/share/buzzbird/chrome/content/js/notify/notify.js
+
+	rm -fr debian/tmp/usr/share/buzzbird/chrome/skin/classic-*
+
+	cp debian/tmp/usr/share/buzzbird/chrome/content/platform/linux/* debian/tmp/usr/share/buzzbird/chrome/content
+
+	rm -fr debian/tmp/usr/share/buzzbird/chrome/content/platform
+
+	cp -fr ./defaults debian/tmp/usr/share/buzzbird/
+	cp application.ini debian/tmp/usr/share/buzzbird/
+	cp ./graphics/Buzzbird.png debian/tmp/usr/share/buzzbird/buzzbird.png
 
 	mkdir -p debian/tmp/usr/bin
-	ln -s /usr/bin/xulrunner-1.9.2 debian/tmp/usr/bin/buzzbird
-	dh_install
+	cp -p buzzbird.bin debian/tmp/usr/bin/buzzbird
+	dh_install -s
 
 # Build architecture-independent files here.
 binary-indep: build install
