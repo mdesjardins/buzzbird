@@ -1,0 +1,6 @@
+#!/bin/sh
+# Script to execute buzzbird using xulrunner
+# Written by PotHix (Willian Molinari) <pothix@pothix.com>
+
+XULRUNNER=`which xulrunner-1.9.2`
+exec $XULRUNNER /usr/share/buzzbird/application.ini
