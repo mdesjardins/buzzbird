@@ -1,5 +1,8 @@
 #!/usr/bin/make -f
-export DEST_DIR=`pwd`
+export DEST_DIR=`pwd`/debian/tmp
+export SHARE_DIR=${DEST_DIR}/usr/share/buzzbird/
+export BIN_DIR=${DEST_DIR}/usr/bin/
+
 build: build-stamp
 build-stamp:
 	dh_testdir
@@ -25,27 +28,26 @@ install: build
 	dh_prep
 	dh_installdirs
 
-	# Add here commands to install the package into debian/buzzbird.
+	# Add here commands to install the package into debian/tmp.
 	#$(MAKE) prefix=`pwd`/debian/usr install
-	mkdir -p debian/tmp/usr/share/buzzbird/chrome/skin/classic
+	mkdir -p ${DEST_DIR}/usr/bin
+	mkdir -p ${DEST_DIR}/usr/share/buzzbird/chrome/skin/classic
 
-	cp -fr ./chrome/* debian/tmp/usr/share/buzzbird/chrome
-	cp -fr debian/tmp/usr/share/buzzbird/chrome/skin/classic-linux/* debian/tmp/usr/share/buzzbird/chrome/skin/classic
-	cp debian/tmp/usr/share/buzzbird/chrome/content/notifications/notify-linux.sh debian/tmp/usr/share/buzzbird/chrome/content/notifications/notify.sh
-	cp debian/tmp/usr/share/buzzbird/chrome/content/js/notify/notify-linux.js debian/tmp/usr/share/buzzbird/chrome/content/js/notify/notify.js
+	cp application.ini ${SHARE_DIR}
+	cp -fr ./defaults ${SHARE_DIR}
+	cp -fr ./chrome/* ${SHARE_DIR}/chrome
+	cp ./graphics/Buzzbird.png ${SHARE_DIR}/buzzbird.png
 
-	rm -fr debian/tmp/usr/share/buzzbird/chrome/skin/classic-*
+	cp -fr ${SHARE_DIR}/chrome/skin/classic-linux/* ${SHARE_DIR}/chrome/skin/classic
+	ln -sf ${SHARE_DIR}/chrome/content/notifications/notify-linux.sh ${SHARE_DIR}/chrome/content/notifications/notify.sh
+	ln -sf ${SHARE_DIR}/chrome/content/js/notify/notify-linux.js ${SHARE_DIR}/chrome/content/js/notify/notify.js
 
-	cp debian/tmp/usr/share/buzzbird/chrome/content/platform/linux/* debian/tmp/usr/share/buzzbird/chrome/content
+	cp ${SHARE_DIR}/chrome/content/platform/linux/* ${SHARE_DIR}/chrome/content
 
-	rm -fr debian/tmp/usr/share/buzzbird/chrome/content/platform
+	rm -fr ${SHARE_DIR}/chrome/skin/classic-*
+	rm -fr ${SHARE_DIR}/chrome/content/platform
 
-	cp -fr ./defaults debian/tmp/usr/share/buzzbird/
-	cp application.ini debian/tmp/usr/share/buzzbird/
-	cp ./graphics/Buzzbird.png debian/tmp/usr/share/buzzbird/buzzbird.png
-
-	mkdir -p debian/tmp/usr/bin
-	cp -p buzzbird.bin debian/tmp/usr/bin/buzzbird
+	cp -p buzzbird.bin ${BIN_DIR}/buzzbird
 	dh_install -s
 
 # Build architecture-independent files here.
