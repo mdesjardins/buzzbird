@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
-export DEST_DIR=`pwd`/debian/tmp
-export SHARE_DIR=${DEST_DIR}/usr/share/buzzbird/
-export BIN_DIR=${DEST_DIR}/usr/bin/
+DEST_DIR=`pwd`/debian/tmp
+SHARE_DIR=${DEST_DIR}/usr/share/buzzbird/
+BIN_DIR=${DEST_DIR}/usr/bin/
 
 build: build-stamp
 build-stamp:
@@ -30,8 +30,8 @@ install: build
 
 	# Add here commands to install the package into debian/tmp.
 	#$(MAKE) prefix=`pwd`/debian/usr install
-	mkdir -p ${DEST_DIR}/usr/bin
-	mkdir -p ${DEST_DIR}/usr/share/buzzbird/chrome/skin/classic
+	mkdir -p ${BIN_DIR}
+	mkdir -p ${SHARE_DIR}/chrome/skin/classic
 
 	cp application.ini ${SHARE_DIR}
 	cp -fr ./defaults ${SHARE_DIR}
