@@ -1,37 +1,39 @@
 This work was packaged for Debian by:
 
-    root <root@debian.localdomain> on Sun, 21 Mar 2010 21:36:04 -0300
+    PotHix <pothix@pothix.com> on Sun, 11 Nov 2010 23:46:04 -0300
 
 It was downloaded from:
 
-    <url://example.com>
+    http://getbuzzbird.com
 
 Upstream Author(s):
 
-    <put author's name and email here>
-    <likewise for another author>
+    Mike Desjardins <desjardinsmike@gmail.com>
 
 Copyright:
 
-    <Copyright (C) YYYY Firstname Lastname>
-    <likewise for another author>
+    Copyright (c) 2009 Mike Desjardins
 
 License:
 
-    <Put the license of the package here indented by 4 spaces>
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
 
 The Debian packaging is:
 
-    Copyright (C) 2010 root <root@debian.localdomain>
-
-# Please chose a license for your packaging work. If the program you package
-# uses a mainstream license, using the same license is the safest choice.
-# Please avoid to pick license terms that are more restrictive than the
-# packaged work, as it may make Debian's contributions unacceptable upstream.
-# If you just want it to be GPL version 3, leave the following lines in.
-
-and is licensed under the GPL version 3,
-see "/usr/share/common-licenses/GPL-3".
-
-# Please also look if there are files or directories which have a
-# different copyright/license attached and list them here.
+    Copyright (C) 2010 PotHix <pothix@pothix.com>

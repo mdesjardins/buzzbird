@@ -35,19 +35,19 @@ install: build
 
 	cp application.ini ${SHARE_DIR}
 	cp -fr ./defaults ${SHARE_DIR}
-	cp -fr ./chrome/* ${SHARE_DIR}/chrome
-	cp ./graphics/Buzzbird.png ${SHARE_DIR}/buzzbird.png
+	cp -fr ./chrome/* ${SHARE_DIR}chrome
+	cp ./graphics/Buzzbird.png ${SHARE_DIR}buzzbird.png
 
-	cp -fr ${SHARE_DIR}/chrome/skin/classic-linux/* ${SHARE_DIR}/chrome/skin/classic
-	ln -sf ${SHARE_DIR}/chrome/content/notifications/notify-linux.sh ${SHARE_DIR}/chrome/content/notifications/notify.sh
-	ln -sf ${SHARE_DIR}/chrome/content/js/notify/notify-linux.js ${SHARE_DIR}/chrome/content/js/notify/notify.js
+	cp -fr ${SHARE_DIR}chrome/skin/classic-linux/* ${SHARE_DIR}chrome/skin/classic
+	ln -sf ${SHARE_DIR}chrome/content/notifications/notify-linux.sh ${SHARE_DIR}chrome/content/notifications/notify.sh
+	ln -sf ${SHARE_DIR}chrome/content/js/notify/notify-linux.js ${SHARE_DIR}chrome/content/js/notify/notify.js
 
-	cp ${SHARE_DIR}/chrome/content/platform/linux/* ${SHARE_DIR}/chrome/content
+	cp ${SHARE_DIR}chrome/content/platform/linux/* ${SHARE_DIR}chrome/content
 
-	rm -fr ${SHARE_DIR}/chrome/skin/classic-*
-	rm -fr ${SHARE_DIR}/chrome/content/platform
+	rm -fr ${SHARE_DIR}chrome/skin/classic-*
+	rm -fr ${SHARE_DIR}chrome/content/platform
 
-	cp -p buzzbird.bin ${BIN_DIR}/buzzbird
+	cp -p buzzbird.bin ${BIN_DIR}buzzbird
 	dh_install -s
 
 # Build architecture-independent files here.

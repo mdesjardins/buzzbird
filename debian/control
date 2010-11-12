@@ -9,4 +9,7 @@ Homepage: http://getbuzzbird.com
 Package: buzzbird
 Architecture: any
 Depends: xulrunner-1.9.2
-Description: Buzzbird, Live, Tweet, Breathe, Open Source.
+Description: A simple application to post and views posts on Twitter
+ Buzzbird is a simple application that provides an easy way to follow
+ all twits from your friends and post your own short messages.
+
