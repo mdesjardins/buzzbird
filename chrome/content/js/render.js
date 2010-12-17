@@ -240,8 +240,8 @@ var Render = {
 		   + "<div id=\"timestamp-" + tweet.id + "\" name=\"timestamp\" style=\"display:none;\">" + new Date(tweet.created_at).getTime() + "</div>"
 	     + "<div id=\"tweet-" + tweet.id + "\" class=\"tweetBox\" name=\"" + tweetType(tweet,username,password) + "\" "
 	     + "     style=\"display:" + display + "\" " 
-	     + "     onmouseover=\"browser.showIcons("+ tweet.id + ")\" "
-	     + "     onmouseout=\"browser.showInfo(" + tweet.id + ")\">"
+	     + "     onmouseover=\"browser.showIcons('"+ tweet.id + "')\" "
+	     + "     onmouseout=\"browser.showInfo('" + tweet.id + "')\">"
 		   + " <div class=\"" + c.message + "\">"
 		   + "  <table class=\"" + c.table + "\">"
 		   + "   <tr>"
@@ -272,7 +272,7 @@ var Render = {
 		   + "        id=\"mark-" + tweet.id + "\" "
 		   + "        tweetType=\"" + tt + "\""
 		   + "        src=\"chrome://buzzbird/skin/images/actions/unread.png\" "
-		   + "        onclick=\"browser.toggleMarkAsRead(" + tweet.id + ");\" "
+		   + "        onclick=\"browser.toggleMarkAsRead('" + tweet.id + "');\" "
 		   + "        onmouseover=\"this.style.cursor='pointer';\" />"
 	     + "   <span id=\"tweetInfo-" + tweet.id + "\">"
 		 if (emphasis == 'realname') {
@@ -298,14 +298,14 @@ var Render = {
 		 var t = tweetType(tweet,username,password);
 		 if (Ctx.service === "twitter") {
 			 if ((t == 'tweet' || t == 'reply') && !user.protected) {
-				result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"browser.retweet(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/repost.png\" class=\"" + c.icon + "\" /></a>"
+				result = result + " <a class=\"" + c.info + "\" title=\"Retweet This\" onclick=\"browser.retweet('" + tweet.id + "');\"><img src=\"chrome://buzzbird/skin/images/actions/repost.png\" class=\"" + c.icon + "\" /></a>"
 			 }
 		 }
 		 if (t == 'tweet' || t == 'reply') {
-			result = result + " <a class=\"" + c.info + "\" title=\"Quote This\" onclick=\"browser.quote(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/quote.png\" class=\"" + c.icon + "\" /></a>"
+			result = result + " <a class=\"" + c.info + "\" title=\"Quote This\" onclick=\"browser.quote('" + tweet.id + "');\"><img src=\"chrome://buzzbird/skin/images/actions/quote.png\" class=\"" + c.icon + "\" /></a>"
 		 }
 		 if (t == 'tweet' || t == 'reply') {
-			result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"browser.replyTo(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/reply.png\" class=\"" + c.icon + "\" /></a>"
+			result = result + " <a class=\"" + c.info + "\" title=\"Reply to " + sanitize(user.screen_name) + "\" onclick=\"browser.replyTo('" + tweet.id + "');\"><img src=\"chrome://buzzbird/skin/images/actions/reply.png\" class=\"" + c.icon + "\" /></a>"
 		 }
 		 if (tweet.geo !== undefined && tweet.geo != null) {
 			jsdump(user.screen_name + ' has geo info');
@@ -335,19 +335,19 @@ var Render = {
 			}
 			if (renderDirectButton) {
 				if (t == 'tweet' || t == 'direct-from' || t == 'reply') {
-					result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"browser.sendDirect(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/direct.png\" class=\"" + c.icon + "\" /></a>"
+					result = result + " <a class=\"" + c.info + "\" title=\"Send a Direct Message to " + user.screen_name + "\" onclick=\"browser.sendDirect('" + tweet.id + "');\"><img src=\"chrome://buzzbird/skin/images/actions/direct.png\" class=\"" + c.icon + "\" /></a>"
 				}
 			}
 
 	 	 if (t != 'mine') {
-			result = result + " <a class=\"" + c.info + "\" title=\"Stop following " + sanitize(user.screen_name) + "\" onclick=\"browser.stopFollowing(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/unfollow.png\" class=\"" + c.icon + "\" /></a>"
+			result = result + " <a class=\"" + c.info + "\" title=\"Stop following " + sanitize(user.screen_name) + "\" onclick=\"browser.stopFollowing('" + tweet.id + "');\"><img src=\"chrome://buzzbird/skin/images/actions/unfollow.png\" class=\"" + c.icon + "\" /></a>"
 	 	 }
 		 if (t == 'mine') {
-			result = result + " <a class=\"" + c.info + "\" title=\"Delete this Update\" onclick=\"browser.deletePost(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/delete.png\" class=\"" + c.icon + "\" /></a>"		
+			result = result + " <a class=\"" + c.info + "\" title=\"Delete this Update\" onclick=\"browser.deletePost('" + tweet.id + "');\"><img src=\"chrome://buzzbird/skin/images/actions/delete.png\" class=\"" + c.icon + "\" /></a>"		
 		 }
 	
 	   result = result 
-	     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"browser.favorite(" + tweet.id + ");\"><img src=\"chrome://buzzbird/skin/images/actions/favorite.png\" class=\"" + c.icon + "\" /></a>"
+	     + " <a class=\"" + c.info + "\" title=\"Mark as Favorite\" onclick=\"browser.favorite('" + tweet.id + "');\"><img src=\"chrome://buzzbird/skin/images/actions/favorite.png\" class=\"" + c.icon + "\" /></a>"
 		   + via
 		   + "   </span>"
 	     + "  </div>"

@@ -254,6 +254,7 @@ function Aja() {
 						}
 					} else {
 						if (options.onError) {
+							jsdump('>>>> HTTP.STATUS ' + _http.status);
 							var status = 100;
 							if (_http.status != null && _http.status != undefined) {
 								status = _http.status;

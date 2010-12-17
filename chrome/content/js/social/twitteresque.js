@@ -123,6 +123,12 @@ function Twitteresque() {
 		}
 		return options;
 	};
+
+	// Preprocess - override if we need to do something with the status
+	// updates before we work with them.
+	this.preProcess = function(statusUpdate) {
+		return statusUpdate;
+	};
 		
 	// Fetches the user's timeline.
 	// Options:

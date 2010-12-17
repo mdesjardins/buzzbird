@@ -1145,7 +1145,10 @@ var Fetch = {
 			var unread = {'tweet': 0, 'mentions': 0, 'directFrom': 0};
 
 			for (var i=0; i<newTweets.length; i++) {
-				var tweet = newTweets[i]
+				var tweet = newTweets[i];
+				
+				Social.service(Ctx.service).preProcess(tweet);
+				
 				var type = tweetType(tweet,Ctx.user,Ctx.password);
 				if ((type == 'tweet' || type == 'reply' || type == 'mine') &&
 				    (Global.mostRecentUpdate == null || Global.mostRecentUpdate < tweet.id)) {
