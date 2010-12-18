@@ -11,15 +11,15 @@
 		<key>NSAppleScriptEnabled</key>
 		<true/>
 		<key>CFBundleGetInfoString</key>
-		<string>Buzzbird 0.7</string>
+		<string>Buzzbird 0.9</string>
 		<key>CFBundleName</key>
 		<string>Buzzbird</string>
 		<key>CFBundleIdentifier</key>
         <string>org.buzzbird.buzzbird</string>
 		<key>CFBundleShortVersionString</key>
-		<string>0.8</string>
+		<string>0.9</string>
 		<key>CFBundleVersion</key>
-		<string>0.8.20100729</string>
+		<string>0.9.20101218</string>
 		<key>CFBundleIconFile</key>
 		<string>buzzbird.icns</string>
 		<key>CFBundlePackageType</key>

@@ -242,6 +242,8 @@ THE SOFTWARE.
 			<preference id="buzzbird.filters.twunes" name="buzzbird.filters.twunes" type="bool"/>
 			<preference id="buzzbird.filters.wereward" name="buzzbird.filters.wereward" type="bool"/>
 			<preference id="buzzbird.filters.mylikes" name="buzzbird.filters.mylikes" type="bool"/>
+			<preference id="buzzbird.filters.paperli" name="buzzbird.filters.paperli" type="bool"/>
+			<preference id="buzzbird.filters.getglue" name="buzzbird.filters.getglue" type="bool"/>
 			<preference id="buzzbird.filters.adcause" name="buzzbird.filters.adcause" type="bool"/>
 			<preference id="buzzbird.filters.ratepoint" name="buzzbird.filters.ratepoint" type="bool"/>
 			<preference id="buzzbird.filters.assetize" name="buzzbird.filters.assetize" type="bool"/>
@@ -262,12 +264,14 @@ THE SOFTWARE.
 						</vbox>
 					</groupbox>
 					<groupbox>
-						<caption label="Games"/>
+						<caption label="Other"/>
 						<vbox>
 							<hbox><checkbox id="checkbox_filterFishies" preference="buzzbird.filters.fishies" /><label control="checkbox_filterFishies">Fishies</label></hbox>
 							<hbox><checkbox id="checkbox_filterQrank" preference="buzzbird.filters.qrank" /><label control="checkbox_filterQrank">QRANK</label></hbox>
 							<hbox><checkbox id="checkbox_filterDotsOnline" preference="buzzbird.filters.dotsonline" /><label control="checkbox_filterDotsOnline">Dots Online</label></hbox>
 							<hbox><checkbox id="checkbox_filterChessOnline" preference="buzzbird.filters.chessonline" /><label control="checkbox_filterChessOnline">Chess Online</label></hbox>					
+							<hbox><checkbox id="checkbox_filterPaperli" preference="buzzbird.filters.paperli" /><label control="checkbox_filterPaperli">Paper.li (The ____ Daily is out!)</label></hbox>
+							<hbox><checkbox id="checkbox_filterGetGlue" preference="buzzbird.filters.getglue" /><label control="checkbox_filterGetGlue">GetGlue</label></hbox>							
 						</vbox>
 					</groupbox>
 				</vbox>
