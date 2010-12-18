@@ -234,6 +234,8 @@ var Render = {
 			var altText = sanitize(user.name) + ", '" + sanitize(user.description) + "' (" + sanitize(user.location) + "). " + altText;
 		}
 
+		jsdump('user.screen_name: ' + user.screen_name + ' user.profile_image_url: ' + user.profile_image_url);
+
 		var result = 
 //		   "<div id=\"raw-" + tweet.id + "\" style=\"display:none;\">" + sanitize(tweet.text) + "</div>" // stupid to store this in the DOM like this.
 	       "<div id=\"screenname-" + tweet.id + "\" style=\"display:none;\">" + sanitize(user.screen_name) + "</div>"
