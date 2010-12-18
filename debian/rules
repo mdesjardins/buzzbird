@@ -1,0 +1,89 @@
+#!/usr/bin/make -f
+DEST_DIR=`pwd`/debian/tmp
+SHARE_DIR=${DEST_DIR}/usr/share/buzzbird/
+BIN_DIR=${DEST_DIR}/usr/bin/
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+
+	# Add here commands to compile the package.
+	#$(MAKE)
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+
+	# Add here commands to clean up after the build process.
+	#$(MAKE) clean
+	#$(MAKE) distclean
+	dh_clean
+
+install:
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+	# Add here commands to install the package into debian/tmp.
+	#$(MAKE) prefix=`pwd`/debian/usr install
+	mkdir -p ${BIN_DIR}
+	mkdir -p ${SHARE_DIR}/chrome/skin/classic
+
+	cp application.ini ${SHARE_DIR}
+	cp -fr ./defaults ${SHARE_DIR}
+	cp -fr ./chrome/* ${SHARE_DIR}chrome
+	cp ./graphics/Buzzbird.png ${SHARE_DIR}buzzbird.png
+
+	cp -fr ${SHARE_DIR}chrome/skin/classic-linux/* ${SHARE_DIR}chrome/skin/classic
+	ln -sf ${SHARE_DIR}chrome/content/notifications/notify-linux.sh ${SHARE_DIR}chrome/content/notifications/notify.sh
+	ln -sf ${SHARE_DIR}chrome/content/js/notify/notify-linux.js ${SHARE_DIR}chrome/content/js/notify/notify.js
+
+	cp ${SHARE_DIR}chrome/content/platform/linux/* ${SHARE_DIR}chrome/content
+
+	rm -fr ${SHARE_DIR}chrome/skin/classic-*
+	rm -fr ${SHARE_DIR}chrome/content/platform
+
+	cp -p buzzbird.bin ${BIN_DIR}buzzbird
+	dh_install -s
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir -i
+	dh_testroot -i
+	dh_installchangelogs -i
+	dh_installdocs -i
+	dh_installexamples -i
+	dh_installman -i
+	dh_link -i
+	dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir -a
+	dh_testroot -a
+	dh_installchangelogs -a
+	dh_installdocs -a
+	dh_installexamples -a
+	dh_installmenu -a
+	dh_installman -a
+	dh_strip -a
+	dh_link -a
+	dh_compress -a
+	dh_fixperms -a
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

@@ -47,7 +47,7 @@ function Twitter() {
 		xAuth: true
 	};
 	
-	this.urlBase = "http://api.twitter.com/1";
+	this.urlBase = "https://api.twitter.com/1";
 	
 	this.url.accessToken = 'https://api.twitter.com/oauth/access_token';
 	this.url.fetchLists = 'https://api.twitter.com/1/QUERIED_SCREEN_NAME/lists.json';
@@ -153,6 +153,27 @@ Twitter.prototype.fetchTimeline = function(options) {
 	options = this._addAuthHeader(url,'GET',options);
 	return this._ajax.get(url,options);
 };
+
+// Massages data prior to rendering. In twitter's case, we modify the
+// IDs to contain the id_str instead of the id.
+//
+Twitter.prototype.preProcess = function(status) {
+	if (status.id_str !== undefined && status.id_str != null && status.id_str != "") {
+		status.id = status.id_str;
+	}
+	if (status.in_reply_to_user_id_str !== undefined && status.in_reply_to_user_id_str != null && status.in_reply_to_user_id_str != "") {
+		status.in_reply_to_user_id = status.in_reply_to_user_id_str;
+	}
+	if (status.in_reply_to_status_id_str !== undefined && status.in_reply_to_status_id_str != null && status.in_reply_to_status_id_str != "") {
+		status.in_reply_to_status_id = status.in_reply_to_status_id_str;
+	}
+	if (status.user !== undefined) {
+		if (status.user.id_str !== undefined && status.user.id_str != null && status.user.id_str != "") {
+			status.user.id = status.user.id_str;
+		}
+	}
+	return status;
+}
 	
 // Fetches the user's followers' IDs.
 //  username = username
