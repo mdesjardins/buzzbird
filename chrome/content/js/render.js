@@ -221,7 +221,7 @@ var Render = {
 		} 
 
 		if (tweet.in_reply_to_status_id != null && tweet.in_reply_to_screen_name != null) {
-			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" title=\"Click to view conversation\" onclick=\"browser.viewConversation(" + tweet.id + ");\">(Replying to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
+			text = text + " <span class=\"" + c.replyTo + "\"><a onmouseover=\"this.style.cursor='pointer';\" title=\"Click to view conversation\" onclick=\"browser.viewConversation('" + tweet.id + "');\">(Replying to " + sanitize(tweet.in_reply_to_screen_name) + ")</a></span>";
 		}
 	
 		if (retweet != null && retweet != undefined) {

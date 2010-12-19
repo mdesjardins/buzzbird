@@ -270,7 +270,7 @@ THE SOFTWARE.
 							<hbox><checkbox id="checkbox_filterQrank" preference="buzzbird.filters.qrank" /><label control="checkbox_filterQrank">QRANK</label></hbox>
 							<hbox><checkbox id="checkbox_filterDotsOnline" preference="buzzbird.filters.dotsonline" /><label control="checkbox_filterDotsOnline">Dots Online</label></hbox>
 							<hbox><checkbox id="checkbox_filterChessOnline" preference="buzzbird.filters.chessonline" /><label control="checkbox_filterChessOnline">Chess Online</label></hbox>					
-							<hbox><checkbox id="checkbox_filterPaperli" preference="buzzbird.filters.paperli" /><label control="checkbox_filterPaperli">Paper.li (The ____ Daily is out!)</label></hbox>
+							<hbox><checkbox id="checkbox_filterPaperli" preference="buzzbird.filters.paperli" /><label control="checkbox_filterPaperli">Paper.li</label></hbox>
 							<hbox><checkbox id="checkbox_filterGetGlue" preference="buzzbird.filters.getglue" /><label control="checkbox_filterGetGlue">GetGlue</label></hbox>							
 						</vbox>
 					</groupbox>
