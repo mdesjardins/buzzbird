@@ -654,7 +654,7 @@ var Statusbar = {
 			status.style.color = '#F00'
 		} else {
 			textbox.style.color = '#000';
-			status.style.color = '#EEE';
+			status.style.color = '#222';
 		}
 	}
 }
