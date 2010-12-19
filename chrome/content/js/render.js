@@ -139,7 +139,9 @@ var Render = {
 		{"source":'RatePoint SocialFeed', "pref":'buzzbird.filters.ratepoint'},
 		{"source":'Assetize.', "pref":'buzzbird.filters.assetize'},
 		{"source":'Ad.ly Network', "pref":'buzzbird.filters.adly'},
-		{"source":'Sponsored Tweets', "pref":'buzzbird.filters.sponsoredtweets'}
+		{"source":'Sponsored Tweets', "pref":'buzzbird.filters.sponsoredtweets'},
+		{"source":'Paper.li', "pref":'buzzbird.filters.paperli'},
+		{"source":'GetGlue.com', "pref":'buzzbird.filters.getglue'}
 	],
 
 	contentFilters: [
