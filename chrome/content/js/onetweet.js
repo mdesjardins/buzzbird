@@ -66,6 +66,7 @@ function renderStatusUpdate(statusId,username,password) {
 }
 
 function fetchSingleUpdateCallback(update,username,password) {
+	Social.service(Ctx.service).preProcess(update);
 	var newText = Render.formatTweet(update,username,password);
 	var parser = new DOMParser();
 	var doc = parser.parseFromString('<div id="onetweet" xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');

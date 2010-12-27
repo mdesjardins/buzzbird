@@ -115,12 +115,14 @@ function fetchUpdatesCallback(updates,username,password) {
 	} else {
 		var newText = '';
 		for (var i=updates.length-1; i>=0; i--) {
-			newText = Render.formatTweet(updates[i],username,password) + newText;
+			var update = updates[i];
+			Social.service(Ctx.service).preProcess(update);
+			newText = Render.formatTweet(update,username,password) + newText;
 			if (i==0) {
 				browser = document.getElementById('user-browser');
-				browser.contentDocument.getElementById('hisUsername').value = updates[i].user.screen_name;
+				browser.contentDocument.getElementById('hisUsername').value = update.user.screen_name;
 			}
-			Global.rawTweets[updates[i].id] = updates[i].text;
+			Global.rawTweets[update.id] = update.text;
 		}
 		var parser = new DOMParser();
 		var doc = parser.parseFromString('<div xmlns="http://www.w3.org/1999/xhtml"><div id="foo">' + newText + '</div></div>', 'application/xhtml+xml');
