@@ -173,7 +173,6 @@ var Render = {
 		re = new RegExp("(^|\\s)#(\\w*)", "g");
 		text = text.replace(re, "$1#<a onmouseover=\"this.style.cursor='pointer';\" onclick=\"hashTag('$2');\">$2</a>");
 
-
 		var when = new Date(tweet.created_at);
 		var prettyWhen = when.toLocaleTimeString() + ' on ' + when.toLocaleDateString().substring(0,5);
 		var user;

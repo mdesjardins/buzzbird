@@ -1183,8 +1183,13 @@ var Fetch = {
 						Global.unreadMentions++;
 					}
 
-					Global.rawTweets[tweet.id] = tweet.text;
-					
+					var retweet = tweet.retweeted_status;
+					if (retweet != null && retweet != undefined) {
+						Global.rawTweets[tweet.id] = tweet.retweeted_status.text;	
+					} else {
+						Global.rawTweets[tweet.id] = tweet.text;	
+					}
+
 					newCount++;
 					newText = Render.formatTweet(tweet,Ctx.user,Ctx.password) + newText;
 				}
