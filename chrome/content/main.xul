@@ -398,20 +398,33 @@ THE SOFTWARE.
 		<tooltip id="aHTMLTooltip" onpopupshowing="return fillInHtmlTooltip(document.tooltipNode);" />
 
     <vbox flex="1">
-      	<browser height="450" 
-									type="content-primary" 
-									src="chrome://buzzbird/content/login.html" 
-									id="browserid" 
-									flex="3"
-									autoscroll="true"
-									onscroll="UI.browserScrolled(event);" 
-									contextmenu="contentAreaContextMenu"
-									style="padding:0px; margin:0px;"
-									tooltip="aHTMLTooltip" />
+			<tabbox  flex="1">
+				<tabpanels flex="1" style="border-bottom: 0px solid" >
+					<tabpanel>
+						<browser height="450" 
+							type="content-primary" 
+							src="chrome://buzzbird/content/login.html" 
+							id="browserid" 
+							flex="3"
+							autoscroll="true"
+							onscroll="UI.browserScrolled(event);" 
+							contextmenu="contentAreaContextMenu"
+							style="padding:0px; margin:0px;"
+							tooltip="aHTMLTooltip" />
+					</tabpanel>
+				</tabpanels>
+				<tabs flex="0" class="tabs-bottom">
+					<tab label="Timeline"    class="tab-bottom" />
+					<tab label="Mentions"  class="tab-bottom" />
+					<tab label="Direct"  class="tab-bottom" />
+				</tabs>
+			</tabbox>
     </vbox>
+<!--
     <statusbar id="statusbarid" height="5">
 		<spacer flex="1"/>
 		<label value="" id="statusid2" />
 	</statusbar>
+-->
 </window>
 
