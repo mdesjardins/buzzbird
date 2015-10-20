@@ -1,3 +1,10 @@
+buzzbird (0.9) stable; urgency=low
+
+  * Fix for the latest Twitpocalypse bug (53 bit integer overflow w/ IDs)
+  * Getting rid of lazy image load to see if that helps w/ missing avatars
+
+ -- PotHix <pothix@pothix.com>  Sun, 22 Dec 2010 10:55:00 -0300
+
 buzzbird (0.8) stable; urgency=low
 
   * Initial release
